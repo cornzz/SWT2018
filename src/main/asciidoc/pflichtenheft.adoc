@@ -38,7 +38,62 @@ Die zukünftigen, primären Nutzer der Software sind Inhaberin und Mitarbeiter d
 Der spätere Pflegeaufwand der Software soll sich nach Möglichkeit in Grenzen halten, da die Kundin weder über die dafür notwendige Zeit noch über die erforderlichen technischen Fähigkeiten verfügt.
 
 == Interessensgruppen (Stakeholders)
-Welche realen und juristischen Personen(-gruppen) haben Einfluss auf die Anforderungen im Projekt?
+
+
+Dies ist die Übersicht über alle realen und juristischen Personen, welche Einfluss auf das Projekt haben.
+In der unten stehenden Tabelle, werden diese Interessensgruppen aufgelistet. Dabei werden ihre wichtigsten Ziele in Hinblick auf das Projekt beschrieben und ihre Bedeutung durch Zahlen Zwischen 1(geringe Bedeutung) und 5(hohe Bedeutung) aufgelistet.
+
+[options="header", cols="2, ^1, 4, 4"]
+|===
+|Name
+|Priority (1..5)
+|Beschreibung
+|Ziele
+
+|Die Inhaberin (Frau Floris)
+|5
+|Die Inhaberin des Blumenladens und Auftragsgeberin.
+a|
+- Die Software soll Arbeitsabläufe unterstützen, Vereinfachen und Übersichtlicher gestalten.
+
+- Erweiterung ihres Angebots für größere Kunden
+
+- Unterstützung bei großen Aufträgen
+
+|Angestellte/r
+|3
+|Mitarbeiter im Blumenladen.
+a|
+- Leichte Bedingung der Software im Arbeitsalltag
+
+|Kunde (Privat)
+|4
+|Registrierter Kunde der Blumen kaufen möchte.
+a|
+- Einfaches kaufen von einzelnen oder mehreren Blumen
+
+- Einsicht über die angebotenen Produkte
+
+|Kunde (Firma)
+|4
+|Eine Firma die Blumen kaufen möchte.
+a|
+- Buchung von verschiedenen Services zu entsprechenden Bestellungen
+
+|Großhändler
+|4
+|Ein Großhändler für Blumen der Frau Floris beliefert.
+a|
+- Einsehen von Bestellungen und deren Termin
+
+|Entwickler
+|3
+|Die Gruppe an Entwicklern die für die konkrete Umsetzung und Implementierung zuständig ist.
+a|
+- Leichte Bedienbarkeit für Inhaberin und Kunden
+- Einfache Instandhaltung und Pflege
+
+|===
 
 == Systemgrenze und Top-Level-Architektur
 
