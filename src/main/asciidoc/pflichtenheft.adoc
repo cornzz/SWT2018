@@ -22,8 +22,29 @@ Dieses Dokument benötigt ein Inhaltsverzeichnis. Es existieren mehrere Einbindu
 Eine kurze Beschreibung des Dokuments. Wenige Absätze.
 
 == Aufgabenstellung und Zielsetzung
-Text aus Aufgabenstellung kopieren und ggfs. präzisieren.
-Insbesondere ergänzen, welche Ziele mit dem Abschluss des Projektes erreicht werden sollen.
+Die Besitzerin eines kleinen Blumenladens braucht eine Software, die ihren Alltag und die Interaktionen mit Kunden
+und mit dem Großhändler erleichtert und automatisiert. Sowohl Kunden als auch der Großhändler können
+über eine Webapplikation Bestellungen aufgeben bzw. bestätigen, wobei auch immer der aktuelle Warenbestand angezeigt wird.
+Außerdem hat die Besitzerin die Möglichkeit, detailierte Rechnungen schnell und einfach direkt nach der Beratung an die
+Laufkundschaft auszustellen.
+
+Einzelkunden können online aus dem Katalog Waren wie beispielsweise Schnittblumen, Topfblumen, Sträusse und Zubehör
+bestellen. Jeder Kunde muss, um eine Bestellung aufgeben zu können, ein Kundenkonto anlegen. Großkunden wie Firmen können
+zusätzlich zur Bestellung einen Pflanzenservice beantragen, welcher die wöchentliche Pflege der bestellten Pflanzen sowie
+die Versorgung mit frischen Schnittblumen beinhalten kann. Für die zeitliche Planung bietet die Applikation daher einen
+Kalender in den wichtige Termine und Informationen automatisch eingetragen werden.
+
+Um immer genügend Waren auf Vorrat zu haben und damit keine Engpässe entstehen, kann die Ladeninhaberin jederzeit
+den Bestand des Großhändlers abfragen und neue Waren bestellen. Dabei wird die Rechnung des Großhändlers als Ausgabe
+in die Abrechnung aufgenommen. Für den Fall dass der Großhändler ein neues Produkt anbietet, hat die Floristin die
+Möglichkeit, dieses Produkt auch in ihr Angebot aufzunehmen.
+
+Sollte ein Kunde einen speziellen Wunsch wie zum Beispiel die Ausschmückung eines Events haben, kann die Besitzerin
+bei einem Beratungsgespräch alle Details mit der Software aufnehmen und eine angepasste Rechnung erstellen.
+
+Die wesentliche Erleichterung die die Software bietet ist, dass bei jedem Verkauf bzw. Auftrag alle Änderungen wie der
+Kassen- und Warenstand von der Software aktualisiert werden, die Verkäuferin muss diese nicht manuell verändern. Zudem
+wird eine jederzeit aktuelle Übersicht dieser Stände geboten, damit eine effektive Geschäftsführung möglich ist.
 
 == Produktnutzung
 Dieser Abschnitt gibt eine Übersicht darüber, wie und unter welchen Umständen das Produkt später genutzt werden soll.
