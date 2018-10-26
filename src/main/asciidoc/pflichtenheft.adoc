@@ -20,8 +20,16 @@ Text aus Aufgabenstellung kopieren und ggfs. präzisieren.
 Insbesondere ergänzen, welche Ziele mit dem Abschluss des Projektes erreicht werden sollen.
 
 == Produktnutzung
-In welchem Kontext soll das System später genutzt werden? Welche Rahmenbedingungen gelten?
-Zusätzlich kurze Einleitung für fachfremde Personen
+Dieser Abschnitt gibt eine Übersicht darüber, wie und unter welchen Umständen das Produkt später genutzt werden soll.
+Die Software soll zum Vertrieb von Produkten und Dienstleistungen genutzt werden, und dabei den Verwaltungsaufwand für Inhaberin und Mitarbeiter soweit wie möglich minimieren.
+Das System soll für folgende Browser zugänglich und visuell optimiert sein:
+
+- Firefox 60+
+- Chrome 66+
+- Safari 11.1+
+
+Die zukünftigen, primären Nutzer der Software sind Inhaberin und Mitarbeiter des Blumensladen sowie deren Kunden. Es ist anzunehmen, dass alle Nutzergruppen rudimentäre Erfahrungen mit typischen webbasierten Navigationsschemata beitzen.
+Der spätere Pflegeaufwand der Software soll sich nach Möglichkeit in Grenzen halten, da die Kundin weder über die dafür notwendige Zeit noch über die erforderlichen technischen Fähigkeiten verfügt.
 
 == Interessensgruppen (Stakeholders)
 Welche realen und juristischen Personen(-gruppen) haben Einfluss auf die Anforderungen im Projekt?
