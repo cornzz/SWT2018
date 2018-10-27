@@ -150,11 +150,361 @@ Die typischen Anwendungsfälle (Anlegen, Ändern, Löschen) können zu einem ein
 
 == Funktionale Anforderungen
 
+Dieser Abschnitt ist eine Übersicht aller Funktionalen Anforderungen. Die Tabellen enthalten:
+
+- Eine einzigartige ID zur Referenz im Projekt
+- Die Version der Anforderung, da sich diese im Laufe des Projekts ändern kann
+- Kurzname der Anforderung
+- Beschreibung der Anforderung
+
 === Muss-Kriterien
-Was das zu erstellende Programm auf alle Fälle leisten muss.
+Folgende Funktionen müssen für den korrekten Betrieb existieren.
+
+[options="header", cols="2h, 1, 3, 12"]
+|===
+|ID
+|Version
+|Name
+|Description
+
+|[[F0010]]<<F0010>>
+|v0.1
+|Authentifizierung
+a|
+Das System soll in öffentlich zugängliche Teile und Passwort geschützte Teile einteilbar sein. Ein registrierter
+Benutzer soll die möglichkeit haben, sich anhand folgender Daten zu Authentifizieren:
+
+- E-Mail Adresse / Nutzername
+- Passwort
+
+
+|[[F0020]]<<F0020>>
+|v0.1
+|Registrierung
+a|
+Unregistrierte Kunden sollen ein Kundenkonto anlegen können. Folgende Informationen sind dabei erforderlich:
+
+- E-Mail Adresse
+- Passwort
+
+|[[F0030]]<<F0030>>
+|v0.1
+|Kundenart
+a|
+Es soll folgende Arten von Kunden geben:
+
+- Privatkunden
+- Firmenkunden
+
+|[[F0031]]<<F0031>>
+|v0.1
+|Kundenart ändern
+a|
+
+Die Inhaberin soll die Möglichkeit haben, die Kundenart zu eines Kunden zu ändern.
+
+|[[F0100]]<<F0100>>
+|v0.1
+|Bestand
+a|
+Der Warenbestand soll jederzeit aktuell sein und persistent gespeichert werden.
+
+|[[F0101]]<<F0101>>
+|v0.1
+|Bestand ändern
+a|
+Die Menge eines Produktes im Warenbestand soll jederzeit änderbar sein.
+
+|[[F0102]]<<F0102>>
+|v0.1
+|Produkt zum Bestand hinzufügen
+a|
+Die Inhaberin oder ein(e) Mitarbeiter(in) soll ein neues Produkt erstellen und zum Warenbestand hinzufügen können.
+Folgende Daten sind erforderlich:
+
+- Produktname
+- Preis pro Stück
+- Produktfarbe
+- Lieferzeit
+
+|[[F0103]]<<F0103>>
+|v0.1
+|Produkt vom Bestand entfernen
+a|
+Die Inhaberin oder ein(e) Mitarbeiter(in) soll jederzeit ein Produkt aus dem Bestand löschen können.
+
+|[[F0104]]<<F0104>>
+|v0.1
+|Produktinformationen bearbeiten
+a|
+Die Inhaberin oder ein(e) Mitarbeiter(in) soll die Möglichkeit haben, alle relevanten Informationen zu einem Produkt
+jederzeit ändern zu können.
+
+|[[F0110]]<<F0110>>
+|v0.1
+|Katalog
+a|
+Der Warenbestand (<<F0100>>) soll durch einen schreibgeschützten Zugriff zugänglich sein.
+
+|[[F0111]]<<F0111>>
+|v0.1
+|Katalog anzeigen
+a|
+Der Benutzer soll den Inhalt des Katalogs einsehen können.
+
+|[[F0112]]<<F0112>>
+|v0.1
+|Katalog filtern
+a|
+Der Benutzer soll den angezeigten Inhalt des Katalogs nach folgenden Kriterien filtern können:
+
+- Preis
+- Farbe der Ware
+- Art der Ware
+
+|[[F0120]]<<F0120>>
+|v0.1
+|Produktdetails
+a|
+Der Benutzer soll zu jedem Produkt alle Produktdetails einsehen können, wie zum Beispiel:
+
+- Kurze Information zur Art des Produkts
+- Verfügbare Menge
+- Preis
+- Lieferdauer
+
+|[[F0200]]<<F0200>>
+|v0.1
+|Warenkorb
+a|
+Jeder registrierte Benutzer soll einen eigenen Warenkorb haben, in dem er Produkte für den Erwerb zwischenspeichern kann.
+
+|[[F0201]]<<F0201>>
+|v0.1
+|Produkt in den Warenkorb legen
+a|
+Der Benutzer soll eine beliebige Anzahl an beliebige Produkte aus dem Warenkatalog (<<F0110>>) in den Warenkorb
+"legen" können. Dabei muss im Warenkorb des Benutzers ein Eintrag mit dem Produkt und der Anzahl des Produkts erstellt
+und gespeichert werden.
+
+Unregistrierte Benutzer müssen sich registrieren (<<F0030>>), um Waren zum Warenkorb hinzufügen zu können.
+
+|[[F0210]]<<F0210>>
+|v0.1
+|Warenkorb einsehen
+a|
+Jeder registrierte Benutzer soll den Inhalt seines Warenkorbs einsehen können. Dabei müssen folgende Daten angezeigt werden:
+
+- Produktname
+- Gewählte Anzahl
+- Preis der einzelnen Produkte (für die gewählte Anzahl)
+- Gesamtpreis des Warenkorbs
+
+|[[F0211]]<<F0211>>
+|v0.1
+|Services buchen
+a|
+Firmenkunden sollen im Warenkorb zusätzlich zu den gewählten Produkten folgende Services dazubuchen können:
+
+- wöchentliche Pflege
+- wöchentliche Versorgung mit frischen Schnittblumen
+
+|[[F0212]]<<F0212>>
+|v0.1
+|Lieferdatum wählen
+a|
+Der Benutzer soll die möglichkeit haben, ein Lieferdatum zu wählen, welcher der Bestellung hinzugefügt wird.
+
+|[[F0220]]<<F0220>>
+|v0.1
+|Warenkorb kaufen
+a|
+Jeder registrierte Benutzer soll den Inhalt seines Warenkorbs kaufen können. Dabei muss geprüft werden, ob der Warenbestand
+der gewählten Produkte ausreichend ist (<<F0230>>).
+
+Falls die Prüfung positiv ausfällt, wird eine Bestellung angelegt (<<F0241>>).
+
+|[[F0230]]<<F0230>>
+|v0.1
+|Warenbestand prüfen
+a|
+Es soll möglich sein zu prüfen, ob der Bestand eines Produkts einer gewünschten Mindestanzahl entspricht.
+
+|[[F0240]]<<F0240>>
+|v0.1
+|Bestellung
+a|
+Die Software soll Bestellungen ermöglichen und speichern können.
+
+|[[F0241]]<<F0241>>
+|v0.1
+|Bestellung anlegen
+a|
+Es soll möglich sein eine Bestellung mit den Produkten eines Warenkorbs zu erstellen.
+
+Eine Bestellung soll mit dem Status "offen" initialisiert werden.
+
+|[[F0242]]<<F0242>>
+|v0.1
+|Bestellung bezahlen
+a|
+Der Benutzer soll eine von ihm erstellte Bestellung bezahlen können.
+Wenn dies erfolgt, soll der Status der Bestellung zu "bezahlt" geändert werden und der Kunde soll eine Rechnung
+(<<F0500>>) mit allen relevanten Daten erhalten.
+
+|[[F0243]]<<F0243>>
+|v0.1
+|Bestellung archivieren
+a|
+Eine Bestellung soll archiviert werden können.
+
+Dies soll in der Regel passieren, wenn eine Bestellung vom Auftragnehmer
+erfüllt worden ist und zum Status "abgeschlossen" übergeht.
+
+|[[F0300]]<<F0300>>
+|v0.1
+|Kundenliste anzeigen
+a|
+Die Inhaberin oder ein(e) Mitarbeiter(in) soll die Möglichkeit haben, eine Liste mit allen
+registrierten Benutzern einsehen zu können.
+
+|[[F0310]]<<F0310>>
+|v0.1
+|Bestellungen einsehen
+a|
+Die Inhaberin oder ein(e) Mitarbeiter(in) soll die Möglichkeit haben, eine Liste mit allen Bestellungen einsehen zu können.
+Diese Liste soll nach den drei verschiedenen Status (offen, bezahlt, abgeschlossen) gefiltert werden können.
+
+|[[F0320]]<<F0320>>
+|v0.1
+|Bestellungen als bezahlt markieren
+a|
+Die Inhaberin oder ein(e) Mitarbeiter(in) soll die Möglichkeit haben, eine Bestellung im Falle einer Barzahlung als bezahlt
+zu markieren.
+
+|[[F0330]]<<F0330>>
+|v0.1
+|Bestellung beim Großhändler
+a|
+Das System soll eine Bestellung beim Großhändler in Form einer E-Mail machen können.
+
+|[[F0331]]<<F0331>>
+|v0.1
+|Manuelle Bestellung beim Großhändler
+a|
+Die Inhaberin soll die Möglichkeit haben, manuell eine Bestellung beim Großhändler machen zu können.
+
+|[[F0332]]<<F0332>>
+|v0.1
+|Bestellung beim Großhändler nach Termin
+a|
+Das System soll eine Bestellung beim Großhändler automatisch zu einem Bestimmten Termin machen können.
+
+|[[F0400]]<<F0400>>
+|v0.1
+|Kasse
+a|
+Das System soll eine Kasse mit dem aktuellen Kassenstand führen.
+
+|[[F0410]]<<F0410>>
+|v0.1
+|Kassenstand ändern
+a|
+Die Inhaberin oder ein(e) Mitarbeiter(in) soll jederzeit den Kassenstand ändern können.
+
+|[[F0420]]<<F0420>>
+|v0.1
+|Kassenstand einsehen
+a|
+Die Inhaberin oder ein(e) Mitarbeiter(in) soll den Kassenstand einsehen können.
+
+|[[F0500]]<<F0500>>
+|v0.1
+|Rechnung erstellen
+a|
+Das System soll die Möglichkeit haben, eine Rechnung mit folgenden Informationen zu erstellen:
+
+- Rechnungsdatum
+- Käuferdaten
+- Erworbene Produkte / Services
+- Preis der einzelnen Produkte / Services
+- Anderweitige Kosten
+- Gesamtpreis
+- Verkäufername
+
+Alle Rechnungen sollen persistent gespeichert werden.
+
+|[[F0510]]<<F0510>>
+|v0.1
+|Rechnungen einsehen
+a|
+Die Inhaberin soll eine Liste mit allen Rechnungen einsehen können. Folgende Daten sollen in der Liste angezeigt werden:
+
+- Rechnungsdatum
+- Käufername
+- Gesamtpreis
+- Hyperlink zur Rechnung
+
+|===
 
 === Kann-Kriterien
 Anforderungen die das Programm leisten können soll, aber für den korrekten Betrieb entbehrlich sind.
+
+[options="header", cols="2h, 1, 3, 12"]
+|===
+|ID
+|Version
+|Name
+|Description
+
+|[[F0600]]<<F0600>>
+|v0.1
+|Produktbilder ändern / hinzufügen
+a|
+Möglichkeit, Bilder hochzuladen und zu Produkten hinzuzufügen bzw. zu löschen. Mindestanforderungen:
+
+- PNG- / JPG-Format
+- Format: 1:1
+
+|[[F0700]]<<F0700>>
+|v0.1
+|Produktrabatt
+a|
+Möglichkeit, den Preis eines Produktes zu Reduzieren. Der Rabatt wird im Katalog und bei den Produktdetails angezeigt
+und der Preis wird automatisch neu berechnet.
+
+|[[F0710]]<<F0710>>
+|v0.1
+|neuen Produktrabatt erstellen
+a|
+Möglichkeit, zu einem Produkt einen neuen Rabatt zu erstellen. Erreichbar durch die Detailansicht eines Produktes.
+
+|[[F0800]]<<F0800>>
+|v0.1
+|Produktkommentar
+a|
+Möglichkeit, dass ein Produkt ein, oder mehrere Produktkommentare besitzt. Ein Kommentar beinhaltet folgende Daten:
+
+- E-Mail Adresse / Nutzername des Autors
+- Erstellungsdatum
+- Kommentartext
+
+|[[F0810]]<<F0810>>
+|v0.1
+|Produktkommentar erstellen
+a|
+Jeder registrierte Benutzer hat die Möglichkeit einen neuen Kommentar zu erstellen. Die Maximallänge eines
+Kommentartextes beträgt 500 Zeichen.
+
+|[[F0820]]<<F0820>>
+|v0.1
+|Produktkommentar löschen
+a|
+Ein registrierter Benutzer kann selbst erstellte Kommentare jederzeit wieder löschen.
+
+Die Inhaberin kann jeden Kommentar löschen.
+
+|===
 
 == Nicht-Funktionale Anforderungen
 
