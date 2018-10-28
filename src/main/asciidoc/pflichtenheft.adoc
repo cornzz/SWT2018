@@ -1,5 +1,5 @@
 = Pflichtenheft
-:project_name: Projektname
+:project_name: Blumenshop
 == __{project_name}__
 
 [options="header"]
@@ -119,8 +119,9 @@ a|
 == Systemgrenze und Top-Level-Architektur
 
 === Kontextdiagramm
-Das Kontextdiagramm zeigt das geplante Software-System in seiner Umgebung. Zur Umgebung gehören alle Nutzergruppen des Systems und Nachbarsysteme. Die Grafik kann auch informell gehalten sein. Überlegen Sie sich dann geeignete Symbole. Die Grafik kann beispielsweise mit Visio erstellt werden. Wenn nötig, erläutern Sie diese Grafik.
+Das Kontextdiagramm zeigt das geplante Software-System in seiner Umgebung. Zur Umgebung gehören alle Nutzergruppen des Systems und Nachbarsysteme.
 
+image::.\images\KontextDiagramm.png[Kontextdiagramm, 100%, 100%, pdfwidth=100%, title= "Kontextdiagramm", align=center]
 === Top-Level-Architektur
 Dokumentieren Sie ihre Top-Level-Architektur mit Hilfe eines Komponentendiagramm.
 
@@ -128,25 +129,330 @@ Dokumentieren Sie ihre Top-Level-Architektur mit Hilfe eines Komponentendiagramm
 
 === Akteure
 
-Akteure sind die Benutzer des Software-Systems oder Nachbarsysteme, welche darauf zugreifen. Dokumentieren Sie die Akteure in einer Tabelle. Diese Tabelle gibt einen Überblick über die Akteure und beschreibt sie kurz. Die Tabelle hat also mindestens zwei Spalten (Akteur Name und Kommentar).
-Weitere relevante Spalten können bei Bedarf ergänzt werden.
+Akteure sind die Benutzer des Software-Systems oder Nachbarsysteme, welche darauf zugreifen. Diese Tabelle gibt einen Überblick über die Akteure und beschreibt sie kurz.
 
-// See http://asciidoctor.org/docs/user-manual/#tables
+Die folgenden, in der Tabelle enthaltenen, Akteure stellen die Nutzer des Software-Systems oder Nachbarsysteme dar. Akteure die Kursiv geschrieben sind stellen dabei Abstrakte Nutzer da die repräsentativ für bestimmte Gruppen stehen.
+
 [options="header"]
 [cols="1,4"]
+[[registered_user]]
+[[actors]]
 |===
-|Name |Beschreibung
-|...  |...
+|Name |Description
+|User               | Repräsentiert einen einfachen Nutzer der mit dem System interagiert.
+|Registered User    | Repräsentiert jeden Nutzer der bereits Registriert ist und in der Lage ist Produkte zu kaufen.
+|UnregisterdUser | Repräsentiert jeden Besucher der Software der noch nicht Registriert ist.
+|Owner                 | Der Inhaber des Ladens und der Software. Er kann die Unterschiedlichen Systeme verwalten.
+|Employee             | Repräsentativ für Mitarbeiter, diese nutzten die Software hauptsächlich im Arbeitsalltag.
+|TraderUser     | Großhändler, besitzt Spezielle Rechte hat um die Bestellungen des Ladens einsehen zu können.
+|CompanyUser    | Firma die Spezielle Zusatz Optionen bei Bestellungen auswählen kann.
 |===
-
 === Überblick Anwendungsfalldiagramm
 Anwendungsfall-Diagramm, das alle Anwendungsfälle und alle Akteure darstellt
 
+image::.\images\UseCase.png[Use Case diagram, 100%, 100%, pdfwidth=100%, title= "Use Case Diagram", align=center]
 === Anwendungsfallbeschreibungen
-Dieser Unterabschnitt beschreibt die Anwendungsfälle. In dieser Beschreibung müssen noch nicht alle Sonderfälle und Varianten berücksichtigt werden. Schwerpunkt ist es, die wichtigsten Anwendungsfälle des Systems zu finden. Wichtig sind solche Anwendungsfälle, die für den Auftraggeber, den Nutzer den größten Nutzen bringen.
-Für komplexere Anwendungsfälle ein UML-Sequenzdiagramm ergänzen.
-Einfache Anwendungsfälle mit einem Absatz beschreiben.
-Die typischen Anwendungsfälle (Anlegen, Ändern, Löschen) können zu einem einzigen zusammengefasst werden.
+
+Diese Sektion beschreibt die Fälle des Anwendungsfall Diagramms im Detail.
+
+[cols="1h, 3"]
+[[UC0010]]
+|===
+|ID                         |**<<UC0010>>**
+|Name                       |Login/Logout
+|Beschreibung                |Der Nutzer ist in der Lage sich Einzuloggen um weitere Funktionalitäten freizuschalten.
+Durch das Ausloggen das ausloggen bewirkt das Gegenteil.
+|Akteure                     |User
+|Auslöser                    |
+_Login_: Der Nutzer will auf seine Kundenfunktionalitäten zugreifen.
+
+_Logout_: Der Nutzer möchte den Online-Shop verlassen.
+|Vorbedingung(en)           a|
+_Login_: Der Nutzer ist zum derzeitigen Zeitpunkt noch nicht Eingeloggt.
+
+_Logout_: Der Nutzer ist zum derzeitigen Zeitpunkt Eingeloggt.
+|Ablauf           a|
+_Login_:
+
+  1. Der Nutzer wählt "Einloggen" in der Navigationsleiste aus.
+
+  2. Der Nutzer gibt seine Daten ein.
+
+  3. Der Nutzer drückt auf "Einloggen".
+
+_Logout_:
+
+  1. Der Nutzer wählt "Ausloggen" in der Navigationsleiste aus.
+
+  2. Der Nutzer wird zur Startseite weitergeleitet und kann nicht mehr auf seine Kundenfunktionalitäten zugreifen.
+
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    |<<F0010>>
+|===
+
+[cols="1h, 3"]
+[[UC0020]]
+|===
+|ID                         |**<<UC0020>>**
+|Name                       |Register
+|Beschreibung                |Ein  nicht registrierter Nutzer sollte in der Lage sein sich registrieren.
+|Akteure                     |Unregistered User
+|Auslöser                    |Ein  nicht registrierter Nutzer möchte sich registrieren indem er das entsprechende Feld auf der Navigationsleiste auswählt.
+|Vorbedingung(en)           a|Der Nutzer ist noch nicht registriert und nicht eingeloggt
+|Ablauf           a|
+1.  Der nicht registrierte Nutzer möchte sich "registrieren"
+
+2.  Dieser gibt einen Namen, Passwort, E-Mail und optional seine Adresse ein
+
+3.  Das System prüft ob der Nutzername bereits vergeben ist.
+  . Sollte der Nutzername noch nicht vergeben sein: Ein neuer Account wird erstellt mit den eingegebenen Daten.
+
+  . Anderenfalls: Eine Fehlermeldung wird ausgegeben.
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    |<<F0020>>
+|===
+
+[[UC0100]]
+[cols="1h, 3"]
+|===
+|ID                         |**<<UC0100>>**
+|Name                       |**View Catalog**
+|Beschreibung                |Jeder Nutzer der Software soll in der Lage sein die verfügbaren Produkte einzusehen.
+|Akteure                     |User
+|Auslöser                    |Auswahl der Produktübersicht in der Navigationsleiste.
+|Vorbedingung(en)           a|None
+|Ablauf           a|1. Nutzer wählt die Produktübersicht aus.
+                             2. Dem Nutzer werden alle verfügbaren Produkte angezeigt.
+|Erweiterungen                 |None
+|Funktionale Vorraussetzungen    | <<F0100>>, <<F0110>>, <<F0111>>, <<F0112>>
+|===
+
+
+[[UC0110]]
+[cols="1h, 3"]
+|===
+|ID                         |**<<UC0110>>**
+|Name                       |View Product Details
+|Beschreibung                |Der Nutzer kann zu den einzelnen Produkten Details einsehen.
+|Akteure                     |User
+|Auslöser                    |Der Nutzer befindet sich in der Produktübersicht und wählt eines der Produkte aus.
+|Vorbedingung(en)           a|Der Nutzer befindet sich in der Produktübersicht.
+|Ablauf           a|
+1.  Der Nutzer wählt ein Produkt aus.
+
+2.  Dem Nutzer werden die Produktdetails angezeigt.
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0120>>
+|===
+
+image::.\images\Add to Cart.png[Add to Cart, 100%, 100%, pdfwidth=100%, title= "Add to Cart", align=center]
+
+[cols="1h,3"]
+[[UC0200]]
+|===
+|ID                         |**<<UC0200>>**
+|Name                       |Add to Cart
+|Beschreibung                |Der Nutzer kann ein Produkt in einer von ihm gewählten Menge hinzufügen.
+|Akteure                     |Registered User
+|Auslöser                    |Ein Nutzer betrachtet ein Produkt in der Übersicht oder die dazugehörigen Details.
+|Vorbedingung(en)           a|
+- Registrieter Nutzer
+- Befindet sich in der Produktübersicht oder in der Detailanzeige eines Produktes.
+|Ablauf           a|
+(1.) Der Nutzer befindet sich in der Detailanzeige und legt die Bestellmenge des Produktes
+
+2.  Der Nutzer wählt "zum Warenkorb hinzufügen" aus
+
+3.  Das Produkt wird dem Warenkorb, gegebenenfalls in höherer Stückzahl, hinzugefügt.
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0200>>, <<F0201>>
+|===
+
+[cols="1h,3"]
+[[UC0210]]
+|===
+|ID                         |**<<UC0210>>**
+|Name                       |View Cart
+|Beschreibung                |Der Nutzer kann seinen Warenkorb betrachten und den entsprechenden Gesamtpreis einsehen.
+|Akteure                     |Registered User
+|Auslöser                    |Der Nutzer wählt den "Warenkorb" in der Navigationsleiste aus.
+|Vorbedingung(en)           a|Der Nutzer ist im System registriert.
+|Ablauf           a|
+1.    Der Nutzer wählt den Warenkorb in der Navigationsleiste aus.
+
+2.    Dem Nutzer werden die von ihm hinzugefügten Produkte, als auch der Preis, angezeigt.
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0210>>
+|===
+
+image::.\images\Buy Items in Cart.png[Buy Items in Cart, 100%, 100%, pdfwidth=100%, title= "Buy Items in Cart", align=center]
+
+[cols="1h,3"]
+[[UC0220]]
+|===
+|ID                         |**<<UC0220>>**
+|Name                       |Buy Products in Cart
+|Beschreibung                |Der Nutzer kann die Produkte in seinem Warenkorb kaufen.
+|Akteure                     |User
+|Auslöser                    |Nutzer
+|Vorbedingung(en)           a|
+- Der Nutzer ist registriert und besitzt die entsprechenden Rechte im System.
+- Der Warenkorb ist nicht leer.
+|Ablauf           a|
+1.  Der Nutzer hat mindestens ein Produkt zu seinem Warenkorb hinzugefügt
+2.  Der Nutzer wählt "Kaufen" aus
+3.  Die Bestellung wird mit dem Verfügbaren Warenbestand abgeglichen
+4.  Die Bestellung wird automatisch bezahlt
+5.  Die Produkte werden aus dem Warenbestand entfernt
+6.  Die Bestellung wird gespeichert
+|Erweiterungen                 |
+|Funktionale Vorraussetzungen    | <<F0101>>,<<F0212>>, <<F0220>>, <<F0230>>, <<F0240>>, <<F0241>>, <<F0242>>, <<F0243>>, <<F0320>>, <<F0500>>
+|===
+
+[cols="1h,3"]
+[[UC0300]]
+|===
+|ID                         |**<<UC0300>>**
+|Name                       |View all Users
+|Beschreibung                |Der Inhaber und die Mitarbeiter können sich alle Nutzer anzeigen lassen.
+|Akteure                     |Employee
+|Auslöser                    |Der Mitarbeiter wählt "Kunden" in der Navigationsleiste aus.
+|Vorbedingung(en)           a|Der agierende Nutzer besitzt mindestens die Rechte eines Mitarbeiters.
+|Ablauf           a|
+1.  "Kunden" wird, von einem Mitarbeiter, in der Navigationsleiste ausgewählt.
+2.  Eine Liste aller Nutzer wird ausgegeben.
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0300>>
+|===
+
+[cols="1h,3"]
+[[UC0400]]
+|===
+|ID                         |**<<UC0400>>**
+|Name                       |View Orders
+|Beschreibung                |Der Inhaber kann alle bisher getätigten Transaktionen einsehen.
+|Akteure                     |Owner
+|Auslöser                    |Der Inhaber wählt "Bestellungen" in der Navigationsleiste aus.
+|Vorbedingung(en)           a|Der Nutzer besitzt die Rechte des Inhabers.
+|Ablauf           a|
+1.  "Bestellungen" wird, durch den Inhaber, in der Navigationsleiste ausgewählt.
+2.  Eine vollständige Übersicht der bereits getätigten Bestellungen wird angezeigt.
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0310>>, <<F0400>>, <<F0420>>
+|===
+
+
+[cols="1h,3"]
+[[UC0500]]
+|===
+|ID                         |**<<UC0500>>**
+|Name                       |Add New Product
+|Beschreibung                |Der Inhaber kann neue Produkte zum Warenbestand hinzufügen.
+|Akteure                     |Owner
+|Auslöser                    |Der Inhaber wählt "Hinzufügen" in der Warenübersicht aus
+|Vorbedingung(en)           a|Der Nutzer besitzt die Rechte des Inhabers und befindet sich in der Warenübersicht.
+|Ablauf           a|
+1.  Der Inhaber wählt "Hinzufügen" in der Warenübersicht aus
+2.  Der Inhaber legt die Spezifikationen des Produktes fest
+3.  Das Produkt wird in den Warenbestand aufgenommen
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0100>>
+|===
+
+image::.\images\Add new Product Combination.png[Add new Product Combination, 100%, 100%, pdfwidth=100%, title= "Add new Product Combination", align=center]
+
+[cols="1h,3"]
+[[UC0510]]
+|===
+|ID                         |**<<UC0510>>**
+|Name                       |Add New Product Combination
+|Beschreibung                |Mitarbeiter können neue Produktkombinationen zum Warenbestand hinzufügen.
+|Akteure                     |Employee
+|Auslöser                    |Der Mitarbeiter wählt "Hinzufügen" in der Warenübersicht aus
+|Vorbedingung(en)           a|Der Nutzer besitzt die rechte eines Mitarbeiters und befindet sich in der Warenübersicht.
+|Ablauf           a|
+1.  Der Inhaber wählt "Hinzufügen" in der Warenübersicht aus
+2.  Der Inhaber gibt legt die Spezifikationen des Produktes fest
+3.  Das Produkt wird in den Warenbestand aufgenommen
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0100>>
+|===
+
+
+[cols="1h,3"]
+[[UC0600]]
+|===
+|ID                         |**<<UC0600>>**
+|Name                       |Create Order
+|Beschreibung                |Der Inhaber kann Produkte beim Großhändler bestellen.
+|Akteure                     |Owner
+|Auslöser                    |Der Inhaber wählt "Neue Bestellung" in der Warenübersicht aus
+|Vorbedingung(en)           a|Der Nutzer besitzt die Rechte des Inhabers und befindet sich in der Warenübersicht.
+|Ablauf           a|
+1.  Der Inhaber wählt "Neue Bestellung" in der Warenübersicht aus
+2.  Der Inhaber gibt legt die Spezifikationen der Bestellung fest
+3.  Die Bestellung wird den ausgehenden Bestellungen hinzugefügt
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0331>>, <<F0332>>
+|===
+
+
+[cols="1h,3"]
+[[UC0610]]
+|===
+|ID                         |**<<UC0610>>**
+|Name                       |Process Open Orders
+|Beschreibung                |Der Großhändler kann die Bestellungen des Inhabers einsehen.
+|Akteure                     |TraderUser
+|Auslöser                    |Der Großhändler wählt "Bestellungen" in der Navigationsleiste aus.
+|Vorbedingung(en)           a|Der Nutzer besitzt die Rechte eines Großhändlers
+|Ablauf           a|
+1.  Der Großhändler wählt "Bestellungen" in der Navigationsleiste aus.
+2.  Es werden die Bestellungen und ihr, vom Großhändler editierbaren, Status angezeigt.
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0100>>, <<F0330>>, <<F0331>>, <<F0332>>
+|===
+
+image::.\images\Edit Inventory.png[Edit Inventory, 100%, 100%, pdfwidth=100%, title= "Edit Inventory", align=center]
+
+[cols="1h,3"]
+[[UC0700]]
+|===
+|ID                         |**<<UC0700>>**
+|Name                       |View Inventory Details/ Edit Inventory
+|Beschreibung                |Die Mitarbeiter können den Warenbestand einsehen und Editieren
+|Akteure                     |Employee
+|Auslöser                    |Der Mitarbeiter wählt "Warenübersicht" in der Navigationsleiste aus.
+|Vorbedingung(en)           a|Der Nutzer besitzt die rechte eines Mitarbeiters.
+|Ablauf           a|
+1.  "Warenübersicht" wird, von einem Mitarbeiter, in der Navigationsleiste ausgewählt
+2.  Es wird eine Übersicht über alle verfügbaren Waren, sowie deren editierbaren Status, angezeigt
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0100>>, <<F0104>>
+|===
+
+
+[cols="1h,3"]
+[[UC0800]]
+|===
+|ID                         |**<<UC0800>>**
+|Name                       |Process Local Order
+|Beschreibung                |Mitarbeiter können die Einkäufe der Kunden im Laden Bearbeiten.
+|Akteure                     |Employee
+|Auslöser                    |Der Mitarbeiter wählt "Kunde im Laden" in der Navigationsleiste aus.
+|Vorbedingung(en)           a|Der Nutzer besitzt die rechte eines Mitarbeiters.
+|Ablauf           a|
+1.  Es wird "Kunde im Laden", durch einen Mitarbeiter, in der Navigationsleiste ausgewählt
+
+2.  Die Übersicht für einen lokalen Einkauf angezeigt
+
+3.  Der Mitarbeiter gibt die entsprechenden Daten in die dafür vorgesehenen Felder ein
+
+4.  Die Bestellung wird in das System aufgenommen
+|Erweiterungen                 |-
+|Funktionale Vorraussetzungen    | <<F0100>>, <<F0500>>
+|===
+
 
 == Funktionale Anforderungen
 
