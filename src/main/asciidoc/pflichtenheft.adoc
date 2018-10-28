@@ -1,25 +1,19 @@
-= Pflichtenheft
+= Pflichtenheft __{project_name}__
 :project_name: Blumenshop
-== __{project_name}__
-
-[options="header"]
-[cols="1, 1, 1, 1, 4"]
-|===
-|Version | Status      | Bearbeitungsdatum   | Autoren(en) |  Vermerk
-|0.1     | In Arbeit   | 10.10.2017          | Autor       | Initiale Version
-|===
+:author: swt18w23
+:revnumber: 0.1
+:revdate: {docdatetime}
+:revremark: Work in Progress
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:numbered:
 
 == Zweck dieses Dokuments
 Dieses Dokument stellt die Software Requirements Specification (SRS, deutsch: in der Nähe eines Pflichtenheftes) des Projekts Videoshop dar. Es soll einen Überblick über das zu erstellende Softwareprodukt geben und dient als Grundlage für die Kommunikation zwischen den Interessengruppen des Projekts, insbesondere dem Kunden und dem Entwicklungsteam. Es ist erwünscht, dieses Dokument als Grundlage für einen Vertrag zwischen dem Kunden und dem Softwareentwickler zu haben, und sollte daher validiert und auf Konsistenz überprüft werden. Der Pflichtenheft beschreibt, was das gewünschte System zu tun hat und teilweise, wie der Softwareentwickler die Lösung umsetzen will.
 
 Im Allgemeinen sollte der Pflichtenheft korrekt, vollständig und konsistent sein. Da es am Ende des Projekts verwendet wird, um zu überprüfen, ob die definierte Software bereitgestellt wurde oder nicht, sollte dieses Ziel überprüfbar sein. Es wird während des gesamten Projekts verwendet und konsultiert, deshalb sollte der Inhalt nachvollziehbar sein. In Verbindung mit dem oben Gesagten ist es wünschenswert, dass es einfach zu ändern ist, auch wenn Änderungen auf ein Minimum beschränkt werden sollten, nachdem sich die Beteiligten einmal über den Inhalt geeinigt haben. Da sich jedoch die Anforderungen und Umstände während eines Projekts ständig ändern, sind Anpassungen zu erwarten und zu dokumentieren.
-
-
-== Inhaltsverzeichnis
-Dieses Dokument benötigt ein Inhaltsverzeichnis. Es existieren mehrere Einbindungsmöglichkeiten.
-
-== Zusammenfassung
-Eine kurze Beschreibung des Dokuments. Wenige Absätze.
 
 == Aufgabenstellung und Zielsetzung
 Die Besitzerin eines kleinen Blumenladens braucht eine Software, die ihren Alltag und die Interaktionen mit Kunden
@@ -187,7 +181,7 @@ _Logout_:
   2. Der Nutzer wird zur Startseite weitergeleitet und kann nicht mehr auf seine Kundenfunktionalitäten zugreifen.
 
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    |<<F0010>>
+|Funktionale Voraussetzungen    |<<F0010>>
 |===
 
 [cols="1h, 3"]
@@ -209,7 +203,7 @@ _Logout_:
 
   . Anderenfalls: Eine Fehlermeldung wird ausgegeben.
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    |<<F0020>>
+|Funktionale Voraussetzungen    |<<F0020>>
 |===
 
 [[UC0100]]
@@ -224,7 +218,7 @@ _Logout_:
 |Ablauf           a|1. Nutzer wählt die Produktübersicht aus.
                              2. Dem Nutzer werden alle verfügbaren Produkte angezeigt.
 |Erweiterungen                 |None
-|Funktionale Vorraussetzungen    | <<F0100>>, <<F0110>>, <<F0111>>, <<F0112>>
+|Funktionale Voraussetzungen    | <<F0100>>, <<F0110>>, <<F0111>>, <<F0112>>
 |===
 
 
@@ -242,7 +236,7 @@ _Logout_:
 
 2.  Dem Nutzer werden die Produktdetails angezeigt.
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0120>>
+|Funktionale Voraussetzungen    | <<F0120>>
 |===
 
 image::.\images\Add to Cart.png[Add to Cart, 100%, 100%, pdfwidth=100%, title= "Add to Cart", align=center]
@@ -265,7 +259,7 @@ image::.\images\Add to Cart.png[Add to Cart, 100%, 100%, pdfwidth=100%, title= "
 
 3.  Das Produkt wird dem Warenkorb, gegebenenfalls in höherer Stückzahl, hinzugefügt.
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0200>>, <<F0201>>
+|Funktionale Voraussetzungen    | <<F0200>>, <<F0201>>
 |===
 
 [cols="1h,3"]
@@ -282,7 +276,7 @@ image::.\images\Add to Cart.png[Add to Cart, 100%, 100%, pdfwidth=100%, title= "
 
 2.    Dem Nutzer werden die von ihm hinzugefügten Produkte, als auch der Preis, angezeigt.
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0210>>
+|Funktionale Voraussetzungen    | <<F0200>>, <<F0210>>
 |===
 
 image::.\images\Buy Items in Cart.png[Buy Items in Cart, 100%, 100%, pdfwidth=100%, title= "Buy Items in Cart", align=center]
@@ -306,7 +300,7 @@ image::.\images\Buy Items in Cart.png[Buy Items in Cart, 100%, 100%, pdfwidth=10
 5.  Die Produkte werden aus dem Warenbestand entfernt
 6.  Die Bestellung wird gespeichert
 |Erweiterungen                 |
-|Funktionale Vorraussetzungen    | <<F0101>>,<<F0212>>, <<F0220>>, <<F0230>>, <<F0240>>, <<F0241>>, <<F0242>>, <<F0243>>, <<F0320>>, <<F0500>>
+|Funktionale Voraussetzungen    | <<F0101>>,<<F0212>>, <<F0220>>, <<F0230>>, <<F0240>>, <<F0241>>, <<F0242>>
 |===
 
 [cols="1h,3"]
@@ -322,7 +316,7 @@ image::.\images\Buy Items in Cart.png[Buy Items in Cart, 100%, 100%, pdfwidth=10
 1.  "Kunden" wird, von einem Mitarbeiter, in der Navigationsleiste ausgewählt.
 2.  Eine Liste aller Nutzer wird ausgegeben.
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0300>>
+|Funktionale Voraussetzungen    | <<F0300>>
 |===
 
 [cols="1h,3"]
@@ -338,7 +332,7 @@ image::.\images\Buy Items in Cart.png[Buy Items in Cart, 100%, 100%, pdfwidth=10
 1.  "Bestellungen" wird, durch den Inhaber, in der Navigationsleiste ausgewählt.
 2.  Eine vollständige Übersicht der bereits getätigten Bestellungen wird angezeigt.
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0310>>, <<F0400>>, <<F0420>>
+|Funktionale Voraussetzungen    | <<F0310>>, <<F0400>>, <<F0420>>
 |===
 
 
@@ -356,7 +350,7 @@ image::.\images\Buy Items in Cart.png[Buy Items in Cart, 100%, 100%, pdfwidth=10
 2.  Der Inhaber legt die Spezifikationen des Produktes fest
 3.  Das Produkt wird in den Warenbestand aufgenommen
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0100>>
+|Funktionale Voraussetzungen    | <<F0100>>, <<F0102>>
 |===
 
 image::.\images\Add new Product Combination.png[Add new Product Combination, 100%, 100%, pdfwidth=100%, title= "Add new Product Combination", align=center]
@@ -375,7 +369,7 @@ image::.\images\Add new Product Combination.png[Add new Product Combination, 100
 2.  Der Inhaber gibt legt die Spezifikationen des Produktes fest
 3.  Das Produkt wird in den Warenbestand aufgenommen
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0100>>
+|Funktionale Voraussetzungen    | <<F0100>>
 |===
 
 
@@ -393,7 +387,7 @@ image::.\images\Add new Product Combination.png[Add new Product Combination, 100
 2.  Der Inhaber gibt legt die Spezifikationen der Bestellung fest
 3.  Die Bestellung wird den ausgehenden Bestellungen hinzugefügt
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0331>>, <<F0332>>
+|Funktionale Voraussetzungen    | <<F0330>>, <<F0331>>, <<F0332>>
 |===
 
 
@@ -410,7 +404,7 @@ image::.\images\Add new Product Combination.png[Add new Product Combination, 100
 1.  Der Großhändler wählt "Bestellungen" in der Navigationsleiste aus.
 2.  Es werden die Bestellungen und ihr, vom Großhändler editierbaren, Status angezeigt.
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0100>>, <<F0330>>, <<F0331>>, <<F0332>>
+|Funktionale Voraussetzungen    | <<F0100>>, <<F0330>>, <<F0331>>, <<F0332>>
 |===
 
 image::.\images\Edit Inventory.png[Edit Inventory, 100%, 100%, pdfwidth=100%, title= "Edit Inventory", align=center]
@@ -428,7 +422,7 @@ image::.\images\Edit Inventory.png[Edit Inventory, 100%, 100%, pdfwidth=100%, ti
 1.  "Warenübersicht" wird, von einem Mitarbeiter, in der Navigationsleiste ausgewählt
 2.  Es wird eine Übersicht über alle verfügbaren Waren, sowie deren editierbaren Status, angezeigt
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0100>>, <<F0104>>
+|Funktionale Voraussetzungen    | <<F0100>>, <<F0104>>
 |===
 
 
@@ -450,7 +444,7 @@ image::.\images\Edit Inventory.png[Edit Inventory, 100%, 100%, pdfwidth=100%, ti
 
 4.  Die Bestellung wird in das System aufgenommen
 |Erweiterungen                 |-
-|Funktionale Vorraussetzungen    | <<F0100>>, <<F0500>>
+|Funktionale Voraussetzungen    | <<F0100>>, <<F0500>>
 |===
 
 
