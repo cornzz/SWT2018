@@ -872,6 +872,12 @@ Der Großhändler kann Bestellungen des Blumenladens hier Einsehen. Vorher muss 
 
 __Anmerkung: Normalerweise würde der Großhändler eine Schnittstelle zur Kommunikation bereit stellen. Da es sich hier nur um eine Simulation handelt gibt es diese nicht. Eine eigene Anmeldung ist daher nur eine behelfsmäßige Lösung. Die Alternative wären automatisch generierte Emails.__
 
+=== Demo
+
+image::.\images\Demo.png[Demo, 100%, 100%, pdfwidth=100%, title= "Demo", align=center]
+
+__Anmerkung: Um ein besseres Gefühl für das geplante Design zu Vermitteln wurde hier testweise die Startseite des Online Shops in HTML, CSS und JavaScript umgesetzt. Dabei wurden die von Google entwickelten Material Design Standards berücksichtig.__
+
 == Datenmodell
 
 === Überblick: Klassendiagramm
