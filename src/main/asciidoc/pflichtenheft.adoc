@@ -580,7 +580,9 @@ __Anmerkung: Normalerweise würde der Großhändler eine Schnittstelle zur Kommu
 == Datenmodell
 
 === Überblick: Klassendiagramm
-UML-Analyseklassendiagramm
+
+
+image::.\images\Blumenladen.png[UML-Analyseklassendiagramm, 100%, 100%, pdfwidth=100%, title= "UML-Analyseklassendiagramm", align=center]
 
 === Klassen und Enumerationen
 Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt.
@@ -588,8 +590,18 @@ Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Kl
 // See http://asciidoctor.org/docs/user-manual/#tables
 [options="header"]
 |===
-|Klasse/Enumeration |Beschreibung |
-|…                  |…            |
+|Klasse/Enumeration |Beschreibung
+|Product                 |Ein Product besteht aus einem oder mehreren Items und/oder Services. Es Wird genutzt um die allgemeine Artikelverwaltung zu ermöglichen.
+|Cart                   |Im Cart werden die von Nutzer gewählten Produkte gespeichert. Entscheidet sich dieser die Produkte zu kaufen wird eine Order erstellt.
+|Item             |Ein Item repräsentiert jeweils genau ein Teil des Warenbestandes.
+|Service                |Ein Service repräsentiert jeweils genau einen der existierenden Services.
+|Transaction                    |Transaction enthält die Informationen über einzelne Transaktionen unabhängig ihrer art.
+|Bill              |Bill ist die Übersicht zu allen Spezifikationen einer Transaktion.
+|Order          |Order ist die allgemeine Darstellung einer Bestellung unabhängig von ihrer Art.
+|OutgoingOrder                  |Eine OutgoingOrder ist eine spezielle Bestellung die den Warenbestand auffüllt bzw. erweitert.
+|IncommingOrder              |Die IncommingOrder verkörpert Bestellungen die den Warenbestand verringern.
+|User           |User stellt einen Nutzer und seine Daten im System dar.
+
 |===
 
 == Akzeptanztestfälle
