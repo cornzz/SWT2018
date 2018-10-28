@@ -123,7 +123,7 @@ Das Kontextdiagramm zeigt das geplante Software-System in seiner Umgebung. Zur U
 
 image::.\images\KontextDiagramm.png[Kontextdiagramm, 100%, 100%, pdfwidth=100%, title= "Kontextdiagramm", align=center]
 === Top-Level-Architektur
-Dokumentieren Sie ihre Top-Level-Architektur mit Hilfe eines Komponentendiagramm.
+image::.\images\TopLevel.png[TopLevel, 100%, 100%, pdfwidth=100%, title= "TopLevel", align=center]
 
 == Anwendungsfälle
 
