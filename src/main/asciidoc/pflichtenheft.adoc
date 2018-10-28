@@ -519,21 +519,63 @@ Achten Sie darauf, dass deren Erfüllung (mindestens theoretisch) messbar sein m
 
 == GUI Prototyp
 
-In diesem Kapitel soll ein Entwurf der Navigationsmöglichkeiten und Dialoge des Systems erstellt werden.
-Idealerweise entsteht auch ein grafischer Prototyp, welcher dem Kunden zeigt, wie sein System visuell umgesetzt werden soll.
-Konkrete Absprachen - beispielsweise ob der grafische Prototyp oder die Dialoglandkarte höhere Priorität hat - sind mit dem Kunden zu treffen.
+Die folgenden Bilder sollen eine grobe Idee vermitteln wie die grafische Benutzeroberfläche des Systems später aussehen könnte. Es handelt sich um einen Prototyp, welcher der Kundin vermitteln soll in welche Richtung sich die grafische Gestaltung bewegt.
 
-=== Überblick: Dialoglandkarte
-Erstellen Sie ein Übersichtsdiagramm, das das Zusammenspiel Ihrer Masken zur Laufzeit darstellt. Also mit welchen Aktionen zwischen den Masken navigiert wird.
-//Die nachfolgende Abbildung zeigt eine an die Pinnwand gezeichnete Dialoglandkarte. Ihre Karte sollte zusätzlich die Buttons/Funktionen darstellen, mit deren Hilfe Sie zwischen den Masken navigieren.
+=== Startseite Online Shop
 
-=== Dialogbeschreibung
-Für jeden Dialog:
+image::.\images\01_user_storefront.png[Startseite Online Shop, 100%, 100%, pdfwidth=100%, title= "Startseite Online Shop", align=center]
 
-1. Kurze textuelle Dialogbeschreibung eingefügt: Was soll der jeweilige Dialog? Was kann man damit tun? Überblick?
-2. Maskenentwürfe (Screenshot, Mockup)
-3. Maskenelemente (Ein/Ausgabefelder, Aktionen wie Buttons, Listen, …)
-4. Evtl. Maskendetails, spezielle Widgets
+Zu sehen ist die Startseite der Online Shops. Einzelne Produkte werden in Form von Karten präsentiert und können über die Schaltfläche "IN DEN WARENKORB" diesem hinzugefügt werden. Dafür wird später ein Anmeldung benötigt, welche über die folgende Ansicht erstellt werden kann. Eine weitere Interaktionsmöglichkeit mit den einzelnen Karten um mehr Informationen über das Produkt zu enthalten steht noch zur Diskussion. Filter- und Suchmöglichkeiten sind bei wachsendem Produktkatalog obligatorisch.
+
+=== Registrierung (Login analog)
+
+image::.\images\02_user_register_login.png[Registrierung (Login analog), 100%, 100%, pdfwidth=100%, title= "Registrierung (Login analog)", align=center]
+
+Für viele Interaktionsmöglichkeiten mit dem System wird eine Anmeldung benötigt. Das zentrale Element der Ansicht ist auch hier eine Karte um die Konsistenz innerhalb des Designs zu wahren. Abhängig vom Typ der zu erstellenden Anmeldung werden eventuell weitere Informationen benötigt. Hier wird lediglich ein abstraktes Beispiel dargestellt.
+
+=== Warenkorb
+
+image::.\images\03_user_shopping_cart.png[Warenkorb, 100%, 100%, pdfwidth=100%, title= "Warenkorb", align=center]
+
+Der Kunde hat zu jedem Zeitpunkt seines Einkaufs die Möglichkeit seinen Warenkorb zu überprüfen. Ein Kartenraster wie es auf der Startseite zu finden ist mach hier keinen Sinn, da homogene Inhalte schnell vom Nutzer überprüfbar sein müssen. Über die Schaltflächen "BEARBEITEN" und "ENTFERNEN" kann mit einzelnen Warenkorbinhalten interagiert werden. Die Übersichtlichkeit der Tabelle kann durch aussagekräftige Icons anstelle genannter Schaltflächen verbessert werden. Der Warenkorb kann über die Schaltfläche "WEITERSHOPPEN" verlassen werden. Über "BEZAHLEN" gelangt der Nutzer zu folgenden Ansicht.
+
+=== Bezahlen
+
+image::.\images\04_user_checkout.png[Bezahlen, 100%, 100%, pdfwidth=100%, title= "Bezahlen", align=center]
+
+Hier hat der Nutzer die Möglichkeit seine Produktauswahl ein letztes mal zu überprüfen. Schließt er den Vorgang über die Schaltfläche "KAUFEN" ab wird er zu einem Zahlungsanbieter seiner Wahl weitergeleitet. Eine Rechnung wird generiert und steht dann zum Download bereit. Besagte Rechnung wird zusätzlich an die mit dem Nutzer verknüpfte Email Adresse geschickt.
+
+=== Inventar
+
+image::.\images\05_admin_products_items_services.png[Inventar, 100%, 100%, pdfwidth=100%, title= "Inventar", align=center]
+
+Die Inhaberin und ihre Mitarbeiter haben in der der Inventarverwaltung die Möglichkeit den Warenbestand einzusehen und zu verwalten. Der Wechsel zwischen Waren (beispielsweise einzelne Blumen), Produkten (Sträuße, Pakete aus Dienstleistungen und Waren etc.) und Dienstleistungen (Blumenpflege) kann später über eine Tableiste unter der Navigationsleiste realisiert werden. Such und Filtermöglichkeiten können aus der Shop-Ansicht übernommen werden. Die Interaktionsmöglichkeiten hängen später von genannten Kategorien und der Rolle des Nutzers ab.
+
+=== Abrechnung
+
+image::.\images\06_admin_daily_invoice.png[Abrechnung, 100%, 100%, pdfwidth=100%, title= "Abrechnung", align=center]
+
+Die Inhaberin kann jederzeit die tägliche Abrechnung einsehen, welche dynamisch aus den vorhanden Daten generiert wird. Der Entwurf zeigt die vermutlich einfachste, mögliche Darstellung. Nutzerorientierter wäre eine grafische Visualisierung.
+
+=== Ladeneinkäufe
+
+image::.\images\07_in_store_purchases.png[Ladeneinkäufe, 100%, 100%, pdfwidth=100%, title= "Ladeneinkäufe", align=center]
+
+Selbstverständlich hat ein Blumenladen auch Laufkundschaft. Diese kann von Inhaberin oder Mitarbeitern über diese Ansicht abkassiert werden. Wird die Schaltfläche "BESTÄTIGEN" betätigt wird eine Rechnung generiert und der Kunde manuell abkassiert.
+
+=== Kalender
+
+image::.\images\08_calendar.png[Kalender, 100%, 100%, pdfwidth=100%, title= "Kalender", align=center]
+
+Um geplante Serviceleistungen einzusehen könnte eine Kalenderansicht hilfreich sein. Eventuell reicht es Exportdateien zu generieren und ein Drittanbieter Kalendersystem zu integrieren. In diesem Fall wäre hier kein klassischer Kalender, sondern eine kurze Anleitung, zu finden.
+
+=== Großhändler
+
+image::.\images\09_outgoing_orders.png[Großhändler, 100%, 100%, pdfwidth=100%, title= "Großhändler", align=center]
+
+Der Großhändler kann Bestellungen des Blumenladens hier Einsehen. Vorher muss er sich dazu mit eigens für ihn generierten Zugangsdaten authentifizieren.
+
+__Anmerkung: Normalerweise würde der Großhändler eine Schnittstelle zur Kommunikation bereit stellen. Da es sich hier nur um eine Simulation handelt gibt es diese nicht. Eine eigene Anmeldung ist daher nur eine behelfsmäßige Lösung. Die Alternative wären automatisch generierte Emails.__
 
 == Datenmodell
 
