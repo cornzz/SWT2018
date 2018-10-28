@@ -812,17 +812,6 @@ Die Inhaberin kann jeden Kommentar löschen.
 
 |===
 
-== Nicht-Funktionale Anforderungen
-
-=== Qualitätsziele
-
-Dokumentieren Sie in einer Tabelle die Qualitätsziele, welche das System erreichen soll, sowie deren Priorität.
-
-=== Konkrete Nicht-Funktionale Anforderungen
-
-Beschreiben Sie Nicht-Funktionale Anforderungen, welche dazu dienen, die zuvor definierten Qualitätsziele zu erreichen.
-Achten Sie darauf, dass deren Erfüllung (mindestens theoretisch) messbar sein muss.
-
 == GUI Prototyp
 
 Die folgenden Bilder sollen eine grobe Idee vermitteln wie die grafische Benutzeroberfläche des Systems später aussehen könnte. Es handelt sich um einen Prototyp, welcher der Kundin vermitteln soll in welche Richtung sich die grafische Gestaltung bewegt.
