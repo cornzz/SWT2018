@@ -1,4 +1,4 @@
-= Pflichtenheft __{project_name}__
+﻿= Pflichtenheft __{project_name}__
 :project_name: Blumenshop
 :author: swt18w23
 :revnumber: 0.1
@@ -902,6 +902,263 @@ Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Kl
 == Akzeptanztestfälle
 Mithilfe von Akzeptanztests wird geprüft, ob die Software die funktionalen Erwartungen und Anforderungen im Gebrauch erfüllt. Diese sollen und können aus den Anwendungsfallbeschreibungen und den UML-Sequenzdiagrammen abgeleitet werden. D.h., pro (komplexen) Anwendungsfall gibt es typischerweise mindestens ein Sequenzdiagramm (welches ein Szenarium beschreibt). Für jedes Szenarium sollte es einen Akzeptanztestfall geben. Listen Sie alle Akzeptanztestfälle in tabellarischer Form auf.
 Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumenten (z.B. im Test-Plan) referenzieren zu können.
+
+[cols="1h, 4"]
+|===
+|ID                   |<<1>>
+|Anwendungsfall       |Shop-Register
+|Vorbedingungen      a|Ein UnregisteredUser benutzt das System. Der System kennt keinen RegisteredUser mit der Name 'hans'.
+|Event               a|Ein UnregisteredUser greift in login screen zu, erfüllt Tabelle mit folgenden Daten:
+
+- Name: hans
+- Passwort: abc123
+- Adresse: Zellescher Weg 123
+
+Danach klickt auf 'Register'.
+|Erwartetes Ergebnis a|
+- Ein neue Kunde mit obengeschriebenen Daten ist erstellt.
+- Ist möglich einen Nutzer mit diesen Anmeldedaten zu identifizieren.
+- Der User ist immer noch ein UnregisteredUser und ist redirected zum login screen.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<2>>
+|Anwendungsfall       |Shop-Register
+|Vorbedingungen      a|Ein UnregisteredUser benutzt das System. Der System kennt gerade einen RegisteredUser mit der Name 'hans' (Test <<1>> ist erfolgreich durchgeführt).
+|Event               a|Ein UnregisteredUser greift in login screen zu, gibt folgende Daten ein:
+
+- Name: hans
+- Passwort: abc123
+- Adresse: Zellescher Weg 123
+
+Danach klickt auf 'Register'.
+|Erwartetes Ergebnis a|
+- Es erscheint eine Fehlermeldung mit einer Information, dass die Benutzername 'hans' ist schon besetzt.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<3>>
+|Anwendungsfall       |Shop-Login/Logout
+|Vorbedingungen      a|Der System kennt gerade einen RegisteredUser mit der Name 'hans' und Passwort 'abc123' (Test <<1>> ist erfolgreich durchgeführt).
+|Event               a|Ein UnregisteredUser greift in login screen zu, gibt folgende Daten ein:
+
+- Name: hans
+- Passwort: abc123
+
+Danach klickt auf 'Login'.
+|Erwartetes Ergebnis a|
+- Der User kann sehen, dass er als 'hans' eingelogt ist.
+- Der User ist redirected zum Welcome Screen.
+- Der User bekommt Rechte (Permissions) von RegisteredUser (View Cart, Add to Cart, Buy Products in Cart etc.)
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<4>>
+|Anwendungsfall       |Shop-Login/Logout
+|Vorbedingungen      a|Der System kennt keinen RegisteredUser mit sowohl der Name 'hans' als auch Passwort 'abc123' (Test <<2>> ist erfolgreich abschliessbar).
+|Event               a|Ein UnregisteredUser greift in login screen zu, gibt folgende Daten ein:
+- Name: hans
+- Passwort: abc123
+
+Danach klickt auf 'Login'.
+|Erwartetes Ergebnis a|
+- Es erscheint eine Fehlermeldung mit einer Information, dass die Eingabedaten falsch sind.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<5>>
+|Anwendungsfall       |Shop-Login/Logout
+|Vorbedingungen      a|Ein RegisteredUser benutzt das System.
+|Event               a|Der User klickt Ausloggen-Knopf.
+|Erwartetes Ergebnis a|
+- Der User kann sehen, dass er ausgeloggt ist.
+- Der User verliert die Rechte (Permissions) von RegisteredUser (View Cart, Add to Cart, Buy Products in Cart etc.)
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<6>>
+|Anwendungsfall       |Shop-View all Users
+|Vorbedingungen      a|Ein Employee benutzt das System.
+|Event               a|Der User (Employee) klickt 'Userliste'-Button.
+|Erwartetes Ergebnis a|Der User (Employee) kann Liste von allen RegisteredUser sehen.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<7>>
+|Anwendungsfall       |Catalog-View Catalog
+|Vorbedingungen      a|Ein User benutzt das System.
+|Event               a|Der User klickt 'Katalog'-Button in Navigation Bar.
+|Erwartetes Ergebnis a|Der User befindet sich in catalog screnn und kann Liste von allen bestellbaren Produkten sehen.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<8>>
+|Anwendungsfall       |Catalog-View Product Details
+|Vorbedingungen      a|Ein User benutzt das System.
+|Event               a|Der User befindet sich in catalog screnn und klickt auf einen Produkt in dem Katalog.
+|Erwartetes Ergebnis a|Der User kann sehen Details über diesen Produkt.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<9>>
+|Anwendungsfall       |Cart-View Cart
+|Vorbedingungen      a|Ein RegisteredUser benutzt das System.
+|Event               a|Der User klickt auf 'Sehe Bestellung'-Knopf.
+|Erwartetes Ergebnis a|Der User kann seine (noch nicht bestellte) Bestellung anschauen.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<10>>
+|Anwendungsfall       |Cart-Buy Products in Cart
+|Vorbedingungen      a|Ein RegisteredUser benutzt das System.
+|Event               a|Der User befindet sich in 'cart screen' und klickt 'Einkaufen'-Knopf
+|Erwartetes Ergebnis a|Der User hat die Möglichkeit seine Waren zu kaufen.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<11>>
+|Anwendungsfall       |Cart-Add to Cart
+|Vorbedingungen      a|Ein RegisteredUser benutzt das System.
+|Event               a|Der User befindet sich in 'product detail screen' und klickt 'Addiere zu Bestellung'-Knopf
+|Erwartetes Ergebnis a|Der Produkt ist addiert zu Bestellung.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<12>>
+|Anwendungsfall       |Cart-Add Services
+|Vorbedingungen      a|Ein CompanyUser benutzt das System.
+|Event               a|Der User befindet sich in 'add service screen', gibt Daten über seinen Service ein und klickt Bestatigen-Knopf.
+|Erwartetes Ergebnis a|Der Service addiert zum Katalog.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<13>>
+|Anwendungsfall       |Calendar-View Public Calendar.
+|Vorbedingungen      a|Ein User benutzt das System.
+|Event               a|Der User öffnet den Kalender.
+|Erwartetes Ergebnis a|Der User kann den Kalender mit publischen Terminen sehen.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<14>>
+|Anwendungsfall       |Calendar-View Private Calendar.
+|Vorbedingungen      a|Ein Employee benutzt das System.
+|Event               a|Der User (Employee) öffnet den Kalender.
+|Erwartetes Ergebnis a|Der User (Employee) kann den Kalender mit publischen und privaten Terminen sehen.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<15>>
+|Anwendungsfall       |Calendar-Edit Calendar.
+|Vorbedingungen      a|Der Owner benutzt das System.
+|Event               a|Der User (Owner) öffnet den Kalender.
+|Erwartetes Ergebnis a|Der User (Owner) kann den Kalender mit publischen und privaten Terminen sehen und die Termine bearbeiten.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<16>>
+|Anwendungsfall       |Inventory-Edit Inventory.
+|Vorbedingungen      a|
+|Event               a|
+|Erwartetes Ergebnis a|
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<17>>
+|Anwendungsfall       |Inventory-Process a Local Order.
+|Vorbedingungen      a|
+|Event               a|
+|Erwartetes Ergebnis a|
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<18>>
+|Anwendungsfall       |Inventory-Add new Product Combination.
+|Vorbedingungen      a|
+|Event               a|
+|Erwartetes Ergebnis a|
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<19>>
+|Anwendungsfall       |Inventory-View Inventory Details.
+|Vorbedingungen      a|
+|Event               a|
+|Erwartetes Ergebnis a|
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<20>>
+|Anwendungsfall       |Inventory-Add New Item.
+|Vorbedingungen      a|
+|Event               a|
+|Erwartetes Ergebnis a|
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<21>>
+|Anwendungsfall       |TraderOrder-Process Open Orders
+|Vorbedingungen      a|
+|Event               a|
+|Erwartetes Ergebnis a|
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<22>>
+|Anwendungsfall       |TraderOrder-Create Order
+|Vorbedingungen      a|
+|Event               a|
+|Erwartetes Ergebnis a|
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<21>>
+|Anwendungsfall       |Transactions-View Bills
+|Vorbedingungen      a|
+|Event               a|
+|Erwartetes Ergebnis a|
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<22>>
+|Anwendungsfall       |Transactions-View all Orders
+|Vorbedingungen      a|
+|Event               a|
+|Erwartetes Ergebnis a|
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<23>>
+|Anwendungsfall       |Transactions-View Balance
+|Vorbedingungen      a|
+|Event               a|
+|Erwartetes Ergebnis a|
+|===
+
 
 == Glossar
 Sämtliche Begriffe, die innerhalb des Projektes verwendet werden und deren gemeinsames Verständnis aller beteiligten Stakeholder essentiell ist, sollten hier aufgeführt werden.
