@@ -486,6 +486,9 @@ Unregistrierte Kunden sollen ein Kundenkonto anlegen können. Folgende Informati
 
 - E-Mail Adresse
 - Passwort
+- Vor- / Nachname
+- Telefonnummer (Optional)
+- Kundenart
 
 |[[F0030]]<<F0030>>
 |v0.1
@@ -495,13 +498,6 @@ Es soll folgende Arten von Kunden geben:
 
 - Privatkunden
 - Firmenkunden
-
-|[[F0031]]<<F0031>>
-|v0.1
-|Kundenart ändern
-a|
-
-Die Inhaberin soll die Möglichkeit haben, die Kundenart zu eines Kunden zu ändern.
 
 |[[F0100]]<<F0100>>
 |v0.1
@@ -525,7 +521,7 @@ Folgende Daten sind erforderlich:
 - Produktname
 - Preis pro Stück
 - Produktfarbe
-- Lieferzeit
+- Produktbild
 
 |[[F0103]]<<F0103>>
 |v0.1
@@ -540,6 +536,13 @@ a|
 Die Inhaberin oder ein(e) Mitarbeiter(in) soll die Möglichkeit haben, alle relevanten Informationen zu einem Produkt
 jederzeit ändern zu können.
 
+|[[F0105]]<<F0105>>
+|v0.1
+|Mindestbestand automatisch erfüllen
+a|
+Wenn der Mindestbestand eines Produktes unterschritten wird, soll nach Ladenschluss automatisch eine Bestellung beim
+Großhändler mit den fehleden Produkten ausgelöst werden.
+
 |[[F0110]]<<F0110>>
 |v0.1
 |Katalog
@@ -552,16 +555,6 @@ Der Warenbestand (<<F0100>>) soll durch einen schreibgeschützten Zugriff zugän
 a|
 Der Benutzer soll den Inhalt des Katalogs einsehen können.
 
-|[[F0112]]<<F0112>>
-|v0.1
-|Katalog filtern
-a|
-Der Benutzer soll den angezeigten Inhalt des Katalogs nach folgenden Kriterien filtern können:
-
-- Preis
-- Farbe der Ware
-- Art der Ware
-
 |[[F0120]]<<F0120>>
 |v0.1
 |Produktdetails
@@ -571,7 +564,6 @@ Der Benutzer soll zu jedem Produkt alle Produktdetails einsehen können, wie zum
 - Kurze Information zur Art des Produkts
 - Verfügbare Menge
 - Preis
-- Lieferdauer
 
 |[[F0200]]<<F0200>>
 |v0.1
@@ -611,9 +603,9 @@ Firmenkunden sollen im Warenkorb zusätzlich zu den gewählten Produkten folgend
 
 |[[F0212]]<<F0212>>
 |v0.1
-|Lieferdatum wählen
+|Warenkorb ändern
 a|
-Der Benutzer soll die möglichkeit haben, ein Lieferdatum zu wählen, welcher der Bestellung hinzugefügt wird.
+Der Benutzer soll die Möglichkeit haben, die Menge eines Produktes zu ändern bzw. Produkte aus dem Warenkorb zu entfernen.
 
 |[[F0220]]<<F0220>>
 |v0.1
@@ -646,9 +638,10 @@ Eine Bestellung soll mit dem Status "offen" initialisiert werden.
 
 |[[F0242]]<<F0242>>
 |v0.1
-|Bestellung bezahlen
+|Bestellung als bezahlt markieren
 a|
-Der Benutzer soll eine von ihm erstellte Bestellung bezahlen können.
+Die Inhaberin oder ein(e) Mitarbeiter(in) soll die Möglichkeit haben, eine Bestellung als "bezahlt" zu markieren.
+
 Wenn dies erfolgt, soll der Status der Bestellung zu "bezahlt" geändert werden und der Kunde soll eine Rechnung
 (<<F0500>>) mit allen relevanten Daten erhalten.
 
@@ -714,6 +707,13 @@ Die Inhaberin oder ein(e) Mitarbeiter(in) soll jederzeit den Kassenstand ändern
 
 |[[F0420]]<<F0420>>
 |v0.1
+|Verlustprodukte einberechnen
+a|
+Die Inhaberin soll die Möglichkeit haben, Produkte welche nicht verkauft werden konnten (z.B. verwelkte Blumen)
+als Ausgabe (zum Großhändlerpreis) zum Kassenstand hinzuzufügen.
+
+|[[F0420]]<<F0420>>
+|v0.1
 |Kassenstand einsehen
 a|
 Die Inhaberin oder ein(e) Mitarbeiter(in) soll den Kassenstand einsehen können.
@@ -738,12 +738,35 @@ Alle Rechnungen sollen persistent gespeichert werden.
 |v0.1
 |Rechnungen einsehen
 a|
-Die Inhaberin soll eine Liste mit allen Rechnungen einsehen können. Folgende Daten sollen in der Liste angezeigt werden:
+Jeder Benutzer soll eine Liste mit seinen Rechnungen einsehen können. Folgende Daten sollen in der Liste angezeigt werden:
 
 - Rechnungsdatum
 - Käufername
 - Gesamtpreis
 - Hyperlink zur Rechnung
+
+|[[F0510]]<<F0510>>
+|v0.1
+|Rechnungen einsehen
+a|
+
+|[[F0600]]<<F0600>>
+|v0.1
+|Kalender
+a|
+Das System soll eine Kalenderfunktion bieten.
+
+|[[F0610]]<<F0610>>
+|v0.1
+|Kalendereintrag hinzufügen / löschen
+a|
+Die Inhaberin oder ein(e) Mitarbeiter(in) soll die Möglichkeit haben, ein Event im Kalender zu erstellen oder zu löschen.
+Ein Kalendereintrag beinhaltet folgende Informationen:
+
+- Titel
+- Datum
+- Uhrzeit
+- Beschreibung
 
 |===
 
@@ -757,29 +780,38 @@ Anforderungen die das Programm leisten können soll, aber für den korrekten Bet
 |Name
 |Description
 
-|[[F0600]]<<F0600>>
-|v0.1
-|Produktbilder ändern / hinzufügen
-a|
-Möglichkeit, Bilder hochzuladen und zu Produkten hinzuzufügen bzw. zu löschen. Mindestanforderungen:
-
-- PNG- / JPG-Format
-- Format: 1:1
 
 |[[F0700]]<<F0700>>
+|v0.1
+|Katalog filtern
+a|
+Der Benutzer soll den angezeigten Inhalt des Katalogs nach folgenden Kriterien filtern können:
+
+- Preis
+- Farbe der Ware
+- Art der Ware
+
+|[[F0800]]<<F0800>>
+|v0.1
+|Warenverleih
+a|
+Möglichkeit, für ein Produkt eine Kaution und ein Rückgabedatum zu hinterlegen. Falls das Rückgabedatum überschritten
+wird, geht die Kaution in die Kasse über.
+
+|[[F0900]]<<F0900>>
 |v0.1
 |Produktrabatt
 a|
 Möglichkeit, den Preis eines Produktes zu Reduzieren. Der Rabatt wird im Katalog und bei den Produktdetails angezeigt
 und der Preis wird automatisch neu berechnet.
 
-|[[F0710]]<<F0710>>
+|[[F0910]]<<F0910>>
 |v0.1
 |neuen Produktrabatt erstellen
 a|
 Möglichkeit, zu einem Produkt einen neuen Rabatt zu erstellen. Erreichbar durch die Detailansicht eines Produktes.
 
-|[[F0800]]<<F0800>>
+|[[F1000]]<<F1000>>
 |v0.1
 |Produktkommentar
 a|
@@ -789,14 +821,14 @@ Möglichkeit, dass ein Produkt ein, oder mehrere Produktkommentare besitzt. Ein 
 - Erstellungsdatum
 - Kommentartext
 
-|[[F0810]]<<F0810>>
+|[[F1010]]<<F1010>>
 |v0.1
 |Produktkommentar erstellen
 a|
 Jeder registrierte Benutzer hat die Möglichkeit einen neuen Kommentar zu erstellen. Die Maximallänge eines
 Kommentartextes beträgt 500 Zeichen.
 
-|[[F0820]]<<F0820>>
+|[[F1020]]<<F1020>>
 |v0.1
 |Produktkommentar löschen
 a|
