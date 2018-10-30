@@ -17,3 +17,85 @@ img.thumbnail {
 	width: 160px;
 	display: block;
 }
+
+.vs-cart-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: min-content;
+	margin: auto;
+}
+
+.vs-cart-form > form {
+	width: 100%;
+}
+
+.vs-cart-form__price {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.vs-cart-form__price > * {
+	margin-left: 8px;
+}
+
+.vs-cart-form__price > *:first-child {
+	margin: 0;
+}
+
+.vs-cart-form__label {
+	font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+	font-size: 1em;
+	font-weight: 700;
+	color: rgba(0,0,0,.87);
+	text-transform: uppercase;
+}
+
+.vs-cart-form__value {
+	font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+	font-weight: 400;
+	font-size: 3rem;
+	line-height: 1em;
+	color: #1B1C1D;
+	text-transform: uppercase;
+}
+
+.vs-cart-form__button {
+	width: 100%;
+	cursor: pointer;
+	display: inline-block;
+	min-height: 1em;
+	outline: 0;
+	border: none;
+	vertical-align: baseline;
+	background: #E0E1E2;
+	color: rgba(0,0,0,.6);
+	font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+	margin: 8px 0 0 0;
+	padding: .78571429em 1.5em;
+	text-transform: none;
+	text-shadow: none;
+	font-weight: 700;
+	line-height: 1em;
+	font-style: normal;
+	text-align: center;
+	text-decoration: none;
+	border-radius: .28571429rem;
+	box-shadow: 0 0 0 1px transparent inset, 0 0 0 0 rgba(34,36,38,.15) inset;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+	transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+	-webkit-tap-highlight-color: transparent
+}
+
+.vs-cart-form__button:hover {
+	background-color: #CACBCD;
+	background-image: none;
+	-webkit-box-shadow: 0px 0px 0px 1px transparent inset, 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+	box-shadow: 0px 0px 0px 1px transparent inset, 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+	color: rgba(0, 0, 0, 0.8);
+}

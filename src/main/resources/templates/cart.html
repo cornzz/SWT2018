@@ -56,20 +56,15 @@
             </tbody>
         </table>
 
-        <div class="ui two column centered grid">
-            <div class="four column centered row">
-                <div class="column">
-                    <div class="ui horizontal statistic">
-                        <div class="label" th:text="#{cart.total}">Summe</div>
-                        <div class="value"><span th:text="${{cart.price}}">1337</span></div>
-                    </div>
-                </div>
-                <div class="column">
-                    <form sec:authorize="hasRole('ROLE_CUSTOMER')" class="ui form" method="post" th:action="@{/checkout}">
-                        <button type="submit" class="ui button" th:text="#{cart.buy}">Kaufen</button>
-                    </form>
-                </div>
+        <div class="vs-cart-form">
+            <div class="vs-cart-form__price">
+                <div class="vs-cart-form__label" th:text="#{cart.total}">Summe</div>
+                <div class="vs-cart-form__value" th:text="${{cart.price}}">1337</div>
             </div>
+
+            <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/checkout}">
+                <button type="submit" class="vs-cart-form__button" th:text="#{cart.buy}">Kaufen</button>
+            </form>
         </div>
     </div>
 
