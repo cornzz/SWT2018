@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * A Spring MVC controller to manage the {@link Cart}. {@link Cart} instances are held in the session as they're
@@ -112,6 +113,22 @@ class OrderController {
 
 	@GetMapping("/cart")
 	String basket() {
+		return "cart";
+	}
+
+	/**
+	 * This is plainly stupid. HTML forms do not support DELETE requests. Normally I would switch to AJAX. I am simply
+	 * too lazy and the dirty solution matches the code quality perfectly. Have a nice day.
+	 *
+	 * @param id
+	 * @param cart
+	 * @return
+	 */
+	@PostMapping("/cart/delete/{id}")
+	String removeFromCart(@PathVariable String id, @ModelAttribute Cart cart) {
+
+		System.out.println(cart.removeItem(id));
+
 		return "cart";
 	}
 
