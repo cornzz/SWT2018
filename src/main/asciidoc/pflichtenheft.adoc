@@ -1,4 +1,4 @@
-﻿= Pflichtenheft __{project_name}__
+= Pflichtenheft __{project_name}__
 :project_name: Blumenshop
 :author: swt18w23
 :revnumber: 0.1
@@ -11,7 +11,7 @@
 :numbered:
 
 == Zweck dieses Dokuments
-Dieses Dokument stellt die Software Requirements Specification (SRS, deutsch: in der Nähe eines Pflichtenheftes) des Projekts Blumenladen dar. Es soll einen Überblick über das zu erstellende Softwareprodukt geben und dient als Grundlage für die Kommunikation zwischen den Interessengruppen des Projekts, insbesondere dem Kunden und dem Entwicklungsteam. Es ist erwünscht, dieses Dokument als Grundlage für einen Vertrag zwischen dem Kunden und dem Softwareentwickler zu haben, und sollte daher validiert und auf Konsistenz überprüft werden. Der Pflichtenheft beschreibt, was das gewünschte System zu tun hat und teilweise, wie der Softwareentwickler die Lösung umsetzen will.
+Dieses Dokument stellt die Software Requirements Specification (SRS, deutsch: in der Nähe eines Pflichtenheftes) des Projekts Videoshop dar. Es soll einen Überblick über das zu erstellende Softwareprodukt geben und dient als Grundlage für die Kommunikation zwischen den Interessengruppen des Projekts, insbesondere dem Kunden und dem Entwicklungsteam. Es ist erwünscht, dieses Dokument als Grundlage für einen Vertrag zwischen dem Kunden und dem Softwareentwickler zu haben, und sollte daher validiert und auf Konsistenz überprüft werden. Der Pflichtenheft beschreibt, was das gewünschte System zu tun hat und teilweise, wie der Softwareentwickler die Lösung umsetzen will.
 
 Im Allgemeinen sollte der Pflichtenheft korrekt, vollständig und konsistent sein. Da es am Ende des Projekts verwendet wird, um zu überprüfen, ob die definierte Software bereitgestellt wurde oder nicht, sollte dieses Ziel überprüfbar sein. Es wird während des gesamten Projekts verwendet und konsultiert, deshalb sollte der Inhalt nachvollziehbar sein. In Verbindung mit dem oben Gesagten ist es wünschenswert, dass es einfach zu ändern ist, auch wenn Änderungen auf ein Minimum beschränkt werden sollten, nachdem sich die Beteiligten einmal über den Inhalt geeinigt haben. Da sich jedoch die Anforderungen und Umstände während eines Projekts ständig ändern, sind Anpassungen zu erwarten und zu dokumentieren.
 
@@ -366,7 +366,7 @@ image::.\images\Add new Product Combination.png[Add new Product Combination, 100
 |Vorbedingung(en)           a|Der Nutzer besitzt die rechte eines Mitarbeiters und befindet sich in der Warenübersicht.
 |Ablauf           a|
 1.  Der Inhaber wählt "Hinzufügen" in der Warenübersicht aus
-2.  Der Inhaber gibt legt die Spezifikationen des Produktes fest
+2.  Der Inhaber legt die Spezifikationen des Produktes fest
 3.  Das Produkt wird in den Warenbestand aufgenommen
 |Erweiterungen                 |-
 |Funktionale Voraussetzungen    | <<F0100>>
@@ -384,7 +384,7 @@ image::.\images\Add new Product Combination.png[Add new Product Combination, 100
 |Vorbedingung(en)           a|Der Nutzer besitzt die Rechte des Inhabers und befindet sich in der Warenübersicht.
 |Ablauf           a|
 1.  Der Inhaber wählt "Neue Bestellung" in der Warenübersicht aus
-2.  Der Inhaber gibt legt die Spezifikationen der Bestellung fest
+2.  Der Inhaber legt die Spezifikationen der Bestellung fest
 3.  Die Bestellung wird den ausgehenden Bestellungen hinzugefügt
 |Erweiterungen                 |-
 |Funktionale Voraussetzungen    | <<F0330>>, <<F0331>>, <<F0332>>
@@ -906,9 +906,9 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID                   |<<1>>
-|Anwendungsfall       |Shop-Register
+|Anwendungsfall       |Shop-Register <<UC0020>>
 |Vorbedingungen      a|Ein UnregisteredUser benutzt das System. Der System kennt keinen RegisteredUser mit der Name 'hans'.
-|Event               a|Ein UnregisteredUser greift in login screen zu, erfüllt Tabelle mit folgenden Daten:
+|Event               a|Ein UnregisteredUser greift in login screen zu, erfüllt Tabelle (Figure 9.) mit folgenden Daten:
 
 - Name: hans
 - Passwort: abc123
@@ -924,7 +924,7 @@ Danach klickt auf 'Register'.
 [cols="1h, 4"]
 |===
 |ID                   |<<2>>
-|Anwendungsfall       |Shop-Register
+|Anwendungsfall       |Shop-Register <<UC0020>>
 |Vorbedingungen      a|Ein UnregisteredUser benutzt das System. Der System kennt gerade einen RegisteredUser mit der Name 'hans' (Test <<1>> ist erfolgreich durchgeführt).
 |Event               a|Ein UnregisteredUser greift in login screen zu, gibt folgende Daten ein:
 
@@ -940,7 +940,7 @@ Danach klickt auf 'Register'.
 [cols="1h, 4"]
 |===
 |ID                   |<<3>>
-|Anwendungsfall       |Shop-Login/Logout
+|Anwendungsfall       |Shop-Login/Logout <<UC0010>>
 |Vorbedingungen      a|Der System kennt gerade einen RegisteredUser mit der Name 'hans' und Passwort 'abc123' (Test <<1>> ist erfolgreich durchgeführt).
 |Event               a|Ein UnregisteredUser greift in login screen zu, gibt folgende Daten ein:
 
@@ -957,7 +957,7 @@ Danach klickt auf 'Login'.
 [cols="1h, 4"]
 |===
 |ID                   |<<4>>
-|Anwendungsfall       |Shop-Login/Logout
+|Anwendungsfall       |Shop-Login/Logout <<UC0010>>
 |Vorbedingungen      a|Der System kennt keinen RegisteredUser mit sowohl der Name 'hans' als auch Passwort 'abc123' (Test <<2>> ist erfolgreich abschliessbar).
 |Event               a|Ein UnregisteredUser greift in login screen zu, gibt folgende Daten ein:
 - Name: hans
@@ -971,7 +971,7 @@ Danach klickt auf 'Login'.
 [cols="1h, 4"]
 |===
 |ID                   |<<5>>
-|Anwendungsfall       |Shop-Login/Logout
+|Anwendungsfall       |Shop-Login/Logout <<UC0010>>
 |Vorbedingungen      a|Ein RegisteredUser benutzt das System.
 |Event               a|Der User klickt Ausloggen-Knopf.
 |Erwartetes Ergebnis a|
@@ -982,55 +982,55 @@ Danach klickt auf 'Login'.
 [cols="1h, 4"]
 |===
 |ID                   |<<6>>
-|Anwendungsfall       |Shop-View all Users
+|Anwendungsfall       |Shop-View all Users <<UC0300>>
 |Vorbedingungen      a|Ein Employee benutzt das System.
-|Event               a|Der User (Employee) klickt 'Userliste'-Button.
-|Erwartetes Ergebnis a|Der User (Employee) kann Liste von allen RegisteredUser sehen.
+|Event               a|Der User (Employee) klickt 'Kunden'-Knopf auf der Navigationsleiste.
+|Erwartetes Ergebnis a|Der User (Employee) kann Liste von allen User sehen.
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<7>>
-|Anwendungsfall       |Catalog-View Catalog
+|Anwendungsfall       |Catalog-View Catalog <<UC0100>>
 |Vorbedingungen      a|Ein User benutzt das System.
-|Event               a|Der User klickt 'Katalog'-Button in Navigation Bar.
-|Erwartetes Ergebnis a|Der User befindet sich in catalog screnn und kann Liste von allen bestellbaren Produkten sehen.
+|Event               a|Der User klickt 'Katalog'-Button in Navigationsleiste.
+|Erwartetes Ergebnis a|Der User kann Liste von allen bestellbaren Produkten sehen.
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<8>>
-|Anwendungsfall       |Catalog-View Product Details
+|Anwendungsfall       |Catalog-View Product Details <<UC0110>>
 |Vorbedingungen      a|Ein User benutzt das System.
-|Event               a|Der User befindet sich in catalog screnn und klickt auf einen Produkt in dem Katalog.
-|Erwartetes Ergebnis a|Der User kann sehen Details über diesen Produkt.
+|Event               a|Der User sieht den Katalog und klickt auf einen Produkt aus dem Katalog.
+|Erwartetes Ergebnis a|Dem Nutzer werden die Produktdetails angezeigt.
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<9>>
-|Anwendungsfall       |Cart-View Cart
+|Anwendungsfall       |Cart-View Cart <<UC0210>>
 |Vorbedingungen      a|Ein RegisteredUser benutzt das System.
-|Event               a|Der User klickt auf 'Sehe Bestellung'-Knopf.
-|Erwartetes Ergebnis a|Der User kann seine (noch nicht bestellte) Bestellung anschauen.
+|Event               a|Der User klickt auf den Warenkorb in der Navigationsleiste aus.
+|Erwartetes Ergebnis a|Der User kann seine hinzugefügten Produkte, als auch Preis anschauen (Figure 11.).
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<10>>
-|Anwendungsfall       |Cart-Buy Products in Cart
+|Anwendungsfall       |Cart-Buy Products in Cart <<UC0220>>
 |Vorbedingungen      a|Ein RegisteredUser benutzt das System.
-|Event               a|Der User befindet sich in 'cart screen' und klickt 'Einkaufen'-Knopf
-|Erwartetes Ergebnis a|Der User hat die Möglichkeit seine Waren zu kaufen.
+|Event               a|Der User befindet sich in 'bezahlen screen' und klickt 'KAUFEN'-Knopf
+|Erwartetes Ergebnis a|Die Bestellung ist einem Zahlungsanbieter seiner Wahl weitergeleitet. Eine Rechnung ist generiert und steht dann zum Download bereit. Besagte Rechnung ist zusätzlich an die mit dem Nutzer verknüpfte Email Adresse geschickt (Figure 11.).
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<11>>
-|Anwendungsfall       |Cart-Add to Cart
+|Anwendungsfall       |Cart-Add to Cart <<UC0200>>
 |Vorbedingungen      a|Ein RegisteredUser benutzt das System.
-|Event               a|Der User befindet sich in 'product detail screen' und klickt 'Addiere zu Bestellung'-Knopf
-|Erwartetes Ergebnis a|Der Produkt ist addiert zu Bestellung.
+|Event               a|Der User befindet sich in der Detailanzeige und legt die Bestellmenge des Produktes. Der User wählt "zum Warenkorb hinzufügen" aus
+|Erwartetes Ergebnis a|Das Produkt wird dem Warenkorb, gegebenenfalls in höherer Stückzahl, hinzugefügt.
 |===
 
 [cols="1h, 4"]
@@ -1048,7 +1048,7 @@ Danach klickt auf 'Login'.
 |Anwendungsfall       |Calendar-View Public Calendar.
 |Vorbedingungen      a|Ein User benutzt das System.
 |Event               a|Der User öffnet den Kalender.
-|Erwartetes Ergebnis a|Der User kann den Kalender mit publischen Terminen sehen.
+|Erwartetes Ergebnis a|Der User kann den Kalender mit publischen Terminen (Figure 15.) sehen.
 |===
 
 [cols="1h, 4"]
@@ -1072,91 +1072,95 @@ Danach klickt auf 'Login'.
 [cols="1h, 4"]
 |===
 |ID                   |<<16>>
-|Anwendungsfall       |Inventory-Edit Inventory.
-|Vorbedingungen      a|
-|Event               a|
-|Erwartetes Ergebnis a|
+|Anwendungsfall       |Inventory-Edit Inventory. <<UC0700>>
+|Vorbedingungen      a|Ein Employee benutzt das System.
+|Event               a|Der Employee wählt "Warenübersicht" in der Navigationsleiste aus.
+|Erwartetes Ergebnis a|Der Employee kann alle verfügbaren Waren, sowie deren editierbaren Status sehen.
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<17>>
-|Anwendungsfall       |Inventory-Process a Local Order.
-|Vorbedingungen      a|
-|Event               a|
-|Erwartetes Ergebnis a|
+|Anwendungsfall       |Inventory-Process a Local Order. <<UC0800>>
+|Vorbedingungen      a|Ein Employee benutzt das System.
+|Event               a|Der Employee wählt "Lokales Einkauf" in der Navigationsleiste und gibt die entsprechenden Daten in die dafür vorgesehenen Felder ein.
+|Erwartetes Ergebnis a|Die Bestellung ist in das System aufgenommen und der Employee sieht eine Bestatigungsinformation.
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<18>>
-|Anwendungsfall       |Inventory-Add new Product Combination.
-|Vorbedingungen      a|
+|Anwendungsfall       |Inventory-Add new Product Combination. <<UC0510>>
+|Vorbedingungen      a|Ein Employee benutzt das System.
 |Event               a|
-|Erwartetes Ergebnis a|
+- Der Employee wählt "Hinzufügen" in der Warenübersicht aus.
+- Der Employee legt die Spezifikationen des Produktes fest.
+|Erwartetes Ergebnis a|Das Produkt wird in den Warenbestand aufgenommen.
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<19>>
 |Anwendungsfall       |Inventory-View Inventory Details.
-|Vorbedingungen      a|
-|Event               a|
-|Erwartetes Ergebnis a|
+|Vorbedingungen      a|Ein Employee benutzt das System.
+|Event               a|Der Employee wählt "Inventar" in der Navigationsleiste
+|Erwartetes Ergebnis a|Der Employee kann das 'inventar screen' (Figure 12) sehen.
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<20>>
-|Anwendungsfall       |Inventory-Add New Item.
-|Vorbedingungen      a|
-|Event               a|
-|Erwartetes Ergebnis a|
+|Anwendungsfall       |Transactions-View all Orders <<UC0400>>
+|Vorbedingungen      a|Der Owner benutzt das System.
+|Event               a|Der Owner wählt "Bestellungen" in der Navigationsleiste aus.
+|Erwartetes Ergebnis a|Dem Owner wird eine vollständige Übersicht der bereits getätigten Bestellungen wird angezeigt.
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<21>>
-|Anwendungsfall       |TraderOrder-Process Open Orders
-|Vorbedingungen      a|
-|Event               a|
-|Erwartetes Ergebnis a|
+|Anwendungsfall       |TraderOrder-Process Open Orders. <<UC0610>>
+|Vorbedingungen      a|Ein TraderUser benutzt das System.
+|Event               a|Der User wählt "Bestellungen" in der Navigationsleiste aus.
+|Erwartetes Ergebnis a|Der User kann sein Status und seine Bestellungen (Figure 16.) sehen und authentifizieren.
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<22>>
 |Anwendungsfall       |TraderOrder-Create Order
-|Vorbedingungen      a|
-|Event               a|
-|Erwartetes Ergebnis a|
-|===
-
-[cols="1h, 4"]
-|===
-|ID                   |<<21>>
-|Anwendungsfall       |Transactions-View Bills
-|Vorbedingungen      a|
-|Event               a|
-|Erwartetes Ergebnis a|
-|===
-
-[cols="1h, 4"]
-|===
-|ID                   |<<22>>
-|Anwendungsfall       |Transactions-View all Orders
-|Vorbedingungen      a|
-|Event               a|
-|Erwartetes Ergebnis a|
+|Vorbedingungen      a|Der Owner benutzt das System.
+|Event               a|Der Owner befindet sich in 'warenkorb screen', wählt "Neue Bestellung" und legt die Spezifikationen der Bestellung fest.
+|Erwartetes Ergebnis a|Die Bestellung wird gespeichert und in 'bestellungen screen' sehbar.
 |===
 
 [cols="1h, 4"]
 |===
 |ID                   |<<23>>
-|Anwendungsfall       |Transactions-View Balance
-|Vorbedingungen      a|
+|Anwendungsfall       |Transactions-View Bills
+|Vorbedingungen      a|Der Owner benutzt das System.
+|Event               a|Der Owner wählt "Rechnungen" in der Navigationsleiste aus.
+|Erwartetes Ergebnis a|Der Owner kann Rechnungen generieren (Figure 14.).
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<24>>
+|Anwendungsfall       |Inventory-Add New Item. <<UC0500>>
+|Vorbedingungen      a|Der Owner benutzt das System.
 |Event               a|
-|Erwartetes Ergebnis a|
+- Der Owner wählt "Hinzufügen" in der Warenübersicht aus.
+- Der Owner legt die Spezifikationen des Produktes fest.
+|Erwartetes Ergebnis a|Das Produkt ist in den Warenbestand aufgenommen.
+|===
+
+[cols="1h, 4"]
+|===
+|ID                   |<<25>>
+|Anwendungsfall       |Transactions-View Balance
+|Vorbedingungen      a|Der Owner benutzt das System.
+|Event               a|Der Owner wählt "Balance" in der Navigationsleiste aus.
+|Erwartetes Ergebnis a|Der Owner kann eine Liste mit seinen Einnahmen und Ausgaben (Figure 13.) sehen.
 |===
 
 
