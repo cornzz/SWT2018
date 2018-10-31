@@ -1,0 +1,2 @@
+- Added task 5 ("auf der Seite von Filmen anzeigen ob es sich um eine DVD oder BluRay handelt")
+- tried to add "all" page
