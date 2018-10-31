@@ -55,6 +55,10 @@
     <div class="ui comments">
         <h3 class="ui dividing header" th:text="#{detail.comment.comments}">Kommentare</h3>
 
+        <p th:text="${#lists.isEmpty(disc.comments)} ?
+            #{detail.comment.noComments} :
+            #{detail.comment.ratingAvg} + ' ' + ${disc.avgRating}"></p>
+
         <div class="comment" th:each="comment : ${disc.comments}">
             <div class="content">
                 <div class="metadata">
@@ -69,12 +73,12 @@
 
         <form class="ui reply form" role="form" th:action="@{/disc/{id}/comments(id=${disc.id})}" method="post">
             <div class="field">
-                <textarea id="comment" name="comment" cols="40" rows="5"></textarea><br/>
+                <textarea id="comment" name="comment" cols="40" rows="5" required="required"></textarea><br/>
             </div>
             <div class="field">
                 <label th:text="#{detail.comment.rating}" for="rating">Bewertung</label>
                 <input id="rating" name="rating" type="number" value="5" min="1" max="5" step="1"/>
-                Das Rating muss eine ganze Zahl zwischen 1 und 5 sein.
+                <p th:text="#{detail.comment.ratingReq}"></p>
             </div>
             <button type="submit" class="ui labeled icon button">
                 <i class="icon edit"></i><span th:text="#{detail.comment.addComment}"> Kommentieren</span>

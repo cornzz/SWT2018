@@ -84,4 +84,16 @@ public class Disc extends Product {
 	public DiscType getType() {
 		return type;
 	}
+
+	public float getAvgRating() {
+		float avgRating = 0;
+		if (!comments.isEmpty()) {
+			for (Comment c : comments) {
+				avgRating += c.getRating();
+			}
+			avgRating /= comments.size();
+		}
+		return Math.round(avgRating * 10f) / 10f;
+	}
+
 }

@@ -6,3 +6,7 @@ Aufgabe 2: Bewertungen
 
 - Crash abfangen wenn eine Bewertung von mehr als 5 Sternen eingegeben wird
 - Dementsprechend Hinweis einfügen + “Kippschalter” an der Seite Limitieren (wie beim Bestellen)
+
+Optional:
+
+- Durchschnitt der Nutzer Bewertungen anzeigen (fortgeschritten)
