@@ -73,7 +73,8 @@
             </div>
             <div class="field">
                 <label th:text="#{detail.comment.rating}" for="rating">Bewertung</label>
-                <input id="rating" name="rating" type="number" value="5" />
+                <input id="rating" name="rating" type="number" value="5" min="1" max="5" step="1"/>
+                Das Rating muss eine ganze Zahl zwischen 1 und 5 sein.
             </div>
             <button type="submit" class="ui labeled icon button">
                 <i class="icon edit"></i><span th:text="#{detail.comment.addComment}"> Kommentieren</span>
