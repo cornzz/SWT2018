@@ -1,28 +1,63 @@
 = Entwicklerdokumentation
 
 == Einführung und Ziele
-* Aufgabenstellung
-* Qualitätsziele
+
+
+Die Besitzerin eines kleinen Blumenladens braucht eine Software, die ihren Alltag und die Interaktionen mit Kunden und mit dem Großhändler erleichtert und automatisiert. Sowohl Kunden als auch der Großhändler können über eine Webapplikation Bestellungen aufgeben bzw. bestätigen, wobei auch immer der aktuelle Warenbestand angezeigt wird. Außerdem hat die Besitzerin die Möglichkeit, detailierte Rechnungen schnell und einfach direkt nach der Beratung an die Laufkundschaft auszustellen.
+
+Einzelkunden können online aus dem Katalog Waren wie beispielsweise Schnittblumen, Topfblumen, Sträusse und Zubehör bestellen. Jeder Kunde muss, um eine Bestellung aufgeben zu können, ein Kundenkonto anlegen. Großkunden wie Firmen können zusätzlich zur Bestellung einen Pflanzenservice beantragen, welcher die wöchentliche Pflege der bestellten Pflanzen sowie die Versorgung mit frischen Schnittblumen beinhalten kann. Für die zeitliche Planung bietet die Applikation daher einen Kalender in den wichtige Termine und Informationen automatisch eingetragen werden.
+
+Um immer genügend Waren auf Vorrat zu haben und damit keine Engpässe entstehen, kann die Ladeninhaberin jederzeit den Bestand des Großhändlers abfragen und neue Waren bestellen. Dabei wird die Rechnung des Großhändlers als Ausgabe in die Abrechnung aufgenommen. Für den Fall dass der Großhändler ein neues Produkt anbietet, hat die Floristin die Möglichkeit, dieses Produkt auch in ihr Angebot aufzunehmen.
+
+Sollte ein Kunde einen speziellen Wunsch wie zum Beispiel die Ausschmückung eines Events haben, kann die Besitzerin bei einem Beratungsgespräch alle Details mit der Software aufnehmen und eine angepasste Rechnung erstellen.
+
+Die wesentliche Erleichterung die die Software bietet ist, dass bei jedem Verkauf bzw. Auftrag alle Änderungen wie der Kassen- und Warenstand von der Software aktualisiert werden, die Verkäuferin muss diese nicht manuell verändern. Zudem wird eine jederzeit aktuelle Übersicht dieser Stände geboten, damit eine effektive Geschäftsführung möglich ist.
 
 == Randbedingungen
-* Hardware-Vorgaben
-* Software-Vorgaben
-* Vorgaben zum Betrieb des Software
+Die Software soll zum Vertrieb von Produkten und Dienstleistungen genutzt werden, und dabei den Verwaltungsaufwand für Inhaberin und Mitarbeiter soweit wie möglich minimieren. Das System soll für folgende Browser zugänglich und visuell optimiert sein:
+
+    - Firefox 60+
+
+    - Chrome 66+
+
+    - Safari 11.1+
+
+Die zukünftigen, primären Nutzer der Software sind Inhaberin und Mitarbeiter des Blumensladen sowie deren Kunden. Es ist anzunehmen, dass alle Nutzergruppen rudimentäre Erfahrungen mit typischen webbasierten Navigationsschemata beitzen. Der spätere Pflegeaufwand der Software soll sich nach Möglichkeit in Grenzen halten, da die Kundin weder über die dafür notwendige Zeit noch über die erforderlichen technischen Fähigkeiten verfügt.
+
+Des Weiteren soll die Sofware auf Java basieren und das *Spring Framework* als auch *Spring Boot* nutzen. Das *Salespoint Framework*, welches die Entwicklung derartiger Web Anwendungen unterstützt soll ebenfalls verwendet werden.
+Es existieren keine Hardware-Vorgaben.
 
 == Kontextabgrenzung
-* Externe Schnittstellen
+Die Software soll über keine externen Schnittstellen verfügen. Jegliche relevante Kommunikation läuft über die internen Systeme ab.
 
 == Lösungsstrategie
-Kurzer Überblick über Ihre grundlegenden Entscheidungen und Lösungsansätze, die jeder, der mit der Architektur zu tun hat, verstanden haben sollte.
+Klassische Client-Server Architektur, *Single Page Application (SPA)* (Client) kommuniziert über *REST API* mit *Spring* Backend (Server). Das Backend folgt dem *Model View Controller (MVC)* Entwurfsmuster.
 
 == Bausteinsicht
 * Package-Diagramme
 
 == Entwurfsentscheidungen
-* Architektur
-* Verwendete Muster
-* Persistenz
-* Benutzeroberfläche
+Die als *Single Page Application (SPA)* aufgezogene Client-Anwendung kommuniziert über eine *REST API* mit der eigentlichen Anwendungslogik, der Server-Anwendung. Die auf *Spring* basierende Server-Anwendung, oder auch das Backend folgt dem *Model View Controller (MVC)* Entwurfsmuster.
+
+Zur Umsetzung der Client-Anwendung soll das JavaScript Framework *Vue* zum Einsatz kommen. Es zeichnet sich durch niedrige Einstiegshürden, eine aktive Community, umfangreiche Component Libraries und eine gute Browserkompatibilität aus. Um das *Search Engine Ranking* der Anwendung zu verbessern können Teile der Anwendung serverseitig gerendert werden.
+
+Die Benutzeroberfläche folgt den *Material Design Specifications*. Dieses Vorgehen sorgt für ein einheitliche Nutzeroberfläche die reagiert wie es der Nutzer erwartet. Durch die weite Verbreitung genannter Spezifikationen sind viele Nutzer unbewusst bereits mit deren Prinzipien vertraut. Verschiedene Open Source Projekte stellen bereits einen breiten Katalog von UI Komponenten, die den Spezifikationen folgen zur verfügung.
+
+Daten der Anwendung werden in einer relationalen Datenbank serverseitig gespeichert. Als Datenbanksystem wäre *Maria DB* geeignet, eine abwärtskompatibele Weiterentwicklung von *MySQL*. Die Kommunikation mit der Datenbank wird über *Spring*'s *Object Relationship Mapper (ORM)* realisiert.
 
 [appendix]
 == Glossar
+|===
+| Spring Framework                 | https://spring.io/[Spring by Pivotal]
+| Spring Boot                      | http://spring.io/projects/spring-boot[Spring Boot Project]
+| Salespoint Framework             | https://st.inf.tu-dresden.de/SalesPoint/[Salespoint Framework Overview]
+| Single Page Application (SPA)    | https://en.wikipedia.org/wiki/Single-page_application[Single Page Application] http://itsnat.sourceforge.net/php/spim/spi_manifesto_en.php[SPI Manifesto]
+| REST API                         | https://en.wikipedia.org/wiki/Representational_state_transfer[Representational State Transfer] https://www.w3.org/TR/2004/NOTE-ws-arch-20040211/#relwwwrest[RELWWWREST]
+| Model View Controller (MVC)      | https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller[Model View Controller] http://openbook.rheinwerk-verlag.de/oo/oo_06_moduleundarchitektur_001.htm[Openbook]
+| Vue JS                           | https://vuejs.org/v2/guide/[Documentation] https://blog.codecentric.de/en/2018/04/spring-boot-vuejs/[Spring Boot and Vue JS]
+| Search Engine Ranking            | https://en.wikipedia.org/wiki/Search_engine_optimization[Search Engine Optimization]
+| Material Design Specifications   | https://material.io/design/[Material Design] https://vuematerial.io/[Vue Material]
+| Maria DB                         | https://mariadb.org/[Maria DB] https://springframework.guru/configuring-spring-boot-for-mariadb/[Spring Boot and Maria DB]
+| MySQL                            | https://dev.mysql.com/doc/[Documentation]
+| Object Relationship Mapper (ORM) | https://en.wikipedia.org/wiki/Object-relational_mapping[Object Relational Mapping]
+|===
