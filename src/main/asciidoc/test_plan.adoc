@@ -3,39 +3,167 @@
 Dieser Testplan stellt eine vereinfachte Version der IEEE 829-1998 Vorlage dar.
 
 == Einführung
-Wozu dient das Dokument? Zielgruppe?
+Dieses Dokument bietet eine Übersicht über alle zu testenden Gegenstände und Funktionalitäten. Alle Testfälle
+haben eine einzigartige Bezeichnung. Außerdem sind die benötigten Daten, sowie die Eingabe und Ausgabe für alle
+Testfälle Definiert.
+
+Dieses Dokument richtet sich hauptsächlich an die Entwickler, aber auch an den Kunden, zum Verständnis und für
+die Umsetzung.
 
 == Aufbau der Testbezeichner
-Nach welchem Schema sind die Tests benannt?
-
-*Bsp.*
+Die Tests sind nach folgendem Schema bezeichnet:
 
 *U - Unit Test, I - Integrationstest*
 
-*U-1, U-2, I-1*
+*U-001, U-002, fortlaufend*
+
+*I-01, I-02, fortlaufend*
+
 
 == Test Gegenstände
+- Loggen
+
+- Registrieren
+
+- Ausloggen
+
+- User-permissions
+
+- Produkt
+
+- Kombination von Produkten
+
+- Warenkorb
+
+- Katalog
+
+- Inventar
+
+- Abrechnung
+
+- lokale Einkäufe
+
+- Kalendern
+
+- Bestellungen bei Großhändler
+
+- Events
+
 
 == Zu testende Funktionalitäten
+*Zu testende Funktionalitäten für jede Usergruppe:*
+
+- Katalog anschauen
+
+- Produkt-Details anschauen
+
+- Publische Kalender anschauen
+
+*Als UnregisteredUser:*
+
+- Erstellversuch von Account mit besetzen Benutzername. 
+
+- Erstellversuch von Account mit invaliden Daten (keine Buchstaben als Name, zu lange Name/Passwort etc.)
+
+- Einloggen mit korrekten Daten
+
+- Einloggenversuch mit falschen Daten
+
+*Als RegisteredUser:*
+
+- Ausloggen
+
+- Seine Account Daten anschauen
+
+- leeren Warenkorb anschauen
+
+- Warenkorb mit Produkten anschauen
+
+- Produkte von Warenkorb löschen
+
+- Kaufversuch mit leeren Warenkorb
+
+- Einkauf mit korrekten Produkten
+
+- Produkt zum Warenkorb hinzufügen
+
+- Hinzufügenversuch unerreichbarer Menge von Produkten
+
+*Als TraderUser:*
+
+- Sein Status anschauen
+
+- Seine Bestellungen anschauen
+
+- Bestellungen authentifizieren
+
+- alle Funktionalitäten von RegisteredUser
+
+*Als CompanyUser:*
+
+- Ein Service mit korrekten Daten zum Katalog hinzufügen
+
+- Hinzufügenversuch von Service mit unkorrekten Daten (z.B. leere Servicename)
+
+- alle Funktionalitäten von RegisteredUser
+
+*Als Employee:*
+
+- Kundenliste anschauen
+
+- privates Kalender anschauen
+
+- Inventar anschauen
+
+- Inventar bearbeiten
+
+- Lokale Bestellung speichern
+
+- Kombination von Produkten in Katalog erstellen (min. 2 Produkten)
+
+- Erstellversuch von invaliden Kombination von Produkten
+
+- alle Funktionalitäten von RegisteredUser
+
+*Als Owner:*
+
+- neuen Produkten zum Katalog hinzufügen mit korrekten Daten
+
+- Hinzufügenversuch von Produkt mit falschen Daten (z.B. keine Name, invalides Preis etc)
+
+- Bestellung mit korrekten Daten erstellen
+
+- Erstellversuch von Bestellung mit falschen Daten
+
+- Bestellung löschen
+
+- Bestellungen anschauen
+
+- Rechnungen anschauen
+
+- Liste mit Einnahmen und Ausgaben anschauen
+
+- Events erstellen
+
+- alle Funktionalitäten von Employee
 
 == Nicht zu testende Funktionalitäten
-z.B. Bibliotheken von Drittanbietern (eigene Tests beschränken sich auf Schnittstelle, bzw. Zusammenspiel).
+
+- externe Bibliotheken wie z.B. Spring Framework / Salespoint Framework
 
 == Herangehensweise
-*Bsp.:*
 
 *Klassen werden mit JUnit getestet.*
 
 *Integrationstest nach Bottom-Up Prinzip*
 
 == Umgebungsvoraussetzungen
-* Wird spezielle Hardware benötigt?
-* Welche Daten müssen bereitgestellt werden? Wie werden die Daten bereitgestellt?
-* Wird zusätzliche Software für das Testen benötigt?
-* Wie kommuniziert die Software während des Testens? Internet? Netzwerk?
+* Benötigte Hardware: beliebiger PC
+* Benötigte Daten: Test-Bestand von Test-Produkten, Test-Accounts, jeweils einer für jede Benutzer-Rolle
+* Benötigte Software: Beliebige Entwicklungsumgebung welche das JUnit-Framework unterstützt
+* Kommunikation während des Testens: Localhost
 
 == Testfälle und Verantwortlichkeit
-Jede testbezogene Aufgabe muss einem Ansprechpartner zugeordnet werden.
 
 // See http://asciidoctor.org/docs/user-manual/#tables
 [options="headers"]
