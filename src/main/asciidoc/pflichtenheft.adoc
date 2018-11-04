@@ -909,7 +909,7 @@ __Anmerkung: Um ein besseres Gefühl für das geplante Design zu Vermitteln wurd
 === Überblick: Klassendiagramm
 
 
-image::.\images\Blumenladen.png[UML-Analyseklassendiagramm, 100%, 100%, pdfwidth=100%, title= "UML-Analyseklassendiagramm", align=center]
+image::.\images\Blumenladen.jpg[UML-Analyseklassendiagramm, 100%, 100%, pdfwidth=100%, title= "UML-Analyseklassendiagramm", align=center]
 
 === Klassen und Enumerationen
 Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt.
