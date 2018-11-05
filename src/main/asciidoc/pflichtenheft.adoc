@@ -902,7 +902,7 @@ __Anmerkung: Normalerweise würde der Großhändler eine Schnittstelle zur Kommu
 
 image::.\images\Demo.png[Demo, 100%, 100%, pdfwidth=100%, title= "Demo", align=center]
 
-__Anmerkung: Um ein besseres Gefühl für das geplante Design zu Vermitteln wurde hier testweise die Startseite des Online Shops in HTML, CSS und JavaScript umgesetzt. Dabei wurden die von Google entwickelten Material Design Standards berücksichtig.__
+__Anmerkung: Um ein besseres Gefühl für das geplante Design zu Vermitteln wurde hier testweise die Startseite des Online Shops in HTML, CSS und JavaScript umgesetzt. Dabei wurden die von Google entwickelten Material Design Standards berücksichtigt.__
 
 == Datenmodell
 
@@ -1197,9 +1197,9 @@ Danach klickt auf 'Login'.
 
 
 == Glossar
-Sämtliche Begriffe, die innerhalb des Projektes verwendet werden und deren gemeinsames Verständnis aller beteiligten Stakeholder essentiell ist, sollten hier aufgeführt werden.
-Insbesondere Begriffe der zu implementierenden Domäne wurden bereits beschrieben, jedoch gibt es meist mehr Begriffe, die einer Beschreibung bedürfen. +
-Beispiel: Was bedeutet "Kunde"? Ein Nutzer des Systems? Der Kunde des Projektes (Auftraggeber)?
+In der folgenden Tabelle werden sämtliche Begriffe, die innerhalb des Projektes verwendet werden und deren gemeinsames Verständnis aller beteiligten Stakeholder essentiell ist, aufgeführt.
+Insbesondere Begriffe der zu implementierenden Domäne wurden bereits beschrieben, jedoch gibt es Begriffe, die einer Beschreibung bedürfen. +
+Beispiel: Was bedeutet "Kunde"? Was ist ein Nutzer des Systems? Wer ist der Auftraggeber?
 
 [options="header" cols="1h, 32"]
 |===
@@ -1213,21 +1213,46 @@ a|Abrechnung
 a|Dynamisch generierte Abrechnung mit allen Ausgaben und Einnahmen des aktuellen Tages.
 
 a|Angebot
-a|Alle Produkte, die die Auftraggeberin im Blumengeschäft verkauft.
+a|Alle Produkte, die die Auftraggeberin im Blumengeschäft verkauft. (Auch: Katalog)
+
+a|Anwendungsfalldiagramm
+a|Stellt Anwendungsfälle und Akteure mit ihren jeweiligen Abhängigkeiten und Beziehungen dar.
+
+a|Authentifizierung
+a|Vorgang, bei welchem ein <<Nutzer>> sich durch Angabe von private Daten (Nutzername und Passwort) Zugang
+zu geschützten Bereichen der Webapplikation Zugang verschafft. (Auch: Anmeldung)
 
 a|Beratungsgespräch
-a|Gespräch der Auftraggeberin mit einem Laufkunden im Blumengeschäft, bei welchem die Details und Wünsche des Kunden für eine Bestäellung besprochen werden.
+a|Gespräch der Auftraggeberin mit einem Laufkunden im Blumengeschäft, bei welchem die Details und Wünsche des Kunden für eine Bestellung besprochen werden.
 
+a|Bestellung
+a|Bestellung von Waren innerhalb der Webapplikation, entweder von einem Kunden bei der Auftraggeberin, oder
+von der Auftraggeberin beim Großhänlder.
+
+a|Datenmodell
+a|Modell der zu beschreibenden und verarbeitenden Daten innerhalb der Webapplikation.
+
+a|Filtern
+a|Vorgang, bei welchem in der <<Produktübersicht>> nur noch Produkte angezeigt werden, welche gegebenen Kriterien entsprechen.
+
+a|Großhändler
+a|Unternehmen, welches Waren in großen Mengen an die Auftraggeberin unter dem Ladenpreis verkauft und liefert.
+
+a|Hyperlink
+a|Querverweis in einem Hypertext, der funktional einen Sprung zu einem anderen Bereich der Webapplikation ermöglicht.
 a|Interessengruppen
 a|Personengruppen, welche (auch in entferntester Weise) mit dem Projekt Kontakt haben (werden). (Auch: Nutzergruppen)
 
 a|Kassenstand
 a|Aktuelle Menge des in der Kasse befindlichen Geldes.
 
+a|Klassendiagramm
+a|Strukturdiagramm der Unified Modeling Language (UML) zur grafischen Darstellung (Modellierung) von Klassen, Schnittstellen sowie deren Beziehungen im System.
+
 a|Kontextdiagramm
 a|Zeigt Umgebung der Software, inklusive Nutzergruppen.
 
-a|Kunde
+a|[[Kunde]]Kunde
 a|Kunde des Auftraggebers. Es wird zwischen folgenden Arten von Kunden unterschieden:
 
 - Einzelkunde
@@ -1236,14 +1261,43 @@ a|Kunde des Auftraggebers. Es wird zwischen folgenden Arten von Kunden unterschi
 a|Laufkundschaft
 a|Kundschaft des Auftraggebers vor Ort im Blumengeschäft.
 
-a|Navigationsschema
+a|Mitarbeiter(in)
+a|Angestellte(r) des Auftraggebers.
+
+a|[[Navigationsschema]]Navigationsschema
 a|Anordnung der visuellen (Navigations)Elemente in der Webapplikation.
+
+a|Navigationsleiste
+a|Teil des <<Navigationsschema>>, welcher die Hauptbereiche der Webapplikation durch Hyperlinks erreichbar macht.
+
+a|[[Nutzer]]Nutzer
+a|Person, welche sich in irgendeiner Weise den Funktionen der Webapplikation bedient.
 
 a|Produkt (Waren)
 a|Gegenstand, welcher beim Auftraggeber käuflich erwerblich ist (z.B. Blumen, Sträusse, Dekorationsgegenstände).
 
+a|[[Produktübersicht]]Produktübersicht
+a|Bereich der Webapplikation, in dem der Katalog einsehbar ist und über den man den Bereich der Details eines Produktes
+erreicht oder ein Produkt in den Warenkorb legen kann. (Auch: Warenübersicht)
+
+a|Produktdetails
+a|Alle Informationen zu einem Produkt, die für den <<Nutzer>>, speziell für den <<Kunden>>, relevant sind. (z.B. Preis, Farbe, Aussehen eines Produktes)
+
+a|Projekt
+a|Vorliegendes Vorhaben mit dem Ziel der Erstellung einer Webapplikation für das Blumengeschäft der Auftraggeberin.
+
+a|Prototyp
+a|Ein für die jeweiligen Zwecke (meist eine spezifische Funktion) funktionsfähiges, oft aber auch vereinfachtes Versuchsmodell / Vorab-Exemplar.
+
+a|Registrierung
+a|Vorgang, bei welchem ein neuer Kunde seine Daten in der Webapplikation hinterlegen und somit ein Konto erstellen kann, um
+hinterher eine Bestellung zu tätigen.
+
 a|Top-Level-Architektur
 a|Aufbau der Software auf der höchsten Ebene, inklusive Nutzer.
+
+a|Transaktion
+a|Übergang eines Geldbetrages von einem Akteur zum andern während einem Bestellvorgang innerhalb der Webapplikation.
 
 a|Webapplikation
 a|Anwendungsprogramm, welches beim Klienten nicht installiert werden muss und direkt über einen Webbrowser erreichbar ist. (Auch: Software, System)
@@ -1251,8 +1305,8 @@ a|Anwendungsprogramm, welches beim Klienten nicht installiert werden muss und di
 a|(Waren)Bestand
 a|Bestand an Produkten im Laden des Auftraggebers.
 
-a|Ergänzung
-a|folgt
+a|Warenkorb
+a|Virtueller Einkaufskorb, in den ein Kunde Produkte legen ("zwischenspeichern") kann welche er später kaufen möchte.
 
 |==
 
