@@ -74,22 +74,14 @@ Die weiterbeschriebene zu testende Funktionalitäten sind geteilt nach Kategorie
 |5| Erstellversuch von Account mit invaliden Daten.| Es soll versucht sein einen Account mit invaliden Daten zu erstellen, z.B. keine Buchstaben als Name oder zu lange Name/Passwort etc. Als Ergebniss soll der Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
 |6| Erstellen von Account mit korrekten Daten| Es soll versucht sein einen Account mit korrekten Daten zu erstellen. Als Ergebniss soll das Account in System gespeichert sein, der Nutzer soll in richtige Mitteilung bekommen und in Hauptseite redirected werden.
 
-|7| Einloggen mit korrekten Daten | Der System soll einen Account X beinhalten. Es soll versucht sein sich einzuloggen mit Account-Daten von X. Als Ergebniss soll der Nutzer eingeloggt werden, richtige Mitteilung bekommen und in Hauptseite redirected werden.
-
-|8| Einloggenversuch mit falschen Daten| Es soll versucht sein auf verschiedene Weise sich einzuloggen mit falschen Daten. Als Ergebniss soll ein Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
 |===
 
 *Als RegisteredUser:*
 [options="headers", cols="2h, 1, 3"]]
 |===
 | ID|Zu testende Funktionalität| Testbeschreibung
-|9|Ausloggen|Der Nutzer soll die Möglichkeit haben sich auszuloggen. Er soll dabei richtige Mitteilung bekommen und in Hauptseite redirected werden.
 
 |10| Seine Account Daten anschauen| Der Nutzer soll die Möglichkeit haben seine Account Daten anzuschauen.
-
-|11| Warenkorb mit Produkten anschauen| Der Nutzer soll mindestens 1 Produkt in seinen Warenkorb haben. Es soll geklickt sein auf den Warenkorb in der Navigationsleiste. Als Ergebniss soll der Warenkorb (Figure 10.) zu sehen sein.
-
-|12| leeren Warenkorb anschauen| Der Nutzer soll keinen Produkt in seinen Warenkorb haben. Es soll geklickt sein auf den Warenkorb in der Navigationsleiste. Als Ergebniss soll der Warenkorb (Figure 10.) mit richtigen Mitteilung ('Warenkorb ist leer') zu sehen sein.
 
 |13| Produkte von Warenkorb löschen| Der Nutzer soll mindestens 1 Produkt in seinen Warenkorb haben. Es soll versucht sein einen Produkt (oder Produktkombination) aus dem Warenkorb zu löschen. Als Ergebniss soll System das speichern und der Nutzer soll aktualisiertes Warenkorb zu sehen haben.
 
@@ -193,7 +185,23 @@ Die weiterbeschriebene zu testende Funktionalitäten sind geteilt nach Kategorie
 
 == Nicht zu testende Funktionalitäten
 
-- externe Bibliotheken wie z.B. Spring Framework / Salespoint Framework
+Folgende Funktionalitäten sind in einem der verwendeten Frameworks beinhaltet und müssen daher nicht getestet werden.
+
+[options="headers", cols="2h, 1, 3"]]
+|===
+
+|7| Einloggen mit korrekten Daten | Der System soll einen Account X beinhalten. Es soll versucht sein sich einzuloggen mit Account-Daten von X. Als Ergebniss soll der Nutzer eingeloggt werden, richtige Mitteilung bekommen und in Hauptseite redirected werden.
+
+|8| Einloggenversuch mit falschen Daten| Es soll versucht sein auf verschiedene Weise sich einzuloggen mit falschen Daten. Als Ergebniss soll ein Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
+
+|9|Ausloggen|Der Nutzer soll die Möglichkeit haben sich auszuloggen. Er soll dabei richtige Mitteilung bekommen und in Hauptseite redirected werden.
+
+|11| Warenkorb mit Produkten anschauen| Der Nutzer soll mindestens 1 Produkt in seinen Warenkorb haben. Es soll geklickt sein auf den Warenkorb in der Navigationsleiste. Als Ergebniss soll der Warenkorb (Figure 10.) zu sehen sein.
+
+|12| leeren Warenkorb anschauen| Der Nutzer soll keinen Produkt in seinen Warenkorb haben. Es soll geklickt sein auf den Warenkorb in der Navigationsleiste. Als Ergebniss soll der Warenkorb (Figure 10.) mit richtigen Mitteilung ('Warenkorb ist leer') zu sehen sein.
+
+
+|===
 
 == Herangehensweise
 
@@ -213,5 +221,120 @@ Die weiterbeschriebene zu testende Funktionalitäten sind geteilt nach Kategorie
 [options="headers"]
 |===
 |ID |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe
-|…  |…              |…              |…       |…
+
+|01
+|Katalog anschauen
+|Es existieren Produkt(e) im Katalog
+|Die Funktion "Katalog anzeigen" wird aufgerufen
+|Es wird auf die Seite "Katalog" weitergeleitet und alle im Produkt befindlichen Produkte werden angezeigt
+
+|02
+|Produkt-Details anschauen
+|Es existiert ein Produkt im Katalog
+|Die Funktion "Details anzeigen" wird mit der Produkt-ID als Argument aufgerufen
+|Es wird auf die Seite "Produktdetails" des entsprechenden Produkts weitergeleitet und die Details des Produkts werden dem Model angefügt
+
+|03
+|Öffentlichen Kalender anschauen
+|-
+|Die Funktion "Kalender anzeigen" wird aufgerufen
+|Es wird auf die Seite "Kalender" weitergeleitet und es werden, entsprechend der Benutzerrechte des aktuellen Nutzers, Events dem Model beigefügt
+
+|04
+|Benutzeronto mit einem Namen der schon in Benutzung ist erstellen
+|Es existiert schon mindestens ein Benutzerkonto
+|Es wird die Funktion "Benutzeronto erstellen" mit dem Namen eines schon existierenden Benutzeronto aufgerufen
+|Es wird kein neues Benutzeronto erstellt, stattdessen wird auf die Registrationsseite weitergeleitet und eine Fehlermeldung dem Model beigefügt
+
+|05
+|Benutzeronto mit ungültigen Daten erstellen
+|-
+|Es wird die Funktion "Benutzeronto erstellen" mit verschiedenen ungültigen Daten aufgerufen (z.B. Zahlen im Namen)
+|Es wird kein neues Benutzeronto erstellt, stattdessen wird auf die Registrationsseite weitergeleitet und ein Fehler dem Model beigefügt
+
+|06
+|Benutzeronto erstellen
+|-
+|Es wird die Funktion "Benutzeronto erstellen" mit gültigen Daten aufgerufen
+|Es wird ein neues Benutzeronto im System angelegt und es wird auf die Startseite der Webapplikation weitergeleitet.
+
+|10
+|Kontodaten einsehen
+|Es existiert ein Benutzerkonto
+|Es wird die Funktion "Kontodaten einsehen" mit der Benutzerkonto-ID eines existierenden Accounts als Argument aufgerufen (in der Praxis wird mit @LoggedIn die ID des momentan eingeloggten Benutzers ermittelt)
+|Es wird auf die Seite "Mein Konto" weitergeleitet und die erfragten Benutzerdaten werden dem Model beigefügt
+
+|13
+|Produkte aus dem Warenkorb löschen
+|Es befindet sich mindestens ein Produkt im Warenkorb
+|Es wird die Funktion "Produkt löschen" mit der Produkt-ID des zu löschenden Produkts aufgerufen (-> cart.removeItem() wird aufgerufen)
+|Es wird auf die Seite "Warenkorb" weitergeleitet (neu geladen) und das gelöschte Produkt befindet sich nicht mehr im Warenkorb
+
+|14
+|Bestellung mit leerem Warenkorb beginnen
+|Es befindet sich kein Produkt im Warenkorb
+|Es wird die Funktion "Bezahlen" mit einem Warenkorb-Objekt ohne Produkte aufgerufen
+|Es wird auf die Seite "Warenkorb" weitergeleitet und eine Fehlermeldung dem Model beigefügt
+
+|15
+|Bestellung beginnen
+|Es befindet sich mindestens ein Produkt im Warenkorb
+|Es wird die Funktion "Bezahlen" mit einem Warenkorb-Objekt mit mindestens einem Produkt aufgerufen
+|Es wird auf die Seite "Bezahlen" weitergeleitet
+
+|16
+|Bestellung abbrechen
+|-
+|Es wird die Funktion "Warenkorb" aufgerufen
+|Es wird auf die Seite "Warenkorb" weitergeleitet
+
+|17
+|Einkauf bestätigen
+|Es befindet sich mindestens ein Produkt im Warenkorb, der Benutzer hat ein korrektes Zahlungsmittel angegeben
+|Es wird die Funktion "Bestellen" mit einem Warenkorb-Objekt mit mindestens einem Produkt und einem Zahlungsmittel aufgerufen
+|Es wird auf die Startseite / Bestellbestätigungsseite weitergeleitet, die Bestellung wird im System registriert und es wird eine Rechnung per E-Mail an den Benutzer geschickt
+
+|18
+|Produkt in den Warenkorb legen
+|Das gewünschte Produkt muss in ausreichender Anzahl verfügbar sein (Warenbestand), es muss ein ModelAttribute "Warenkorb" existieren
+|Es wird die Funktion "Produkt hinzufügen" mit der Produkt-ID, der gewünschten Anzahl und dem ModelAttribute "Warenkorb" aufgerufen
+|Es wird auf die Seite "Warenkorb" weitergeleitet, das gewünschte Produkt wird dem Warenkorb hinzugefügt
+
+|19
+|Produkt in nichtverfügbarer Menge in den Warenkorb legen
+|Es muss ein ModelAttribute "Warenkorb" existieren
+|Es wird die Funktion "Produkt hinzufügen" mit der Produkt-ID, einer Anzahl die den Bestand des Produktes überschreitet und dem ModelAttribute "Warenkorb" aufgerufen
+|Es wird auf die Produktdetail-Seite des Produktes weitergeleitet (neu geladen) und eine Fehlermeldung dem Model beigefügt
+
+|20
+|Einen Service in den Warenkorb legen
+|Der Benutzer muss die Rolle "Firmenkunde" haben
+|Es wird die Funktion "Produkt hinzufügen" mit der der Produkt-ID, der gewünschten Anzahl und dem ModelAttribute "Warenkorb" aufgerufen
+|Es wird auf die Seite "Warenkorb" weitergeleitet, der gewünschte Service wird dem Warenkorb hinzugefügt
+
+|21
+|Rechnungen einsehen
+|Der Benutzer muss zuvor eine Bestellung getätigt haben
+|Die Funktion "Rechnungen einsehen" wird mit der Benutzerkonto-ID eines existierenden Accounts als Argument aufgerufen (in der Praxis wird mit @LoggedIn die ID des momentan eingeloggten Benutzers ermittelt)
+|Es wird auf die Seite "Rechnungen" weitergeleitet, die Rechnungen des Benutzers werden dem Model beigefügt
+
+|28
+|Kundenliste einsehen
+|Es existiert mindestens ein Benutzerkonto mit der Rolle "Kunde", der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Es wird die Funktion "Kundenliste" aufgerufen
+|Es wird auf die Seite "Kundenliste" weitergeleitet und eine Liste aller Kunden dem Model beigefügt
+
+|29
+|Privaten Kalender anschauen
+|Der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Die Funktion "Kalender" wird aufgerufen
+|Es wird auf die Seite "Kalender" weitergeleitet und, falls welche existieren, Events dem Model beigefügt
+
+|30
+|Nachbestellung beim Großhänder tätigen
+|Der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Die Funktion "Nachbestellung" wird mit einer Produkte-Map als Argument aufgerufen
+|Es wird auf die Startseite weitergeleitet, eine Bestellbestätigung wird dem Model beigefügt und die Nachbestellung wird im System gespeichert
+
+
 |===
