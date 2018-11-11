@@ -29,6 +29,8 @@ Die Tests sind nach folgendem Schema bezeichnet:
 
 - User-permissions
 
+- Kundenart (Privat oder Firmakunde)
+
 - Produkt
 
 - Kombination von Produkten
@@ -45,107 +47,152 @@ Die Tests sind nach folgendem Schema bezeichnet:
 
 - Kalendern
 
+- Services
+
 - Bestellungen bei Großhändler
 
 - Events
 
 
 == Zu testende Funktionalitäten
+Die weiterbeschriebene zu testende Funktionalitäten sind geteilt nach Kategorien je nach Usergruppe.  
+
 *Zu testende Funktionalitäten für jede Usergruppe:*
-
-- Katalog anschauen
-
-- Produkt-Details anschauen
-
-- Publische Kalender anschauen
+[options="headers", cols="2h, 1, 3"]]
+|===
+| ID|Zu testende Funktionalität| Testbeschreibung
+|1| Katalog anschauen | Es soll geklickt sein in das 'Katalog'-Button in der Navigationsleiste. Als Ergebniss soll das Katalog zu sehen sein.
+|2| Produkt-Details anschauen | Es soll geklickt sein in einen Produkt in Katalog. Als Ergebniss sollen die Produktdetails zu sehen sein (kurze Information zur Art des Produkts, verfügbare Menge, Preis).
+|3| Publische Kalender anschauen | Es soll die Möglichkeit sein den publischen Kalender anzusehen (Figure 15. von Pflichtenheft).
+|===
 
 *Als UnregisteredUser:*
+[options="headers", cols="2h, 1, 3"]]
+|===
+| ID|Zu testende Funktionalität| Testbeschreibung
+| 4|Erstellversuch von Account mit besetzen Benutzername. | Der System soll einen Account mit der Benutzername X beinhalten. Dann soll versucht sein ein neues Account mit demselben Namen (X) zu erstellen (Figure 9.). Als Ergebniss soll der Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
+|5| Erstellversuch von Account mit invaliden Daten.| Es soll versucht sein einen Account mit invaliden Daten zu erstellen, z.B. keine Buchstaben als Name oder zu lange Name/Passwort etc. Als Ergebniss soll der Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
+|6| Erstellen von Account mit korrekten Daten| Es soll versucht sein einen Account mit korrekten Daten zu erstellen. Als Ergebniss soll das Account in System gespeichert sein, der Nutzer soll in richtige Mitteilung bekommen und in Hauptseite redirected werden.
 
-- Erstellversuch von Account mit besetzen Benutzername. 
+|7| Einloggen mit korrekten Daten | Der System soll einen Account X beinhalten. Es soll versucht sein sich einzuloggen mit Account-Daten von X. Als Ergebniss soll der Nutzer eingeloggt werden, richtige Mitteilung bekommen und in Hauptseite redirected werden.
 
-- Erstellversuch von Account mit invaliden Daten (keine Buchstaben als Name, zu lange Name/Passwort etc.)
-
-- Einloggen mit korrekten Daten
-
-- Einloggenversuch mit falschen Daten
+|8| Einloggenversuch mit falschen Daten| Es soll versucht sein auf verschiedene Weise sich einzuloggen mit falschen Daten. Als Ergebniss soll ein Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
+|===
 
 *Als RegisteredUser:*
+[options="headers", cols="2h, 1, 3"]]
+|===
+| ID|Zu testende Funktionalität| Testbeschreibung
+|9|Ausloggen|Der Nutzer soll die Möglichkeit haben sich auszuloggen. Er soll dabei richtige Mitteilung bekommen und in Hauptseite redirected werden.
 
-- Ausloggen
+|10| Seine Account Daten anschauen| Der Nutzer soll die Möglichkeit haben seine Account Daten anzuschauen.
 
-- Seine Account Daten anschauen
+|11| Warenkorb mit Produkten anschauen| Der Nutzer soll mindestens 1 Produkt in seinen Warenkorb haben. Es soll geklickt sein auf den Warenkorb in der Navigationsleiste. Als Ergebniss soll der Warenkorb (Figure 10.) zu sehen sein.
 
-- leeren Warenkorb anschauen
+|12| leeren Warenkorb anschauen| Der Nutzer soll keinen Produkt in seinen Warenkorb haben. Es soll geklickt sein auf den Warenkorb in der Navigationsleiste. Als Ergebniss soll der Warenkorb (Figure 10.) mit richtigen Mitteilung ('Warenkorb ist leer') zu sehen sein.
 
-- Warenkorb mit Produkten anschauen
+|13| Produkte von Warenkorb löschen| Der Nutzer soll mindestens 1 Produkt in seinen Warenkorb haben. Es soll versucht sein einen Produkt (oder Produktkombination) aus dem Warenkorb zu löschen. Als Ergebniss soll System das speichern und der Nutzer soll aktualisiertes Warenkorb zu sehen haben.
 
-- Produkte von Warenkorb löschen
+|14| Einkaufversuch mit leeren Warenkorb| Der Nutzer soll keinen Produkt in seinen Warenkorb haben. Es soll versuch sein 'Bezahlen'-Knopf in Warenkorb zu klicken. Als Ergebniss soll ein Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
 
-- Kaufversuch mit leeren Warenkorb
+|15| Einkaufbeginn mit korrekten Produkten| Der Nutzer soll mindestens 1 Produkt in seinen Warenkorb haben. Es soll versuch sein 'Bezahlen'-Knopf in Warenkorb (Figure 10.) zu klicken. Als Ergebniss soll richtige Figure 11. zu sehen.
 
-- Einkauf mit korrekten Produkten
+|16| Einkauf abbrechen| Der Nutzer befindet sich in Figure 11, also in 'bezahlen screen' mit nicht leeren Warenkorb. Es soll geklickt sein 'Abbrechen'-Knopf. Als Ergebniss soll der Nutzer zum Figure 10. redirected werden.
 
-- Produkt zum Warenkorb hinzufügen
+|17| Einkauf bestätigen| Der Nutzer befindet sich in Figure 11, also in 'bezahlen screen' mit nicht leeren Warenkorb. Es soll geklickt sein 'Kaufen'-Knopf. Als Ergebniss soll der Nutzer zum Zahlungsanbieter seiner Wahl weitergeleitet und eine Rechnung generiert werden. Besagte Rechnung soll zusätzlich an die mit dem Nutzer verknüpfte Email Adresse geschickt werden.
 
-- Hinzufügenversuch unerreichbarer Menge von Produkten
+|18| Produkt in erreichbarer (korrekter) Menge zum Warenkorb hinzufügen| Der Nutzer soll die Möglichkeit haben einen Produkt (oder Produktkombination) in Katalog zum Warenkorb in erreichbarer Menge hizufügen.
+
+|19| Hinzufügenversuch unerreichbarer Menge von Produkten| Es soll versuch sein eine unerreichbare Anzahl eines Produktes in dem Warenkorb hinzufügen. Als Ergebniss soll ein Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
+
+|20| Services buchen| Der Nutzer soll einen Firmakunden sein. Der Nutzer soll die Möglichkeit haben einen Service zu buchen (analog wie Einkauf eines Produktes). Es soll analog zu *18* getestet werden.
+
+|21| Rechnungen einsehen| Der Nutzer soll die Möglichkeit haben eine Liste mit seinen Rechnungen zu einsehen. Folgende Daten sollen in der Liste angezeigt werden: Rechnungsdatum, Käufername, Gesamtpreis, Hyperlink zur Rechnung.
+|===
 
 *Als TraderUser:*
+[options="headers", cols="2h, 1, 3"]]
+|===
+| ID|Zu testende Funktionalität| Testbeschreibung
 
-- Sein Status anschauen
+| 22|Seine Bestellungen anschauen | Es soll auf 'Bestellungen'-Knopf auf der Navigationsleiste geklickt. Als Ergebniss soll der Nutzer die Möglichkeit haben seinen Status und Bestellungen anzuschauen (Figure 16.).
 
-- Seine Bestellungen anschauen
+|23| Bestellungen authentifizieren| Der Nutzer soll die Möglichkeit haben die Bestellungen zu authentifizieren.
 
-- Bestellungen authentifizieren
-
-- alle Funktionalitäten von RegisteredUser
-
+| 24|alle Funktionalitäten von RegisteredUser| 
+|===
 *Als CompanyUser:*
+[options="headers", cols="2h, 1, 3"]]
+|===
+| ID|Zu testende Funktionalität| Testbeschreibung
+| 25|Ein Service mit korrekten Daten zum Katalog hinzufügen|  Es soll versucht sein einen Service mit korrekten Daten hinzufügen. Als Ergebniss soll der Service in System gespeichert werden, der Nutzer soll in richtige Mitteilung bekommen und in richtige Seite redirected werden.
 
-- Ein Service mit korrekten Daten zum Katalog hinzufügen
+|26| Hinzufügenversuch von Service mit unkorrekten Daten|Es soll versucht sein einen Service mit unkorrekten Daten (z.B. leere Servicename oder keine Buchstaben) hinzufügen. Als Ergebniss soll der Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
 
-- Hinzufügenversuch von Service mit unkorrekten Daten (z.B. leere Servicename)
-
-- alle Funktionalitäten von RegisteredUser
-
+|27| alle Funktionalitäten von RegisteredUser|
+|===
 *Als Employee:*
+[options="headers", cols="2h, 1, 3"]]
+|===
+| ID|Zu testende Funktionalität| Testbeschreibung
+| 28|Kundenliste anschauen| Es soll auf dem 'Kunden'-Knopf auf der Navigationsleiste geklickt sein. Als Ergebniss soll es eine Kundenliste mit Kundenarten (Firma oder Privat) zu sehen sein.
 
-- Kundenliste anschauen
+|29| privates Kalender anschauen| Es soll die Möglichkeit sein den privaten Kalender anzusehen (Figure 15. von Pflichtenheft).
 
-- privates Kalender anschauen
+|30| Bestellung beim Großhändler nach Termin erstellen| Es soll die Möglichkeit sein einen Termin für automatische Bestellung beim Großhändler zu erstellen.
 
-- Inventar anschauen
+|31| Inventar anschauen|Es soll 'Warenübersicht-Knopf von Navigationsleiste geklickt sein. Als Ergebniss soll eine Übersicht über alle verfügbaren Waren (Figure 12.) zu sehen sein.
 
-- Inventar bearbeiten
+|32| Inventar bearbeiten|Es soll in Figure 12. auf verschiedene Weise Produktenstatus bearbeitet sein. Bei unkorrekter Bearbeitung (z.B. -1 gegeben als Menge) als Ergebniss soll ein Fehler erkannt werden und entsprechend Fehlermeldung gezeigt. Bei korrekter Bearbeitung als Ergebniss soll der System die Aenderung speichern und dem Nutzer soll die aktualisierte Version der Inventar gezeigt werden.
 
-- Lokale Bestellung speichern
+|33| Lokale Bestellung speichern| Es soll die Möglichkeit sein einen lokalen Einkauf in System aufnehmen. Bei unkorrekter Bestellung (z.B. mehr Produkte bestellt als verfügbar ist) als Ergebniss soll ein Fehler erkannt werden und entsprechend Fehlermeldung gezeigt.  Bei korrekter Bestellungsdaten als Ergebniss soll die Bestellung in das System aufgenommen werden.
 
-- Kombination von Produkten in Katalog erstellen (min. 2 Produkten)
+|34| Kombination von Produkten in Katalog erstellen| Es soll die Möglichkeit sein eine Kombination von Produkten in Katalog zu erstellen (min. 2 Produkten).
 
-- Erstellversuch von invaliden Kombination von Produkten
+|35| Erstellversuch von invaliden Kombination von Produkten| Es soll versucht sein eine Kombination mit unkorrekten Daten zu erstellen (z.B. leere Name oder 1 Produkt). Als Ergebniss soll der Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
 
-- alle Funktionalitäten von RegisteredUser
+|36| Events erstellen |Es soll die Möglichkeit sein einen Event zu erstellen mit korrekten Daten. Der Event soll in publischen Kalender zu sehen sein.
 
+|37|Erstellversuch von invaliden Event|Es soll versucht sein einen invaliden Event zu erstellen (z.B. leere Name). Als Ergebniss soll der Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
+
+|38| alle Funktionalitäten von RegisteredUser|
+|===
 *Als Owner:*
+[options="headers", cols="2h, 1, 3"]]
+|===
+| ID|Zu testende Funktionalität| Testbeschreibung
+|39| neuen Produkten zum Katalog hinzufügen mit korrekten Daten | Es soll ein neues Produkt erstellt sein und zum Warenbestand hinzugefügt. Dabei müssen folgende Daten korrekt sein: Produktname, Preis pro Stück, Produktfarbe, Produktbild. Als Ergebniss soll das in System gespeichert sein 
 
-- neuen Produkten zum Katalog hinzufügen mit korrekten Daten
+|40| Hinzufügenversuch von Produkt mit falschen Daten (z.B. keine Name, invalides Preis etc)| Es soll sersucht sein einen invaliden Produkt zu erstellen (z.B. leere Name). Als Ergebniss soll der Fehler erkannt werden und dem Benutzer eine Fehlermeldung erschienen werden.
 
-- Hinzufügenversuch von Produkt mit falschen Daten (z.B. keine Name, invalides Preis etc)
+|41| Bestellung mit korrekten Daten erstellen|Es soll 'Neue Bestellung'-Knopf von Warenübersicht geklickt sein. Dann sollen korrekte Spezifikationen der Bestellung festgelegt werden. Als Ergebniss soll die Bestellung wird den ausgehenden Bestellungen hinzugefügt sein.
 
-- Bestellung mit korrekten Daten erstellen
+|42| Erstellversuch von Bestellung mit falschen Daten|Es soll 'Neue Bestellung'-Knopf von Warenübersicht geklickt sein. Dann sollen unkorrekte Spezifikationen der Bestellung festgelegt werden (z.B. leere Bestellung).  Als Ergebniss soll die Bestellung anulliert werden und dem Benutzer eine Fehlermeldung erschienen werden.
 
-- Erstellversuch von Bestellung mit falschen Daten
+|43| Bestellung archivieren| Der Nutzer soll die Möglichkeit haben eine Bestellung zu archivieren.
 
-- Bestellung löschen
+|44| Bestellungen anschauen| Der Nutzer soll die Möglichkeit haben alle bereits getätigten Bestellungen anzuschauen.
 
-- Bestellungen anschauen
+|45| Bestellung als bezahlt markieren|Der Nutzer soll die Möglichkeit haben eine Bestellung als bezahlt zu markieren.
 
-- Rechnungen anschauen
+|46| Rechnungen anschauen| Es soll 'Rechnungen'-Knopf aus der Navigationsleiste geklickt sein. Als Ergebniss soll der Nutzer die Möglichkeit haben die Rechnungen von allen Bestellungen zu generieren.
 
-- Liste mit Einnahmen und Ausgaben anschauen
+|47| Liste mit Einnahmen und Ausgaben anschauen| Es soll 'Saldo'-Knopf aus der Navigationsleiste geklickt sein. Als Ergebniss soll der Nutzer die Liste mit Einnahmen und Ausgaben sehen können (Figure 13.). 
 
-- Events erstellen
+| alle Funktionalitäten von Employee|
+|===
+*System:*
+*Als Owner:*
+[options="headers", cols="2h, 1, 3"]]
+|===
+| automatische Bestellung beim Großhändler nach Termin | Das System soll eine Bestellung beim Großhändler automatisch zu einem beim Employee bestimmten Termin machen können.
 
-- alle Funktionalitäten von Employee
+| Bestellung in E-Mail generieren.|Das System soll eine Bestellung beim Großhändler in Form einer E-Mail machen können.
+
+
+| Rechnung erstellen | das System soll die Möglichkeit haben, eine Rechnung mit folgenden Informationen zu erstellen: Rechnungsdatum, Käuferdaten, Erworbene Produkte / Services, Preis der einzelnen Produkte / Services, Anderweitige Kosten, Gesamtpreis, Verkäufername, Alle Rechnungen sollen persistent gespeichert werden.
+|===
+
 
 == Nicht zu testende Funktionalitäten
 
