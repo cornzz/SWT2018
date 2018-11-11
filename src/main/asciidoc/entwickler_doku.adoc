@@ -28,13 +28,16 @@ Des Weiteren soll die Sofware auf Java basieren und das *Spring Framework* als a
 Es existieren keine Hardware-Vorgaben.
 
 == Kontextabgrenzung
-Die Software soll über keine externen Schnittstellen verfügen. Jegliche relevante Kommunikation läuft über die internen Systeme ab.
+Die verschiedenen Akteure, die mit der Software interagieren, werden in diesem Kontextdiagramm dargestellt:
+
+image::.\images\KontextDiagramm.png[Kontextdiagramm, 100%, 100%, pdfwidth=100%, title= "Kontextdiagramm", align=center]
 
 == Lösungsstrategie
 Klassische Client-Server Architektur, *Single Page Application (SPA)* (Client) kommuniziert über *REST API* mit *Spring* Backend (Server). Das Backend folgt dem *Model View Controller (MVC)* Entwurfsmuster.
 
 == Bausteinsicht
-* Package-Diagramme
+
+image::.\images\Package.png[Packagediagramm, 100%, 100%, pdfwidth=100%, title= "Packagedigramm", align=center]
 
 == Entwurfsentscheidungen
 Die verschieden Ansichten der Anwendung werden serverseitig gerendert. Zum Einsatz kommt dabei *Spring*'s Template Engine *Thymeleaf*. Dieses Vorgehen sorgt für geringe Anforderungen an den Client (*Thin Client*) und führt zum bestmöglichen *Search Engine Ranking*.
