@@ -37,9 +37,7 @@ Klassische Client-Server Architektur, *Single Page Application (SPA)* (Client) k
 * Package-Diagramme
 
 == Entwurfsentscheidungen
-Die als *Single Page Application (SPA)* aufgezogene Client-Anwendung kommuniziert über eine *REST API* mit der eigentlichen Anwendungslogik, der Server-Anwendung. Die auf *Spring* basierende Server-Anwendung, oder auch das Backend folgt dem *Model View Controller (MVC)* Entwurfsmuster.
-
-Zur Umsetzung der Client-Anwendung soll das JavaScript Framework *Vue* zum Einsatz kommen. Es zeichnet sich durch niedrige Einstiegshürden, eine aktive Community, umfangreiche Component Libraries und eine gute Browserkompatibilität aus. Um das *Search Engine Ranking* der Anwendung zu verbessern können Teile der Anwendung serverseitig gerendert werden.
+Die verschieden Ansichten der Anwendung werden serverseitig gerendert. Zum Einsatz kommt dabei *Spring*'s Template Engine *Thymeleaf*. Dieses Vorgehen sorgt für geringe Anforderungen an den Client (*Thin Client*) und führt zum bestmöglichen *Search Engine Ranking*.
 
 Die Benutzeroberfläche folgt den *Material Design Specifications*. Dieses Vorgehen sorgt für ein einheitliche Nutzeroberfläche die reagiert wie es der Nutzer erwartet. Durch die weite Verbreitung genannter Spezifikationen sind viele Nutzer unbewusst bereits mit deren Prinzipien vertraut. Verschiedene Open Source Projekte stellen bereits einen breiten Katalog von UI Komponenten, die den Spezifikationen folgen zur verfügung.
 
@@ -54,10 +52,10 @@ Daten der Anwendung werden in einer relationalen Datenbank serverseitig gespeich
 | Single Page Application (SPA)    | https://en.wikipedia.org/wiki/Single-page_application[Single Page Application] http://itsnat.sourceforge.net/php/spim/spi_manifesto_en.php[SPI Manifesto]
 | REST API                         | https://en.wikipedia.org/wiki/Representational_state_transfer[Representational State Transfer] https://www.w3.org/TR/2004/NOTE-ws-arch-20040211/#relwwwrest[RELWWWREST]
 | Model View Controller (MVC)      | https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller[Model View Controller] http://openbook.rheinwerk-verlag.de/oo/oo_06_moduleundarchitektur_001.htm[Openbook]
-| Vue JS                           | https://vuejs.org/v2/guide/[Documentation] https://blog.codecentric.de/en/2018/04/spring-boot-vuejs/[Spring Boot and Vue JS]
 | Search Engine Ranking            | https://en.wikipedia.org/wiki/Search_engine_optimization[Search Engine Optimization]
-| Material Design Specifications   | https://material.io/design/[Material Design] https://vuematerial.io/[Vue Material]
+| Material Design Specifications   | https://material.io/design/[Material Design]
 | Maria DB                         | https://mariadb.org/[Maria DB] https://springframework.guru/configuring-spring-boot-for-mariadb/[Spring Boot and Maria DB]
 | MySQL                            | https://dev.mysql.com/doc/[Documentation]
 | Object Relationship Mapper (ORM) | https://en.wikipedia.org/wiki/Object-relational_mapping[Object Relational Mapping]
+| Thymeleaf                        | https://www.thymeleaf.org/[Thymeleaf]
 |===
