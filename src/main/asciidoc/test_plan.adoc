@@ -179,18 +179,15 @@ Die weiterbeschriebene zu testende Funktionalitäten sind geteilt nach Kategorie
 
 |47| Liste mit Einnahmen und Ausgaben anschauen| Es soll 'Saldo'-Knopf aus der Navigationsleiste geklickt sein. Als Ergebniss soll der Nutzer die Liste mit Einnahmen und Ausgaben sehen können (Figure 13.). 
 
-| alle Funktionalitäten von Employee|
+|48| alle Funktionalitäten von Employee|
 |===
 *System:*
-*Als Owner:*
 [options="headers", cols="2h, 1, 3"]]
 |===
-| automatische Bestellung beim Großhändler nach Termin | Das System soll eine Bestellung beim Großhändler automatisch zu einem beim Employee bestimmten Termin machen können.
+| ID|Zu testende Funktionalität| Testbeschreibung
+|49| automatische Bestellung beim Großhändler nach Termin | Das System soll eine Bestellung beim Großhändler automatisch zu einem beim Employee bestimmten Termin machen können.
 
-| Bestellung in E-Mail generieren.|Das System soll eine Bestellung beim Großhändler in Form einer E-Mail machen können.
-
-
-| Rechnung erstellen | das System soll die Möglichkeit haben, eine Rechnung mit folgenden Informationen zu erstellen: Rechnungsdatum, Käuferdaten, Erworbene Produkte / Services, Preis der einzelnen Produkte / Services, Anderweitige Kosten, Gesamtpreis, Verkäufername, Alle Rechnungen sollen persistent gespeichert werden.
+|50| Rechnung erstellen | das System soll die Möglichkeit haben, eine Rechnung mit folgenden Informationen zu erstellen: Rechnungsdatum, Käuferdaten, Erworbene Produkte / Services, Preis der einzelnen Produkte / Services, Anderweitige Kosten, Gesamtpreis, Verkäufername, Alle Rechnungen sollen persistent gespeichert werden.
 |===
 
 
