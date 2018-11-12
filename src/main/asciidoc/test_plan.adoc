@@ -314,9 +314,9 @@ Folgende Funktionalitäten sind in einem der verwendeten Frameworks beinhaltet u
 
 |21
 |Rechnungen einsehen
-|Der Benutzer muss zuvor eine Bestellung getätigt haben
+|Der Benutzer muss zuvor eine Bestellung getätigt haben oder die Rolle "Inhaber" oder "Mitarbeiter" haben
 |Die Funktion "Rechnungen einsehen" wird mit der Benutzerkonto-ID eines existierenden Accounts als Argument aufgerufen (in der Praxis wird mit @LoggedIn die ID des momentan eingeloggten Benutzers ermittelt)
-|Es wird auf die Seite "Rechnungen" weitergeleitet, die Rechnungen des Benutzers werden dem Model beigefügt
+|Es wird auf die Seite "Rechnungen" weitergeleitet, die Rechnungen des Benutzers (oder die Rechnungen aller Nutzer) werden dem Model beigefügt
 
 |28
 |Kundenliste einsehen
@@ -336,5 +336,82 @@ Folgende Funktionalitäten sind in einem der verwendeten Frameworks beinhaltet u
 |Die Funktion "Nachbestellung" wird mit einer Produkte-Map als Argument aufgerufen
 |Es wird auf die Startseite weitergeleitet, eine Bestellbestätigung wird dem Model beigefügt und die Nachbestellung wird im System gespeichert
 
+|31
+|Warenbestand einsehen
+|Der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Die Funktion "Warenbestand" wird aufgerufen
+|Es wird auf die Seite "Warenbestand" weitergeleitet und der Warenbestand wird dem Model beigefügt
+
+|32
+|Menge eines Produktes bearbeiten
+|Der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Die Funktion "Warenbestand bearbeiten" wird mit der Produkt-ID des zu bearbeitenden Produkts, der Anzahl und der gewünschten Aktion aufgerufen
+|Es wird auf die Seite "Warenbestand" weitergeleitet und die Menge des gewünschten Produktes wurde bearbeitet
+
+|34
+|Produktkombination erstellen
+|Es existieren mindestens 2 Produkte im Katalog, der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Es wird die Funktion "Kombination erstellen" mit einer Liste von Produkt-IDs aufgerufen
+|Es wird auf die Seite "Warenbestand" weitergeleitet, es wird ein neues Produkt aus den gewünschten Produkten dem Warenbestand hinzugefügt
+
+|36
+|Event erstellen
+|Der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Die Funktion "Event erstellen" wird mit dem gewüschten Namen, Beschreibung, Datum und Uhrzeit des Events aufgerufen
+|Es wird auf die Seite "Kalender" weitergeleitet und ein neuer Event wird der Liste von Events hinzugefügt
+
+|37
+|Event mit ungültigen Daten erstellen
+|Der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Die Funktion "Event erstellen" wird mit ungültigen Daten (z.B. leerer Name, unmögliche Uhrzeit, etc.) aufgerufen
+|Es wird auf die Seite "Event erstellen" weitergeleitet und ein Fehler dem Model beigefügt
+
+|39
+|Neues Produkt zum Katalog hinzufügen
+|Der Nutzer hat die Rolle "Inhaber"
+|Die Funktion "Produkt hinzufügen" wird mit den relevanten Daten (Produktbezeichnung, Preis, etc.) aufgerufen
+|Es wird auf die Seite "Warenbestand" weitergeleitet und ein neues Produkt mit den gegebenen Daten wird zum Warenbestand hinzugefügt
+
+|40
+|Neues Produkt mit ungültigen Daten hinzufügen
+|Der Nutzer hat die Rolle "Inhaber"
+|Die Funktion "Produkt hinzufügen" wird mit ungültigen Daten (Leere Produktbezeichnung, negativer Preis, etc.) aufgerufen
+|Es wird auf die Seite "Neues Produkt" weitergeleitet und ein Fehler dem Model beigefügt
+
+|43
+|Bestellung archivieren
+|Es muss mindestens eine nicht archivierte Bestellung existieren, der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Es wird die Funktion "archivieren" mit der ID der Bestellung aufgerufen
+|Es wird auf die Seite "Alle Bestellungen" weitergeleitet, die gewünschte Bestellung wird aus der Liste aller Bestellungen gelöscht und der Liste archivierter Bestellungen hinzugefügt
+
+|44
+|Bestellungen anschauen
+|Der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Es wird die Funktion "Alle Bestellungen" aufgerufen
+|Es wird auf die Seite "Alle Bestellungen" weitergeleitet, eine Liste mit allen Bestellungen wird dem Model beigefügt
+
+|45
+|Bestellung als Bezahlt markieren
+|Der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Es wird die Funktion "als bezahlt markieren" mit der gewünschten Bestellungs-ID aufgerufen
+|Es wird auf die Seite der gewünschten Bestellung weitergeleitet, der Status der gewünschten Bestellung wird auf "bezahlt" geändert
+
+|47
+|Abrechnung einsehen
+|Der Nutzer hat die Rolle "Inhaber" oder "Mitarbeiter"
+|Es wird die Funktion "Abrechnung" aufgerufen
+|Es wird auf die Seite "Abrechnung" weitergeleitet, alle Ausgaben und Einnahmen des aktuellen Tages und der Gewinn wird berechnet und dem Model beigefügt
+
+|49
+|automatische Bestellung beim Großhändler
+|-
+|Es wird die Funktion "Nachbestellung" mit den gewünschten Produkt-IDs und Mengen aufgerufen
+|Es wird eine neue Nachbestellung gespeichert
+
+|50
+|Rechnung erstellen
+|-
+|Es wird die Funktion "Rechnung erstellen" mit den relevanten Daten (Datum, Käuferdaten, Produkte, etc.) aufgerufen
+|Es wird auf die Seite "Rechnungen" weitergeleitet, die Rechnung wird zur Liste aller Rechnungen hinzugefügt
 
 |===
