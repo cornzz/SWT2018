@@ -1,0 +1,15 @@
+// material components for the web
+@import "~@material/button/mdc-button";
+@import "~@material/top-app-bar/mdc-top-app-bar";
+@import "~@material/card/mdc-card";
+@import "~@material/icon-button/mdc-icon-button";
+@import "~@material/typography/mdc-typography";
+
+// custom styles
+@import "scss/MyCard";
+@import "scss/ContentWrapper";
+
+// base styles
+body {
+  margin: 0;
+}

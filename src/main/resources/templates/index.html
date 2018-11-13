@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons">
+    <link rel="stylesheet" href="bundle.css" th:href="@{/resources/css/bundle.css}">
+</head>
+<body class="mdc-typography">
+    <header class="mdc-top-app-bar mdc-top-app-bar--fixed">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <span class="mdc-top-app-bar__title">Flower Power</span>
+            </section>
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+                <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">shopping_cart</a>
+            </section>
+        </div>
+    </header>
+    <main>
+        <div class="mdc-top-app-bar--fixed-adjust">
+            <div class="fp-content-wrapper">
+                <div class="fp-my-card mdc-card">
+                    <div class="mdc-card__primary-action">
+                        <div class="fp-my-card__media mdc-card__media mdc-card__media--16-9"></div>
+                        <div class="fp-my-card__primary">
+                            <h2 class="fp-my-card__title mdc-typography--headline6">Flower!</h2>
+                            <h3 class="fp-my-card__subtitle mdc-typography--subtitle2">A nice little flower</h3>
+                        </div>
+                        <div class="fp-my-card__secondary mdc-typography--body2">A flower, sometimes known as a bloom or blossom, is the reproductive structure found in flowering plants.</div>
+
+                    </div>
+                    <div class="mdc-card__actions">
+                        <div class="mdc-card__action-buttons">
+                            <button class="mdc-button mdc-card__action mdc-card__action--button">Action 1</button>
+                            <button class="mdc-button mdc-card__action mdc-card__action--button">Action 2</button>
+                        </div>
+                        <div class="mdc-card__action-icons">
+                            <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Share">share</button>
+                            <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="More options">more_vert</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script type="text/javascript" src="bundle.js" async th:src="@{/resources/js/bundle.js}"></script></body>
+</body>
+</html>
