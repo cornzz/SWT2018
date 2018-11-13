@@ -15,6 +15,35 @@
         <h1>Register</h1>
         <div th:include="navigation :: navigation"></div>
 
+        <form method="post" role="form" id="form" th:action="@{/register}" th:object="${form}">
+            <div style="display: flex;">
+                <div class="form-group" style="flex: 1;">
+                    <label for="firstName" class="bmd-label-floating">First Name</label>
+                    <input type="text" th:field="*{firstName}" class="form-control" id="firstName" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="lastName" class="bmd-label-floating">Last Name</label>
+                    <input type="text" th:field="*{lastName}" class="form-control" id="lastName" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="bmd-label-floating">E-Mail</label>
+                <input type="email" th:field="*{email}" class="form-control" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="bmd-label-floating">Phone</label>
+                <input type="tel" th:field="*{phone}" class="form-control" id="phone" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 25px;">
+                <label for="password" class="bmd-label-floating">Password</label>
+                <input type="password" th:field="*{password}" class="form-control" id="password" required>
+                <span class="bmd-help">We'll never share your password with anyone else.</span>
+            </div>
+
+            <button type="reset" class="btn btn-default">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-raised">Register</button>
+        </form>
+
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>

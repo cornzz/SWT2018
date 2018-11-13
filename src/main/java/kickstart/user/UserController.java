@@ -26,6 +26,7 @@ public class UserController {
 	@PostMapping("/register")
 	String registerNew(@Valid RegistrationForm form, Errors result) {
 		if (result.hasErrors()) {
+			System.out.println("reg error");
 			return "register";
 		}
 
