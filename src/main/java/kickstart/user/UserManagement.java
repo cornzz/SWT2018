@@ -26,6 +26,7 @@ public class UserManagement {
 		userAccount.setLastname(form.getLastName());
 		userAccount.setEmail(form.getEmail());
 
+		System.out.println("User " + userAccount.getUsername() + " registered. " + form.getPassword());
 		return users.save(new User(userAccount, form.getPhone()));
 	}
 

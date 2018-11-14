@@ -9,8 +9,17 @@
 				<a class="nav-link" href="/register" th:classappend="${#httpServletRequest.getRequestURI() == '/register' ? 'active':''}">Register</a>
 			</li>
 			<li class="nav-item" style="margin-left: auto;">
-				<a class="nav-link" th:href="@{/login}" th:classappend="${#httpServletRequest.getRequestURI() == '/login' ? 'active':''}">Login</a>
+				<span class="nav-link" th:if="${loggedIn != null}" th:text="'Currently logged in: ' + ${loggedIn}"></span>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link"
+				   th:href="${loggedIn == null} ? @{/login} : 'javascript: document.logoutForm.submit()'"
+				   th:text="${loggedIn == null} ? 'Login' : 'Logout'"
+				   th:classappend="${#httpServletRequest.getRequestURI() == '/login' ? 'active':''}">Login</a>
 			</li>
 		</ul>
+		<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+			<input type="submit" value="Sign Out" hidden/>
+		</form>
     </div>
 </html>
