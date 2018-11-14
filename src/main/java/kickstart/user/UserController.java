@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -41,9 +42,8 @@ public class UserController {
 
 	@GetMapping("/account")
 	@PreAuthorize("isAuthenticated()")
-	String account(Model model, RegistrationForm form, @LoggedIn UserAccount loggedIn) {
+	String account(Model model, RegistrationForm form, @LoggedIn Optional<UserAccount> loggedIn) {
 		model.addAttribute("form", form);
-		model.addAttribute("user", userManagement.findByAccount(loggedIn));
 
 		return "account";
 	}

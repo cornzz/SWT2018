@@ -40,4 +40,5 @@ public class User {
 	public UserAccount getUserAccount() {
 		return userAccount;
 	}
+
 }

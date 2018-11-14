@@ -28,7 +28,6 @@ public class UserManagement {
 		userAccount.setLastname(form.getLastName());
 		userAccount.setEmail(form.getEmail());
 
-		System.out.println("User " + userAccount.getUsername() + " registered. " + form.getPassword());
 		return users.save(new User(userAccount, form.getPhone()));
 	}
 
@@ -37,11 +36,7 @@ public class UserManagement {
 	}
 
 	public Optional<User> findByAccount(UserAccount userAccount) {
-		return findByUsername(userAccount.getUsername());
-	}
-
-	public Optional<User> findByUsername(String username) {
-		return this.findAll().stream().filter(u -> u.getUserAccount().getUsername().equals(username)).findFirst();
+		return this.findAll().stream().filter(u -> u.getUserAccount().equals(userAccount)).findFirst();
 	}
 
 }

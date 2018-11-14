@@ -11,9 +11,15 @@ import java.util.Optional;
 @ControllerAdvice
 public class UserControllerAdvice {
 
+	private final UserManagement userManagement;
+
+	public UserControllerAdvice(UserManagement userManagement) {
+		this.userManagement = userManagement;
+	}
+
 	@ModelAttribute
 	public void addUserToModel(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
-		model.addAttribute("loggedIn", loggedIn.map(UserAccount::getUsername).orElse(null));
+		loggedIn.ifPresent(u -> model.addAttribute("loggedIn", userManagement.findByAccount(u).get()));
 	}
 
 }
