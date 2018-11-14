@@ -27,6 +27,10 @@ public class UserDataInitializer implements DataInitializer {
 		}
 
 		UserAccount adminAccount = userAccountManager.create("admin", "pass", Role.of("ROLE_BOSS"));
+		adminAccount.setFirstname("ad");
+		adminAccount.setLastname("min");
+		adminAccount.setEmail("ad@mi.n");
+
 		userAccountManager.save(adminAccount);
 
 	}

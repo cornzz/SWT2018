@@ -7,6 +7,8 @@ import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class UserManagement {
@@ -32,6 +34,14 @@ public class UserManagement {
 
 	public Streamable<User> findAll() {
 		return Streamable.of(users.findAll());
+	}
+
+	public Optional<User> findByAccount(UserAccount userAccount) {
+		return findByUsername(userAccount.getUsername());
+	}
+
+	public Optional<User> findByUsername(String username) {
+		return this.findAll().stream().filter(u -> u.getUserAccount().getUsername().equals(username)).findFirst();
 	}
 
 }

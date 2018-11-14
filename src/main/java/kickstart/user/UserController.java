@@ -1,5 +1,8 @@
 package kickstart.user;
 
+import org.salespointframework.useraccount.UserAccount;
+import org.salespointframework.useraccount.web.LoggedIn;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -33,6 +37,15 @@ public class UserController {
 		userManagement.createUser(form);
 
 		return "redirect:/";
+	}
+
+	@GetMapping("/account")
+	@PreAuthorize("isAuthenticated()")
+	String account(Model model, RegistrationForm form, @LoggedIn UserAccount loggedIn) {
+		model.addAttribute("form", form);
+		model.addAttribute("user", userManagement.findByAccount(loggedIn));
+
+		return "account";
 	}
 
 }

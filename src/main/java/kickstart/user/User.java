@@ -17,6 +17,9 @@ public class User {
 	@OneToOne
 	private UserAccount userAccount;
 
+	@SuppressWarnings("unused")
+	private User() {}
+
 	public User(UserAccount userAccount, String phone) {
 		this.userAccount = userAccount;
 		this.phone = phone;
