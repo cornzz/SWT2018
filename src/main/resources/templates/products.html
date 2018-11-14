@@ -1,0 +1,18 @@
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fp-content-wrapper">
+            <div th:replace="fragments/product_card :: product_card"></div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
