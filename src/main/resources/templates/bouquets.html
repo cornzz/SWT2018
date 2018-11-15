@@ -10,7 +10,11 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fp-content-wrapper">
-            <div th:replace="fragments/product_card :: product_card"></div>
+            <div class="fp-card-wrapper">
+                <th:block th:each="bouquet : ${bouquets}">
+                    <div th:replace="fragments/bouquet_card :: bouquet_card (bouquet=${bouquet})"></div>
+                </th:block>
+            </div>
         </div>
     </div>
 </main>

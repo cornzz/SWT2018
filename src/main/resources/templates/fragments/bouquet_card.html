@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="fp-my-card mdc-card" th:fragment="bouquet_card (bouquet)">
+    <div class="mdc-card__primary-action">
+        <div class="fp-my-card__media mdc-card__media mdc-card__media--16-9"></div>
+        <div class="fp-my-card__primary">
+            <h2 class="fp-my-card__title mdc-typography--headline6" th:text="${bouquet.name}">Bouquet!</h2>
+            <h3 class="fp-my-card__subtitle mdc-typography--subtitle2">A nice little bouquet</h3>
+        </div>
+        <!--<div class="fp-my-card__secondary mdc-typography--body2">
+            Bouquet in an Arched Window, Ambrosius Bosschaert, circa 1618-1620. The earliest formal flower arrangements in Europe were Dutch, as shown in many paintings of the 17th century.
+        </div>-->
+    </div>
+    <div class="mdc-card__actions">
+        <div class="mdc-card__action-buttons">
+            <button class="mdc-button mdc-card__action mdc-card__action--button">MORE INFO</button>
+        </div>
+        <div class="mdc-card__action-icons">
+            <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="More options">shopping_cart</button>
+        </div>
+    </div>
+</div>
+</html>

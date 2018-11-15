@@ -4,12 +4,10 @@
 @import "~@material/card/mdc-card";
 @import "~@material/icon-button/mdc-icon-button";
 @import "~@material/typography/mdc-typography";
+@import "~@material/layout-grid/mdc-layout-grid";
 
 // custom styles
+@import "scss/Base";
 @import "scss/MyCard";
 @import "scss/ContentWrapper";
-
-// base styles
-body {
-  margin: 0;
-}
+@import "scss/CardWrapper";

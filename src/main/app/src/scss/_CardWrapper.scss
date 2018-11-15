@@ -1,0 +1,17 @@
+@import "Variables";
+@import "Mixins";
+
+.fp- {
+  &card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: left;
+
+    > * {
+      margin: 8px;
+    }
+
+    @include card-wrapper-columns(1, 2, 3, 4);
+  }
+}
+

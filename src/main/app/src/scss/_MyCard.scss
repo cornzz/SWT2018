@@ -1,5 +1,7 @@
+@import "Variables";
+
 .fp-my-card {
-  width: 350px;
+  width: $fp-my-card-width;
 
   &__media {
     background-image: url("https://media.gettyimages.com/photos/various-fresh-flowers-against-white-background-picture-id733516645");
