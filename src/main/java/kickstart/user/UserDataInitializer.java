@@ -31,7 +31,7 @@ public class UserDataInitializer implements DataInitializer {
 		adminAccount.setLastname("min");
 		adminAccount.setEmail("ad@mi.n");
 
-		userRepository.save(new User(adminAccount, "123"));
+		userRepository.save(new User(adminAccount, "+1 234 56 789"));
 
 		userAccountManager.save(adminAccount);
 

@@ -19,46 +19,57 @@
             <div style="display: flex;">
                 <div class="form-group" style="flex: 1;">
                     <label for="firstName" class="bmd-label-floating">First Name</label>
-                    <input type="text" th:value="${loggedIn.userAccount.firstname}" class="form-control" id="firstName" name="firstName" disabled required>
+                    <input type="text" th:value="${loggedIn.userAccount.firstname}" class="form-control" id="firstName" name="firstName" disabled="true" required>
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label for="lastName" class="bmd-label-floating">Last Name</label>
-                    <input type="text" th:value="${loggedIn.userAccount.lastname}" class="form-control" id="lastName" name="lastName" disabled required>
+                    <input type="text" th:value="${loggedIn.userAccount.lastname}" class="form-control" id="lastName" name="lastName" disabled="true" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="email" class="bmd-label-floating">E-Mail</label>
-                <input type="email" th:value="${loggedIn.userAccount.email}" class="form-control" id="email" name="email" disabled required>
+                <input type="email" th:value="${loggedIn.userAccount.email}" class="form-control" id="email" name="email" disabled="true" required>
             </div>
             <div class="form-group">
                 <label for="phone" class="bmd-label-floating">Phone</label>
-                <input type="tel" th:value="${loggedIn.phone}" class="form-control" id="phone" name="phone" disabled required>
+                <input type="tel" th:value="${loggedIn.phone}" class="form-control" id="phone" name="phone" disabled="true" required>
             </div>
             <div class="form-group" style="margin-bottom: 25px;">
                 <label for="password" class="bmd-label-floating">Password</label>
-                <input type="password" class="form-control" id="password" name="password" disabled required>
+                <input type="password" class="form-control" id="password" name="password" disabled="true" required>
                 <span class="bmd-help">We'll never share your password with anyone else.</span>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-raised" disabled>Register</button>
+            <button type="button" id="edit" onclick="toggleForm()" class="btn btn-default">Edit</button>
+            <button type="submit" id="submit" class="btn btn-primary btn-raised" style="display: none;">Submit</button>
         </form>
-        <button onclick="toggleForm()" class="btn btn-default">Edit</button>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
         <script>
             $(document).ready(function () {$('body').bootstrapMaterialDesign();});
+
             function toggleForm() {
-                var inputs = document.getElementsByTagName("input");
-                console.log(inputs);
-                for (input in inputs) {
-                    if (input.disabled === true) {
-                        input.disabled = false;
-                    } else {
-                        input.disabled = true;
+                var inputs = document.getElementsByTagName('input'),
+                    editButton = document.getElementById('edit'),
+                    submitButton = document.getElementById('submit');
+
+                for (var i = 0; i < inputs.length; i++) {
+                    if (inputs[i].disabled === true) {
+                        inputs[i].disabled = false;
+                        continue;
                     }
+                    inputs[i].disabled = true;
                 }
+
+                if (editButton.innerHTML === 'Cancel') {
+                    editButton.innerHTML = 'Edit';
+                    submitButton.style.display = 'none';
+                    return;
+                }
+                editButton.innerHTML = 'Cancel';
+                submitButton.style.display = '';
             }
         </script>
     </body>

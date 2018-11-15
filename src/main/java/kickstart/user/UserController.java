@@ -9,7 +9,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.swing.text.html.Option;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -29,20 +30,42 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	String registerNew(@Valid RegistrationForm form, Errors result) {
+	String registerNew(Model model, @Valid RegistrationForm form, Errors result, HttpServletRequest request) {
 		if (result.hasErrors()) {
-			System.out.println("reg error");
+			System.out.println("Reg error");
+			return "register";
+		}
+		String username = (form.getFirstName() + form.getLastName()).toLowerCase();
+		if (userManagement.nameExists(username)) {
+			model.addAttribute("userError", String.format("An account with the username '%s' already exists!", username));
+			return "register";
+		}
+		if (userManagement.mailExists(form.getEmail())) {
+			model.addAttribute("emailError", String.format("An account with the email address '%s' already exists!", form.getEmail()));
 			return "register";
 		}
 
 		userManagement.createUser(form);
+		// Authenticate before redirecting
+		try {
+			request.login(username, form.getPassword());
+		} catch (ServletException e) {};
+		model.addAttribute("welcomeMsg", String.format("Thank you for signing up, %s!", form.getFirstName()));
 
-		return "redirect:/";
+		return "forward:/";
 	}
 
 	@GetMapping("/account")
 	@PreAuthorize("isAuthenticated()")
 	String account(Model model, RegistrationForm form, @LoggedIn Optional<UserAccount> loggedIn) {
+		model.addAttribute("form", form);
+
+		return "account";
+	}
+
+	@PostMapping("/account")
+	@PreAuthorize("isAuthenticated()")
+	String updateAccount(Model model, RegistrationForm form, @LoggedIn Optional<UserAccount> loggedIn) {
 		model.addAttribute("form", form);
 
 		return "account";

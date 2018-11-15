@@ -1,5 +1,6 @@
 package kickstart.user;
 
+import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 
 import javax.persistence.Entity;
@@ -39,6 +40,10 @@ public class User {
 
 	public UserAccount getUserAccount() {
 		return userAccount;
+	}
+
+	public Role getRole() {
+		return this.userAccount.getRoles().stream().findFirst().get();
 	}
 
 }

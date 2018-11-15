@@ -26,9 +26,15 @@
                     <input type="text" class="form-control" id="lastName" name="lastName" required>
                 </div>
             </div>
+            <div class="alert alert-warning" th:if="${userError} != null" th:text="${userError}" role="alert">
+                This username already exists!
+            </div>
             <div class="form-group">
                 <label for="email" class="bmd-label-floating">E-Mail</label>
                 <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="alert alert-warning" th:if="${emailError} != null" th:text="${emailError}" role="alert">
+                This E-Mail already exists!
             </div>
             <div class="form-group">
                 <label for="phone" class="bmd-label-floating">Phone</label>
@@ -39,14 +45,38 @@
                 <input type="password" class="form-control" id="password" name="password" required>
                 <span class="bmd-help">We'll never share your password with anyone else.</span>
             </div>
+            <div class="form-group" style="margin-bottom: 25px;">
+                <label for="password2" class="bmd-label-floating">Repeat Password</label>
+                <input type="password" class="form-control" id="password2" name="password2" required>
+            </div>
+            <div class="alert alert-primary" role="alert" id="passAlert" style="display: none;">
+                Passwords have to match!
+            </div>
 
             <button type="reset" class="btn btn-default">Cancel</button>
-            <button type="submit" class="btn btn-primary btn-raised">Register</button>
+            <button type="button" onclick="register()" id="submitButton" class="btn btn-primary btn-raised">Register</button>
         </form>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
-        <script>$(document).ready(function () {$('body').bootstrapMaterialDesign();});</script>
+        <script>
+            $(document).ready(function () {$('body').bootstrapMaterialDesign();});
+
+            function register() {
+                var pass1 = document.getElementById('password').value,
+                    pass2 = document.getElementById('password2').value,
+                    passAlert = document.getElementById('passAlert'),
+                    submitButton = document.getElementById('submitButton');
+
+                if (pass1 !== pass2) {
+                    passAlert.style.display = '';
+                    return;
+                }
+                passAlert.style.display = 'none';
+                submitButton.setAttribute('type', 'submit');
+                submitButton.click();
+            }
+        </script>
     </body>
 </html>

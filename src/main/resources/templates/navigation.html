@@ -3,23 +3,21 @@
 	<div th:fragment="navigation">
         <ul class="nav nav-tabs">
 			<li class="nav-item">
-				<a class="nav-link" href="/" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}">Home</a>
+				<a class="nav-link" href="/" th:classappend="${#httpServletRequest.getRequestURI()} == '/' ? 'active' : ''">Home</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="/register" th:classappend="${#httpServletRequest.getRequestURI() == '/register' ? 'active':''}">Register</a>
+				<a class="nav-link" th:href="${loggedIn == null} ? @{/register} : @{/account}"
+				   					th:text="${loggedIn == null} ? 'Register' : 'My Account'"
+				   					th:classappend="${#httpServletRequest.getRequestURI() == '/register' ? 'active' :
+				   									  #httpServletRequest.getRequestURI() == '/account' ? 'active' : ''}">Register</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/account" th:if="${loggedIn != null}" th:classappend="${#httpServletRequest.getRequestURI() == '/account' ? 'active':''}">My Account</a>
-			</li>
-
 			<li class="nav-item" style="margin-left: auto;">
-				<span class="nav-link" th:if="${loggedIn != null}" th:text="'Currently logged in: ' + ${loggedIn.userAccount.username}"></span>
+				<span class="nav-link" th:if="${loggedIn != null}" th:text="'Currently logged in: ' + ${loggedIn.userAccount.username} + ' | ' + ${loggedIn.role.toString()}"></span>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link"
-				   th:href="${loggedIn == null} ? @{/login} : 'javascript: document.logoutForm.submit()'"
-				   th:text="${loggedIn == null} ? 'Login' : 'Logout'"
-				   th:classappend="${#httpServletRequest.getRequestURI() == '/login' ? 'active':''}">Login</a>
+				<a class="nav-link" th:href="${loggedIn == null} ? @{/login} : 'javascript: document.logoutForm.submit()'"
+				   					th:text="${loggedIn == null} ? 'Login' : 'Logout'"
+				   					th:classappend="${#httpServletRequest.getRequestURI()} == '/login' ? 'active' : ''">Login</a>
 			</li>
 		</ul>
 		<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">

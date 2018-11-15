@@ -39,4 +39,12 @@ public class UserManagement {
 		return this.findAll().stream().filter(u -> u.getUserAccount().equals(userAccount)).findFirst();
 	}
 
+	public boolean nameExists(String username){
+		return this.findAll().stream().anyMatch(u -> u.getUserAccount().getUsername().equals(username));
+	}
+
+	public boolean mailExists(String email){
+		return this.findAll().stream().anyMatch(u -> u.getUserAccount().getEmail().equals(email));
+	}
+
 }
