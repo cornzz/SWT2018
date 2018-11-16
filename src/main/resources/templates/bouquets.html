@@ -3,7 +3,7 @@
     <title>Products</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header">
+<header th:replace="fragments/header :: header_catalog">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
@@ -17,6 +17,7 @@
             </div>
         </div>
     </div>
+    <button th:replace="fragments/floating_action_button :: floating_action_button"></button>
 </main>
 </body>
 </html>

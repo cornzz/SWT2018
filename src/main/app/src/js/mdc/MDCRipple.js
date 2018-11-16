@@ -14,4 +14,18 @@ console.log('MDCRipple');
     ripple.unbounded = true;
 });
 
-const ripple = new MDCRipple(document.querySelector('.mdc-card__primary-action'));
+[].slice.call(document.querySelectorAll('.mdc-chip')).forEach(function(element) {
+    new MDCRipple(element);
+});
+
+
+const ripples = [
+    document.querySelector('.mdc-card__primary-action'),
+    document.querySelector('.mdc-fab')
+];
+
+ripples.forEach(function (element) {
+   if(element) {
+       new MDCRipple(element);
+   }
+});
