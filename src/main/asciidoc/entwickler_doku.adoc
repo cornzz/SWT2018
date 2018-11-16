@@ -40,6 +40,11 @@ Klassische Client-Server Architektur, *Single Page Application (SPA)* (Client) k
 image::.\images\Package.png[Packagediagramm, 100%, 100%, pdfwidth=100%, title= "Packagedigramm", align=center]
 
 == Entwurfsentscheidungen
+
+image::.\images\uml_catalog.jpg[Catalog, 100%, 100%, pdfwidth=100%, title= "Catalog", align=center]
+
+image::.\images\Inventory.jpq[Inventory, 100%, 100%, pdfwidth=100%, title= "Inventory", align=center]
+
 Die verschieden Ansichten der Anwendung werden serverseitig gerendert. Zum Einsatz kommt dabei *Spring*'s Template Engine *Thymeleaf*. Dieses Vorgehen sorgt für geringe Anforderungen an den Client (*Thin Client*) und führt zum bestmöglichen *Search Engine Ranking*.
 
 Die Benutzeroberfläche folgt den *Material Design Specifications*. Dieses Vorgehen sorgt für ein einheitliche Nutzeroberfläche die reagiert wie es der Nutzer erwartet. Durch die weite Verbreitung genannter Spezifikationen sind viele Nutzer unbewusst bereits mit deren Prinzipien vertraut. Verschiedene Open Source Projekte stellen bereits einen breiten Katalog von UI Komponenten, die den Spezifikationen folgen zur verfügung.
