@@ -59,8 +59,10 @@ public class BouquetCatalogController {
 		System.out.println(form.getDescription());
 
 		// TODO: get flowers and services from form
-		// System.out.println(form.getFlowerIDs().size());
-		// System.out.println(form.getServiceIDs().size());
+		System.out.println(form.getFlowerIDs().size());
+		System.out.println(form.getServiceIDs().size());
+
+		// I currently have no clue how to get the right objects by id since ProductIdentifier is not available here
 
 		// convert list to iterable
 		Iterable<Flower> flowersIterable = flowerCatalog.findAll();

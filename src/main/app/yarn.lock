@@ -171,17 +171,6 @@
     "@material/shape" "^0.41.0"
     "@material/theme" "^0.41.0"
 
-"@material/radio@^0.41.0":
-  version "0.41.0"
-  resolved "https://registry.yarnpkg.com/@material/radio/-/radio-0.41.0.tgz#d3bccd4bbe069a5b313598ad2a0e404ff8be6e25"
-  integrity sha512-nJvVVu2x2lAttUNnJczpZzKWK+3lEw/BOYsSLVSYp1qUlIQsOfQ6aItI7URokbLkQDqDqlsNmvGP5JJv/Cpksw==
-  dependencies:
-    "@material/animation" "^0.41.0"
-    "@material/base" "^0.41.0"
-    "@material/ripple" "^0.41.0"
-    "@material/selection-control" "^0.41.0"
-    "@material/theme" "^0.41.0"
-
 "@material/ripple@^0.41.0":
   version "0.41.0"
   resolved "https://registry.yarnpkg.com/@material/ripple/-/ripple-0.41.0.tgz#73dbb9bf0e1d72382926b39f2527c011e689dde2"
