@@ -43,7 +43,7 @@ image::.\images\Package.png[Packagediagramm, 100%, 100%, pdfwidth=100%, title= "
 
 image::.\images\uml_catalog.jpg[Catalog, 100%, 100%, pdfwidth=100%, title= "Catalog", align=center]
 
-image::.\images\Inventory.jpq[Inventory, 100%, 100%, pdfwidth=100%, title= "Inventory", align=center]
+image::.\images\Inventory.jpg[Inventory, 100%, 100%, pdfwidth=100%, title= "Inventory", align=center]
 
 Die verschieden Ansichten der Anwendung werden serverseitig gerendert. Zum Einsatz kommt dabei *Spring*'s Template Engine *Thymeleaf*. Dieses Vorgehen sorgt für geringe Anforderungen an den Client (*Thin Client*) und führt zum bestmöglichen *Search Engine Ranking*.
 
