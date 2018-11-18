@@ -21,14 +21,25 @@ public class UserManagement {
 		this.userAccounts = userAccounts;
 	}
 
-	public User createUser(RegistrationForm form) {
-
+	public User createUser(UserDto form) {
 		UserAccount userAccount = userAccounts.create((form.getFirstName() + form.getLastName()).toLowerCase(), form.getPassword(), Role.of("ROLE_CUSTOMER"));
 		userAccount.setFirstname(form.getFirstName());
 		userAccount.setLastname(form.getLastName());
 		userAccount.setEmail(form.getEmail());
 
 		return users.save(new User(userAccount, form.getPhone()));
+	}
+
+	public User modifyUser(UserDto form, UserAccount userAccount) {
+		User user = findByAccount(userAccount).get();
+		userAccount = user.getUserAccount();
+		userAccount.setFirstname(form.getFirstName());
+		userAccount.setLastname(form.getLastName());
+		userAccount.setEmail(form.getEmail());
+		user.setPhone(form.getPhone());
+		userAccounts.save(userAccount);
+
+		return users.save(user);
 	}
 
 	public Streamable<User> findAll() {

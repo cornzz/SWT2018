@@ -27,13 +27,24 @@ public class UserDataInitializer implements DataInitializer {
 		}
 
 		UserAccount adminAccount = userAccountManager.create("admin", "pass", Role.of("ROLE_BOSS"));
-		adminAccount.setFirstname("ad");
-		adminAccount.setLastname("min");
-		adminAccount.setEmail("ad@mi.n");
+		UserAccount userAccount1 = userAccountManager.create("johndoe", "pass", Role.of("ROLE_CUSTOMER"));
+		UserAccount userAccount2 = userAccountManager.create("larrybird", "pass", Role.of("ROLE_CUSTOMER"));
+
+		adminAccount.setFirstname("Ad");
+		adminAccount.setLastname("Min");
+		adminAccount.setEmail("ad@m.in");
+
+		userAccount1.setFirstname("John");
+		userAccount1.setLastname("Doe");
+		userAccount1.setEmail("john@doe.com");
+
+		userAccount2.setFirstname("Larry");
+		userAccount2.setLastname("Bird");
+		userAccount2.setEmail("larry@bird.biz");
 
 		userRepository.save(new User(adminAccount, "+1 234 56 789"));
-
-		userAccountManager.save(adminAccount);
+		userRepository.save(new User(userAccount1, "+2 345 67 890"));
+		userRepository.save(new User(userAccount2, "+9 876 54 321"));
 
 	}
 }

@@ -8,35 +8,42 @@
         <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" href="../static/resources/css/style.css"/>
 
-        <title>Welcome!</title>
+        <title>My Account</title>
     </head>
 
     <body>
-        <h1>Welcome!</h1>
+        <h1>My Account</h1>
         <div th:include="navigation :: navigation"></div>
 
         <form method="post" role="form" id="form" th:action="@{/account}" th:object="${form}">
+            <!-- First Name, Last Name -->
             <div style="display: flex;">
                 <div class="form-group" style="flex: 1;">
                     <label for="firstName" class="bmd-label-floating">First Name</label>
-                    <input type="text" th:value="${loggedIn.userAccount.firstname}" class="form-control" id="firstName" name="firstName" disabled="true" required>
+                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}" disabled="true" required>
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label for="lastName" class="bmd-label-floating">Last Name</label>
-                    <input type="text" th:value="${loggedIn.userAccount.lastname}" class="form-control" id="lastName" name="lastName" disabled="true" required>
+                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}" disabled="true" required>
                 </div>
             </div>
+
+            <!-- E-Mail -->
             <div class="form-group">
                 <label for="email" class="bmd-label-floating">E-Mail</label>
-                <input type="email" th:value="${loggedIn.userAccount.email}" class="form-control" id="email" name="email" disabled="true" required>
+                <input type="email" class="form-control" id="email" th:field="*{email}" disabled="true" required>
             </div>
+
+            <!-- Phone -->
             <div class="form-group">
                 <label for="phone" class="bmd-label-floating">Phone</label>
-                <input type="tel" th:value="${loggedIn.phone}" class="form-control" id="phone" name="phone" disabled="true" required>
+                <input type="tel" class="form-control" id="phone" th:field="*{phone}" disabled="true" required>
             </div>
+
+            <!-- Password -->
             <div class="form-group" style="margin-bottom: 25px;">
                 <label for="password" class="bmd-label-floating">Password</label>
-                <input type="password" class="form-control" id="password" name="password" disabled="true" required>
+                <input type="password" class="form-control" id="password" th:field="*{password}" disabled="true" required>
                 <span class="bmd-help">We'll never share your password with anyone else.</span>
             </div>
 

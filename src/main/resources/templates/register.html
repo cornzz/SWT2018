@@ -16,45 +16,52 @@
         <div th:include="navigation :: navigation"></div>
 
         <form method="post" role="form" id="form" th:action="@{/register}" th:object="${form}">
+            <!-- First Name, Last Name -->
             <div style="display: flex;">
                 <div class="form-group" style="flex: 1;">
                     <label for="firstName" class="bmd-label-floating">First Name</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}">
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label for="lastName" class="bmd-label-floating">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}">
                 </div>
             </div>
-            <div class="alert alert-warning" th:if="${userError} != null" th:text="${userError}" role="alert">
-                This username already exists!
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName') || #fields.hasErrors('lastName') || #fields.hasErrors('username')}"
+                                             th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName') + #fields.errors('username')}"
+                                             role="alert">
             </div>
+
+            <!-- E-Mail -->
             <div class="form-group">
                 <label for="email" class="bmd-label-floating">E-Mail</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" th:field="*{email}" required>
             </div>
-            <div class="alert alert-warning" th:if="${emailError} != null" th:text="${emailError}" role="alert">
-                This E-Mail already exists!
-            </div>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email') + ''}" role="alert"></div>
+
+            <!-- Phone -->
             <div class="form-group">
                 <label for="phone" class="bmd-label-floating">Phone</label>
-                <input type="tel" class="form-control" id="phone" name="phone" required>
+                <input type="tel" class="form-control" id="phone" th:field="*{phone}" required>
             </div>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('phone')}" th:text="${#fields.errors('phone') + ''}" role="alert"></div>
+
+            <!-- Password -->
             <div class="form-group" style="margin-bottom: 25px;">
                 <label for="password" class="bmd-label-floating">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <input type="password" class="form-control" id="password" th:field="*{password}" required>
                 <span class="bmd-help">We'll never share your password with anyone else.</span>
             </div>
             <div class="form-group" style="margin-bottom: 25px;">
                 <label for="password2" class="bmd-label-floating">Repeat Password</label>
-                <input type="password" class="form-control" id="password2" name="password2" required>
+                <input type="password" class="form-control" id="password2" th:field="*{passwordRepeat}" required>
             </div>
-            <div class="alert alert-primary" role="alert" id="passAlert" style="display: none;">
+            <div class="alert alert-primary" th:if="${#fields.hasGlobalErrors()}" th:text="${#fields.globalErrors() + ''}" role="alert" id="passAlert">
                 Passwords have to match!
             </div>
 
             <button type="reset" class="btn btn-default">Cancel</button>
-            <button type="button" onclick="register()" id="submitButton" class="btn btn-primary btn-raised">Register</button>
+            <button type="submit" id="submitButton" class="btn btn-primary btn-raised">Register</button>
         </form>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

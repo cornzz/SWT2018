@@ -17,6 +17,7 @@ package kickstart.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class WelcomeController {
@@ -24,5 +25,10 @@ public class WelcomeController {
 	@RequestMapping("/")
 	public String index() {
 		return "welcome";
+	}
+
+	@RequestMapping("/accessDenied")
+	public ModelAndView accessDenied() {
+		return new ModelAndView("forward:/", "message", "You don't have access to this page!");
 	}
 }
