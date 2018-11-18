@@ -6,30 +6,30 @@ import kickstart.validation.ValidEmail;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@MatchingPassword(message = "{UserDto.password.MustMatch}")
+@MatchingPassword(message = "{Dto.password.MustMatch}", groups = {UserDto.RegistrationProcess.class, UserDto.ChangePassProcess.class})
 public class UserDto {
 
-	@NotNull
-	@NotEmpty(message = "{UserDto.firstName.NotEmpty}")
+	@NotNull(groups = {UserDto.RegistrationProcess.class, UserDto.UpdateAccProcess.class})
+	@NotEmpty(message = "{Dto.firstName.NotEmpty}", groups = {UserDto.RegistrationProcess.class, UserDto.UpdateAccProcess.class})
 	private String firstName;
 
-	@NotNull
-	@NotEmpty(message = "{UserDto.lastName.NotEmpty}")
+	@NotNull(groups = {UserDto.RegistrationProcess.class, UserDto.UpdateAccProcess.class})
+	@NotEmpty(message = "{Dto.lastName.NotEmpty}", groups = {UserDto.RegistrationProcess.class, UserDto.UpdateAccProcess.class})
 	private String lastName;
 
 	private String username;
 
-	@ValidEmail(message = "{UserDto.email.Invalid}")
-	@NotNull
-	@NotEmpty(message = "{UserDto.email.NotEmpty}")
+	@ValidEmail(message = "{Dto.email.Invalid}", groups = {UserDto.RegistrationProcess.class, UserDto.UpdateAccProcess.class})
+	@NotNull(groups = {UserDto.RegistrationProcess.class, UserDto.UpdateAccProcess.class})
+	@NotEmpty(message = "{Dto.email.NotEmpty}", groups = {UserDto.RegistrationProcess.class, UserDto.UpdateAccProcess.class})
 	private String email;
 
-	@NotNull
-	@NotEmpty(message = "{UserDto.phone.NotEmpty}")
+	@NotNull(groups = {UserDto.RegistrationProcess.class, UserDto.UpdateAccProcess.class})
+	@NotEmpty(message = "{Dto.phone.NotEmpty}", groups = {UserDto.RegistrationProcess.class, UserDto.UpdateAccProcess.class})
 	private String phone;
 
-	@NotNull
-	@NotEmpty(message = "{UserDto.password.NotEmpty}")
+	@NotNull(groups = {UserDto.RegistrationProcess.class, UserDto.ChangePassProcess.class})
+	@NotEmpty(message = "{Dto.password.NotEmpty}", groups = {UserDto.RegistrationProcess.class, UserDto.ChangePassProcess.class})
 	private String password;
 	private String passwordRepeat;
 
@@ -88,5 +88,27 @@ public class UserDto {
 
 	public void setPasswordRepeat(String passwordRepeat) {
 		this.passwordRepeat = passwordRepeat;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDto{" +
+				"firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", username='" + username + '\'' +
+				", email='" + email + '\'' +
+				", phone='" + phone + '\'' +
+				", password='" + password + '\'' +
+				", passwordRepeat='" + passwordRepeat + '\'' +
+				'}';
+	}
+
+	interface RegistrationProcess {
+	}
+
+	interface UpdateAccProcess {
+	}
+
+	interface ChangePassProcess {
 	}
 }

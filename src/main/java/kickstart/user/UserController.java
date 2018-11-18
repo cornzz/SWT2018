@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,6 @@ public class UserController {
 
 	@GetMapping("/register")
 	String register(Model model, UserDto form, @LoggedIn Optional<UserAccount> loggedIn) {
-		// Redirect to "My Account" if user is already logged in
 		if (loggedIn.isPresent()) {
 			return "redirect:/account";
 		}
@@ -38,8 +38,7 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	ModelAndView registerNew(@ModelAttribute("form") @Valid UserDto form, BindingResult result, HttpServletRequest request, Errors errors) {
-		// Check form for errors
+	ModelAndView registerNew(@ModelAttribute("form") @Validated(UserDto.RegistrationProcess.class) UserDto form, BindingResult result, HttpServletRequest request, Errors errors) {
 		try {
 			checkForm(form, result, errors, true);
 		} catch (FormErrorException e) {
@@ -67,11 +66,10 @@ public class UserController {
 
 	@PostMapping("/account")
 	@PreAuthorize("isAuthenticated()")
-	ModelAndView updateAccount(Model model, @ModelAttribute("form") @Valid UserDto form, BindingResult result, @LoggedIn Optional<UserAccount> loggedIn, Errors errors) {
+	ModelAndView updateAccount(Model model, @ModelAttribute("form") @Validated(UserDto.UpdateAccProcess.class) UserDto form, BindingResult result, @LoggedIn Optional<UserAccount> loggedIn, Errors errors) {
 		try {
 			checkForm(form, result, errors, false);
 		} catch (FormErrorException e) {
-			System.out.println(e);
 			return new ModelAndView("account", "form", form);
 		}
 
@@ -95,10 +93,9 @@ public class UserController {
 		return "users";
 	}
 
-	private void checkForm(@ModelAttribute("form") @Valid UserDto form, BindingResult result, Errors errors, boolean checkDuplicate) throws FormErrorException {
+	private void checkForm(UserDto form, BindingResult result, Errors errors, boolean checkDuplicate) throws FormErrorException {
 		// Check for validation errors
 		if (result.hasErrors()) {
-			// System.out.println("Reg error:" + result);
 			throw new FormErrorException("Regular error exception!");
 		}
 		if (!checkDuplicate) {

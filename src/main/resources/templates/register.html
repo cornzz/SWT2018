@@ -28,35 +28,35 @@
                 </div>
             </div>
             <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName') || #fields.hasErrors('lastName') || #fields.hasErrors('username')}"
-                                             th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName') + #fields.errors('username')}"
-                                             role="alert">
+                                             th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName') + #fields.errors('username')}" role="alert">
             </div>
 
             <!-- E-Mail -->
             <div class="form-group">
                 <label for="email" class="bmd-label-floating">E-Mail</label>
-                <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                <input type="email" class="form-control" id="email" th:field="*{email}">
             </div>
-            <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email') + ''}" role="alert"></div>
+            <div class="alert alert-warning" th:each="error : ${#fields.errors('email')}" th:text="${error}" role="alert"></div>
 
             <!-- Phone -->
             <div class="form-group">
                 <label for="phone" class="bmd-label-floating">Phone</label>
-                <input type="tel" class="form-control" id="phone" th:field="*{phone}" required>
+                <input type="tel" class="form-control" id="phone" th:field="*{phone}">
             </div>
             <div class="alert alert-warning" th:if="${#fields.hasErrors('phone')}" th:text="${#fields.errors('phone') + ''}" role="alert"></div>
 
             <!-- Password -->
             <div class="form-group" style="margin-bottom: 25px;">
                 <label for="password" class="bmd-label-floating">Password</label>
-                <input type="password" class="form-control" id="password" th:field="*{password}" required>
+                <input type="password" class="form-control" id="password" th:field="*{password}">
                 <span class="bmd-help">We'll never share your password with anyone else.</span>
             </div>
             <div class="form-group" style="margin-bottom: 25px;">
                 <label for="password2" class="bmd-label-floating">Repeat Password</label>
-                <input type="password" class="form-control" id="password2" th:field="*{passwordRepeat}" required>
+                <input type="password" class="form-control" id="password2" th:field="*{passwordRepeat}">
             </div>
-            <div class="alert alert-primary" th:if="${#fields.hasGlobalErrors()}" th:text="${#fields.globalErrors() + ''}" role="alert" id="passAlert">
+            <div class="alert alert-primary" th:if="${#fields.hasGlobalErrors() || #fields.hasErrors('password')}"
+                                             th:text="${#fields.globalErrors() + ' ' + #fields.errors('password')}" role="alert" id="passAlert">
                 Passwords have to match!
             </div>
 
@@ -70,6 +70,7 @@
         <script>
             $(document).ready(function () {$('body').bootstrapMaterialDesign();});
 
+            // Unused
             function register() {
                 var pass1 = document.getElementById('password').value,
                     pass2 = document.getElementById('password2').value,

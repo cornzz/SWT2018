@@ -31,4 +31,5 @@ public class WelcomeController {
 	public ModelAndView accessDenied() {
 		return new ModelAndView("forward:/", "message", "You don't have access to this page!");
 	}
+
 }

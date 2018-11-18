@@ -14,8 +14,9 @@ public class MatchingPasswordValidator implements ConstraintValidator<MatchingPa
 	@Override
 	public boolean isValid(Object obj, ConstraintValidatorContext context){
 		UserDto form = (UserDto) obj;
-		// System.out.println(form.getPassword() + ' ' + form.getPasswordRepeat());
-		// System.out.println(form.getPassword().equals(form.getPasswordRepeat()));
+		if (form.getPassword() == null || form.getPasswordRepeat() == null) {
+			return false;
+		}
 		return form.getPassword().equals(form.getPasswordRepeat());
 	}
 

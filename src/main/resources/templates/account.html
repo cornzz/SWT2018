@@ -20,63 +20,68 @@
             <div style="display: flex;">
                 <div class="form-group" style="flex: 1;">
                     <label for="firstName" class="bmd-label-floating">First Name</label>
-                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}" disabled="true" required>
+                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}" readonly>
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label for="lastName" class="bmd-label-floating">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}" disabled="true" required>
+                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}" readonly>
                 </div>
+            </div>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName') || #fields.hasErrors('lastName') || #fields.hasErrors('username')}"
+                                             th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName') + #fields.errors('username')}" role="alert">
             </div>
 
             <!-- E-Mail -->
             <div class="form-group">
                 <label for="email" class="bmd-label-floating">E-Mail</label>
-                <input type="email" class="form-control" id="email" th:field="*{email}" disabled="true" required>
+                <input type="email" class="form-control" id="email" th:field="*{email}" readonly>
             </div>
+            <div class="alert alert-warning" th:each="error : ${#fields.errors('email')}" th:text="${error}" role="alert"></div>
 
             <!-- Phone -->
             <div class="form-group">
                 <label for="phone" class="bmd-label-floating">Phone</label>
-                <input type="tel" class="form-control" id="phone" th:field="*{phone}" disabled="true" required>
+                <input type="tel" class="form-control" id="phone" th:field="*{phone}" readonly>
             </div>
-
-            <!-- Password -->
-            <div class="form-group" style="margin-bottom: 25px;">
-                <label for="password" class="bmd-label-floating">Password</label>
-                <input type="password" class="form-control" id="password" th:field="*{password}" disabled="true" required>
-                <span class="bmd-help">We'll never share your password with anyone else.</span>
-            </div>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('phone')}" th:text="${#fields.errors('phone') + ''}" role="alert"></div>
 
             <button type="button" id="edit" onclick="toggleForm()" class="btn btn-default">Edit</button>
             <button type="submit" id="submit" class="btn btn-primary btn-raised" style="display: none;">Submit</button>
         </form>
 
+        <!--
+        <form>
+            <!-- Password -- >
+            <div class="form-group" style="margin-bottom: 25px;">
+                <label for="password" class="bmd-label-floating">Password</label>
+                <input type="password" class="form-control" id="password" th:field="*{password}" disabled="true" required>
+                <span class="bmd-help">We'll never share your password with anyone else.</span>
+            </div>
+        </form>
+        -->
+
+
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
         <script>
-            $(document).ready(function () {$('body').bootstrapMaterialDesign();});
+            $(function () {
+                $('body').bootstrapMaterialDesign();
+                $(".alert")[0] ? toggleForm() : '';
+            });
 
             function toggleForm() {
-                var inputs = document.getElementsByTagName('input'),
-                    editButton = document.getElementById('edit'),
-                    submitButton = document.getElementById('submit');
+                $('form#form :input').each(function() {
+                   ($('input').attr('readonly')) ? $('input').removeAttr('readonly') : $('input').attr('readonly', true);
+                });
 
-                for (var i = 0; i < inputs.length; i++) {
-                    if (inputs[i].disabled === true) {
-                        inputs[i].disabled = false;
-                        continue;
-                    }
-                    inputs[i].disabled = true;
+                if ($('#edit').text() === 'Cancel') {
+                    $('#edit').text('Edit');
+                    $('#submit').css('display', 'none');
+                    return
                 }
-
-                if (editButton.innerHTML === 'Cancel') {
-                    editButton.innerHTML = 'Edit';
-                    submitButton.style.display = 'none';
-                    return;
-                }
-                editButton.innerHTML = 'Cancel';
-                submitButton.style.display = '';
+                $('#edit').text('Cancel');
+                $('#submit').css('display', '');
             }
         </script>
     </body>
