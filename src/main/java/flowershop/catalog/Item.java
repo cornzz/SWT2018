@@ -10,7 +10,8 @@ import org.salespointframework.catalog.Product;
 @Entity
 public class Item extends Product{
 	public static enum ItemType {
-		BLUME;
+		BLUME,
+		STRAUSS;
 	}
 	private ItemType type;
 	private Item() {}
