@@ -33,7 +33,7 @@ Die verschiedenen Akteure, die mit der Software interagieren, werden in diesem K
 image::.\images\KontextDiagramm.png[Kontextdiagramm, 100%, 100%, pdfwidth=100%, title= "Kontextdiagramm", align=center]
 
 == Lösungsstrategie
-Klassische Client-Server Architektur, *Single Page Application (SPA)* (Client) kommuniziert über *REST API* mit *Spring* Backend (Server). Das Backend folgt dem *Model View Controller (MVC)* Entwurfsmuster.
+Klassische Client-Server Architektur mit einem leichtgewichtigen, serverseitig gerenderten Client und einem *Spring* Backend (Server). Das Backend folgt dem *Model View Controller (MVC)* Entwurfsmuster.
 
 == Bausteinsicht
 
