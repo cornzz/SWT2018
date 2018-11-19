@@ -1,5 +1,9 @@
 package kickstart.form;
 
+import kickstart.Flower;
+import kickstart.Service;
+import org.salespointframework.catalog.ProductIdentifier;
+
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -22,8 +26,8 @@ public class BouquetForm {
 	private String name;
 	@NotEmpty
 	private String description;
-	private List<String> flowerIDs;
-	private List<String> serviceIDs;
+	private List<Flower> selectedFlowers;
+	private List<Service> selectedServices;
 
 	public void setName(String name) {
 		this.name = name;
@@ -41,19 +45,19 @@ public class BouquetForm {
 		return description;
 	}
 
-	public void setFlowerIDs(List<String> flowerIDs) {
-		this.flowerIDs = flowerIDs;
+	public void setSelectedFlowers(List<Flower> selectedFlowers) {
+		this.selectedFlowers = selectedFlowers;
 	}
 
-	public List<String> getFlowerIDs() {
-		return flowerIDs;
+	public List<Flower> getSelectedFlowers() {
+		return selectedFlowers;
 	}
 
-	public void setServiceIDs(List<String> serviceIDs) {
-		this.serviceIDs = serviceIDs;
+	public void setSelectedServices(List<Service> selectedServices) {
+		this.selectedServices = selectedServices;
 	}
 
-	public List<String> getServiceIDs() {
-		return serviceIDs;
+	public List<Service> getSelectedServices() {
+		return selectedServices;
 	}
 }

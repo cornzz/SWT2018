@@ -51,30 +51,12 @@ public class BouquetCatalogController {
 	@PostMapping("/bouquets/add")
 	public String addBouquets(@Valid BouquetForm form, Errors result) {
 
-		if (result.hasErrors()) {
+		// TODO: use form validator to check if there is at least one product selected
+		if (result.hasErrors() || (form.getSelectedFlowers().isEmpty() && form.getSelectedServices().isEmpty())) {
 			return "redirect:/bouquets/add";
 		}
 
-		System.out.println(form.getName());
-		System.out.println(form.getDescription());
-
-		// TODO: get flowers and services from form
-		System.out.println(form.getFlowerIDs().size());
-		System.out.println(form.getServiceIDs().size());
-
-		// I currently have no clue how to get the right objects by id since ProductIdentifier is not available here
-
-		// convert list to iterable
-		Iterable<Flower> flowersIterable = flowerCatalog.findAll();
-		List<Flower> flowers = new ArrayList<>();
-		flowersIterable.forEach(flowers::add);
-
-		// convert list to iterable
-		Iterable<Service> serviceIterable = serviceCatalog.findAll();
-		List<Service> services = new ArrayList<>();
-		serviceIterable.forEach(services::add);
-
-		bouquetCatalog.save(new Bouquet(form.getName(), form.getDescription(), flowers, services));
+		bouquetCatalog.save(new Bouquet(form.getName(), form.getDescription(), form.getSelectedFlowers(), form.getSelectedServices()));
 
 		return "redirect:/bouquets";
 	}
