@@ -56,7 +56,7 @@ public class Application {
 
 			http.authorizeRequests().antMatchers("/**").permitAll().and()
 					.formLogin().loginPage("/login").loginProcessingUrl("/login").and()
-					.logout().logoutUrl("/logout").logoutSuccessUrl("/").and()
+					.logout().logoutUrl("/logout").logoutSuccessUrl("/?logout").and()
 					.exceptionHandling().accessDeniedPage("/accessDenied");
 		}
 	}

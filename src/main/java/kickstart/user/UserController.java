@@ -1,5 +1,7 @@
 package kickstart.user;
 
+import org.salespointframework.useraccount.AuthenticationManager;
+import org.salespointframework.useraccount.Password;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,16 +17,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
 public class UserController {
 
-	private final UserManagement userManagement;
+	private enum ProcessType {
+		REGISTRATION,
+		ACCOUNTUPDATE,
+		CHANGEPASS;
+	}
 
-	public UserController(UserManagement userManagement) {
+	private final UserManagement userManagement;
+	private final AuthenticationManager authenticationManager;
+
+	public UserController(UserManagement userManagement, AuthenticationManager authenticationManager) {
 		this.userManagement = userManagement;
+		this.authenticationManager = authenticationManager;
 	}
 
 	@GetMapping("/register")
@@ -38,9 +47,12 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	ModelAndView registerNew(@ModelAttribute("form") @Validated(UserDto.RegistrationProcess.class) UserDto form, BindingResult result, HttpServletRequest request, Errors errors) {
+	ModelAndView registerNew(@ModelAttribute("form") @Validated(UserDto.RegistrationProcess.class) UserDto form, BindingResult result, HttpServletRequest request, @LoggedIn Optional<UserAccount> loggedIn) {
+		if (loggedIn.isPresent()) {
+			return new ModelAndView("redirect:/account", "form", null);
+		}
 		try {
-			checkForm(form, result, errors, true);
+			checkForm(form, result, Optional.empty(), ProcessType.REGISTRATION);
 		} catch (FormErrorException e) {
 			return new ModelAndView("register", "form", form);
 		}
@@ -66,23 +78,37 @@ public class UserController {
 
 	@PostMapping("/account")
 	@PreAuthorize("isAuthenticated()")
-	ModelAndView updateAccount(Model model, @ModelAttribute("form") @Validated(UserDto.UpdateAccProcess.class) UserDto form, BindingResult result, @LoggedIn Optional<UserAccount> loggedIn, Errors errors) {
+	ModelAndView updateAccount(Model model, @ModelAttribute("form") @Validated(UserDto.UpdateAccProcess.class) UserDto form, BindingResult result, @LoggedIn Optional<UserAccount> loggedIn) {
 		try {
-			checkForm(form, result, errors, false);
+			checkForm(form, result, loggedIn, ProcessType.ACCOUNTUPDATE);
 		} catch (FormErrorException e) {
 			return new ModelAndView("account", "form", form);
 		}
 
 		userManagement.modifyUser(form, loggedIn.get());
 
-		return new ModelAndView("account", "form", form);
+		return new ModelAndView("redirect:/account?success", "form", form);
+	}
+
+	@GetMapping("/account/changepass")
+	@PreAuthorize("isAuthenticated()")
+	String redirectAccount() {
+		return "redirect:/account";
 	}
 
 	@PostMapping("/account/changepass")
 	@PreAuthorize("isAuthenticated()")
-	ModelAndView changePassword(Model model, @ModelAttribute("form") @Valid UserDto form, BindingResult result, @LoggedIn Optional<UserAccount> loggedIn, Errors errors) {
+	ModelAndView changePassword(Model model, @ModelAttribute("form") @Validated(UserDto.ChangePassProcess.class) UserDto form, BindingResult result, @LoggedIn Optional<UserAccount> loggedIn) {
+		try {
+			checkForm(form, result, loggedIn, ProcessType.CHANGEPASS);
+		} catch (FormErrorException e) {
+			populateForm(form, loggedIn.get());
+			return new ModelAndView("account", "form", form);
+		}
 
-		return new ModelAndView("account", "form", form);
+		userManagement.changePass(form, loggedIn.get());
+
+		return new ModelAndView("redirect:/account?success", "form", form);
 	}
 
 	@GetMapping("/users")
@@ -93,22 +119,27 @@ public class UserController {
 		return "users";
 	}
 
-	private void checkForm(UserDto form, BindingResult result, Errors errors, boolean checkDuplicate) throws FormErrorException {
+	private void checkForm(UserDto form, BindingResult result, Optional<UserAccount> loggedIn, ProcessType processType) throws FormErrorException {
 		// Check for validation errors
 		if (result.hasErrors()) {
 			throw new FormErrorException("Regular error exception!");
 		}
-		if (!checkDuplicate) {
+		// If changing password, check for correct oldPassword
+		if (processType == ProcessType.CHANGEPASS) {
+			if (!authenticationManager.matches(Password.unencrypted(form.getOldPassword()), loggedIn.get().getPassword())) {
+				result.rejectValue("oldPassword", null, "Old password incorrect!");
+				throw new FormErrorException("Incorrect old password exception!");
+			}
 			return;
 		}
 		// Check for already existing username / email
 		String username = (form.getFirstName() + form.getLastName()).toLowerCase();
-		if (userManagement.nameExists(username)) {
-			errors.rejectValue("username", null, String.format("An account with the username '%s' already exists!", username));
+		if (userManagement.nameExists(username) && (processType == ProcessType.REGISTRATION || !loggedIn.get().getUsername().equals(username))) {
+			result.rejectValue("username", null, String.format("An account with the username '%s' already exists!", username));
 			throw new FormErrorException("Username taken exception!");
 		}
-		if (userManagement.mailExists(form.getEmail())) {
-			errors.rejectValue("email", null, String.format("An account with the email address '%s' already exists!", form.getEmail()));
+		if (userManagement.mailExists(form.getEmail()) && (processType == ProcessType.REGISTRATION || !loggedIn.get().getEmail().equals(form.getEmail()))) {
+			result.rejectValue("email", null, String.format("An account with the email address '%s' already exists!", form.getEmail()));
 			throw new FormErrorException("Email taken exception!");
 		}
 	}

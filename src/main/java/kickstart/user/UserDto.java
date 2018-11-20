@@ -33,6 +33,10 @@ public class UserDto {
 	private String password;
 	private String passwordRepeat;
 
+	@NotNull(groups = {UserDto.ChangePassProcess.class})
+	@NotEmpty(message = "{Dto.password.NotEmpty}", groups = {UserDto.ChangePassProcess.class})
+	private String oldPassword;
+
 
 	public String getFirstName() {
 		return this.firstName;
@@ -60,6 +64,10 @@ public class UserDto {
 
 	public String getPasswordRepeat() {
 		return passwordRepeat;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
 	}
 
 	public void setFirstName(String firstName) {
@@ -90,6 +98,10 @@ public class UserDto {
 		this.passwordRepeat = passwordRepeat;
 	}
 
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDto{" +
@@ -100,6 +112,7 @@ public class UserDto {
 				", phone='" + phone + '\'' +
 				", password='" + password + '\'' +
 				", passwordRepeat='" + passwordRepeat + '\'' +
+				", oldPassword='" + oldPassword + '\'' +
 				'}';
 	}
 

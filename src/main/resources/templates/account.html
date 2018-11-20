@@ -15,6 +15,9 @@
         <h1>My Account</h1>
         <div th:include="navigation :: navigation"></div>
 
+        <div class="alert alert-success" th:if="${param.success}" role="alert">Information saved successfully!</div>
+
+        <!-- Edit Account Form -->
         <form method="post" role="form" id="form" th:action="@{/account}" th:object="${form}">
             <!-- First Name, Last Name -->
             <div style="display: flex;">
@@ -45,21 +48,55 @@
             </div>
             <div class="alert alert-warning" th:if="${#fields.hasErrors('phone')}" th:text="${#fields.errors('phone') + ''}" role="alert"></div>
 
-            <button type="button" id="edit" onclick="toggleForm()" class="btn btn-default">Edit</button>
-            <button type="submit" id="submit" class="btn btn-primary btn-raised" style="display: none;">Submit</button>
-        </form>
-
-        <!--
-        <form>
-            <!-- Password -- >
-            <div class="form-group" style="margin-bottom: 25px;">
-                <label for="password" class="bmd-label-floating">Password</label>
-                <input type="password" class="form-control" id="password" th:field="*{password}" disabled="true" required>
-                <span class="bmd-help">We'll never share your password with anyone else.</span>
+            <div style="margin-top: 20px;">
+                <button type="button" id="edit" onclick="toggleForm()" class="btn btn-secondary">Edit</button>
+                <button type="submit" id="submit" class="btn btn-primary btn-raised" disabled>Submit</button>
             </div>
         </form>
-        -->
 
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#passModal">Change password</button>
+
+        <!-- Change Password Modal -->
+        <div class="modal fade" id="passModal" tabindex="-1" role="dialog" aria-labelledby="passModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="passModalTitle">Change password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" role="form" id="passwordForm" th:action="@{/account/changepass}" th:object="${form}">
+                            <!-- Old Password -->
+                            <div class="form-group" style="margin-bottom: 25px;">
+                                <label for="oldPassword" class="bmd-label-floating">Current Password</label>
+                                <input type="password" class="form-control" id="oldPassword" th:field="*{oldPassword}">
+                            </div>
+                            <!-- New Password -->
+                            <div class="form-group" style="margin-bottom: 25px;">
+                                <label for="newPassword" class="bmd-label-floating">New Password</label>
+                                <input type="password" class="form-control" id="newPassword" th:field="*{password}">
+                                <span class="bmd-help">We'll never share your password with anyone else.</span>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 25px;">
+                                <label for="newPasswordConfirm" class="bmd-label-floating">Repeat New Password</label>
+                                <input type="password" class="form-control" id="newPasswordConfirm" th:field="*{passwordRepeat}">
+                            </div>
+                            <div class="alert alert-primary" th:if="${#fields.hasGlobalErrors() || #fields.hasErrors('oldPassword') || #fields.hasErrors('password')}"
+                                 th:text="${#fields.globalErrors() + ' ' + #fields.errors('oldPassword') + ' ' + #fields.errors('password')}" role="alert" id="passAlert">
+                                Passwords have to match!
+                            </div>
+
+
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" id="submitPassword" class="btn btn-primary btn-raised">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
@@ -67,21 +104,22 @@
         <script>
             $(function () {
                 $('body').bootstrapMaterialDesign();
-                $(".alert")[0] ? toggleForm() : '';
+                $('.alert-warning')[0] ? toggleForm() : '';
+                $('.alert-primary')[0] ? $('#passModal').modal('show') : '';
             });
 
             function toggleForm() {
                 $('form#form :input').each(function() {
-                   ($('input').attr('readonly')) ? $('input').removeAttr('readonly') : $('input').attr('readonly', true);
+                   $(this).attr('readonly') ? $(this).removeAttr('readonly') : $(this).attr('readonly', true);
                 });
 
                 if ($('#edit').text() === 'Cancel') {
                     $('#edit').text('Edit');
-                    $('#submit').css('display', 'none');
-                    return
+                    $('#submit').attr('disabled', true);
+                    return;
                 }
                 $('#edit').text('Cancel');
-                $('#submit').css('display', '');
+                $('#submit').removeAttr('disabled');
             }
         </script>
     </body>

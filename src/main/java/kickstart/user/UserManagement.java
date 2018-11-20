@@ -14,15 +14,15 @@ import java.util.Optional;
 public class UserManagement {
 
 	private final UserRepository users;
-	private final UserAccountManager userAccounts;
+	private final UserAccountManager userAccountManager;
 
-	public UserManagement(UserRepository users, UserAccountManager userAccounts) {
+	public UserManagement(UserRepository users, UserAccountManager userAccountManager) {
 		this.users = users;
-		this.userAccounts = userAccounts;
+		this.userAccountManager = userAccountManager;
 	}
 
 	public User createUser(UserDto form) {
-		UserAccount userAccount = userAccounts.create((form.getFirstName() + form.getLastName()).toLowerCase(), form.getPassword(), Role.of("ROLE_CUSTOMER"));
+		UserAccount userAccount = userAccountManager.create((form.getFirstName() + form.getLastName()).toLowerCase(), form.getPassword(), Role.of("ROLE_CUSTOMER"));
 		userAccount.setFirstname(form.getFirstName());
 		userAccount.setLastname(form.getLastName());
 		userAccount.setEmail(form.getEmail());
@@ -32,14 +32,16 @@ public class UserManagement {
 
 	public User modifyUser(UserDto form, UserAccount userAccount) {
 		User user = findByAccount(userAccount).get();
-		userAccount = user.getUserAccount();
 		userAccount.setFirstname(form.getFirstName());
 		userAccount.setLastname(form.getLastName());
 		userAccount.setEmail(form.getEmail());
 		user.setPhone(form.getPhone());
-		userAccounts.save(userAccount);
 
 		return users.save(user);
+	}
+
+	public void changePass(UserDto form, UserAccount userAccount) {
+		userAccountManager.changePassword(userAccount, form.getPassword());
 	}
 
 	public Streamable<User> findAll() {

@@ -15,6 +15,7 @@
         <h1>Register</h1>
         <div th:include="navigation :: navigation"></div>
 
+        <!-- Registration Form -->
         <form method="post" role="form" id="form" th:action="@{/register}" th:object="${form}">
             <!-- First Name, Last Name -->
             <div style="display: flex;">
@@ -47,13 +48,13 @@
 
             <!-- Password -->
             <div class="form-group" style="margin-bottom: 25px;">
-                <label for="password" class="bmd-label-floating">Password</label>
-                <input type="password" class="form-control" id="password" th:field="*{password}">
+                <label for="newPassword" class="bmd-label-floating">Password</label>
+                <input type="password" class="form-control" id="newPassword" th:field="*{password}">
                 <span class="bmd-help">We'll never share your password with anyone else.</span>
             </div>
             <div class="form-group" style="margin-bottom: 25px;">
-                <label for="password2" class="bmd-label-floating">Repeat Password</label>
-                <input type="password" class="form-control" id="password2" th:field="*{passwordRepeat}">
+                <label for="newPasswordRepeat" class="bmd-label-floating">Repeat Password</label>
+                <input type="password" class="form-control" id="newPasswordRepeat" th:field="*{passwordRepeat}">
             </div>
             <div class="alert alert-primary" th:if="${#fields.hasGlobalErrors() || #fields.hasErrors('password')}"
                                              th:text="${#fields.globalErrors() + ' ' + #fields.errors('password')}" role="alert" id="passAlert">

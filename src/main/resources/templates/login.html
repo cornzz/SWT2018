@@ -26,6 +26,7 @@
                 <input type="password" class="form-control" id="password" name="password" required>
                 <span class="bmd-help">We'll never share your password with anyone else.</span>
             </div>
+            <div class="alert alert-primary" th:if="${param.error}" role="alert">Invalid username or password!</div>
 
             <button type="submit" class="btn btn-primary btn-raised">Login</button>
         </form>
