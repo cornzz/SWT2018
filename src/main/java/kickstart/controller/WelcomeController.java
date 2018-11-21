@@ -22,14 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class WelcomeController {
 
-	@RequestMapping("/")
-	public String index() {
-		return "welcome";
-	}
+		@RequestMapping("/")
+		public String index() {
+				return "welcome";
+		}
 
-	@RequestMapping("/accessDenied")
-	public ModelAndView accessDenied() {
-		return new ModelAndView("forward:/", "message", "You don't have access to this page!");
-	}
+		@RequestMapping("/accessDenied")
+		public ModelAndView accessDenied() {
+				return new ModelAndView("forward:/", "message", "You don't have access to this page!");
+		}
 
 }
