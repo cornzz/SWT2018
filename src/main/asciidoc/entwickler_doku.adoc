@@ -47,6 +47,8 @@ image::.\images\Inventory.jpg[Inventory, 100%, 100%, pdfwidth=100%, title= "Inve
 
 image::.\images\class__order.jpg[Order, 100%, 100%, pdfwidth=100%, title= "Order", align=center]
 
+image::.\images\uml_user.jpg[Order, 100%, 100%, pdfwidth=100%, title= "User", align=center]
+
 Die verschieden Ansichten der Anwendung werden serverseitig gerendert. Zum Einsatz kommt dabei *Spring*'s Template Engine *Thymeleaf*. Dieses Vorgehen sorgt für geringe Anforderungen an den Client (*Thin Client*) und führt zum bestmöglichen *Search Engine Ranking*.
 
 Die Benutzeroberfläche folgt den *Material Design Specifications*. Dieses Vorgehen sorgt für ein einheitliche Nutzeroberfläche die reagiert wie es der Nutzer erwartet. Durch die weite Verbreitung genannter Spezifikationen sind viele Nutzer unbewusst bereits mit deren Prinzipien vertraut. Verschiedene Open Source Projekte stellen bereits einen breiten Katalog von UI Komponenten, die den Spezifikationen folgen zur verfügung.
