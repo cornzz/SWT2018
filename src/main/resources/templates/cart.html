@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:border="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -8,6 +9,18 @@
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <title>Warenkorb</title>
 </head>
+<style>
+    .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+</style>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
@@ -25,33 +38,33 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Flowershop</span>
         <nav class="mdl-navigation">
-
+            <div align="right"></div><button type="button">Ausloggen</button>
         </nav>
     </div>
     <main class="mdl-layout__content">
-
-
-
-        <div class="ui container">
+        <div align="center" class="ui container">
             <header>
-                <h1>Warenkorb</h1>
+                <h1><font size="7" face="Comic Sans MS">Warenkorb</font></h1>
             </header>
-            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            <div th:unless="${cart.empty}">
+            <table width="60%" class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
                 <thead>
                 <tr>
-                    <th class="mdl-data-table__cell--non-numeric">Titel</th>
-                    <th>Sorte</th>
-                    <th>Preis</th>
-                    <th>Anzahl</th>
+                    <th class="mdl-data-table__cell--non-numeric" width="40%">Titel</th>
+                    <th class="mdl-data-table__cell--non-numeric" width="15%">Sorte</th>
+                    <th class="mdl-data-table__cell--non-numeric" width="12%">Anzahl</th>
+                    <th class="mdl-data-table__cell--non-numeric" width="16%">Preis</th>
 
                 </tr>
                 </thead>
                 <tbody th:remove="all-but-first">
                 <tr th:each=" item : ${cart}">
-                    <td th:text="${item.product.name}">Tulpe</td>
-                    <td th:text="${item.product.type}">20</td>
-                    <td th:text="${item.product.price}">10 €</td>
-                    <td th:text="${item.quantity}">15</td>
+                    <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.name}">Tulpe</td>
+                    <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.type}">blume</td>
+                    <td class="mdl-data-table__cell--non-numeric" th:text="${item.quantity}">15</td>
+                    <td class="mdl-data-table__cell--non-numeric" th:text="${{item.product.price}}">10 €</td>
+                    <td> <button type="button">Bearbeiten</button></td>
+                    <td> <button type="button">Entfernen</button></td>
                 </tr>
                 <!-- <tr>
                     <td> Tulpe</td>
@@ -64,7 +77,22 @@
                     <td>5</td>
                 </tr> -->
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td /><td />
+                    <td class="mdl-data-table__cell--non-numeric"><b>Gesamt:</b></td>
+                    <td class="mdl-data-table__cell--non-numeric"><div class="value"><span th:text="${{cart.price}}">123123</span></div></td>
+                </tr>
+                </tfoot>
             </table>
+            </div>
+            <h2 th:if="${cart.empty}" th:text="#{cart.empty}"><font size="7" face="Comic Sans MS">Dein Warenkorb ist leer.</font></h2>
+            <div width="60%" align="center">
+                <br /><br />
+                    <button sec:authorize="hasRole('ROLE_CUSTOMER')" align="right" type="submit" class="ui button">Kaufen</button>
+                </form>
+                <button type="submit" class="ui button">Weitershoppen</button>
+            </div>
         </div>
     </main>
 </div>
