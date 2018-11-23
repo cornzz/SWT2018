@@ -1,1 +1,1 @@
-= Logge dich als (hans, 123)
+= Logge dich als (hans, 123) als normale Kunde oder (boss, 123) als Owner
