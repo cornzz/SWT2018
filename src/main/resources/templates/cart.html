@@ -38,7 +38,9 @@
     <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Flowershop</span>
         <nav class="mdl-navigation">
-            <div align="right"></div><button type="button">Ausloggen</button>
+            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                <button type="submit" class="ui button">Ausloggen</button>
+            </form>
         </nav>
     </div>
     <main class="mdl-layout__content">
@@ -50,6 +52,7 @@
             <table width="60%" class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
                 <thead>
                 <tr>
+                    <th />
                     <th class="mdl-data-table__cell--non-numeric" width="40%">Titel</th>
                     <th class="mdl-data-table__cell--non-numeric" width="15%">Sorte</th>
                     <th class="mdl-data-table__cell--non-numeric" width="12%">Anzahl</th>
@@ -59,6 +62,7 @@
                 </thead>
                 <tbody th:remove="all-but-first">
                 <tr th:each=" item : ${cart}">
+                    <td><img src="../drawable/flower1.png" alt="Flower" style="width:30px;height:30px;"></td>
                     <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.name}">Tulpe</td>
                     <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.type}">blume</td>
                     <td class="mdl-data-table__cell--non-numeric" th:text="${item.quantity}">15</td>
@@ -86,12 +90,18 @@
                 </tfoot>
             </table>
             </div>
-            <h2 th:if="${cart.empty}" th:text="#{cart.empty}"><font size="7" face="Comic Sans MS">Dein Warenkorb ist leer.</font></h2>
+            <h2 th:if="${cart.empty}"><font size="7" face="Comic Sans MS">Dein Warenkorb ist leer.</font></h2>
             <div width="60%" align="center">
                 <br /><br />
-                    <button sec:authorize="hasRole('ROLE_CUSTOMER')" align="right" type="submit" class="ui button">Kaufen</button>
-                </form>
-                <button type="submit" class="ui button">Weitershoppen</button>
+                <table style="width:40%">
+                    <tr>
+                        <th><form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" class="ui form" th:action="@{/checkout}">
+                            <button th:unless="${cart.empty}" type="submit" class="ui button">Kaufen</button>
+                        </form></th>
+                        <th><form class="ui form" th:action="@{/}">
+                            <button type="submit" class="ui button">Weitershoppen</button></form></th>
+                    </tr>
+                    </table>
             </div>
         </div>
     </main>

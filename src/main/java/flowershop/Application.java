@@ -16,6 +16,7 @@
 package flowershop;
 
 import flowershop.customer.Customer;
+import flowershop.order.CartInitializer;
 import org.salespointframework.EnableSalespoint;
 import org.salespointframework.SalespointSecurityConfiguration;
 import org.salespointframework.useraccount.UserAccount;

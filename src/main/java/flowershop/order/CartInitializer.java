@@ -3,6 +3,7 @@ package flowershop.order;
 
 import java.util.Optional;
 
+import flowershop.catalog.Disc;
 import flowershop.catalog.Item;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
@@ -31,20 +32,19 @@ import static org.salespointframework.core.Currencies.EURO;
 @PreAuthorize("isAuthenticated()")
 @SessionAttributes("cart")
 public class CartInitializer {
-	Cart cart=new Cart();
 
 
 	@ModelAttribute("cart")
 	Cart initializeCart() {
+		Cart cart=new Cart();
 		Item item = new Item("Tulpe", Money.of(1.50,EURO), Item.ItemType.BLUME);
-		cart.addOrUpdateItem(item,20);
+		cart.addOrUpdateItem(item,1);
 		Item item2 = new Item("Gänseblümchen", Money.of(10.0,EURO), Item.ItemType.BLUME);
-		cart.addOrUpdateItem(item2,50);
+		cart.addOrUpdateItem(item2,2);
 		Item item3 = new Item("Rosa", Money.of(0.20,EURO), Item.ItemType.BLUME);
-		cart.addOrUpdateItem(item3,3);
+		cart.addOrUpdateItem(item3,4);
 		Item item4 = new Item("Irgendein Strauss", Money.of(20.0,EURO), Item.ItemType.STRAUSS);
 		cart.addOrUpdateItem(item4,1);
-
 		return cart;
 	}
 	@GetMapping("/")
@@ -52,10 +52,10 @@ public class CartInitializer {
 		return "cart";
 	}
 
-	public String getPriceSum(){
+/*	public String getPriceSum(){
 		//int priceSum=0;
 		javax.money.MonetaryAmount asd = cart.getPrice();
 		//String convertedPriceSum=Integer.toString(priceSum);
 		return asd.toString();
-	}
+	}*/
 }
