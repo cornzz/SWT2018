@@ -1,6 +1,6 @@
 package kickstart.validation;
 
-import kickstart.user.UserDto;
+import kickstart.user.UserDataTransferObject;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,7 +13,7 @@ public class MatchingPasswordValidator implements ConstraintValidator<MatchingPa
 
 		@Override
 		public boolean isValid(Object obj, ConstraintValidatorContext context) {
-				UserDto form = (UserDto) obj;
+				UserDataTransferObject form = (UserDataTransferObject) obj;
 				if (form.getPassword() == null || form.getPasswordRepeat() == null) {
 						return false;
 				}

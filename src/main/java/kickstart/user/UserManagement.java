@@ -21,7 +21,7 @@ public class UserManagement {
 				this.userAccountManager = userAccountManager;
 		}
 
-		public User createUser(UserDto form) {
+		public User createUser(UserDataTransferObject form) {
 				UserAccount userAccount = userAccountManager
 						.create((form.getFirstName() + form.getLastName()).toLowerCase(), form.getPassword(), Role.of("ROLE_CUSTOMER"));
 				userAccount.setFirstname(form.getFirstName());
@@ -31,7 +31,7 @@ public class UserManagement {
 				return users.save(new User(userAccount, form.getPhone()));
 		}
 
-		public User modifyUser(UserDto form, UserAccount userAccount) {
+		public User modifyUser(UserDataTransferObject form, UserAccount userAccount) {
 				User user = findByAccount(userAccount).get();
 				userAccount.setFirstname(form.getFirstName());
 				userAccount.setLastname(form.getLastName());
@@ -41,7 +41,7 @@ public class UserManagement {
 				return users.save(user);
 		}
 
-		public void changePass(UserDto form, UserAccount userAccount) {
+		public void changePass(UserDataTransferObject form, UserAccount userAccount) {
 				userAccountManager.changePassword(userAccount, form.getPassword());
 		}
 
