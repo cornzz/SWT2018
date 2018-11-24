@@ -74,6 +74,8 @@
                                 <label for="oldPassword" class="bmd-label-floating">Current Password</label>
                                 <input type="password" class="form-control" id="oldPassword" th:field="*{oldPassword}">
                             </div>
+                            <div class="alert alert-primary" th:if="${#fields.hasErrors('oldPassword')}"
+                                 th:text="${#fields.errors('oldPassword') + ''}" role="alert"></div>
                             <!-- New Password -->
                             <div class="form-group" style="margin-bottom: 25px;">
                                 <label for="newPassword" class="bmd-label-floating">New Password</label>
@@ -84,8 +86,8 @@
                                 <label for="newPasswordConfirm" class="bmd-label-floating">Repeat New Password</label>
                                 <input type="password" class="form-control" id="newPasswordConfirm" th:field="*{passwordRepeat}">
                             </div>
-                            <div class="alert alert-primary" th:if="${#fields.hasGlobalErrors() || #fields.hasErrors('oldPassword') || #fields.hasErrors('password')}"
-                                 th:text="${#fields.globalErrors() + ' ' + #fields.errors('oldPassword') + ' ' + #fields.errors('password')}" role="alert" id="passAlert">
+                            <div class="alert alert-primary" th:if="${#fields.hasErrors('passwordRepeat') || #fields.hasErrors('password')}"
+                                 th:text="${#fields.errors('passwordRepeat') + ' ' + #fields.errors('password')}" role="alert" id="passAlert">
                                 Passwords have to match!
                             </div>
 

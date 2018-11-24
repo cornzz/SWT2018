@@ -17,7 +17,13 @@ public class MatchingPasswordValidator implements ConstraintValidator<MatchingPa
 				if (form.getPassword() == null || form.getPasswordRepeat() == null) {
 						return false;
 				}
-				return form.getPassword().equals(form.getPasswordRepeat());
+				boolean isValid = form.getPassword().equals(form.getPasswordRepeat());
+				if (!isValid) {
+						context.disableDefaultConstraintViolation(); // Prevent global error registration
+						context.buildConstraintViolationWithTemplate("{Dto.password.MustMatch}")
+								.addPropertyNode("passwordRepeat").addConstraintViolation(); // Register error on field "username"
+				}
+				return isValid;
 		}
 
 }

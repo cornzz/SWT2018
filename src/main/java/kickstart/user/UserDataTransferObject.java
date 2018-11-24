@@ -9,7 +9,7 @@ import kickstart.validation.ValidOldPassword;
 import kickstart.validation.ValidUsername;
 
 @MatchingPassword(message = "{Dto.password.MustMatch}", groups = {UserDataTransferObject.RegistrationProcess.class, UserDataTransferObject.ChangePassProcess.class})
-@ValidUsername(message = "{Dto.username.Invalid}", groups = {UserDataTransferObject.RegistrationProcess.class, UserDataTransferObject.UpdateAccProcess.class})
+@ValidUsername(groups = {UserDataTransferObject.RegistrationProcess.class, UserDataTransferObject.UpdateAccProcess.class})
 public class UserDataTransferObject {
 
 		@NotNull(groups = {UserDataTransferObject.RegistrationProcess.class, UserDataTransferObject.UpdateAccProcess.class})

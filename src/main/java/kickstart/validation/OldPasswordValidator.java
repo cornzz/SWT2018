@@ -19,7 +19,10 @@ public class OldPasswordValidator implements ConstraintValidator<ValidOldPasswor
 
 		@Override
 		public boolean isValid(String oldPasswordCandidate, ConstraintValidatorContext constraintValidatorContext) {
-				return authMgr.getCurrentUser().isPresent() && authMgr
-						.matches(Password.unencrypted(oldPasswordCandidate), authMgr.getCurrentUser().get().getPassword());
+				if (oldPasswordCandidate == null || oldPasswordCandidate.isEmpty()) {
+						return true; // In this case @NotNull / @NotEmpty takes over
+				}
+				return authMgr.getCurrentUser().isPresent() && authMgr.
+						matches(Password.unencrypted(oldPasswordCandidate), authMgr.getCurrentUser().get().getPassword());
 		}
 }

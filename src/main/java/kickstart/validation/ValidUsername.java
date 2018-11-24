@@ -17,7 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface ValidUsername {
 
-		String message() default "Invalid email";
+		String message() default "Username taken.";
 
 		Class<?>[] groups() default {};
 
