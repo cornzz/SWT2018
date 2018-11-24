@@ -8,10 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -34,9 +31,9 @@ public class InventoryController {
 		return "inventory";
 	}
 
-	@PostMapping("/deficit/{id}")
-	public String deficit(@PathVariable InventoryItemIdentifier id){
-		inventory.findById(id).get().decreaseQuantity(Quantity.of(1));
+	@RequestMapping("/deficit/{id}")
+	public String deficit(@PathVariable InventoryItemIdentifier id, @RequestParam int deficit){
+		inventory.findById(id).get().decreaseQuantity(Quantity.of(deficit));
 		inventory.save(inventory.findById(id).get());
 
 

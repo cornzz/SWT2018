@@ -56,11 +56,12 @@
         <td>
 
 
-            <form method="post" th:action="@{/deficit/{id}(id=${item.id})}">
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
-            deficit
-        </button>
-                </form>
+            <form method="request" th:action="@{/deficit/{id}(id=${item.id})}">
+                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="deficit" id="deficit" style="width: 50px">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
+                deficit
+                </button>
+            </form>
         </td>
     </tr>
 
