@@ -1,7 +1,7 @@
 package kickstart.initializer;
 
-import kickstart.Service;
-import kickstart.ServiceCatalog;
+import kickstart.FlowerShopService;
+import kickstart.FlowerShopServiceCatalog;
 import org.javamoney.moneta.Money;
 import org.salespointframework.core.DataInitializer;
 import org.springframework.core.annotation.Order;
@@ -12,20 +12,20 @@ import org.springframework.util.Assert;
 @Order(20)
 public class ServiceCatalogInitializer implements DataInitializer {
 
-	private final ServiceCatalog serviceCatalog;
+	private final FlowerShopServiceCatalog flowerShopServiceCatalog;
 
-	ServiceCatalogInitializer(ServiceCatalog serviceCatalog) {
-		Assert.notNull(serviceCatalog, "ServiceCatalog must not be null!");
+	ServiceCatalogInitializer(FlowerShopServiceCatalog flowerShopServiceCatalog) {
+		Assert.notNull(flowerShopServiceCatalog, "FlowerShopServiceCatalog must not be null!");
 
-		this.serviceCatalog = serviceCatalog;
+		this.flowerShopServiceCatalog = flowerShopServiceCatalog;
 	}
 
 	@Override
 	public void initialize() {
-		if(serviceCatalog.findAll().iterator().hasNext()) {
+		if(flowerShopServiceCatalog.findAll().iterator().hasNext()) {
 			return;
 		}
 
-		serviceCatalog.save(new Service("Make Bouquet", Money.of(100, "EUR"), "Basic service"));
+		flowerShopServiceCatalog.save(new FlowerShopService("Make CompoundFlowerShopProduct", Money.of(100, "EUR"), "Basic service"));
 	}
 }

@@ -10,7 +10,7 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form method="post" role="form" class="fs-form" id="form" th:action="@{/bouquets/add}" th:object="${form}">
+            <form method="post" role="form" class="fs-form" id="form" th:action="@{/products/add}" th:object="${form}">
                 <div class="mdc-form-field mdc-form-field--align-end">
                     <div class="mdc-text-field">
                         <input type="text" id="tf-outlined" class="mdc-text-field__input" name="name" th:field="*{name}">
@@ -25,7 +25,7 @@
                         <div class="mdc-line-ripple"></div>
                     </div>
                 </div>
-                <div id="fs-add-flowers-chip" class="mdc-chip fs-chip">
+                <div id="fs-add-items-chip" class="mdc-chip fs-chip">
                     <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">add</i>
                     <div class="mdc-chip__text">Add Flowers</div>
                 </div>

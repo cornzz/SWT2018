@@ -6,13 +6,13 @@ import org.salespointframework.catalog.Product;
 import javax.persistence.Entity;
 
 @Entity
-public class Service extends Product {
+public class FlowerShopService extends Product {
 	private String desrciption;
 
 	@SuppressWarnings("unused")
-	private Service() {}
+	private FlowerShopService() {}
 
-	public Service(String name, Money price, String description) {
+	public FlowerShopService(String name, Money price, String description) {
 		super(name, price);
 
 		this.desrciption = description;

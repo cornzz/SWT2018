@@ -3,13 +3,13 @@ import {MDCList} from '@material/list'
 
 console.log("MDCDialog");
 
-const addFlowerDialogElement = document.getElementById('fs-add-flowers-dialog');
+const addFlowerDialogElement = document.getElementById('fs-add-items-dialog');
 const addServiceDialogElement = document.getElementById('fs-add-services-dialog');
 
-const addFlowersListElement = document.getElementById('fs-add-flowers-list');
+const addFlowersListElement = document.getElementById('fs-add-items-list');
 const addServicesListElement = document.getElementById('fs-add-services-list');
 
-const addFlowerChipElement = document.getElementById('fs-add-flowers-chip');
+const addFlowerChipElement = document.getElementById('fs-add-items-chip');
 const addServiceChipElement = document.getElementById('fs-add-services-chip');
 
 generateDialogLogic(addFlowerDialogElement, addFlowersListElement, addFlowerChipElement);

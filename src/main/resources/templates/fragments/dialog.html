@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<div id="fs-add-flowers-dialog"
+<div id="fs-add-items-dialog"
      class="mdc-dialog"
      role="alertdialog"
      aria-modal="true"
@@ -10,16 +10,16 @@
             <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
             <h2 class="mdc-dialog__title"><!---->Choose Flowers<!----></h2>
             <div class="mdc-dialog__content">
-                <ul id="fs-add-flowers-list" class="mdc-list">
-                    <th:block th:each="flower, iteration : ${flowers}">
+                <ul id="fs-add-items-list" class="mdc-list">
+                    <th:block th:each="item, iteration : ${flowerShopItems}">
                         <li class="mdc-list-item" th:tabindex="${iteration.index}">
                             <span class="mdc-list-item__graphic">
                                 <div class="mdc-checkbox">
                                     <input type="checkbox"
                                            class="mdc-checkbox__native-control"
-                                           th:value="${flower.id}"
-                                           th:id="${flower.id}"
-                                           th:field="*{selectedFlowers}"/>
+                                           th:value="${item.id}"
+                                           th:id="${item.id}"
+                                           th:field="*{selectedFlowerShopItems}"/>
                                     <div class="mdc-checkbox__background">
                                         <svg class="mdc-checkbox__checkmark"
                                              viewBox="0 0 24 24">
@@ -31,7 +31,7 @@
                                     </div>
                                   </div>
                             </span>
-                            <label th:for="${flower.id}" class="mdc-list-item__text" th:text="${flower.name}">Flower</label>
+                            <label th:for="${item.id}" class="mdc-list-item__text" th:text="${item.name}">Flower</label>
                         </li>
                     </th:block>
                 </ul>
@@ -56,8 +56,8 @@
             <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
             <h2 class="mdc-dialog__title"><!---->Choose Services<!----></h2>
             <div class="mdc-dialog__content">
-                <ul class="mdc-list">
-                    <th:block th:each="service, iteration : ${services}">
+                <ul id="fs-add-services-list" class="mdc-list">
+                    <th:block th:each="service, iteration : ${flowerShopServices}">
                         <li class="mdc-list-item" th:tabindex="${iteration.index}">
                             <span class="mdc-list-item__graphic">
                                 <div class="mdc-checkbox">
@@ -65,7 +65,7 @@
                                            class="mdc-checkbox__native-control"
                                            th:value="${service.id}"
                                            th:id="${service.id}"
-                                           th:field="*{selectedServices}"/>
+                                           th:field="*{selectedFlowerShopServices}"/>
                                     <div class="mdc-checkbox__background">
                                         <svg class="mdc-checkbox__checkmark"
                                              viewBox="0 0 24 24">

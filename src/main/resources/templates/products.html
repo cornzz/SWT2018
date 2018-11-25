@@ -11,8 +11,8 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <div class="fs-card-wrapper">
-                <th:block th:each="bouquet : ${bouquets}">
-                    <div th:replace="fragments/bouquet_card :: bouquet_card (bouquet=${bouquet})"></div>
+                <th:block th:each="product : ${products}">
+                    <div th:replace="fragments/product_card :: product_card (product=${product})"></div>
                 </th:block>
             </div>
         </div>
