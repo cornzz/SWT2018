@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import static org.salespointframework.core.Currencies.EURO;
 
 @Controller
-public class InventoryController {
+public class FlowerShopInventoryController {
 
 	private final Inventory<InventoryItem> inventory;
 	private final FlowerShopItemCatalog itemCatalog;
 
-	InventoryController(Inventory<InventoryItem> inventory, FlowerShopItemCatalog itemCatalog) {
+	FlowerShopInventoryController(Inventory<InventoryItem> inventory, FlowerShopItemCatalog itemCatalog) {
 		this.itemCatalog = itemCatalog;
 		this.inventory = inventory;
 	}

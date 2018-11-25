@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import static org.salespointframework.core.Currencies.EURO;
 
 @Controller
-public class ServiceController {
+public class FlowerShopServiceController {
 
 	private final FlowerShopServiceCatalog serviceCatalog;
 
-	ServiceController(FlowerShopServiceCatalog serviceCatalog){
+	FlowerShopServiceController(FlowerShopServiceCatalog serviceCatalog){
 		this.serviceCatalog = serviceCatalog;
 	}
 
