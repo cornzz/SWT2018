@@ -17,25 +17,40 @@ package flowershop;
 
 import org.salespointframework.EnableSalespoint;
 import org.salespointframework.SalespointSecurityConfiguration;
+import org.salespointframework.SalespointWebConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 @EnableSalespoint
 public class Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-
-	@Configuration
-	static class WebSecurityConfiguration extends SalespointSecurityConfiguration {
-
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http.authorizeRequests().antMatchers("/**").permitAll().and()
-					.formLogin().loginProcessingUrl("/login").and()
-					.logout().logoutUrl("/logout").logoutSuccessUrl("/");
+		public static void main(String[] args) {
+				SpringApplication.run(Application.class, args);
 		}
-	}
+
+		@Configuration
+		static class FlowerShopWebConfiguration extends SalespointWebConfiguration {
+
+				@Override
+				public void addViewControllers(ViewControllerRegistry registry) {
+						registry.addViewController("/login").setViewName("login");
+				}
+		}
+
+		@Configuration
+		static class WebSecurityConfiguration extends SalespointSecurityConfiguration {
+
+				@Override
+				protected void configure(HttpSecurity http) throws Exception {
+						http.csrf().disable();
+
+						http.authorizeRequests().antMatchers("/**").permitAll().and()
+								.formLogin().loginPage("/login").loginProcessingUrl("/login").and()
+								.logout().logoutUrl("/logout").logoutSuccessUrl("/?logout").and()
+								.exceptionHandling().accessDeniedPage("/accessDenied");
+				}
+		}
+
 }
