@@ -1,7 +1,7 @@
-package kickstart.form;
+package flowershop.products.form;
 
-import kickstart.FlowerShopItem;
-import kickstart.FlowerShopService;
+import flowershop.products.FlowerShopItem;
+import flowershop.products.FlowerShopService;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;

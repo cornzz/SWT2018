@@ -1,7 +1,7 @@
-package kickstart.initializer;
+package flowershop.products.initializer;
 
-import kickstart.FlowerShopService;
-import kickstart.FlowerShopServiceCatalog;
+import flowershop.products.FlowerShopService;
+import flowershop.products.FlowerShopServiceCatalog;
 import org.javamoney.moneta.Money;
 import org.salespointframework.core.DataInitializer;
 import org.springframework.core.annotation.Order;

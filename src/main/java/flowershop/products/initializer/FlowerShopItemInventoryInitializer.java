@@ -1,6 +1,6 @@
-package kickstart.initializer;
+package flowershop.products.initializer;
 
-import kickstart.FlowerShopItemCatalog;
+import flowershop.products.FlowerShopItemCatalog;
 import org.salespointframework.core.DataInitializer;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;

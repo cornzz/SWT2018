@@ -1,4 +1,4 @@
-package kickstart;
+package flowershop.products;
 
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;

@@ -1,4 +1,4 @@
-package kickstart;
+package flowershop.products;
 
 import org.salespointframework.catalog.Catalog;
 

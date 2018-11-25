@@ -1,7 +1,10 @@
-package kickstart.controller;
+package flowershop.products.controller;
 
-import kickstart.*;
-import kickstart.form.AddCompoundFlowerShopProductForm;
+import flowershop.products.CompoundFlowerShopProduct;
+import flowershop.products.CompoundFlowerShopProductCatalog;
+import flowershop.products.FlowerShopItemCatalog;
+import flowershop.products.FlowerShopServiceCatalog;
+import flowershop.products.form.AddCompoundFlowerShopProductForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
