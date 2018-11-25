@@ -1,0 +1,13 @@
+<html th:fragment="layout (title, header, main)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:replace="${title}">Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons">
+    <link rel="stylesheet" href="bundle.css" th:href="@{/resources/css/bundle.css}">
+</head>
+<body class="mdc-typography">
+<header th:replace="${header}"></header>
+<main th:replace="${main}"></main>
+<script type="text/javascript" src="bundle.js" async th:src="@{/resources/js/bundle.js}"></script>
+</body>
+</html>

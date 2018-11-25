@@ -1,0 +1,46 @@
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header_dialog">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <form method="post" role="form" class="fs-form" id="form" th:action="@{/products/add}" th:object="${form}">
+                <div class="mdc-form-field mdc-form-field--align-end">
+                    <div class="mdc-text-field">
+                        <input type="text" id="tf-outlined" class="mdc-text-field__input" name="name" th:field="*{name}">
+                        <label for="tf-outlined" class="mdc-floating-label">Name</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
+                </div>
+                <div class="mdc-form-field mdc-form-field--align-end">
+                    <div class="mdc-text-field">
+                        <input type="text" id="tf2-outlined" class="mdc-text-field__input" name="description" th:field="*{description}">
+                        <label for="tf2-outlined" class="mdc-floating-label">Description</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
+                </div>
+                <div id="fs-add-items-chip" class="mdc-chip fs-chip">
+                    <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">add</i>
+                    <div class="mdc-chip__text">Add Flowers</div>
+                </div>
+                <div th:replace="fragments/dialog :: add_flowers_dialog"></div>
+                <div id="fs-add-services-chip" class="mdc-chip fs-chip">
+                    <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">add</i>
+                    <div class="mdc-chip__text">Add Services</div>
+                </div>
+                <div th:replace="fragments/dialog :: add_services_dialog"></div>
+                <button class="mdc-button mdc-button--raised ">
+                    Save
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

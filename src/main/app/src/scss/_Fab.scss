@@ -1,0 +1,17 @@
+.fs- {
+  &fab {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+
+    a {
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
+      width: 56px;
+      text-decoration: none;
+    }
+  }
+}

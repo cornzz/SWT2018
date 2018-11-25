@@ -1,0 +1,23 @@
+// material components for the web
+@import "~@material/button/mdc-button";
+@import "~@material/top-app-bar/mdc-top-app-bar";
+@import "~@material/card/mdc-card";
+@import "~@material/icon-button/mdc-icon-button";
+@import "~@material/typography/mdc-typography";
+@import "~@material/fab/mdc-fab";
+@import "~@material/dialog/mdc-dialog";
+@import "~@material/list/mdc-list";
+@import "~@material/textfield/mdc-text-field";
+@import "~@material/form-field/mdc-form-field";
+@import "~@material/chips/mdc-chips";
+@import "~@material/checkbox/mdc-checkbox";
+
+// custom styles
+@import "scss/Base";
+@import "scss/Card";
+@import "scss/ContentWrapper";
+@import "scss/CardWrapper";
+@import "scss/Fab";
+@import "scss/Form";
+@import "scss/Chip";
+@import "scss/DialogHeader";
