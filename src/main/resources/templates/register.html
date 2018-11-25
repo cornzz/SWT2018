@@ -9,7 +9,7 @@
 
     <body>
         <h1>Register</h1>
-        <div th:include="navigation :: navigation"></div>
+        <div th:include="fragments/navigation :: navigation"></div>
 
         <!-- Registration Form -->
         <form method="post" role="form" id="form" th:action="@{/register}" th:object="${form}">
