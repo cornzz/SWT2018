@@ -1,0 +1,40 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<main class="mdl-layout__content">
+
+
+
+    <div class="ui container">
+        <header>
+        </header>
+        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" id="table1">
+            <thead>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Service</th>
+                <th>Base price</th>
+
+            </tr>
+            </thead>
+            <tbody th:remove="all-but-first">
+            <tr th:each=" service: ${services}">
+                <td th:text="${service.name}">watering flowers</td>
+                <td th:text="${service.price}">3</td>
+
+            </tr>
+
+            </tbody>
+        </table>
+        <form method="post "th:action="@{/products/services/add}" >
+            <button class="mdl-button mdl-js-button mdl-button--fab" th:fragment="floating_action_button" id="button1">
+                <i class="material-icons">add</i>
+            </button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

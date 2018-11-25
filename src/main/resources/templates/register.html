@@ -1,0 +1,85 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Register</title>
+    </head>
+
+    <body>
+        <h1>Register</h1>
+        <div th:include="fragments/navigation :: navigation"></div>
+
+        <!-- Registration Form -->
+        <form method="post" role="form" id="form" th:action="@{/register}" th:object="${form}">
+            <!-- First Name, Last Name -->
+            <div style="display: flex;">
+                <div class="form-group" style="flex: 1;">
+                    <label for="firstName" class="bmd-label-floating">First Name</label>
+                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="lastName" class="bmd-label-floating">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
+                </div>
+            </div>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName') || #fields.hasErrors('lastName')}"
+                                             th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName')}" role="alert">
+            </div>
+
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('username')}"
+                                             th:text="'An account with the username ' + *{username} + ' is already registered!'" role="alert"></div>
+
+            <!-- E-Mail -->
+            <div class="form-group">
+                <label for="email" class="bmd-label-floating">E-Mail</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" required>
+            </div>
+            <div class="alert alert-warning" th:each="error : ${#fields.errors('email')}" th:text="${error}" role="alert"></div>
+
+            <!-- Phone -->
+            <div class="form-group">
+                <label for="phone" class="bmd-label-floating">Phone</label>
+                <input type="tel" class="form-control" id="phone" th:field="*{phone}" required>
+            </div>
+            <div class="alert alert-warning" th:each="error : ${#fields.errors('phone')}" th:text="${error}" role="alert"></div>
+
+            <!-- Password -->
+            <div class="form-group" style="margin-bottom: 25px;">
+                <label for="newPassword" class="bmd-label-floating">Password</label>
+                <input type="password" class="form-control" id="newPassword" th:field="*{password}" required>
+                <span class="bmd-help">We'll never share your password with anyone else.</span>
+            </div>
+            <div class="form-group" style="margin-bottom: 25px;">
+                <label for="newPasswordRepeat" class="bmd-label-floating">Repeat Password</label>
+                <input type="password" class="form-control" id="newPasswordRepeat" th:field="*{passwordRepeat}" required>
+            </div>
+            <div class="alert alert-primary" th:if="${#fields.hasErrors('passwordRepeat') || #fields.hasErrors('password')}"
+                                             th:text="${#fields.errors('passwordRepeat') + ' ' + #fields.errors('password')}" role="alert" id="passAlert">
+                Passwords have to match!
+            </div>
+
+            <button type="reset" class="btn btn-default">Cancel</button>
+            <button type="submit" id="submitButton" class="btn btn-primary btn-raised">Register</button>
+        </form>
+
+        <script>
+            // Unused
+            function register() {
+                var pass1 = document.getElementById('password').value,
+                    pass2 = document.getElementById('password2').value,
+                    passAlert = document.getElementById('passAlert'),
+                    submitButton = document.getElementById('submitButton');
+
+                if (pass1 !== pass2) {
+                    passAlert.style.display = '';
+                    return;
+                }
+                passAlert.style.display = 'none';
+                submitButton.setAttribute('type', 'submit');
+                submitButton.click();
+            }
+        </script>
+    </body>
+</html>

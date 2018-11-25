@@ -1,0 +1,31 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Registered Users</title>
+    </head>
+
+    <body>
+        <h1>Registered Users</h1>
+        <div th:include="fragments/navigation :: navigation"></div>
+
+        <table class="table" style="margin-top: 20px;">
+            <thead class="thead-light">
+            <tr>
+                <th>Username</th>
+                <th>E-Mail</th>
+                <th>Phone</th>
+            </tr>
+            </thead>
+            <tbody th:remove="all-but-first">
+            <tr th:each=" user : ${userList}">
+                <td th:text="${user.userAccount.id}"> </td>
+                <td th:text="${user.userAccount.email}"> </td>
+                <td th:text="${user.phone}"> </td>
+            </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
