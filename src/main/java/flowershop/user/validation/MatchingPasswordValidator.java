@@ -1,6 +1,6 @@
-package kickstart.validation;
+package flowershop.user.validation;
 
-import kickstart.user.UserDataTransferObject;
+import flowershop.user.UserDataTransferObject;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

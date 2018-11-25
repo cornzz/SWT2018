@@ -1,11 +1,11 @@
-package kickstart.validation;
+package flowershop.user.validation;
 
 import java.util.Optional;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import kickstart.user.UserManagement;
+import flowershop.user.UserManagement;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
 

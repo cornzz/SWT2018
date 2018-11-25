@@ -1,4 +1,4 @@
-package kickstart.validation;
+package flowershop.user.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,13 +11,13 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({TYPE, ANNOTATION_TYPE})
+@Target({TYPE, ANNOTATION_TYPE, FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = UsernameValidator.class)
+@Constraint(validatedBy = OldPasswordValidator.class)
 @Documented
-public @interface ValidUsername {
+public @interface ValidOldPassword {
 
-		String message() default "Username taken.";
+		String message() default "Old password incorrect!";
 
 		Class<?>[] groups() default {};
 

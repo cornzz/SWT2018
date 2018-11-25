@@ -4,10 +4,6 @@
         <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-        <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" href="../static/resources/css/style.css"/>
-
         <title>My Account</title>
     </head>
 
@@ -23,41 +19,41 @@
             <div style="display: flex;">
                 <div class="form-group" style="flex: 1;">
                     <label for="firstName" class="bmd-label-floating">First Name</label>
-                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}" readonly>
+                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}">
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label for="lastName" class="bmd-label-floating">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}" readonly>
+                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}">
                 </div>
             </div>
-            <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName') || #fields.hasErrors('lastName') || #fields.hasErrors('username')}"
-                                             th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName') + #fields.errors('username')}" role="alert">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName') || #fields.hasErrors('lastName')}"
+                                             th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName')}" role="alert">
             </div>
 
             <!-- E-Mail -->
             <div class="form-group">
                 <label for="email" class="bmd-label-floating">E-Mail</label>
-                <input type="email" class="form-control" id="email" th:field="*{email}" readonly>
+                <input type="email" class="form-control" id="email" th:field="*{email}">
             </div>
             <div class="alert alert-warning" th:each="error : ${#fields.errors('email')}" th:text="${error}" role="alert"></div>
 
             <!-- Phone -->
             <div class="form-group">
                 <label for="phone" class="bmd-label-floating">Phone</label>
-                <input type="tel" class="form-control" id="phone" th:field="*{phone}" readonly>
+                <input type="tel" class="form-control" id="phone" th:field="*{phone}">
             </div>
-            <div class="alert alert-warning" th:if="${#fields.hasErrors('phone')}" th:text="${#fields.errors('phone') + ''}" role="alert"></div>
+            <div class="alert alert-warning" th:each="error : ${#fields.errors('phone')}" th:text="${error}" role="alert"></div>
 
             <div style="margin-top: 20px;">
-                <button type="button" id="edit" onclick="toggleForm()" class="btn btn-secondary">Edit</button>
-                <button type="submit" id="submit" class="btn btn-primary btn-raised" disabled>Submit</button>
+                <button type="button" id="edit" onclick="" class="btn btn-secondary">Cancel</button>
+                <button type="submit" id="submit" class="btn btn-primary btn-raised">Submit</button>
             </div>
         </form>
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#passModal">Change password</button>
+        <!-- Button trigger modal
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#passModal">Change password</button> -->
 
-        <!-- Change Password Modal -->
+        <!--Change Password Modal
         <div class="modal fade" id="passModal" tabindex="-1" role="dialog" aria-labelledby="passModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -67,15 +63,15 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body">-->
                         <form method="post" role="form" id="passwordForm" th:action="@{/account/changepass}" th:object="${form}">
                             <!-- Old Password -->
                             <div class="form-group" style="margin-bottom: 25px;">
                                 <label for="oldPassword" class="bmd-label-floating">Current Password</label>
                                 <input type="password" class="form-control" id="oldPassword" th:field="*{oldPassword}">
                             </div>
-                            <div class="alert alert-primary" th:if="${#fields.hasErrors('oldPassword')}"
-                                 th:text="${#fields.errors('oldPassword') + ''}" role="alert"></div>
+                            <div class="alert alert-primary" th:each="error : ${#fields.errors('oldPassword')}"
+                                 th:text="${error}" role="alert"></div>
                             <!-- New Password -->
                             <div class="form-group" style="margin-bottom: 25px;">
                                 <label for="newPassword" class="bmd-label-floating">New Password</label>
@@ -95,34 +91,33 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="submit" id="submitPassword" class="btn btn-primary btn-raised">Submit</button>
                         </form>
+                        <!--
                     </div>
                 </div>
             </div>
         </div>
-
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+        -->
         <script>
-            $(function () {
-                $('body').bootstrapMaterialDesign();
-                $('.alert-warning')[0] ? toggleForm() : '';
-                $('.alert-primary')[0] ? $('#passModal').modal('show') : '';
-            });
-
-            function toggleForm() {
-                $('form#form :input').each(function() {
-                   $(this).attr('readonly') ? $(this).removeAttr('readonly') : $(this).attr('readonly', true);
-                });
-
-                if ($('#edit').text() === 'Cancel') {
-                    $('#edit').text('Edit');
-                    $('#submit').attr('disabled', true);
-                    return;
-                }
-                $('#edit').text('Cancel');
-                $('#submit').removeAttr('disabled');
-            }
+            // Unused
+            // $(function () {
+            //     toggleForm();
+            //     $('.alert-warning')[0] ? toggleForm() : '';
+            //     $('.alert-primary')[0] ? $('#passModal').modal('show') : '';
+            // });
+            //
+            // function toggleForm() {
+            //     $('form#form :input').each(function() {
+            //        $(this).attr('readonly') ? $(this).removeAttr('readonly') : $(this).attr('readonly', true);
+            //     });
+            //
+            //     if ($('#edit').text() === 'Cancel') {
+            //         $('#edit').text('Edit');
+            //         $('#submit').attr('disabled', true);
+            //         return;
+            //     }
+            //     $('#edit').text('Cancel');
+            //     $('#submit').removeAttr('disabled');
+            // }
         </script>
     </body>
 </html>

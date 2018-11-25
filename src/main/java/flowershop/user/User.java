@@ -1,4 +1,4 @@
-package kickstart.user;
+package flowershop.user;
 
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;

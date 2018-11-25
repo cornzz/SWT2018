@@ -1,15 +1,15 @@
-package kickstart.user;
+package flowershop.user;
 
-import kickstart.validation.MatchingPassword;
-import kickstart.validation.ValidEmail;
+import flowershop.user.validation.MatchingPassword;
+import flowershop.user.validation.ValidEmail;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import kickstart.validation.ValidOldPassword;
-import kickstart.validation.ValidUsername;
+import flowershop.user.validation.ValidOldPassword;
+import flowershop.user.validation.ValidUsername;
 
 @MatchingPassword(message = "{Dto.password.MustMatch}", groups = {UserDataTransferObject.RegistrationProcess.class, UserDataTransferObject.ChangePassProcess.class})
-@ValidUsername(groups = {UserDataTransferObject.RegistrationProcess.class, UserDataTransferObject.UpdateAccProcess.class})
+@ValidUsername(groups = {UserDataTransferObject.RegistrationProcess.class})
 public class UserDataTransferObject {
 
 		@NotNull(groups = {UserDataTransferObject.RegistrationProcess.class, UserDataTransferObject.UpdateAccProcess.class})

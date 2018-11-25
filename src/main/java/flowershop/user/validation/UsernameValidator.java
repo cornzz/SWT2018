@@ -1,13 +1,11 @@
-package kickstart.validation;
+package flowershop.user.validation;
 
 import java.util.Optional;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import kickstart.user.UserDataTransferObject;
-import kickstart.user.UserManagement;
-import org.apache.tomcat.util.bcel.Const;
+import flowershop.user.UserDataTransferObject;
+import flowershop.user.UserManagement;
 import org.salespointframework.useraccount.AuthenticationManager;
-import org.salespointframework.useraccount.UserAccount;
 
 public class UsernameValidator implements ConstraintValidator<ValidUsername, Object> {
 
@@ -29,10 +27,9 @@ public class UsernameValidator implements ConstraintValidator<ValidUsername, Obj
 		}
 
 		private boolean validateUsername(UserDataTransferObject form, ConstraintValidatorContext context) {
-				String username = (form.getFirstName() + form.getLastName()).toLowerCase();
+				String username = (form.getFirstName() + form.getLastName()).replaceAll("\\s", "").toLowerCase();
 				form.setUsername(username);
-				Optional<UserAccount> loggedIn = authenticationManager.getCurrentUser();
-				boolean isValid = !userManagement.nameExists(username) || (loggedIn.isPresent() && loggedIn.get().getUsername().equals(username));
+				boolean isValid = !userManagement.nameExists(username);
 				if (!isValid) {
 						context.disableDefaultConstraintViolation(); // Prevent global error registration
 						context.buildConstraintViolationWithTemplate("{Dto.username.Taken}")

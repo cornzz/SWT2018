@@ -1,4 +1,4 @@
-package kickstart.user;
+package flowershop.user;
 
 import org.springframework.data.repository.CrudRepository;
 

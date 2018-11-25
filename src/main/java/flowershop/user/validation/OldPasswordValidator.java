@@ -1,4 +1,4 @@
-package kickstart.validation;
+package flowershop.user.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
