@@ -32,48 +32,46 @@
 
 
 
-<div class="ui container">
-    <header>
-        <!-- <h1>Inventory</h1> -->
-    </header>
-<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" id="table1">
-    <thead>
-    <tr>
-        <th class="mdl-data-table__cell--non-numeric">Item</th>
-        <th>Type</th>
-        <th>Base price</th>
-        <th>Quantity</th>
-        <th> Deficit </th>
+        <div class="ui container">
+            <header>
+                <!-- <h1>Inventory</h1> -->
+            </header>
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" id="table1">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Item</th>
+                        <th>Type</th>
+                        <th>Base price</th>
+                        <th>Quantity</th>
+                        <th> Deficit </th>
 
-    </tr>
-    </thead>
-    <tbody th:remove="all-but-first">
-    <tr th:each=" item : ${inventory}">
-        <td th:text="${item.product.name}">Tulpe</td>
-        <td th:text="${item.product.type}">Blume</td>
-        <td th:text="${item.product.price}">3</td>
-        <td th:text="${{item.quantity}}">5</td>
-        <td>
+                    </tr>
+                </thead>
+                <tbody th:remove="all-but-first">
+                    <tr th:each=" item : ${inventory}">
+                        <td th:text="${item.product.name}">Tulpe</td>
+                        <td th:text="${item.product.type}">Blume</td>
+                        <td th:text="${item.product.price}">3</td>
+                        <td th:text="${{item.quantity}}">5</td>
+                        <td>
+                            <form method="request" th:action="@{/deficit/{id}(id=${item.id})}">
+                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="deficit" id="deficit" style="width: 50px">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
+                                    deficit
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
 
-
-            <form method="request" th:action="@{/deficit/{id}(id=${item.id})}">
-                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="deficit" id="deficit" style="width: 50px">
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
-                deficit
+                </tbody>
+            </table>
+            <form method="post "th:action="@{/add}" >
+                <button class="mdl-button mdl-js-button mdl-button--fab" th:fragment="floating_action_button" id="button1">
+                    <i class="material-icons">add</i>
                 </button>
             </form>
-        </td>
-    </tr>
-
-    </tbody>
-</table>
-    <form method="post "th:action="@{/add}" >
-    <button class="mdl-button mdl-js-button mdl-button--fab" th:fragment="floating_action_button" id="button1">
-            <i class="material-icons">add</i>
-    </button>
-    </form>
-</div>
-</main>
+        </div>
+    </main>
 </div>
 </body>
 </html>

@@ -29,19 +29,17 @@ public class InventoryController {
 	}
 
 	@GetMapping("/")
-
 	public String inventory(Model model) {
-
 		model.addAttribute("inventory", inventory.findAll());
 
 		return "inventory";
 	}
 
+	// Do a Deficit
 	@RequestMapping("/deficit/{id}")
 	public String deficit(@PathVariable InventoryItemIdentifier id, @RequestParam int deficit){
 		inventory.findById(id).get().decreaseQuantity(Quantity.of(deficit));
 		inventory.save(inventory.findById(id).get());
-
 
 		return "redirect:/";
 	}
@@ -52,12 +50,12 @@ public class InventoryController {
 		return "inventory_add";
 	}
 
+	// Add a new Inventory Item
 	@PostMapping("/add")
 	public String add(String name, int price, int amount){
 		Item item = new Item(name,Money.of(price,EURO), Item.ItemType.BLUME);
 		itemCatalog.save(item);
 		inventory.save(new InventoryItem(item,Quantity.of(amount)));
-
 
 		return "redirect:/";
 	}
