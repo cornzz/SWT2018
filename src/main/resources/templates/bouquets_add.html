@@ -9,8 +9,8 @@
 </header>
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
-        <div class="fp-content-wrapper">
-            <form method="post" role="form" class="fp-my-form" id="form" th:action="@{/bouquets/add}" th:object="${form}">
+        <div class="fs-content-wrapper">
+            <form method="post" role="form" class="fs-form" id="form" th:action="@{/bouquets/add}" th:object="${form}">
                 <div class="mdc-form-field mdc-form-field--align-end">
                     <div class="mdc-text-field">
                         <input type="text" id="tf-outlined" class="mdc-text-field__input" name="name" th:field="*{name}">
@@ -25,12 +25,12 @@
                         <div class="mdc-line-ripple"></div>
                     </div>
                 </div>
-                <div id="fp-add-flowers-chip" class="mdc-chip fp-my-chip">
+                <div id="fs-add-flowers-chip" class="mdc-chip fs-chip">
                     <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">add</i>
                     <div class="mdc-chip__text">Add Flowers</div>
                 </div>
                 <div th:replace="fragments/dialog :: add_flowers_dialog"></div>
-                <div id="fp-add-services-chip" class="mdc-chip fp-my-chip">
+                <div id="fs-add-services-chip" class="mdc-chip fs-chip">
                     <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">add</i>
                     <div class="mdc-chip__text">Add Services</div>
                 </div>

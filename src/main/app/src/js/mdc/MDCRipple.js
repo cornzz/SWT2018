@@ -18,9 +18,11 @@ console.log('MDCRipple');
     new MDCRipple(element);
 });
 
+[].slice.call(document.querySelectorAll('.mdc-card__primary-action')).forEach(function(element) {
+    new MDCRipple(element);
+});
 
 const ripples = [
-    document.querySelector('.mdc-card__primary-action'),
     document.querySelector('.mdc-fab')
 ];
 

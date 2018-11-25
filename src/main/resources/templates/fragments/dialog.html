@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<div id="fp-add-flowers-dialog"
+<div id="fs-add-flowers-dialog"
      class="mdc-dialog"
      role="alertdialog"
      aria-modal="true"
@@ -10,7 +10,7 @@
             <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
             <h2 class="mdc-dialog__title"><!---->Choose Flowers<!----></h2>
             <div class="mdc-dialog__content">
-                <ul id="fp-add-flowers-list" class="mdc-list">
+                <ul id="fs-add-flowers-list" class="mdc-list">
                     <th:block th:each="flower, iteration : ${flowers}">
                         <li class="mdc-list-item" th:tabindex="${iteration.index}">
                             <span class="mdc-list-item__graphic">
@@ -45,7 +45,7 @@
     </div>
     <div class="mdc-dialog__scrim"></div>
 </div>
-<div id="fp-add-services-dialog"
+<div id="fs-add-services-dialog"
      class="mdc-dialog"
      role="alertdialog"
      aria-modal="true"

@@ -434,7 +434,7 @@ class MDCFoundation {
 /* unused harmony export RippleCapableSurface */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__material_base_component__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__adapter__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__foundation__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util__ = __webpack_require__(7);
 /* unused harmony reexport MDCRippleFoundation */
 /* unused harmony reexport util */
@@ -1050,8 +1050,8 @@ __webpack_require__(10);
 __webpack_require__(11);
 __webpack_require__(13);
 __webpack_require__(16);
-__webpack_require__(20);
-module.exports = __webpack_require__(23);
+__webpack_require__(19);
+module.exports = __webpack_require__(22);
 
 
 /***/ }),
@@ -4412,14 +4412,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 console.log("MDCDialog");
 
-const addFlowerDialogElement = document.getElementById('fp-add-flowers-dialog');
-const addServiceDialogElement = document.getElementById('fp-add-services-dialog');
+const addFlowerDialogElement = document.getElementById('fs-add-flowers-dialog');
+const addServiceDialogElement = document.getElementById('fs-add-services-dialog');
 
-const addFlowersListElement = document.getElementById('fp-add-flowers-list');
-const addServicesListElement = document.getElementById('fp-add-services-list');
+const addFlowersListElement = document.getElementById('fs-add-flowers-list');
+const addServicesListElement = document.getElementById('fs-add-services-list');
 
-const addFlowerChipElement = document.getElementById('fp-add-flowers-chip');
-const addServiceChipElement = document.getElementById('fp-add-services-chip');
+const addFlowerChipElement = document.getElementById('fs-add-flowers-chip');
+const addServiceChipElement = document.getElementById('fs-add-services-chip');
 
 generateDialogLogic(addFlowerDialogElement, addFlowersListElement, addFlowerChipElement);
 generateDialogLogic(addServiceDialogElement, addServicesListElement, addServiceChipElement);
@@ -17391,8 +17391,7 @@ var MDCSelectionControl = function () {
 //# sourceMappingURL=mdc.formField.js.map
 
 /***/ }),
-/* 19 */,
-/* 20 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17418,9 +17417,11 @@ console.log('MDCRipple');
     new __WEBPACK_IMPORTED_MODULE_0__material_ripple_index__["a" /* MDCRipple */](element);
 });
 
+[].slice.call(document.querySelectorAll('.mdc-card__primary-action')).forEach(function(element) {
+    new __WEBPACK_IMPORTED_MODULE_0__material_ripple_index__["a" /* MDCRipple */](element);
+});
 
 const ripples = [
-    document.querySelector('.mdc-card__primary-action'),
     document.querySelector('.mdc-fab')
 ];
 
@@ -17431,13 +17432,13 @@ ripples.forEach(function (element) {
 });
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__material_base_foundation__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__adapter__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util__ = __webpack_require__(7);
 /**
  * @license
@@ -18051,7 +18052,7 @@ class MDCRippleFoundation extends __WEBPACK_IMPORTED_MODULE_0__material_base_fou
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18113,12 +18114,12 @@ const numbers = {
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__material_top_app_bar_index__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__material_top_app_bar_index__ = __webpack_require__(23);
 
 
 console.log('MDCTopAppBar');
@@ -18130,7 +18131,7 @@ if (topAppBarElement) {
 }
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18140,9 +18141,9 @@ if (topAppBarElement) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__material_ripple_index__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__foundation__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__fixed_foundation__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__short_foundation__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__standard_foundation__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__fixed_foundation__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__short_foundation__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__standard_foundation__ = __webpack_require__(26);
 /* unused harmony reexport MDCTopAppBarBaseFoundation */
 /* unused harmony reexport MDCTopAppBarFoundation */
 /* unused harmony reexport MDCFixedTopAppBarFoundation */
@@ -18288,7 +18289,7 @@ class MDCTopAppBar extends __WEBPACK_IMPORTED_MODULE_1__material_base_component_
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18373,7 +18374,7 @@ class MDCFixedTopAppBarFoundation extends __WEBPACK_IMPORTED_MODULE_2__foundatio
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18469,7 +18470,7 @@ class MDCShortTopAppBarFoundation extends __WEBPACK_IMPORTED_MODULE_1__foundatio
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

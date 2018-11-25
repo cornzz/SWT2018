@@ -2,8 +2,8 @@
 
 @mixin card-wrapper-columns($values...) {
   @each $var in $values {
-    @media only screen and (min-width: calc((#{$fp-my-card-width} + 16px) * #{$var})) {
-      max-width: calc((#{$fp-my-card-width} + 16px) * #{$var});
+    @media only screen and (min-width: calc((#{$fs-card-width} + 16px) * #{$var})) {
+      max-width: calc((#{$fs-card-width} + 16px) * #{$var});
     }
   }
 }

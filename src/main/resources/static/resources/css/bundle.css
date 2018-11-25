@@ -3989,22 +3989,22 @@ a.mdc-list-item {
 body {
   margin: 0; }
 
-.fp-my-card {
+.fs-card {
   width: 260px; }
-  .fp-my-card__media {
+  .fs-card__media {
     background-image: url("https://media.gettyimages.com/photos/various-fresh-flowers-against-white-background-picture-id733516645"); }
-  .fp-my-card__primary {
+  .fs-card__primary {
     padding: 1rem; }
-  .fp-my-card__title {
+  .fs-card__title {
     margin: 0; }
-  .fp-my-card__subtitle {
+  .fs-card__subtitle {
     margin: 0;
     color: var(--mdc-theme-text-secondary-on-background, rgba(0, 0, 0, 0.54)); }
-  .fp-my-card__secondary {
+  .fs-card__secondary {
     padding: 0 1rem 8px;
     color: var(--mdc-theme-text-secondary-on-background, rgba(0, 0, 0, 0.54)); }
 
-.fp-content-wrapper {
+.fs-content-wrapper {
   display: flex;
   width: 100%;
   min-height: calc(100vh - 2 * 64px);
@@ -4013,39 +4013,40 @@ body {
   align-items: center;
   padding-bottom: 64px; }
 
-.fp-card-wrapper {
+.fs-card-wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-items: left; }
-  .fp-card-wrapper > * {
+  .fs-card-wrapper > * {
     margin: 8px; }
   @media only screen and (min-width: calc((260px + 16px) * 1)) {
-    .fp-card-wrapper {
+    .fs-card-wrapper {
       max-width: calc((260px + 16px) * 1); } }
   @media only screen and (min-width: calc((260px + 16px) * 2)) {
-    .fp-card-wrapper {
+    .fs-card-wrapper {
       max-width: calc((260px + 16px) * 2); } }
   @media only screen and (min-width: calc((260px + 16px) * 3)) {
-    .fp-card-wrapper {
+    .fs-card-wrapper {
       max-width: calc((260px + 16px) * 3); } }
   @media only screen and (min-width: calc((260px + 16px) * 4)) {
-    .fp-card-wrapper {
+    .fs-card-wrapper {
       max-width: calc((260px + 16px) * 4); } }
 
-.fp-my-fab {
+.fs-fab {
   position: fixed;
-  right: 16px;
-  bottom: 16px; }
-  .fp-my-fab a {
+  right: 32px;
+  bottom: 32px; }
+  .fs-fab a {
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 56px;
-    width: 56px; }
+    width: 56px;
+    text-decoration: none; }
 
-.fp-my-form {
+.fs-form {
   display: flex;
   flex-direction: column; }
-  .fp-my-form > * {
+  .fs-form > * {
     margin: 8px 0; }

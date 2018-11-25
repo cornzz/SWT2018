@@ -9,8 +9,8 @@
 </header>
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
-        <div class="fp-content-wrapper">
-            <div class="fp-card-wrapper">
+        <div class="fs-content-wrapper">
+            <div class="fs-card-wrapper">
                 <th:block th:each="bouquet : ${bouquets}">
                     <div th:replace="fragments/bouquet_card :: bouquet_card (bouquet=${bouquet})"></div>
                 </th:block>

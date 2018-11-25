@@ -1,11 +1,11 @@
 @import "Variables";
 
-.fp-content-wrapper {
+.fs-content-wrapper {
   display: flex;
   width: 100%;
-  min-height: calc(100vh - 2 * #{$fp-top-app-bar-height});
+  min-height: calc(100vh - 2 * #{$fs-top-app-bar-height});
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: $fp-top-app-bar-height;
+  padding-bottom: $fs-top-app-bar-height;
 }
