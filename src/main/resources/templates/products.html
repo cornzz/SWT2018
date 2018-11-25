@@ -1,8 +1,12 @@
-<html th:replace="~{layouts/default :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Products</title>
 </head>
 <body>
+<aside th:replace="fragments/drawer :: drawer">
+    <!-- since this is a nested replace it can't be empty -->
+    Drawer
+</aside>
 <header th:replace="fragments/header :: header_catalog">
     <!-- since this is a nested replace it can't be empty -->
     Header

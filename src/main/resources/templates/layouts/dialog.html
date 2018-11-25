@@ -1,4 +1,4 @@
-<html th:fragment="layout (title, drawer, header, main)" xmlns:th="http://www.thymeleaf.org">
+<html th:fragment="layout (title, header, main)" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:replace="${title}">Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="bundle.css" th:href="@{/resources/css/bundle.css}">
 </head>
 <body class="mdc-typography">
-<aside th:replace="${drawer}"></aside>
-<div class="mdc-drawer-scrim"></div>
 <header th:replace="${header}"></header>
 <main th:replace="${main}"></main>
 <script type="text/javascript" src="bundle.js" async th:src="@{/resources/js/bundle.js}"></script>

@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<aside class="mdc-drawer mdc-drawer--modal" th:fragment="drawer">
+    <div class="mdc-drawer__content">
+        <div class="mdc-list">
+            <a class="mdc-list-item mdc-list-item--activated" th:href="@{/products}" aria-selected="true">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">view_module</i>
+                <span class="mdc-list-item__text">Products</span>
+            </a>
+            <a class="mdc-list-item" th:href="@{/products/items/stock}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">local_florist</i>
+                <span class="mdc-list-item__text">Items</span>
+            </a>
+            <a class="mdc-list-item" th:href="@{/products/services}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">waves</i>
+                <span class="mdc-list-item__text">Services</span>
+            </a>
+            <a class="mdc-list-item" th:href="@{/users}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
+                <span class="mdc-list-item__text">Users</span>
+            </a>
+            <a class="mdc-list-item" th:href="@{/account}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
+                <span class="mdc-list-item__text">Account</span>
+            </a>
+        </div>
+    </div>
+</aside>
+</html>
