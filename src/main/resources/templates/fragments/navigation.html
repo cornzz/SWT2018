@@ -1,0 +1,41 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+	<div th:fragment="navigation">
+		<ul class="nav nav-tabs" style="margin-bottom: 15px;">
+			<!-- Index -->
+			<li class="nav-item">
+				<a class="nav-link" href="/" th:classappend="${#httpServletRequest.getRequestURI()} == '/' ? 'active' : ''">Home</a>
+			</li>
+			<!-- Register / My Account -->
+			<li class="nav-item">
+				<a class="nav-link" th:href="${loggedIn} ? @{/account} : @{/register}"
+				   					th:text="${loggedIn} ? 'My Account' : 'Register'"
+				   					th:classappend="${#httpServletRequest.getRequestURI() == '/register' ? 'active' :
+				   									          #httpServletRequest.getRequestURI() == '/account' ? 'active' : ''}">Register</a>
+			</li>
+			<!-- Users -->
+			<li class="nav-item" sec:authorize="hasRole('ROLE_BOSS')">
+				<a class="nav-link" href="/users" th:classappend="${#httpServletRequest.getRequestURI()} == '/users' ? 'active' : ''">Users</a>
+			</li>
+			<!-- Currently Logged In -->
+			<li class="nav-item" sec:authorize="isAuthenticated()" style="margin-left: auto;">
+				<span class="nav-link" sec:authorize="isAuthenticated()" th:text="'Currently logged in: ' + ${loggedIn.userAccount.username} + ' | ' + ${loggedIn.role.toString()}"></span>
+			</li>
+			<!-- Login / Logout -->
+			<li class="nav-item">
+        <a class="nav-link" th:href="${loggedIn} ? 'javascript: document.logoutForm.submit()' : @{/login}"
+        th:text="${loggedIn} ? 'Logout' : 'Login'"
+        th:classappend="${#httpServletRequest.getRequestURI()} == '/login' ? 'active' : ''">Login</a>
+
+        <!--Non JS friendly logout
+        <a class="nav-link" th:href="@{/login}" sec:authorize="!isAuthenticated()">Login</a>
+        <label sec:authorize="isAuthenticated()" class="nav-link" for="logoutSubmit">Logout</label>
+        -->
+      </li>
+
+		</ul>
+		<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+			<input type="submit" id="logoutSubmit" value="Sign Out" hidden/>
+		</form>
+    </div>
+</html>
