@@ -1,16 +1,13 @@
 package flowershop.catalog;
-import flowershop.catalog.Item.*;
-import org.springframework.data.domain.Sort.Direction;
 import org.salespointframework.catalog.Catalog;
-import org.springframework.data.domain.Sort;
 
 
-public interface ItemCatalog extends  Catalog<Item>{
-
+public interface ItemCatalog extends  Catalog<FlowerShopItem>{
+	/*
 	static final Sort DEFAULT_SORT = new Sort(Sort.Direction.DESC, "productIdentifier");
 
-	Iterable<Item> findByType(ItemType type, Sort sort);
+	Iterable<FlowerShopItem> findByType(ItemType type, Sort sort);
 
-	default Iterable<Item> findByType(Item.ItemType type) { return findByType(type, DEFAULT_SORT); }
-
+	default Iterable<FlowerShopItem> findByType(FlowerShopItem.ItemType type) { return findByType(type, DEFAULT_SORT); }
+	*/
 }

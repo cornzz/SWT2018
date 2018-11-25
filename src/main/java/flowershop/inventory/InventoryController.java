@@ -1,19 +1,15 @@
 package flowershop.inventory;
 
-import flowershop.catalog.Item;
+import flowershop.catalog.FlowerShopItem;
 import flowershop.catalog.ItemCatalog;
 import org.javamoney.moneta.Money;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.inventory.InventoryItemIdentifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.Optional;
 
 import static org.salespointframework.core.Currencies.EURO;
 
@@ -28,7 +24,13 @@ public class InventoryController {
 		this.inventory = inventory;
 	}
 
+	// Just for testing
 	@GetMapping("/")
+	public String index() {
+		return "redirect:/products/services";
+	}
+
+	@GetMapping("/products/items/stock")
 	public String inventory(Model model) {
 		model.addAttribute("inventory", inventory.findAll());
 
@@ -36,7 +38,7 @@ public class InventoryController {
 	}
 
 	// Do a Deficit
-	@RequestMapping("/deficit/{id}")
+	@RequestMapping("/products/items/stock/deficit/{id}")
 	public String deficit(@PathVariable InventoryItemIdentifier id, @RequestParam int deficit){
 		inventory.findById(id).get().decreaseQuantity(Quantity.of(deficit));
 		inventory.save(inventory.findById(id).get());
@@ -45,15 +47,15 @@ public class InventoryController {
 	}
 
 
-	@GetMapping("/add")
+	@GetMapping("/products/items/stock/add")
 	public String add(Model model){
 		return "inventory_add";
 	}
 
-	// Add a new Inventory Item
-	@PostMapping("/add")
-	public String add(String name, int price, int amount){
-		Item item = new Item(name,Money.of(price,EURO), Item.ItemType.BLUME);
+	// Add a new InventoryItem
+	@PostMapping("/products/items/stock/add")
+	public String add(String name, int price, int amount, String description){
+		FlowerShopItem item = new FlowerShopItem(name,Money.of(price,EURO), description);
 		itemCatalog.save(item);
 		inventory.save(new InventoryItem(item,Quantity.of(amount)));
 
