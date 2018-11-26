@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<form th:action="@{/products/add}" th:fragment="floating_action_button">
+<form th:action="${action}" th:fragment="floating_action_button (action)">
     <button class="mdc-fab fs-fab" aria-label="Favorite">
         <span class="mdc-fab__icon material-icons">add</span>
     </button>
