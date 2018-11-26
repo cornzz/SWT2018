@@ -115,9 +115,9 @@ a|
 === Kontextdiagramm
 Das Kontextdiagramm zeigt das geplante Software-System in seiner Umgebung. Zur Umgebung gehören alle Nutzergruppen des Systems und Nachbarsysteme.
 
-image::.\images\KontextDiagramm.png[Kontextdiagramm, 100%, 100%, pdfwidth=100%, title= "Kontextdiagramm", align=center]
+image::./images/KontextDiagramm.png[Kontextdiagramm, 100%, 100%, pdfwidth=100%, title= "Kontextdiagramm", align=center]
 === Top-Level-Architektur
-image::.\images\TopLevel.png[TopLevel, 100%, 100%, pdfwidth=100%, title= "TopLevel", align=center]
+image::./images/TopLevel.png[TopLevel, 100%, 100%, pdfwidth=100%, title= "TopLevel", align=center]
 
 == Anwendungsfälle
 
@@ -144,7 +144,7 @@ Die folgenden, in der Tabelle enthaltenen, Akteure stellen die Nutzer des Softwa
 === Überblick Anwendungsfalldiagramm
 Anwendungsfall-Diagramm, das alle Anwendungsfälle und alle Akteure darstellt
 
-image::.\images\UseCase.png[Use Case diagram, 100%, 100%, pdfwidth=100%, title= "Use Case Diagram", align=center]
+image::./images/UseCase.png[Use Case diagram, 100%, 100%, pdfwidth=100%, title= "Use Case Diagram", align=center]
 === Anwendungsfallbeschreibungen
 
 Diese Sektion beschreibt die Fälle des Anwendungsfall Diagramms im Detail.
@@ -239,7 +239,7 @@ _Logout_:
 |Funktionale Voraussetzungen    | <<F0120>>
 |===
 
-image::.\images\Add to Cart.png[Add to Cart, 100%, 100%, pdfwidth=100%, title= "Add to Cart", align=center]
+image::./images/Add to Cart.png[Add to Cart, 100%, 100%, pdfwidth=100%, title= "Add to Cart", align=center]
 
 [cols="1h,3"]
 [[UC0200]]
@@ -253,7 +253,7 @@ image::.\images\Add to Cart.png[Add to Cart, 100%, 100%, pdfwidth=100%, title= "
 - Registrieter Nutzer
 - Befindet sich in der Produktübersicht oder in der Detailanzeige eines Produktes.
 |Ablauf           a|
-(1.) Der Nutzer befindet sich in der Detailanzeige und legt die Bestellmenge des Produktes
+1. Der Nutzer befindet sich in der Detailanzeige und legt die Bestellmenge des Produktes
 
 2.  Der Nutzer wählt "zum Warenkorb hinzufügen" aus
 
@@ -279,7 +279,7 @@ image::.\images\Add to Cart.png[Add to Cart, 100%, 100%, pdfwidth=100%, title= "
 |Funktionale Voraussetzungen    | <<F0200>>, <<F0210>>
 |===
 
-image::.\images\Buy Items in Cart.png[Buy Items in Cart, 100%, 100%, pdfwidth=100%, title= "Buy Items in Cart", align=center]
+image::./images/Buy Items in Cart.png[Buy Items in Cart, 100%, 100%, pdfwidth=100%, title= "Buy Items in Cart", align=center]
 
 [cols="1h,3"]
 [[UC0220]]
@@ -353,7 +353,7 @@ image::.\images\Buy Items in Cart.png[Buy Items in Cart, 100%, 100%, pdfwidth=10
 |Funktionale Voraussetzungen    | <<F0100>>, <<F0102>>
 |===
 
-image::.\images\Add new Product Combination.png[Add new Product Combination, 100%, 100%, pdfwidth=100%, title= "Add new Product Combination", align=center]
+image::./images/Add new Product Combination.png[Add new Product Combination, 100%, 100%, pdfwidth=100%, title= "Add new Product Combination", align=center]
 
 [cols="1h,3"]
 [[UC0510]]
@@ -407,7 +407,7 @@ image::.\images\Add new Product Combination.png[Add new Product Combination, 100
 |Funktionale Voraussetzungen    | <<F0100>>, <<F0330>>, <<F0331>>, <<F0332>>
 |===
 
-image::.\images\Edit Inventory.png[Edit Inventory, 100%, 100%, pdfwidth=100%, title= "Edit Inventory", align=center]
+image::./images/Edit Inventory.png[Edit Inventory, 100%, 100%, pdfwidth=100%, title= "Edit Inventory", align=center]
 
 [cols="1h,3"]
 [[UC0700]]
@@ -844,55 +844,55 @@ Die folgenden Bilder sollen eine grobe Idee vermitteln wie die grafische Benutze
 
 === Startseite Online Shop
 
-image::.\images\01_user_storefront.png[Startseite Online Shop, 100%, 100%, pdfwidth=100%, title= "Startseite Online Shop", align=center]
+image::./images/01_user_storefront.png[Startseite Online Shop, 100%, 100%, pdfwidth=100%, title= "Startseite Online Shop", align=center]
 
 Zu sehen ist die Startseite der Online Shops. Einzelne Produkte werden in Form von Karten präsentiert und können über die Schaltfläche "IN DEN WARENKORB" diesem hinzugefügt werden. Dafür wird später ein Anmeldung benötigt, welche über die folgende Ansicht erstellt werden kann. Eine weitere Interaktionsmöglichkeit mit den einzelnen Karten um mehr Informationen über das Produkt zu enthalten steht noch zur Diskussion. Filter- und Suchmöglichkeiten sind bei wachsendem Produktkatalog obligatorisch.
 
 === Registrierung (Login analog)
 
-image::.\images\02_user_register_login.png[Registrierung (Login analog), 100%, 100%, pdfwidth=100%, title= "Registrierung (Login analog)", align=center]
+image::./images/02_user_register_login.png[Registrierung (Login analog), 100%, 100%, pdfwidth=100%, title= "Registrierung (Login analog)", align=center]
 
 Für viele Interaktionsmöglichkeiten mit dem System wird eine Anmeldung benötigt. Das zentrale Element der Ansicht ist auch hier eine Karte um die Konsistenz innerhalb des Designs zu wahren. Abhängig vom Typ der zu erstellenden Anmeldung werden eventuell weitere Informationen benötigt. Hier wird lediglich ein abstraktes Beispiel dargestellt.
 
 === Warenkorb
 
-image::.\images\03_user_shopping_cart.png[Warenkorb, 100%, 100%, pdfwidth=100%, title= "Warenkorb", align=center]
+image::./images/03_user_shopping_cart.png[Warenkorb, 100%, 100%, pdfwidth=100%, title= "Warenkorb", align=center]
 
 Der Kunde hat zu jedem Zeitpunkt seines Einkaufs die Möglichkeit seinen Warenkorb zu überprüfen. Ein Kartenraster wie es auf der Startseite zu finden ist mach hier keinen Sinn, da homogene Inhalte schnell vom Nutzer überprüfbar sein müssen. Über die Schaltflächen "BEARBEITEN" und "ENTFERNEN" kann mit einzelnen Warenkorbinhalten interagiert werden. Die Übersichtlichkeit der Tabelle kann durch aussagekräftige Icons anstelle genannter Schaltflächen verbessert werden. Der Warenkorb kann über die Schaltfläche "WEITERSHOPPEN" verlassen werden. Über "BEZAHLEN" gelangt der Nutzer zu folgenden Ansicht.
 
 === Bezahlen
 
-image::.\images\04_user_checkout.png[Bezahlen, 100%, 100%, pdfwidth=100%, title= "Bezahlen", align=center]
+image::./images/04_user_checkout.png[Bezahlen, 100%, 100%, pdfwidth=100%, title= "Bezahlen", align=center]
 
 Hier hat der Nutzer die Möglichkeit seine Produktauswahl ein letztes mal zu überprüfen. Schließt er den Vorgang über die Schaltfläche "KAUFEN" ab wird er zu einem Zahlungsanbieter seiner Wahl weitergeleitet. Eine Rechnung wird generiert und steht dann zum Download bereit. Besagte Rechnung wird zusätzlich an die mit dem Nutzer verknüpfte Email Adresse geschickt.
 
 === Inventar
 
-image::.\images\05_admin_products_items_services.png[Inventar, 100%, 100%, pdfwidth=100%, title= "Inventar", align=center]
+image::./images/05_admin_products_items_services.png[Inventar, 100%, 100%, pdfwidth=100%, title= "Inventar", align=center]
 
 Die Inhaberin und ihre Mitarbeiter haben in der der Inventarverwaltung die Möglichkeit den Warenbestand einzusehen und zu verwalten. Der Wechsel zwischen Waren (beispielsweise einzelne Blumen), Produkten (Sträuße, Pakete aus Dienstleistungen und Waren etc.) und Dienstleistungen (Blumenpflege) kann später über eine Tableiste unter der Navigationsleiste realisiert werden. Such und Filtermöglichkeiten können aus der Shop-Ansicht übernommen werden. Die Interaktionsmöglichkeiten hängen später von genannten Kategorien und der Rolle des Nutzers ab.
 
 === Abrechnung
 
-image::.\images\06_admin_daily_invoice.png[Abrechnung, 100%, 100%, pdfwidth=100%, title= "Abrechnung", align=center]
+image::./images/06_admin_daily_invoice.png[Abrechnung, 100%, 100%, pdfwidth=100%, title= "Abrechnung", align=center]
 
 Die Inhaberin kann jederzeit die tägliche Abrechnung einsehen, welche dynamisch aus den vorhanden Daten generiert wird. Der Entwurf zeigt die vermutlich einfachste, mögliche Darstellung. Nutzerorientierter wäre eine grafische Visualisierung.
 
 === Ladeneinkäufe
 
-image::.\images\07_in_store_purchases.png[Ladeneinkäufe, 100%, 100%, pdfwidth=100%, title= "Ladeneinkäufe", align=center]
+image::./images/07_in_store_purchases.png[Ladeneinkäufe, 100%, 100%, pdfwidth=100%, title= "Ladeneinkäufe", align=center]
 
 Selbstverständlich hat ein Blumenladen auch Laufkundschaft. Diese kann von Inhaberin oder Mitarbeitern über diese Ansicht abkassiert werden. Wird die Schaltfläche "BESTÄTIGEN" betätigt wird eine Rechnung generiert und der Kunde manuell abkassiert.
 
 === Kalender
 
-image::.\images\08_calendar.png[Kalender, 100%, 100%, pdfwidth=100%, title= "Kalender", align=center]
+image::./images/08_calendar.png[Kalender, 100%, 100%, pdfwidth=100%, title= "Kalender", align=center]
 
 Um geplante Serviceleistungen einzusehen könnte eine Kalenderansicht hilfreich sein. Eventuell reicht es Exportdateien zu generieren und ein Drittanbieter Kalendersystem zu integrieren. In diesem Fall wäre hier kein klassischer Kalender, sondern eine kurze Anleitung, zu finden.
 
 === Großhändler
 
-image::.\images\09_outgoing_orders.png[Großhändler, 100%, 100%, pdfwidth=100%, title= "Großhändler", align=center]
+image::./images/09_outgoing_orders.png[Großhändler, 100%, 100%, pdfwidth=100%, title= "Großhändler", align=center]
 
 Der Großhändler kann Bestellungen des Blumenladens hier Einsehen. Vorher muss er sich dazu mit eigens für ihn generierten Zugangsdaten authentifizieren.
 
@@ -900,7 +900,7 @@ __Anmerkung: Normalerweise würde der Großhändler eine Schnittstelle zur Kommu
 
 === Demo
 
-image::.\images\Demo.png[Demo, 100%, 100%, pdfwidth=100%, title= "Demo", align=center]
+image::./images/Demo.png[Demo, 100%, 100%, pdfwidth=100%, title= "Demo", align=center]
 
 __Anmerkung: Um ein besseres Gefühl für das geplante Design zu Vermitteln wurde hier testweise die Startseite des Online Shops in HTML, CSS und JavaScript umgesetzt. Dabei wurden die von Google entwickelten Material Design Standards berücksichtigt.__
 
@@ -909,7 +909,7 @@ __Anmerkung: Um ein besseres Gefühl für das geplante Design zu Vermitteln wurd
 === Überblick: Klassendiagramm
 
 
-image::.\images\Blumenladen.jpg[UML-Analyseklassendiagramm, 100%, 100%, pdfwidth=100%, title= "UML-Analyseklassendiagramm", align=center]
+image::./images/Blumenladen.jpg[UML-Analyseklassendiagramm, 100%, 100%, pdfwidth=100%, title= "UML-Analyseklassendiagramm", align=center]
 
 === Klassen und Enumerationen
 Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt.
@@ -1201,7 +1201,7 @@ In der folgenden Tabelle werden sämtliche Begriffe, die innerhalb des Projektes
 Insbesondere Begriffe der zu implementierenden Domäne wurden bereits beschrieben, jedoch gibt es Begriffe, die einer Beschreibung bedürfen. +
 Beispiel: Was bedeutet "Kunde"? Was ist ein Nutzer des Systems? Wer ist der Auftraggeber?
 
-[options="header" cols="1h, 32"]
+[options="header" cols="2"]
 |===
 |Begriff
 |Bedeutung
@@ -1252,7 +1252,7 @@ a|Strukturdiagramm der Unified Modeling Language (UML) zur grafischen Darstellun
 a|Kontextdiagramm
 a|Zeigt Umgebung der Software, inklusive Nutzergruppen.
 
-a|[[Kunde]]Kunde
+a|Kunde
 a|Kunde des Auftraggebers. Es wird zwischen folgenden Arten von Kunden unterschieden:
 
 - Einzelkunde
@@ -1264,13 +1264,13 @@ a|Kundschaft des Auftraggebers vor Ort im Blumengeschäft.
 a|Mitarbeiter(in)
 a|Angestellte(r) des Auftraggebers.
 
-a|[[Navigationsschema]]Navigationsschema
+a|Navigationsschema
 a|Anordnung der visuellen (Navigations)Elemente in der Webapplikation.
 
 a|Navigationsleiste
 a|Teil des <<Navigationsschema>>, welcher die Hauptbereiche der Webapplikation durch Hyperlinks erreichbar macht.
 
-a|[[Nutzer]]Nutzer
+a|Nutzer
 a|Person, welche sich in irgendeiner Weise den Funktionen der Webapplikation bedient.
 
 a|Produkt (Waren)
@@ -1308,7 +1308,7 @@ a|Bestand an Produkten im Laden des Auftraggebers.
 a|Warenkorb
 a|Virtueller Einkaufskorb, in den ein Kunde Produkte legen ("zwischenspeichern") kann welche er später kaufen möchte.
 
-|==
+|===
 
 == Offene Punkte
 Offene Punkte werden entweder direkt in der Spezifikation notiert. Wenn das Pflichtenheft zum finalen Review vorgelegt wird, sollte es keine offenen Punkte mehr geben.
