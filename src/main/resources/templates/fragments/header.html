@@ -1,11 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<header class="mdc-top-app-bar mdc-top-app-bar--fixed" th:fragment="header_catalog (actions)">
+<header class="mdc-top-app-bar mdc-top-app-bar--fixed" th:fragment="header_catalog (action)">
     <div class="mdc-top-app-bar__row">
         <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
             <span class="mdc-top-app-bar__title">Flower Power</span>
         </section>
-        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" th:include="${actions}">
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" th:include="${action}">
             <!--<a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">shopping_cart</a>-->
         </section>
     </div>
