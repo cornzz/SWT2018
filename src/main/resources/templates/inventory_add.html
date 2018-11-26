@@ -3,12 +3,12 @@
     <title>Items</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog">
+<header th:replace="fragments/header :: header_dialog (@{/products/items/stock})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
 <main>
-    <div class="mdc-top-app-bar--fixed-adjust">
+    <div class="mdc-top-app-bar--fixed-adjust">a
         <div class="fs-content-wrapper">
             <form method="post" role="post" th:action="@{/products/items/stock/add}">
                 <div>

@@ -3,7 +3,7 @@
     <title>Products</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog">
+<header th:replace="fragments/header :: header_dialog (@{/products})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
