@@ -1,30 +1,14 @@
 package flowershop.order;
 
 
-import java.util.Optional;
-
-import flowershop.catalog.Disc;
 import flowershop.catalog.Item;
 import org.javamoney.moneta.Money;
-import org.salespointframework.catalog.Product;
-import org.salespointframework.core.AbstractEntity;
-import org.salespointframework.order.*;
-import org.salespointframework.payment.Cash;
-import org.salespointframework.quantity.Quantity;
-import org.salespointframework.useraccount.UserAccount;
-import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.salespointframework.order.Cart;
-
-import javax.money.format.MonetaryAmountFormat;
 
 import static org.salespointframework.core.Currencies.EURO;
 
