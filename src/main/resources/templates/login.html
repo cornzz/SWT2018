@@ -1,29 +1,35 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <title>Login</title>
-    </head>
-
-    <body>
-        <h1>Login</h1>
-
-        <form role="form" th:action="@{/login}" method="post">
-            <div class="form-group">
-                <label for="username" class="bmd-label-floating">Username</label>
-                <input type="text" class="form-control" id="username" name="username" autofocus="autofocus" required>
-                <span class="bmd-help">Your username is your first and last name combined.</span>
-            </div>
-            <div class="form-group" style="margin-bottom: 25px;">
-                <label for="password" class="bmd-label-floating">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-                <span class="bmd-help">We'll never share your password with anyone else.</span>
-            </div>
-            <div class="alert alert-primary" th:if="${param.error}" role="alert">Invalid username or password!</div>
-
-            <button type="submit" class="btn btn-primary btn-raised">Login</button>
-        </form>
-    </body>
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+</head>
+<body>
+<aside th:replace="fragments/drawer :: drawer">
+    <!-- since this is a nested replace it can't be empty -->
+    Drawer
+</aside>
+<header th:replace="fragments/header :: header_catalog(_)">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <form role="form" th:action="@{/login}" method="post">
+                <div>
+                    <input type="text" id="username" name="username" autofocus="autofocus" required>
+                    <label for="username">Username</label>
+                    <span>Your username is your first and last name combined.</span>
+                </div>
+                <div>
+                    <input type="password" id="password" name="password" required>
+                    <label for="password">Password</label>
+                    <span>We'll never share your password with anyone else.</span>
+                </div>
+                <div th:if="${param.error}" role="alert">Invalid username or password!</div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
 </html>

@@ -1,28 +1,26 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <title>Welcome</title>
+    <title>Items</title>
 </head>
 <body>
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-
-    <main class="mdl-layout__content">
-
-
-
-        <div class="ui container">
-            <header>
-
-            </header>
-            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp" id="table1">
+<aside th:replace="fragments/drawer :: drawer">
+    <!-- since this is a nested replace it can't be empty -->
+    Drawer
+</aside>
+<header th:replace="fragments/header :: header_catalog(_)">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <table>
                 <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Item</th>
+                        <th>Item</th>
                         <th>Base price</th>
                         <th>Quantity</th>
-                        <th> Deficit </th>
-
+                        <th> Deficit</th>
                     </tr>
                 </thead>
                 <tbody th:remove="all-but-first">
@@ -32,23 +30,18 @@
                         <td th:text="${{item.quantity}}">5</td>
                         <td>
                             <form method="request" th:action="@{/products/items/stock/deficit/{id}(id=${item.id})}">
-                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="deficit" id="deficit" style="width: 50px">
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
+                                <input type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="deficit">
+                                <button type="submit">
                                     deficit
                                 </button>
                             </form>
                         </td>
                     </tr>
-
                 </tbody>
             </table>
-            <form method="post "th:action="@{/products/items/stock/add}" >
-                <button class="mdl-button mdl-js-button mdl-button--fab" th:fragment="floating_action_button" id="button1">
-                    <i class="material-icons">add</i>
-                </button>
-            </form>
+            <button th:replace="fragments/floating_action_button :: floating_action_button(@{/products/items/stock/add})"></button>
         </div>
-    </main>
-</div>
+    </div>
+</main>
 </body>
 </html>
