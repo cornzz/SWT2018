@@ -7,9 +7,11 @@
     <!-- since this is a nested replace it can't be empty -->
     Drawer
 </aside>
-<header th:replace="fragments/header :: header_catalog">
+<header th:replace="fragments/header :: header_catalog(~{::section})">
     <!-- since this is a nested replace it can't be empty -->
-    Header
+    <section>
+        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">shopping_cart</a>
+    </section>
 </header>
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">

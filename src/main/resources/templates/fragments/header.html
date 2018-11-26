@@ -1,12 +1,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<header class="mdc-top-app-bar mdc-top-app-bar--fixed" th:fragment="header_catalog">
+<header class="mdc-top-app-bar mdc-top-app-bar--fixed" th:fragment="header_catalog (actions)">
     <div class="mdc-top-app-bar__row">
         <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
             <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
             <span class="mdc-top-app-bar__title">Flower Power</span>
         </section>
-        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-            <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">shopping_cart</a>
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" th:include="${actions}">
+            <!--<a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">shopping_cart</a>-->
         </section>
     </div>
 </header>
@@ -16,7 +16,7 @@
             <span class="mdc-top-app-bar__title">Dialog Title</span>
         </section>
         <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-            <a href=".." class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">cancel</a>
+            <a href=".." class="material-icons mdc-top-app-bar__action-item" aria-label="Cancel" alt="Cancel">cancel</a>
         </section>
     </div>
 </header>
