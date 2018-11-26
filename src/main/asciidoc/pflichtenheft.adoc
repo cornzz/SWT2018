@@ -712,7 +712,7 @@ a|
 Die Inhaberin soll die Möglichkeit haben, Produkte welche nicht verkauft werden konnten (z.B. verwelkte Blumen)
 als Ausgabe (zum Großhändlerpreis) zum Kassenstand hinzuzufügen.
 
-|[[F0420]]<<F0420>>
+|[[F0430]]<<F0320>>
 |v0.1
 |Kassenstand einsehen
 a|
@@ -745,7 +745,7 @@ Jeder Benutzer soll eine Liste mit seinen Rechnungen einsehen können. Folgende 
 - Gesamtpreis
 - Hyperlink zur Rechnung
 
-|[[F0510]]<<F0510>>
+|[[F0520]]<<F0520>>
 |v0.1
 |Rechnungen einsehen
 a|
