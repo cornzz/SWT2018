@@ -1,44 +1,63 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<aside class="mdc-drawer mdc-drawer--modal" th:fragment="drawer">
+<aside class="mdc-drawer mdc-drawer--modal" th:fragment="drawer (view)">
     <div class="mdc-drawer__header" sec:authorize="isAuthenticated()">
         <h3 class="mdc-drawer__title" th:text="${loggedIn.userAccount.username}"></h3>
         <h6 class="mdc-drawer__subtitle" th:text="${loggedIn.userAccount.email}"></h6>
     </div>
     <div class="mdc-drawer__content">
         <div class="mdc-list">
-            <a class="mdc-list-item mdc-list-item--activated" th:href="@{/products}" aria-selected="true">
+            <a th:class="'mdc-list-item' + ((${view} == 'products') ? ' mdc-list-item--activated' : '')"
+               th:href="@{/products}"
+               th:aria-selected="${view == 'products'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">view_module</i>
                 <span class="mdc-list-item__text">Products</span>
             </a>
-            <a class="mdc-list-item" th:href="@{/products/items/stock}">
+            <a th:class="'mdc-list-item' + ((${view} == 'inventory') ? ' mdc-list-item--activated' : '')"
+               th:href="@{/products/items/stock}"
+               th:aria-selected="${view == 'inventory'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">local_florist</i>
-                <span class="mdc-list-item__text">Items</span>
+                <span class="mdc-list-item__text">Inventory</span>
             </a>
-            <a class="mdc-list-item" th:href="@{/products/services}">
+            <a th:class="'mdc-list-item' + ((${view} == 'services') ? ' mdc-list-item--activated' : '')"
+               th:href="@{/products/services}"
+               th:aria-selected="${view == 'services'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">waves</i>
                 <span class="mdc-list-item__text">Services</span>
             </a>
-            <a class="mdc-list-item" sec:authorize="hasRole('ROLE_BOSS')" th:href="@{/users}">
+            <a th:class="'mdc-list-item' + ((${view} == 'users') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="hasRole('ROLE_BOSS')"
+               th:href="@{/users}"
+               th:aria-selected="${view == 'users'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
                 <span class="mdc-list-item__text">Users</span>
             </a>
-            <a class="mdc-list-item" sec:authorize="!isAuthenticated()" th:href="@{/register}">
+            <a th:class="'mdc-list-item' + ((${view} == 'register') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="!isAuthenticated()"
+               th:href="@{/register}"
+               th:aria-selected="${view == 'register'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">person_add</i>
                 <span class="mdc-list-item__text">Sign up</span>
             </a>
-            <a class="mdc-list-item" sec:authorize="isAuthenticated()" th:href="@{/account}">
+            <a th:class="'mdc-list-item' + ((${view} == 'account') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="isAuthenticated()"
+               th:href="@{/account}"
+               th:aria-selected="${view == 'account'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">person</i>
                 <span class="mdc-list-item__text">Account</span>
             </a>
-            <a class="mdc-list-item" sec:authorize="isAuthenticated()" th:href="@{/logout}">
+            <a th:class="mdc-list-item"
+               sec:authorize="isAuthenticated()"
+               th:href="@{/logout}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">lock</i>
                 <span class="mdc-list-item__text">Sign out</span>
             </a>
-            <a class="mdc-list-item" sec:authorize="!isAuthenticated()" th:href="@{/login}">
+            <a th:class="'mdc-list-item' + ((${view} == 'login') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="!isAuthenticated()"
+               th:href="@{/login}"
+               th:aria-selected="${view == 'login'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">lock_open</i>
                 <span class="mdc-list-item__text">Sign in</span>
             </a>
-
         </div>
     </div>
 </aside>
