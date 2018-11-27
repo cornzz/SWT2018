@@ -11,19 +11,16 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <form method="post" role="form" class="fs-form" id="form" th:action="@{/products/add}" th:object="${form}">
-                <div class="mdc-form-field mdc-form-field--align-end">
-                    <div class="mdc-text-field">
-                        <input type="text" id="tf-outlined" class="mdc-text-field__input" name="name" th:field="*{name}">
-                        <label for="tf-outlined" class="mdc-floating-label">Name</label>
-                        <div class="mdc-line-ripple"></div>
-                    </div>
+                <div class="mdc-text-field">
+                    <input type="text" id="tf-outlined" class="mdc-text-field__input" name="name" th:field="*{name}">
+                    <label for="tf-outlined" class="mdc-floating-label">Name</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <div class="mdc-form-field mdc-form-field--align-end">
-                    <div class="mdc-text-field">
-                        <input type="text" id="tf2-outlined" class="mdc-text-field__input" name="description" th:field="*{description}">
-                        <label for="tf2-outlined" class="mdc-floating-label">Description</label>
-                        <div class="mdc-line-ripple"></div>
-                    </div>
+                <div class="mdc-text-field">
+                    <input type="text" id="tf2-outlined" class="mdc-text-field__input" name="description"
+                           th:field="*{description}">
+                    <label for="tf2-outlined" class="mdc-floating-label">Description</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
                 <div id="fs-add-items-chip" class="mdc-chip fs-chip">
                     <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">add</i>
