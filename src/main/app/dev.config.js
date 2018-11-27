@@ -1,7 +1,6 @@
 const merge = require('webpack-merge');
 const path = require('path');
-const autoprefixer = require('autoprefixer');
-const postcssNormalize = require('postcss-normalize');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const baseConfig = require('./base.config.js');
 
 module.exports = merge.smart(baseConfig, {
@@ -9,20 +8,9 @@ module.exports = merge.smart(baseConfig, {
         path: path.resolve(__dirname, '../resources/static/resources/js'),
         filename: 'bundle.js',
     },
-    module: {
-        rules: [
-            {
-                test: /\.scss$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: 'bundle.css',
-                            outputPath: '../css',
-                        },
-                    },
-                ],
-            },
-        ],
-    },
+    plugins: [
+        new ExtractTextPlugin({
+            filename: '../css/bundle.css',
+        }),
+    ]
 });
