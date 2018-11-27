@@ -210,6 +210,17 @@
   version "0.41.0"
   resolved "https://registry.yarnpkg.com/@material/shape/-/shape-0.41.0.tgz#2b1cb9a9e1240965ae25a107bbd6e29ca0257583"
 
+"@material/snackbar@^0.41.0":
+  version "0.41.0"
+  resolved "https://registry.yarnpkg.com/@material/snackbar/-/snackbar-0.41.0.tgz#011528205d7d2f62fae9452099af5186dfb1a810"
+  integrity sha512-z44BspVFD4B3p651sF0sHYCdQXNdPJR/MkHkrHT8bXnEql7B8qpBsGRKgnPzm1kbAjG5jPkdbbwhbH04WR/0IQ==
+  dependencies:
+    "@material/animation" "^0.41.0"
+    "@material/base" "^0.41.0"
+    "@material/rtl" "^0.40.1"
+    "@material/theme" "^0.41.0"
+    "@material/typography" "^0.41.0"
+
 "@material/textfield@^0.41.0":
   version "0.41.0"
   resolved "https://registry.yarnpkg.com/@material/textfield/-/textfield-0.41.0.tgz#e12630599b93ed536f10f698bbe9024048a604e4"
