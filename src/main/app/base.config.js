@@ -5,8 +5,6 @@ const autoprefixer = require('autoprefixer');
 const postcssNormalize = require('postcss-normalize');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-console.log('NODE_ENV: ' + process.env.NODE_ENV);
-
 module.exports = {
     entry: ['./src/app.scss', './src/app.js'].concat(glob.sync("./src/js/mdc/*.js")),
     module: {
@@ -41,9 +39,4 @@ module.exports = {
             },
         ],
     },
-    plugins: [
-        new webpack.EnvironmentPlugin([
-            'NODE_ENV',
-        ]),
-    ],
 };

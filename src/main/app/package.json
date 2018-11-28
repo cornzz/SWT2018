@@ -36,7 +36,7 @@
     "webpack-merge": "^4.1.4"
   },
   "scripts": {
-    "build": "NODE_ENV=production webpack -p --config prod.config.js",
-    "dev": "NODE_ENV=development webpack --watch --config dev.config.js"
+    "build": "webpack -p --config prod.config.js",
+    "dev": "webpack --watch --config dev.config.js"
   }
 }
