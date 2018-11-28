@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.PastOrPresent;
 import java.util.Optional;
 
 @Controller
@@ -26,6 +27,12 @@ public class UserController {
 		public UserController(UserManagement userManagement, AuthenticationManager authenticationManager) {
 				this.userManagement = userManagement;
 				this.authenticationManager = authenticationManager;
+		}
+
+
+		@GetMapping("/login")
+		String login(@LoggedIn Optional<UserAccount> loggedIn) {
+			return loggedIn.isPresent() ? "redirect:/products" : "login";
 		}
 
 		@GetMapping("/register")

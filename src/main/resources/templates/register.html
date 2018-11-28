@@ -15,16 +15,20 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <!-- Registration Form -->
-            <form method="post" role="form" id="form" th:action="@{/register}" th:object="${form}">
+            <form role="form" id="form" class="fs-form" th:object="${form}" th:action="@{/register}" method="post">
                 <!-- First Name, Last Name -->
-                <div>
-                    <div>
-                        <input type="text" id="firstName" th:field="*{firstName}" required>
-                        <label for="firstName" >First Name</label>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="text" id="firstName" class="mdc-text-field__input" th:field="*{firstName}" required>
+                        <label for="firstName" class="mdc-floating-label">First Name</label>
+                        <div class="mdc-line-ripple"></div>
                     </div>
-                    <div >
-                        <input type="text" id="lastName" th:field="*{lastName}" required>
-                        <label for="lastName" >Last Name</label>
+                </div>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="text" id="lastName" class="mdc-text-field__input" th:field="*{lastName}" required>
+                        <label for="lastName" class="mdc-floating-label">Last Name</label>
+                        <div class="mdc-line-ripple"></div>
                     </div>
                 </div>
 
@@ -38,28 +42,37 @@
                 </div>
 
                 <!-- E-Mail -->
-                <div >
-                    <input type="email" class="form-control" id="email" th:field="*{email}" required>
-                    <label for="email" >E-Mail</label>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="email" id="email" class="mdc-text-field__input" th:field="*{email}" required>
+                        <label for="email" class="mdc-floating-label">E-Mail</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
                 </div>
-                <div  th:each="error : ${#fields.errors('email')}" th:text="${error}" role="alert"></div>
+                <div th:each="error : ${#fields.errors('email')}" th:text="${error}" role="alert"></div>
 
                 <!-- Phone -->
-                <div>
-                    <input type="tel" id="phone" th:field="*{phone}" required>
-                    <label for="phone" >Phone</label>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="tel" id="phone" class="mdc-text-field__input" th:field="*{phone}" required>
+                        <label for="phone" class="mdc-floating-label">Phone</label>
+                    </div>
                 </div>
-                <div  th:each="error : ${#fields.errors('phone')}" th:text="${error}" role="alert"></div>
+                <div th:each="error : ${#fields.errors('phone')}" th:text="${error}" role="alert"></div>
 
                 <!-- Password -->
-                <div>
-                    <input type="password" id="newPassword" th:field="*{password}" required>
-                    <label for="newPassword" >Password</label>
-                    <span class="bmd-help">We'll never share your password with anyone else.</span>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="password" id="newPassword" class="mdc-text-field__input" th:field="*{password}" required>
+                        <label for="newPassword" class="mdc-floating-label">Password</label>
+                    </div>
+                    <span hidden>We'll never share your password with anyone else.</span>
                 </div>
-                <div>
-                    <input type="password" id="newPasswordRepeat" th:field="*{passwordRepeat}" required>
-                    <label for="newPasswordRepeat" >Repeat Password</label>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="password" id="newPasswordRepeat" class="mdc-text-field__input" th:field="*{passwordRepeat}" required>
+                        <label for="newPasswordRepeat" class="mdc-floating-label">Repeat Password</label>
+                    </div>
                 </div>
                 <div th:if="${#fields.hasErrors('passwordRepeat') || #fields.hasErrors('password')}"
                      th:text="${#fields.errors('passwordRepeat') + ' ' + #fields.errors('password')}"
@@ -68,8 +81,8 @@
                     Passwords have to match!
                 </div>
 
-                <button type="reset">Cancel</button>
-                <button type="submit" id="submitButton">Register</button>
+                <button type="reset" class="mdc-button">Cancel</button>
+                <button type="submit" class="mdc-button mdc-button--raised">Register</button>
             </form>
         </div>
     </div>

@@ -31,15 +31,6 @@ public class Application {
 		}
 
 		@Configuration
-		static class FlowerShopWebConfiguration extends SalespointWebConfiguration {
-
-				@Override
-				public void addViewControllers(ViewControllerRegistry registry) {
-						registry.addViewController("/login").setViewName("login");
-				}
-		}
-
-		@Configuration
 		static class WebSecurityConfiguration extends SalespointSecurityConfiguration {
 
 				@Override

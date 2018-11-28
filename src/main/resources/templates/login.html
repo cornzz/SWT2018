@@ -14,19 +14,26 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form role="form" th:action="@{/login}" method="post">
-                <div>
-                    <input type="text" id="username" name="username" autofocus="autofocus" required>
-                    <label for="username">Username</label>
-                    <span>Your username is your first and last name combined.</span>
+            <form role="form" class="fs-form" th:action="@{/login}" method="post">
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="text" id="username" name="username" autofocus="autofocus" class="mdc-text-field__input" required>
+                        <label for="username" class="mdc-floating-label">Username</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
+                    <!-- <p id="username-helper-text" class="mdc-text-field-helper-text" aria-hidden="true">Your username is your first and last name combined.</p> -->
                 </div>
-                <div>
-                    <input type="password" id="password" name="password" required>
-                    <label for="password">Password</label>
-                    <span>We'll never share your password with anyone else.</span>
+
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="password" id="password" name="password" class="mdc-text-field__input" required>
+                        <label for="password" class="mdc-floating-label">Password</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
                 </div>
+
                 <div th:if="${param.error}" role="alert">Invalid username or password!</div>
-                <button type="submit">Login</button>
+                <button type="submit" class="mdc-button mdc-button--raised">Login</button>
             </form>
         </div>
     </div>

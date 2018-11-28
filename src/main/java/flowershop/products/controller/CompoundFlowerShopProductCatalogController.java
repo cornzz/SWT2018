@@ -27,7 +27,7 @@ public class CompoundFlowerShopProductCatalogController {
 
 	@GetMapping("/")
 	public String index() {
-		return "redirect:/products/";
+		return "redirect:/products";
 	}
 
 	@GetMapping("/products")

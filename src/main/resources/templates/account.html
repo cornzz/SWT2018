@@ -15,61 +15,86 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <!-- Edit Account Form -->
-            <form method="post" role="form" id="form" th:action="@{/account}" th:object="${form}">
+            <form method="post" role="form" id="form" class="fs-form" th:action="@{/account}" th:object="${form}">
                 <!-- First Name, Last Name -->
-                <div>
-                    <div>
-                        <input type="text" id="firstName" th:field="*{firstName}">
-                        <label for="firstName">First Name</label>
-                    </div>
-                    <div>
-                        <input type="text" id="lastName" th:field="*{lastName}">
-                        <label for="lastName">Last Name</label>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <div>
+                            <input type="text" id="firstName" class="mdc-text-field__input" th:field="*{firstName}">
+                            <label for="firstName" class="mdc-floating-label">First Name</label>
+                            <div class="mdc-line-ripple"></div>
+                        </div>
                     </div>
                 </div>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <div class="mdc-form-field">
+                            <input type="text" id="lastName" class="mdc-text-field__input" th:field="*{lastName}">
+                            <label for="lastName" class="mdc-floating-label">Last Name</label>
+                            <div class="mdc-line-ripple"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div th:if="${#fields.hasErrors('firstName') || #fields.hasErrors('lastName')}"
                      th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName')}"
                      role="alert">
                 </div>
 
                 <!-- E-Mail -->
-                <div>
-                    <input type="email" id="email" th:field="*{email}">
-                    <label for="email">E-Mail</label>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="email" id="email" class="mdc-text-field__input" th:field="*{email}">
+                        <label for="email" class="mdc-floating-label">E-Mail</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
                 </div>
                 <div th:each="error : ${#fields.errors('email')}" th:text="${error}" role="alert"></div>
 
                 <!-- Phone -->
-                <div>
-                    <input type="tel" id="phone" th:field="*{phone}">
-                    <label for="phone">Phone</label>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="tel" id="phone" class="mdc-text-field__input" th:field="*{phone}">
+                        <label for="phone" class="mdc-floating-label">Phone</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
                 </div>
                 <div th:each="error : ${#fields.errors('phone')}" th:text="${error}" role="alert"></div>
 
-                <div>
-                    <button type="button" id="edit" onclick="">Cancel</button>
-                    <button type="submit" id="submit">Submit</button>
-                </div>
+
+                <button type="button" id="edit" class="mdc-button">Cancel</button>
+                <button type="submit" id="submit" class="mdc-button mdc-button--raised">Submit</button>
             </form>
 
-            <form method="post" role="form" id="passwordForm" th:action="@{/account/changepass}" th:object="${form}">
+            <form method="post" role="form" id="passwordForm" class="fs-form" th:action="@{/account/changepass}" th:object="${form}">
                 <!-- Old Password -->
-                <div>
-                    <input type="password" id="oldPassword" th:field="*{oldPassword}">
-                    <label for="oldPassword">Current Password</label>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="password" id="oldPassword" class="mdc-text-field__input" th:field="*{oldPassword}">
+                        <label for="oldPassword" class="mdc-floating-label">Current Password</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
                 </div>
+
                 <div th:each="error : ${#fields.errors('oldPassword')}"
                      th:text="${error}" role="alert"></div>
+
                 <!-- New Password -->
-                <div>
-                    <input type="password" id="newPassword" th:field="*{password}">
-                    <label for="newPassword">New Password</label>
-                    <span>We'll never share your password with anyone else.</span>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="password" id="newPassword" class="mdc-text-field__input" th:field="*{password}">
+                        <label for="newPassword" class="mdc-floating-label">New Password</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
                 </div>
-                <div>
-                    <input type="password" id="newPasswordConfirm" th:field="*{passwordRepeat}">
-                    <label for="newPasswordConfirm">Repeat New Password</label>
+                <div class="mdc-form-field">
+                    <div class="mdc-text-field">
+                        <input type="password" id="newPasswordConfirm" class="mdc-text-field__input" th:field="*{passwordRepeat}">
+                        <label for="newPasswordConfirm" class="mdc-floating-label">Repeat New Password</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
                 </div>
+
                 <div th:if="${#fields.hasErrors('passwordRepeat') || #fields.hasErrors('password')}"
                      th:text="${#fields.errors('passwordRepeat') + ' ' + #fields.errors('password')}"
                      role="alert"
@@ -77,8 +102,8 @@
                     Passwords have to match!
                 </div>
 
-                <button type="button" data-dismiss="modal">Cancel</button>
-                <button type="submit" id="submitPassword">Submit</button>
+                <button type="button" class="mdc-button">Cancel</button>
+                <button type="submit" id="submitPassword" class="mdc-button mdc-button--raised">Submit</button>
             </form>
         </div>
     </div>
