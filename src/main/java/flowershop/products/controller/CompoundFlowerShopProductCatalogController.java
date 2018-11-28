@@ -54,9 +54,7 @@ public class CompoundFlowerShopProductCatalogController {
 	@PostMapping("/products/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String addProduct(@Valid AddCompoundFlowerShopProductForm form, Errors result) {
-
-		// TODO: use form validator to check if there is at least one product selected
-		if (result.hasErrors() || (form.getSelectedFlowerShopItems().isEmpty() && form.getSelectedFlowerShopServices().isEmpty())) {
+		if (result.hasErrors()) {
 			return "redirect:/products/add";
 		}
 
