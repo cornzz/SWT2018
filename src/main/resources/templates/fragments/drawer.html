@@ -13,12 +13,14 @@
                 <span class="mdc-list-item__text">Products</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'inventory') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="hasRole('ROLE_BOSS')"
                th:href="@{/products/items/stock}"
                th:aria-selected="${view == 'inventory'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">local_florist</i>
                 <span class="mdc-list-item__text">Inventory</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'services') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="hasRole('ROLE_BOSS')"
                th:href="@{/products/services}"
                th:aria-selected="${view == 'services'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">waves</i>

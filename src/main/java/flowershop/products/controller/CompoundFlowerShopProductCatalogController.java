@@ -5,6 +5,7 @@ import flowershop.products.CompoundFlowerShopProductCatalog;
 import flowershop.products.FlowerShopItemCatalog;
 import flowershop.products.FlowerShopServiceCatalog;
 import flowershop.products.form.AddCompoundFlowerShopProductForm;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -39,6 +40,7 @@ public class CompoundFlowerShopProductCatalogController {
 	}
 
 	@GetMapping("/products/add")
+	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String addProduct(Model model, AddCompoundFlowerShopProductForm form) {
 
 		model.addAttribute("form", form);
@@ -50,6 +52,7 @@ public class CompoundFlowerShopProductCatalogController {
 	}
 
 	@PostMapping("/products/add")
+	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String addProduct(@Valid AddCompoundFlowerShopProductForm form, Errors result) {
 
 		// TODO: use form validator to check if there is at least one product selected

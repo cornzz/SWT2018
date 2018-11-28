@@ -1,4 +1,5 @@
-<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Products</title>
 </head>
@@ -23,7 +24,8 @@
             </div>
         </div>
     </div>
-    <button th:replace="fragments/floating_action_button :: floating_action_button(@{/products/add})"></button>
+    <button sec:authorize="hasRole('ROLE_BOSS')"
+            th:replace="fragments/floating_action_button :: floating_action_button(@{/products/add})"></button>
 </main>
 </body>
 </html>
