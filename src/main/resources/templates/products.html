@@ -11,7 +11,7 @@
 <header th:replace="fragments/header :: header_catalog(~{::section})">
     <!-- since this is a nested replace it can't be empty -->
     <section>
-        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">shopping_cart</a>
+        <a th:href="@{/cart}" class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">shopping_cart</a>
     </section>
 </header>
 <main>

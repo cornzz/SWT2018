@@ -1,0 +1,26 @@
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Items</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header_dialog (@{/products})">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <p th:text="${product.name}">name</p>
+            <p th:text="${product.description}">description</p>
+            <form method="post" th:action="@{/cart/add}"}>
+                <!--(TODO: max quantity = quantity in inventory)-->
+                <input type="text" pattern="(\d*)" value="1" name="quantity" id="quantity" th:object="${quantity}">
+                <label for="quantity">Anzahl</label>
+                <button type="submit">Zum Warenkorb hinzufügen</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>
