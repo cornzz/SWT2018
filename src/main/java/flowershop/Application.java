@@ -39,7 +39,7 @@ public class Application {
 
 						http.authorizeRequests().antMatchers("/**").permitAll().and()
 								.formLogin().loginPage("/login").loginProcessingUrl("/login").and()
-								.logout().logoutUrl("/logout").logoutSuccessUrl("/?logout").and()
+								.logout().logoutUrl("/logout").logoutSuccessUrl("/products?logout").and()
 								.exceptionHandling().accessDeniedPage("/accessDenied");
 				}
 		}

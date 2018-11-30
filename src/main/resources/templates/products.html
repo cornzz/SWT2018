@@ -21,6 +21,9 @@
                 <th:block th:each="product : ${products}">
                     <div th:replace="fragments/product_card :: product_card (product=${product})"></div>
                 </th:block>
+
+                <div th:if="${param.logout}" class="fs-snackbar-text" role="alert" hidden>Logout successful!</div>
+                <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" role="alert" hidden></div>
             </div>
         </div>
     </div>

@@ -49,7 +49,7 @@
             </a>
             <a th:class="mdc-list-item"
                sec:authorize="isAuthenticated()"
-               th:href="@{/logout}">
+               href="javascript: document.logoutForm.submit();">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">lock</i>
                 <span class="mdc-list-item__text">Sign out</span>
             </a>
@@ -61,6 +61,7 @@
                 <span class="mdc-list-item__text">Sign in</span>
             </a>
         </div>
+        <form action="/logout" name="logoutForm" method="post" hidden></form>
     </div>
 </aside>
 </html>

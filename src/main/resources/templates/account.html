@@ -14,53 +14,44 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <div th:if="${param.success}" role="alert">Information saved successfully!</div>
+            <div th:if="${param.success}" class="fs-snackbar-text" role="alert" hidden>Information saved successfully!</div>
             <!-- Edit Account Form -->
             <form method="post" role="form" id="form" class="fs-form" th:action="@{/account}" th:object="${form}">
                 <!-- First Name, Last Name -->
-                <div class="mdc-form-field">
+                <div class="fs-form__row">
                     <div class="mdc-text-field">
-                        <div>
-                            <input type="text" id="firstName" class="mdc-text-field__input" th:field="*{firstName}">
-                            <label for="firstName" class="mdc-floating-label">First Name</label>
-                            <div class="mdc-line-ripple"></div>
-                        </div>
+                        <input type="text" id="firstName" class="mdc-text-field__input" th:field="*{firstName}">
+                        <label for="firstName" class="mdc-floating-label">First Name</label>
+                        <div class="mdc-line-ripple"></div>
                     </div>
-                </div>
-                <div class="mdc-form-field">
                     <div class="mdc-text-field">
-                        <div class="mdc-form-field">
-                            <input type="text" id="lastName" class="mdc-text-field__input" th:field="*{lastName}">
-                            <label for="lastName" class="mdc-floating-label">Last Name</label>
-                            <div class="mdc-line-ripple"></div>
-                        </div>
+                        <input type="text" id="lastName" class="mdc-text-field__input" th:field="*{lastName}">
+                        <label for="lastName" class="mdc-floating-label">Last Name</label>
+                        <div class="mdc-line-ripple"></div>
                     </div>
                 </div>
 
                 <div th:if="${#fields.hasErrors('firstName') || #fields.hasErrors('lastName')}"
-                     th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName')}" role="alert">
+                     th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName')}"
+                     role="alert" class="fs-snackbar-text" hidden>
+                    test
                 </div>
 
                 <!-- E-Mail -->
-                <div class="mdc-form-field">
-                    <div class="mdc-text-field">
-                        <input type="email" id="email" class="mdc-text-field__input" th:field="*{email}">
-                        <label for="email" class="mdc-floating-label">E-Mail</label>
-                        <div class="mdc-line-ripple"></div>
-                    </div>
+                <div class="mdc-text-field">
+                    <input type="email" id="email" class="mdc-text-field__input" th:field="*{email}">
+                    <label for="email" class="mdc-floating-label">E-Mail</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <div th:each="error : ${#fields.errors('email')}" th:text="${error}" role="alert"></div>
+                <div th:each="error : ${#fields.errors('email')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
 
                 <!-- Phone -->
-                <div class="mdc-form-field">
-                    <div class="mdc-text-field">
-                        <input type="tel" id="phone" class="mdc-text-field__input" th:field="*{phone}">
-                        <label for="phone" class="mdc-floating-label">Phone</label>
-                        <div class="mdc-line-ripple"></div>
-                    </div>
+                <div class="mdc-text-field">
+                    <input type="tel" id="phone" class="mdc-text-field__input" th:field="*{phone}">
+                    <label for="phone" class="mdc-floating-label">Phone</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <div th:each="error : ${#fields.errors('phone')}" th:text="${error}" role="alert"></div>
-
+                <div th:each="error : ${#fields.errors('phone')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
 
                 <button type="submit" id="submit" class="mdc-button mdc-button--raised">Submit</button>
                 <button type="button" class="mdc-button mdc-button--raised" onclick="window.location='/account/changepass'">
