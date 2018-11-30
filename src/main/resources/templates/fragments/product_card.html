@@ -15,9 +15,9 @@
             <button class="mdc-button mdc-card__action mdc-card__action--button">MORE INFO</button>
         </div>
         <div class="mdc-card__action-icons">
-            <a th:href="@{/cart/add/{id}(id=${product.id})}" >
+            <form th:action="@{/cart/add/{id}(id=${product.id})}" >
                 <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="More options">shopping_cart</button>
-            </a>
+            </form>
         </div>
     </div>
 </div>
