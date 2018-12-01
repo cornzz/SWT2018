@@ -26,12 +26,12 @@ public class CompoundFlowerShopProductCatalogController {
 		this.flowerShopServiceCatalog = flowerShopServiceCatalog;
 	}
 
-	@GetMapping("/")
+	@RequestMapping("/")
 	public String index() {
-		return "redirect:/products";
+		return "forward:/products";
 	}
 
-	@GetMapping("/products")
+	@RequestMapping("/products")
 	public String products(Model model) {
 
 		model.addAttribute("products", compoundFlowerShopProductCatalog.findAll());
