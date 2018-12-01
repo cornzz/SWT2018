@@ -4,6 +4,7 @@ package flowershop.order;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Cart;
 import org.salespointframework.order.CartItem;
+import org.salespointframework.quantity.Quantity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,10 +43,13 @@ public class CartController {
 			return "forward:/cart/add/" + product.getId();
 		}
 
-		cart.addOrUpdateItem(product, quantity);
+		CartItem newCartItem = cart.addOrUpdateItem(product, quantity);
 		if (!orderController.sufficientStock(cart)){
 			model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
 			cart.addOrUpdateItem(product, -quantity);
+			if (newCartItem.getQuantity().subtract(Quantity.of(quantity)).isZeroOrNegative()) {
+				cart.removeItem(newCartItem.getId());
+			}
 			return "forward:/cart/add/" + product.getId();
 		}
 		return "redirect:/cart";
