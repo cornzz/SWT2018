@@ -33,6 +33,13 @@
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
                 <span class="mdc-list-item__text">Users</span>
             </a>
+            <a th:class="'mdc-list-item' + ((${view} == 'orders') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="hasRole('ROLE_BOSS')"
+               th:href="@{/orders}"
+               th:aria-selected="${view == 'orders'}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">assignment</i>
+                <span class="mdc-list-item__text">Orders</span>
+            </a>
             <a th:class="'mdc-list-item' + ((${view} == 'register') ? ' mdc-list-item--activated' : '')"
                sec:authorize="!isAuthenticated()"
                th:href="@{/register}"

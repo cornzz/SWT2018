@@ -6,6 +6,7 @@ import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.order.*;
 import org.salespointframework.payment.Cash;
+import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -46,7 +49,7 @@ public class OrderController {
 		return userAccount.map(account -> {
 
 			if (!sufficientStock(cart)) {
-				model.addAttribute("message", "There is not enough stock available.");
+				model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
 				return "/cart";
 			}
 
@@ -85,15 +88,28 @@ public class OrderController {
 	}
 
 	public boolean sufficientStock(Cart cart) {
+		Map<FlowerShopItem, Quantity> flowerShopItems = new HashMap<>();
 		for (Iterator<CartItem> cartItems = cart.iterator(); cartItems.hasNext();) {
 			CartItem cartItem = cartItems.next();
 			CompoundFlowerShopProduct product = (CompoundFlowerShopProduct) cartItem.getProduct();
+
 			for (Iterator<FlowerShopItem> productItems = product.getFlowerShopItems().iterator(); productItems.hasNext();) {
-				if (!inventory.findByProductIdentifier(productItems.next().getId()).get().hasSufficientQuantity(cartItem.getQuantity())) {
-					return false;
+				FlowerShopItem productItem = productItems.next();
+				Quantity itemQuantity = cartItem.getQuantity();
+				if (!flowerShopItems.containsKey(productItem)) {
+					flowerShopItems.put(productItem, itemQuantity);
+				} else {
+					flowerShopItems.put(productItem, flowerShopItems.get(productItem).add(itemQuantity));
 				}
 			}
 		}
+
+		for (FlowerShopItem item : flowerShopItems.keySet()) {
+			if (!inventory.findByProductIdentifier(item.getId()).get().hasSufficientQuantity(flowerShopItems.get(item))) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 

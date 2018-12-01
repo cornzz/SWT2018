@@ -14,11 +14,12 @@
             <p>Addiere <span th:text="${product.name}">productname</span> zum Warenkorb</p>
             <p><i><span th:text="${product.description}">productdescription</span></i></p>
             <form method="post" action="/cart/add">
-                <input type="hidden" name="pid" value="0" th:value="${product.id}"/>
-                Wähle Anzahl: <input type="text" pattern="(\d*)" value="1" name="quantity">
-                <div th:if="${message}" th:text="${message}"></div>
+                <input name="pid" value="0" th:value="${product.id}" hidden>
+                <input type="text" pattern="(\d*)" value="1" name="quantity" id="quantity">
+                <label for="quantity">Wähle Anzahl:</label>
                 <button type="submit">Hinzufügen</button>
             </form>
+            <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" hidden></div>
         </div>
     </div>
 </main>

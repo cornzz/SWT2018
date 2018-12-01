@@ -1,36 +1,33 @@
 package flowershop.order;
 
 
-import flowershop.products.CompoundFlowerShopProduct;
-import flowershop.products.FlowerShopItem;
 import org.salespointframework.catalog.Product;
-import org.salespointframework.inventory.Inventory;
 import org.salespointframework.order.Cart;
+import org.salespointframework.order.CartItem;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @Controller
 @PreAuthorize("isAuthenticated()")
 @SessionAttributes("cart")
 public class CartController {
 
+	private final OrderController orderController;
+
+	public CartController(OrderController orderController) {
+		this.orderController = orderController;
+	}
+
 	@ModelAttribute("cart")
 	Cart initializeCart() {
 		return new Cart();
 	}
 
-	@GetMapping("/cart")
+	@RequestMapping("/cart")
 	String basket() {
 		return "cart";
-	}
-
-	@PostMapping("/checkout")
-	String buy() {
-		return "redirect:/order";
 	}
 
 	@RequestMapping("/cart/add/{product}")
@@ -39,15 +36,65 @@ public class CartController {
 	}
 
 	@PostMapping("/cart/add")
-	public String addToCart(@RequestParam("pid") Product product, @RequestParam("quantity") int quantity, @ModelAttribute Cart cart, Model model) {
-		if (quantity <= 0) {
-			model.addAttribute("message", "Quantity has to be positive");
+	public String addToCart(@RequestParam("pid") Product product, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
+		Integer quantity = validateQuantity(qty, model);
+		if (quantity == null) {
 			return "forward:/cart/add/" + product.getId();
 		}
-		//if (product instanceof CompoundFlowerShopProduct){
-		//	ArrayList<FlowerShopItem> items = (ArrayList<FlowerShopItem>) ((CompoundFlowerShopProduct) product).getFlowerShopItems();
-		//}
+
 		cart.addOrUpdateItem(product, quantity);
+		if (!orderController.sufficientStock(cart)){
+			model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
+			cart.addOrUpdateItem(product, -quantity);
+			return "forward:/cart/add/" + product.getId();
+		}
 		return "redirect:/cart";
 	}
+
+	@PostMapping("/cart/edit")
+	public String editQuantity(@RequestParam("id") String itemId, @RequestParam("pid") Product product, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
+		Integer quantity = validateQuantity(qty, model);
+		if (quantity == null) {
+			return "forward:/cart";
+		}
+
+		CartItem oldCartItem = cart.getItem(itemId).get();
+		cart.removeItem(itemId);
+		CartItem newCartItem = cart.addOrUpdateItem(product, quantity);
+		if (!orderController.sufficientStock(cart)){
+			model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
+			cart.removeItem(newCartItem.getId());
+			cart.addOrUpdateItem(oldCartItem.getProduct(), oldCartItem.getQuantity());
+			return "forward:/cart";
+		}
+		return "cart";
+	}
+
+	@GetMapping("/cart/remove")
+	String removeFromCart(@ModelAttribute Cart cart, @RequestParam(value = "id") String itemId){
+		cart.removeItem(itemId);
+		return "cart";
+	}
+
+	@PostMapping("/checkout")
+	String buy() {
+		return "redirect:/order";
+	}
+
+	private Integer validateQuantity(String quantity, Model model) {
+		int qty;
+
+		try {
+			qty = Integer.valueOf(quantity);
+		} catch (NumberFormatException e) {
+			model.addAttribute("message", "Invalide Anzahl");
+			return null;
+		}
+		if (qty <= 0) {
+			model.addAttribute("message", "Anzahl sollte positiv sein.");
+			return null;
+		}
+		return qty;
+	}
 }
+
