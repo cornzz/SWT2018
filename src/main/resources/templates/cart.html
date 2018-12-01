@@ -11,15 +11,15 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <table>
+            <table width="70%">
                 <thead>
                     <tr>
-                        <th>Titel</th>
-                        <th>Beschreibung</th>
-                        <th>Anzahl</th>
-                        <th>Preis pro Artikel</th>
-                        <th>Bearbeiten</th>
-                        <th>Entfernen</th>
+                        <th width="20%">Titel</th>
+                        <th width="35%">Beschreibung</th>
+                        <th width="10%">Anzahl</th>
+                        <th width="15%">Preis pro Artikel</th>
+                        <th width="10%">Bearbeiten</th>
+                        <th width="10%">Entfernen</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,20 +29,21 @@
                         <td th:text="${item.quantity}">15</td>
                         <td th:text="${item.product.price}">EUR 10</td>
                         <td>
-                            <!--TODO: implement functionality-->
+                            <!--TODO:Funktionalitat implementieren-->
                             <button type="button">Bearbeiten</button>
                         </td>
                         <td>
-                            <!--TODO: implement functionality-->
+                            <!--TODO:Funktionalitat implementieren-->
                             <button type="button">Entfernen</button>
                         </td>
                 </tr>
                 </tbody>
             </table>
-            Gesamt: <span th:text="${cart.price}">1337</span>
+            Gesamt: <span th:text="${cart.price}">1337</span><br />
             <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/checkout}">
                 <button th:unless="${cart.empty}" type="submit">Kaufen</button>
             </form>
+            <div th:if="${message}" th:text="${message}"></div>
             <form th:action="@{/}">
                 <button type="submit">Weitershoppen</button>
             </form>

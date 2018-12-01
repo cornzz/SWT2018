@@ -4,33 +4,43 @@
     <title>Items</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (@{/products/items/stock})">
+<header th:replace="fragments/header :: header_dialog (@{/products})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
     <main>
         <div class="mdc-top-app-bar--fixed-adjust">
             <div class="fs-content-wrapper">
-                <table>
+                <table width="50%" class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
                     <thead>
-                        <tr>
-                            <th>Titel</th>
-                            <th>Beschreibung</th>
-                            <th>Anzahl</th>
-                            <th>Preis pro Artikel</th>
-                        </tr>
+                    <tr>
+                        <th width="25%">Titel</th>
+                        <th width="35%">Beschreibung</th>
+                        <th width="15%">Anzahl</th>
+                        <th width="25%">Preis pro Artikel</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr th:each=" item : ${cart}">
-                            <td th:text="${item.product.name}">Tulpe</td>
-                            <td th:text="${item.product.description}">Eine Blume</td>
-                            <td th:text="${item.quantity}">15</td>
-                            <td th:text="${{item.product.price}}">10 €</td>
-                        </tr>
+                    <tr th:each=" item : ${cart}">
+                        <td th:text="${item.product.name}">Tulpe</td>
+                        <td th:text="${item.product.description}">Eine Blume</td>
+                        <td th:text="${item.quantity}">15</td>
+                        <td th:text="${{item.product.price}}">10 €</td>
+                    </tr>
+                    <!-- <tr>
+                        <td> Tulpe</td>
+                        <td>3</td>
+                        <td>5</td>
+                    </tr> -->
                     </tbody>
+                    <tr>
+                        <td />
+                        <td><b>Gesamt:</b></td>
+                        <td><div class="value"><span th:text="${{cart.price}}">123123</span></div></td>
+                    </tr>
                 </table>
-                Gesamt: <span th:text="${cart.price}">1337</span>
-            <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/orderdone}">
+
+            <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/completeorder}">
                 <button type="submit">Bezahlen</button>
             </form>
             <form th:action="@{/cart}">
