@@ -3,7 +3,7 @@
     <title>Items</title>
 </head>
 <body>
-<aside th:replace="fragments/drawer :: drawer('orders')">
+<aside th:replace="fragments/drawer :: drawer('accounting')">
     <!-- since this is a nested replace it can't be empty -->
     Drawer
 </aside>
@@ -17,16 +17,25 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Order</th>
+                        <th>ID</th>
+                        <th>Date</th>
                         <th>Total</th>
                     </tr>
                 </thead>
                 <tbody th:remove="all-but-first">
-                    <tr th:each="order : ${ordersCompleted}">
-                        <td th:text="${order.id}"></td>
-                        <td th:text="${order.totalPrice}"></td>
+                    <tr th:each="transaction : ${transactions}">
+                        <td th:text="${transaction.id}"></td>
+                        <td th:text="${#temporals.format(transaction.dateCreated, 'dd.MM.yyyy HH:mm')}"></td>
+                        <td th:text="${transaction.totalPrice}"></td>
                     </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Sum</td>
+                        <td></td>
+                        <td th:text="${total}"></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
