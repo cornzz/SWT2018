@@ -39,9 +39,8 @@ public class CartController {
 	@PostMapping("/cart/add")
 	public String addToCart(@RequestParam("pid") Product product, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
 		Integer quantity = validateQuantity(qty, model);
-		if (quantity == null) {
+		if (quantity == null)
 			return "forward:/cart/add/" + product.getId();
-		}
 
 		CartItem newCartItem = cart.addOrUpdateItem(product, quantity);
 		if (!orderController.sufficientStock(cart)){
@@ -58,17 +57,14 @@ public class CartController {
 	@PostMapping("/cart/edit")
 	public String editQuantity(@RequestParam("id") String itemId, @RequestParam("pid") Product product, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
 		Integer quantity = validateQuantity(qty, model);
-		if (quantity == null) {
+		if (quantity == null)
 			return "forward:/cart";
-		}
 
-		CartItem oldCartItem = cart.getItem(itemId).get();
-		cart.removeItem(itemId);
-		CartItem newCartItem = cart.addOrUpdateItem(product, quantity);
+		Quantity currentItemQuantity = cart.getItem(itemId).get().getQuantity();
+		cart.addOrUpdateItem(product, Quantity.of(quantity).subtract(currentItemQuantity));
 		if (!orderController.sufficientStock(cart)){
 			model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
-			cart.removeItem(newCartItem.getId());
-			cart.addOrUpdateItem(oldCartItem.getProduct(), oldCartItem.getQuantity());
+			cart.addOrUpdateItem(product, currentItemQuantity.subtract(Quantity.of(quantity)));
 			return "forward:/cart";
 		}
 		return "cart";
