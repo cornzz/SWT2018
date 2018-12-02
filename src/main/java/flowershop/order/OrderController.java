@@ -8,8 +8,10 @@ import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.order.*;
 import org.salespointframework.payment.Cash;
 import org.salespointframework.quantity.Quantity;
+import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
+import org.springframework.data.util.Streamable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -125,10 +127,12 @@ public class OrderController {
 	}
 
 	@GetMapping("/orders")
-	@PreAuthorize("hasRole('ROLE_BOSS')")
-	String orders(Model model) {
+	@PreAuthorize("isAuthenticated()")
+	String orders(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
+		UserAccount user = loggedIn.get();
+		Streamable<Order> orders = user.hasRole(Role.of("ROLE_BOSS")) ? orderManager.findBy(OrderStatus.COMPLETED) : orderManager.findBy(user);
 
-		model.addAttribute("ordersCompleted", orderManager.findBy(OrderStatus.COMPLETED));
+		model.addAttribute("orders", orders);
 
 		return "orders";
 	}
