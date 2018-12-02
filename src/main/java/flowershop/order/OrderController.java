@@ -2,6 +2,7 @@ package flowershop.order;
 
 import flowershop.products.CompoundFlowerShopProduct;
 import flowershop.products.FlowerShopItem;
+import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.order.*;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 
@@ -45,7 +45,7 @@ public class OrderController {
 	}
 
 	@PostMapping("/completeorder")
-	String buy(@ModelAttribute Cart cart, @LoggedIn Optional<UserAccount> userAccount, Model model){
+	String buy(@ModelAttribute Cart cart, @LoggedIn Optional<UserAccount> userAccount, Model model) {
 		return userAccount.map(account -> {
 
 			if (!sufficientStock(cart)) {
@@ -57,13 +57,15 @@ public class OrderController {
 			cart.addItemsTo(order);
 			orderManager.payOrder(order);
 
-			// Temporarily add the CompoundFlowerShopProducts to inventory, in order to execute completeOrder()
-			cart.iterator().forEachRemaining(cartItem -> {
-				CompoundFlowerShopProduct product = (CompoundFlowerShopProduct) cartItem.getProduct();
-				inventory.save(new InventoryItem(product, cartItem.getQuantity()));
-				product.getFlowerShopItems().forEach(flowerShopItem -> inventory.findByProductIdentifier(flowerShopItem.getId())
-						.ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(cartItem.getQuantity())));
-			});
+			// DIRTY! Temporarily add the CompoundFlowerShopProducts to inventory, in order to execute completeOrder()
+			// and manually decrease stock of needed FlowerShopItems
+			cart.filter(cartItem -> cartItem.getProduct() instanceof CompoundFlowerShopProduct)
+					.forEach(cartItem -> {
+						CompoundFlowerShopProduct product = (CompoundFlowerShopProduct) cartItem.getProduct();
+						inventory.save(new InventoryItem(product, cartItem.getQuantity()));
+						product.getFlowerShopItems().forEach(flowerShopItem -> inventory.findByProductIdentifier(flowerShopItem.getId())
+								.ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(cartItem.getQuantity())));
+					});
 
 			try {
 				orderManager.completeOrder(order);
@@ -76,10 +78,11 @@ public class OrderController {
 			}
 
 			// Remove CompoundFlowerShopProducts from inventory
-			cart.iterator().forEachRemaining(cartItem -> {
-				CompoundFlowerShopProduct product = (CompoundFlowerShopProduct) cartItem.getProduct();
-				inventory.deleteById(inventory.findByProduct(product).get().getId());
-			});
+			cart.filter(cartItem -> cartItem.getProduct() instanceof CompoundFlowerShopProduct)
+					.forEach(cartItem -> {
+						CompoundFlowerShopProduct product = (CompoundFlowerShopProduct) cartItem.getProduct();
+						inventory.deleteById(inventory.findByProduct(product).get().getId());
+					});
 
 			cart.clear();
 
@@ -89,17 +92,25 @@ public class OrderController {
 
 	public boolean sufficientStock(Cart cart) {
 		Map<FlowerShopItem, Quantity> flowerShopItems = new HashMap<>();
-		for (Iterator<CartItem> cartItems = cart.iterator(); cartItems.hasNext();) {
-			CartItem cartItem = cartItems.next();
-			CompoundFlowerShopProduct product = (CompoundFlowerShopProduct) cartItem.getProduct();
+		for (CartItem cartItem : cart) {
+			Product product = cartItem.getProduct();
+			Quantity itemQuantity = cartItem.getQuantity();
 
-			for (Iterator<FlowerShopItem> productItems = product.getFlowerShopItems().iterator(); productItems.hasNext();) {
-				FlowerShopItem productItem = productItems.next();
-				Quantity itemQuantity = cartItem.getQuantity();
-				if (!flowerShopItems.containsKey(productItem)) {
-					flowerShopItems.put(productItem, itemQuantity);
+			if (product instanceof CompoundFlowerShopProduct) {
+				CompoundFlowerShopProduct compoundProduct = (CompoundFlowerShopProduct) product;
+				for (FlowerShopItem productItem : compoundProduct.getFlowerShopItems()) {
+					if (!flowerShopItems.containsKey(productItem)) {
+						flowerShopItems.put(productItem, itemQuantity);
+					} else {
+						flowerShopItems.put(productItem, flowerShopItems.get(productItem).add(itemQuantity));
+					}
+				}
+			} else if (product instanceof FlowerShopItem) {
+				FlowerShopItem item = (FlowerShopItem) product;
+				if (!flowerShopItems.containsKey(item)) {
+					flowerShopItems.put(item, itemQuantity);
 				} else {
-					flowerShopItems.put(productItem, flowerShopItems.get(productItem).add(itemQuantity));
+					flowerShopItems.put(item, flowerShopItems.get(item).add(itemQuantity));
 				}
 			}
 		}
