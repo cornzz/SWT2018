@@ -36,20 +36,19 @@ public class UserController {
 	}
 
 	@GetMapping("/register")
-	String register(Model model, UserDataTransferObject form, @LoggedIn Optional<UserAccount> loggedIn) {
+	ModelAndView register(Model model, UserDataTransferObject form, @LoggedIn Optional<UserAccount> loggedIn) {
 		if (loggedIn.isPresent()) {
-			return "redirect:/account";
+			return new ModelAndView("redirect:/account");
 		}
 
-		model.addAttribute("form", form);
-		return "register";
+		return new ModelAndView("register", "form", form);
 	}
 
 	@PostMapping("/register")
 	ModelAndView registerNew(@ModelAttribute("form") @Validated(UserDataTransferObject.RegistrationProcess.class) UserDataTransferObject form, BindingResult result,
 							 HttpServletRequest request, @LoggedIn Optional<UserAccount> loggedIn) {
 		if (loggedIn.isPresent()) {
-			return new ModelAndView("redirect:/account", "form", null);
+			return new ModelAndView("redirect:/account");
 		}
 		if (result.hasErrors()) {
 			return new ModelAndView("register", "form", form);
@@ -68,11 +67,11 @@ public class UserController {
 
 	@GetMapping("/account")
 	@PreAuthorize("isAuthenticated()")
-	String account(Model model, UserDataTransferObject form, @LoggedIn Optional<UserAccount> loggedIn) {
-		populateForm(form, loggedIn.get());
-		model.addAttribute("form", form);
+	ModelAndView account(Model model, UserDataTransferObject form, @LoggedIn Optional<UserAccount> loggedIn) {
 
-		return "account";
+		populateForm(form, loggedIn.get());
+
+		return new ModelAndView("account", "form", form);
 	}
 
 	@PostMapping("/account")
@@ -85,7 +84,7 @@ public class UserController {
 
 		userManagement.modifyUser(form, loggedIn.get());
 
-		return new ModelAndView("redirect:/account?success", "form", form);
+		return new ModelAndView("redirect:/account?success");
 	}
 
 	@GetMapping("/account/changepass")
@@ -105,15 +104,13 @@ public class UserController {
 
 		userManagement.changePass(form, loggedIn.get());
 
-		return new ModelAndView("redirect:/account?success", "form", form);
+		return new ModelAndView("redirect:/account?success");
 	}
 
 	@GetMapping("/users")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	String users(Model model) {
-		model.addAttribute("userList", userManagement.findAll());
-
-		return "users";
+	ModelAndView users(Model model) {
+		return new ModelAndView("users", "userList", userManagement.findAll());
 	}
 
 	private void populateForm(UserDataTransferObject form, @LoggedIn UserAccount loggedIn) {

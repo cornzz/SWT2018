@@ -18,6 +18,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Type</th>
                         <th>Date</th>
                         <th>Total</th>
                     </tr>
@@ -25,6 +26,7 @@
                 <tbody th:remove="all-but-first">
                     <tr th:each="transaction : ${transactions}">
                         <td th:text="${transaction.id}"></td>
+                        <td th:text="${transaction.isCompleted()} ? 'Order' : 'Other'"></td>
                         <td th:text="${#temporals.format(transaction.dateCreated, 'dd.MM.yyyy HH:mm')}"></td>
                         <td th:text="${transaction.totalPrice}"></td>
                     </tr>
@@ -33,10 +35,12 @@
                     <tr>
                         <td>Sum</td>
                         <td></td>
+                        <td></td>
                         <td th:text="${total}"></td>
                     </tr>
                 </tfoot>
             </table>
+            <button type="button" class="mdc-button mdc-button--raised" onclick="window.location='/accounting/transaction/add'">Add transaction</button>
         </div>
     </div>
 </main>

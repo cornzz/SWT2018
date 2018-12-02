@@ -1,0 +1,33 @@
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Items</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header_dialog (@{/accounting})">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <form role="form" id="form" class="fs-form" th:object="${form}" th:action="@{/accounting/transaction/add}" method="post">
+                <div class="mdc-text-field">
+                    <input type="text" id="amount" class="mdc-text-field__input" th:field="*{amount}">
+                    <label  for="amount" class="mdc-floating-label">Amount in EUR</label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <div class="mdc-text-field">
+                    <input type="text" id="description" class="mdc-text-field__input" th:field="*{description}">
+                    <label for="description" class="mdc-floating-label">Description</label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <div th:each="error : ${#fields.errors()}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
+
+                <button type="button" class="mdc-button" onclick="window.location='/accounting'">Cancel</button>
+                <button type="submit" class="mdc-button mdc-button--raised">Add</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

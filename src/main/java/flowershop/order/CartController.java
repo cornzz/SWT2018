@@ -85,6 +85,7 @@ public class CartController {
 		return "redirect:/order";
 	}
 
+	// TODO: move to external class (and make static)
 	private Integer validateQuantity(String quantity, Model model) {
 		int qty;
 
