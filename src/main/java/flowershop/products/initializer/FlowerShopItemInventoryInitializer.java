@@ -29,5 +29,6 @@ public class FlowerShopItemInventoryInitializer implements DataInitializer {
 		flowerShopItemCatalog.findAll().forEach(flower -> {
 			inventory.findByProduct(flower).orElseGet(() -> inventory.save(new InventoryItem(flower, Quantity.of(10))));
 		});
+
 	}
 }

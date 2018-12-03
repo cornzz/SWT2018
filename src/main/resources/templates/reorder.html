@@ -1,0 +1,48 @@
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Transactions</title>
+</head>
+<body>
+<aside th:replace="fragments/drawer :: drawer('transactions')">
+    <!-- since this is a nested replace it can't be empty -->
+    Drawer
+</aside>
+<header th:replace="fragments/header :: header_catalog(_)">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Flower</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Send</th>
+                </tr>
+                </thead>
+                <tbody th:remove="all-but-first">
+                <tr th:each=" transaction : ${transactions}">
+                    <td th:text="${transaction.flowerName}">flower</td>
+                    <td th:text="${transaction.quantity}" >5</td>
+                    <td th:text="${transaction.price}">5</td>
+                    <td>
+                        <form sec:authorize="hasRole('ROLE_BOSS')" method="post" th:action="@{/products/reorder/send/{id}(id=${transaction.flower})}">
+                            <input name="quantity" th:value="${transaction.quantity}" hidden>
+                            <input name="oid" th:value="${transaction.id}" hidden>
+                            <button type="submit">
+                                Send
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>

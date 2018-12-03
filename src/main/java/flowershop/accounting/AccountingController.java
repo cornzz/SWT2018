@@ -1,6 +1,7 @@
 package flowershop.accounting;
 
 import flowershop.accounting.validation.TransactionDataTransferObject;
+import flowershop.order.Transaction;
 import org.javamoney.moneta.Money;
 import org.salespointframework.order.ChargeLine;
 import org.salespointframework.order.Order;
@@ -28,9 +29,11 @@ import java.util.Optional;
 public class AccountingController {
 
 	private final OrderManager<Order> orderManager;
+	private final OrderManager<Transaction> transactionManager;
 
-	public AccountingController(OrderManager<Order> orderManager) {
+	public AccountingController(OrderManager<Order> orderManager, OrderManager<Transaction> transactionManager) {
 		this.orderManager = orderManager;
+		this.transactionManager = transactionManager;
 	}
 
 
@@ -39,7 +42,10 @@ public class AccountingController {
 	String orders(Model model) {
 		Streamable<Order> transactions = orderManager.findBy(OrderStatus.PAID).and(orderManager.findBy(OrderStatus.COMPLETED));
 		MonetaryAmount total = transactions.stream().map(Order::getTotalPrice).reduce(Money.parse("EUR 0"), MonetaryAmount::add);
-
+		// Streamable<Transaction> moreTransactions = transactionManager.findBy(OrderStatus.PAID);
+		// MonetaryAmount moreTotal = moreTransactions.stream().map(Transaction::getPrice).reduce(Money.parse("EUR 0"), MonetaryAmount::add);
+		// moreTotal.multiply(-1);
+		// total.add(moreTotal);
 		model.addAttribute("transactions", transactions);
 		model.addAttribute("total", total);
 
