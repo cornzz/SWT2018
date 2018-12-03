@@ -28,6 +28,11 @@ application as shown below.)
 
 * Run `mvn clean package`. The packaged application (a JAR in `target/`) can be run with `java -jar $jarName`.
 
+== How to use MDL elements?
+
+We support the outdated MDL elements due to the absence of a MDC data table. To avoid style interferences MDL elements
+must be wrapped by the `.fs-mdl-wrapper` class which scopes the outdated MDL styles.
+
 == Dummy User Accounts
 
 |===

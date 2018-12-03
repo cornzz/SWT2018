@@ -6,7 +6,11 @@ const postcssNormalize = require('postcss-normalize');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry: ['./src/app.scss', './src/app.js'].concat(glob.sync("./src/js/mdc/*.js")),
+    entry: [
+        './src/app.scss',
+        './src/app.js',
+        './node_modules/material-design-lite/material.min.js'
+    ].concat(glob.sync("./src/js/mdc/*.js")),
     module: {
         rules: [
             {

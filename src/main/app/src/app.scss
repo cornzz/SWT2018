@@ -1,3 +1,10 @@
+// material design lite
+.fs-mdl-wrapper {
+  // TODO: only import styles required for mdl data table
+  // @import "~material-design-lite/src/material-design-lite";
+  @import "~material-design-lite/dist/material.min.css";
+}
+
 // material components for the web
 @import "~@material/button/mdc-button";
 @import "~@material/top-app-bar/mdc-top-app-bar";
