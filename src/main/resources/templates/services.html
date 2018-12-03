@@ -14,21 +14,23 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Service</th>
-                        <th>Base price</th>
+            <div class="fs-mdl-wrapper">
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                    <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric">Service</th>
+                            <th>Base price</th>
 
-                    </tr>
-                </thead>
-                <tbody th:remove="all-but-first">
-                    <tr th:each=" service: ${services}">
-                        <td th:text="${service.name}">watering flowers</td>
-                        <td th:text="${service.price}">3</td>
-                    </tr>
-                </tbody>
-            </table>
+                        </tr>
+                    </thead>
+                    <tbody th:remove="all-but-first">
+                        <tr th:each=" service: ${services}">
+                            <td class="mdl-data-table__cell--non-numeric" th:text="${service.name}">watering flowers</td>
+                            <td th:text="${service.price}">3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <button th:replace="fragments/floating_action_button :: floating_action_button(@{/products/services/add})"></button>
         </div>
     </div>
