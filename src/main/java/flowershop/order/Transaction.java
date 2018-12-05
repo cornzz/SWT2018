@@ -1,13 +1,10 @@
 package flowershop.order;
 
-import flowershop.products.FlowerShopItem;
-import org.javamoney.moneta.Money;
 import org.salespointframework.inventory.InventoryItemIdentifier;
 import org.salespointframework.order.Order;
 import org.salespointframework.payment.PaymentMethod;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.UserAccount;
-
 import javax.money.MonetaryAmount;
 import javax.persistence.Entity;
 
@@ -25,6 +22,7 @@ public class Transaction extends Order {
 	private InventoryItemIdentifier flower;
 	private String flowerName;
 	private Quantity quantity;
+
 
     public Transaction(UserAccount userAccount, PaymentMethod paymentMethod, TransactionType type){
     	super(userAccount, paymentMethod);

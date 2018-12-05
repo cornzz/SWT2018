@@ -11,6 +11,7 @@ import org.salespointframework.quantity.Quantity;
 
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 
@@ -29,40 +31,35 @@ public class ReorderController {
 
 
 	ReorderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory){
-		Assert.notNull(transactionManager, "OrderManager must not be null!");
 		this.transactionManager = transactionManager;
 		this.inventory = inventory;
 	}
 
 	// A Reorder view for the FlowerTrader
-
 	@GetMapping("/products/reorder")
 		public String reorder(Model model) {
 
-		//This is not perfect but it works
+		Streamable<Transaction> transactions = transactionManager.findBy(OrderStatus.PAID)
+				.filter(transaction -> transaction.getType() == Transaction.TransactionType.REORDER);
+		model.addAttribute("transactions", transactions);
 
-		transactionManager.findBy(OrderStatus.PAID).forEach(transaction -> {
-			if (transaction.getType() == Transaction.TransactionType.REORDER) {
-				model.addAttribute("transactions", transaction);
-			}
-		});
 		return "reorder";
 	}
 
-	//Todo: Remove Reorder after it was send
-
 	@PostMapping("/products/reorder/send/{id}")
-	public String send(@PathVariable InventoryItemIdentifier id, Quantity quantity, OrderIdentifier oid,  @LoggedIn Optional<UserAccount> userAccount){
-		inventory.findById(id).get().increaseQuantity(quantity);
-		inventory.save(inventory.findById(id).get());
+	public String send(@PathVariable OrderIdentifier id, Quantity quantity, @LoggedIn Optional<UserAccount> userAccount){
 
-
-		/*
-		transactionManager.findBy(OrderStatus.PAID).forEach(transaction -> {
-			if (transaction.getId()== oid) {
+		Streamable<Transaction> transactions = transactionManager.findBy(OrderStatus.PAID)
+				.filter(transaction -> transaction.getType() == Transaction.TransactionType.REORDER);
+		for(Iterator<Transaction> iterator = transactions.iterator();iterator.hasNext();){
+			Transaction transaction = iterator.next();
+			if(transaction.getId().equals(id)){
+				inventory.findById(transaction.getFlower()).get().increaseQuantity(quantity);
+				inventory.save(inventory.findById(transaction.getFlower()).get());
 				transaction.setType(Transaction.TransactionType.DONE);
+				transactionManager.save(transaction);
 			}
-		}); */
+		}
 
 		return "redirect:/products/reorder";
 	}

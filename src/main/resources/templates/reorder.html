@@ -31,10 +31,9 @@
                         <td th:text="${transaction.quantity}" >5</td>
                         <td th:text="${transaction.price}">5</td>
                         <td>
-                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post" th:action="@{/products/reorder/send/{id}(id=${transaction.flower})}">
+                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post" th:action="@{/products/reorder/send/{id}(id=${transaction.id})}">
                                 <input name="quantity" th:value="${transaction.quantity}" hidden>
-                                <input name="oid" th:value="${transaction.id}" hidden>
-                                <button class="mdl-button mdl-js-button mdl-button--colored"  type="submit">
+                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit">
                                     Send
                                 </button>
                             </form>
