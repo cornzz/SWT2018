@@ -23,6 +23,8 @@
                         <th>Order</th>
                         <th sec:authorize="hasRole('ROLE_BOSS')">Made by</th>
                         <th>Total</th>
+                        <th>Status</th>
+                        <th sec:authorize="hasRole('ROLE_BOSS')">Mark as</th>
                     </tr>
                 </thead>
                 <tbody th:remove="all-but-first">
@@ -30,6 +32,11 @@
                         <td th:text="${order.id}"></td>
                         <td th:text="${order.userAccount.username}" sec:authorize="hasRole('ROLE_BOSS')"></td>
                         <td th:text="${order.totalPrice}"></td>
+                        <td th:text="${order.orderStatus}"></td>
+                        <td sec:authorize="hasRole('ROLE_BOSS')"><a th:href="@{/orders/update?id={id} (id=${order.id})}">
+                            <button th:if="${order.orderStatus == statusOpen}" type="button">Paid</button>
+                            <button th:if="${order.orderStatus == statusPaid}" type="button">Completed</button>
+                        </a></td>
                     </tr>
                 </tbody>
             </table>

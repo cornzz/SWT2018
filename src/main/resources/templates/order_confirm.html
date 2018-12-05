@@ -41,10 +41,10 @@
                 </table>
 
             <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/completeorder}">
-                <button type="submit">Bezahlen</button>
+                <button type="submit">Bestätigen</button>
             </form>
             <form th:action="@{/cart}">
-                <button type="submit">Annulieren</button>
+                <button type="submit">Zurück</button>
             </form>
             </div>
         </div>
