@@ -16,7 +16,7 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <div class="fs-mdl-wrapper">
-                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
                         <th class="mdl-data-table__cell--non-numeric">Flower</th>
@@ -34,7 +34,7 @@
                             <form sec:authorize="hasRole('ROLE_BOSS')" method="post" th:action="@{/products/reorder/send/{id}(id=${transaction.flower})}">
                                 <input name="quantity" th:value="${transaction.quantity}" hidden>
                                 <input name="oid" th:value="${transaction.id}" hidden>
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"  type="submit">
+                                <button class="mdl-button mdl-js-button mdl-button--colored"  type="submit">
                                     Send
                                 </button>
                             </form>
