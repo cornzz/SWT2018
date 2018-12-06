@@ -42,10 +42,6 @@ public class AccountingController {
 	String orders(Model model) {
 		Streamable<Order> transactions = orderManager.findBy(OrderStatus.PAID).and(orderManager.findBy(OrderStatus.COMPLETED));
 		MonetaryAmount total = transactions.stream().map(Order::getTotalPrice).reduce(Money.parse("EUR 0"), MonetaryAmount::add);
-		// Streamable<Transaction> moreTransactions = transactionManager.findBy(OrderStatus.PAID);
-		// MonetaryAmount moreTotal = moreTransactions.stream().map(Transaction::getPrice).reduce(Money.parse("EUR 0"), MonetaryAmount::add);
-		// moreTotal.multiply(-1);
-		// total.add(moreTotal);
 		model.addAttribute("transactions", transactions);
 		model.addAttribute("total", total);
 

@@ -30,14 +30,13 @@ public class ReorderController {
 	private final Inventory<InventoryItem> inventory;
 
 
-	ReorderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory){
+	ReorderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory) {
 		this.transactionManager = transactionManager;
 		this.inventory = inventory;
 	}
 
-	// A Reorder view for the FlowerTrader
 	@GetMapping("/products/reorder")
-		public String reorder(Model model) {
+	public String reorder(Model model) {
 
 		Streamable<Transaction> transactions = transactionManager.findBy(OrderStatus.PAID)
 				.filter(transaction -> transaction.getType() == Transaction.TransactionType.REORDER);
@@ -47,13 +46,13 @@ public class ReorderController {
 	}
 
 	@PostMapping("/products/reorder/send/{id}")
-	public String send(@PathVariable OrderIdentifier id, Quantity quantity, @LoggedIn Optional<UserAccount> userAccount){
+	public String send(@PathVariable OrderIdentifier id, Quantity quantity, @LoggedIn Optional<UserAccount> userAccount) {
 
 		Streamable<Transaction> transactions = transactionManager.findBy(OrderStatus.PAID)
 				.filter(transaction -> transaction.getType() == Transaction.TransactionType.REORDER);
-		for(Iterator<Transaction> iterator = transactions.iterator();iterator.hasNext();){
+		for (Iterator<Transaction> iterator = transactions.iterator(); iterator.hasNext(); ) {
 			Transaction transaction = iterator.next();
-			if(transaction.getId().equals(id)){
+			if (transaction.getId().equals(id)) {
 				inventory.findById(transaction.getFlower()).get().increaseQuantity(quantity);
 				inventory.save(inventory.findById(transaction.getFlower()).get());
 				transaction.setType(Transaction.TransactionType.DONE);
@@ -63,7 +62,6 @@ public class ReorderController {
 
 		return "redirect:/products/reorder";
 	}
-
 
 
 }
