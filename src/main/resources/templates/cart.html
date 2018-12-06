@@ -54,7 +54,7 @@
             </form>
         </div>
         <div th:if="${cart.empty}" class="fs-content-wrapper">
-            <h2>Dein Warenkorb ist leer.</h2>
+            <h4>Dein Warenkorb ist leer.</h4>
             <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/checkout}">
                 <button th:unless="${cart.empty}" type="submit">Kaufen</button>
             </form>

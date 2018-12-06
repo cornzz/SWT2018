@@ -16,13 +16,10 @@ import org.springframework.data.util.Streamable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.StreamSupport;
 
 
 @Controller
@@ -35,18 +32,10 @@ public class OrderController {
 	private final Catalog<Product> catalog;
 
 	OrderController(OrderManager<Order> orderManager, Inventory<InventoryItem> inventory, Catalog<Product> catalog) {
-
-		Assert.notNull(orderManager, "OrderManager must not be null!");
 		this.orderManager = orderManager;
 		this.inventory = inventory;
 		this.catalog = catalog;
 	}
-
-	@GetMapping("/order")
-	String basket() {
-		return "order_confirm";
-	}
-
 
 	@PostMapping("/completeorder")
 	String buy(@ModelAttribute Cart cart, @LoggedIn Optional<UserAccount> userAccount, Model model) {
@@ -55,8 +44,9 @@ public class OrderController {
 				model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
 				return "/cart";
 			}
-			Iterator it = cart.iterator();//removes products from inventory
-			while(it.hasNext()) {
+
+			Iterator it = cart.iterator(); // Removes products from inventory
+			while (it.hasNext()) {
 				CartItem cartItem = (CartItem) it.next();
 				Product product = cartItem.getProduct();
 				Quantity quantity = cartItem.getQuantity();
@@ -70,16 +60,75 @@ public class OrderController {
 					}
 				}
 			}
+
 			Order order = new Order(account, Cash.CASH);
 			cart.addItemsTo(order);
 			cart.clear();
 			orderManager.save(order);
-			return "redirect:/";
+
+			return "redirect:/order/" + order.getId() + "?success";
 		}).orElse("redirect:/");
 	}
 
-	public boolean sufficientStock(Cart cart) {
-		Map<FlowerShopItem, Quantity> flowerShopItems = new HashMap<>();
+	@GetMapping("/orders")
+	@PreAuthorize("isAuthenticated()")
+	String orders(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
+		UserAccount user = loggedIn.get();
+		Streamable<Order> orders;
+
+		if (user.hasRole(Role.of("ROLE_BOSS"))) {
+			model.addAttribute("statusOpen", OrderStatus.OPEN);
+			model.addAttribute("statusPaid", OrderStatus.PAID);
+			orders = orderManager.findBy(OrderStatus.OPEN)
+					.and(orderManager.findBy(OrderStatus.PAID))
+					.and(orderManager.findBy(OrderStatus.COMPLETED))
+					.and(orderManager.findBy(OrderStatus.CANCELLED));
+		} else {
+			orders = orderManager.findBy(user);
+		}
+
+		model.addAttribute("orders", orders);
+
+		return "orders";
+	}
+
+	@GetMapping("/orders/update")
+	String updateOrderStatus(@RequestParam(value = "id") Order order, Model model) {
+		if (order.getOrderStatus().equals(OrderStatus.OPEN)) {// open->paid
+			orderManager.payOrder(order);
+		} else if (order.getOrderStatus().equals(OrderStatus.PAID)) {// paid->complete
+
+			// Add fake InventoryItems
+			order.getOrderLines().forEach(orderLine -> {
+				catalog.findById(orderLine.getProductIdentifier())
+						.map(product -> inventory.save(new InventoryItem(product, orderLine.getQuantity())))
+						.orElseThrow(NoSuchElementException::new);
+			});
+
+			orderManager.completeOrder(order);
+
+			// Remove fake InventoryItems
+			StreamSupport.stream(inventory.findAll().spliterator(), false)
+					.filter(inventoryItem -> !(inventoryItem.getProduct() instanceof FlowerShopItem))
+					.forEach(inventory::delete);
+		}
+
+		return "redirect:/orders";
+	}
+
+	@GetMapping("/order/{id}")
+	@PreAuthorize("isAuthenticated()")
+	String order(Model model, @PathVariable(name = "id") Optional<Order> order, @LoggedIn Optional<UserAccount> loggedIn) {
+		UserAccount user = loggedIn.get();
+		if (order.isPresent() && (user.hasRole(Role.of("ROLE_BOSS")) || order.get().getUserAccount().equals(user))) {
+			model.addAttribute("order", order.get());
+		}
+
+		return "order";
+	}
+
+	boolean sufficientStock(Cart cart) {
+		Map<FlowerShopItem, Quantity> flowerShopItems = new HashMap<>(); // Map with all FlowerShopItems required for given cart
 		for (CartItem cartItem : cart) {
 			Product product = cartItem.getProduct();
 			Quantity itemQuantity = cartItem.getQuantity();
@@ -103,72 +152,9 @@ public class OrderController {
 			}
 		}
 
-		for (FlowerShopItem item : flowerShopItems.keySet()) {
-			if (!inventory.findByProductIdentifier(item.getId()).get().hasSufficientQuantity(flowerShopItems.get(item))) {
-				return false;
-			}
-		}
-
-		return true;
+		// Check if there is sufficient stock for every required FlowerShopItem
+		return flowerShopItems.keySet().stream()
+				.allMatch(item -> inventory.findByProductIdentifier(item.getId()).get().hasSufficientQuantity(flowerShopItems.get(item)));
 	}
-
-
-	@GetMapping("/orders")
-	@PreAuthorize("isAuthenticated()")
-	String orders(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
-		UserAccount user = loggedIn.get();
-		Streamable<Order> orders;
-		if (user.hasRole(Role.of("ROLE_BOSS"))){
-			model.addAttribute("statusOpen", OrderStatus.OPEN);
-			model.addAttribute("statusPaid", OrderStatus.PAID);
-			model.addAttribute("statusCompleted", OrderStatus.COMPLETED);
-			model.addAttribute("statusCancelled", OrderStatus.CANCELLED);
-			Streamable<Order> completeOrders = orderManager.findBy(OrderStatus.COMPLETED);
-			Streamable<Order> paidOrders = orderManager.findBy(OrderStatus.PAID);
-			Streamable<Order> openOrders = orderManager.findBy(OrderStatus.OPEN);
-			Streamable<Order> cancelledOrders = orderManager.findBy(OrderStatus.CANCELLED);
-			orders = completeOrders.and(paidOrders).and(openOrders).and(cancelledOrders);
-		} else {
-			orders = orderManager.findBy(user);
-		}
-
-		model.addAttribute("orders", orders);
-
-		return "orders";
-	}
-
-	@GetMapping("/orders/update")
-	String updateOrderStatus(@RequestParam(value = "id") Order order, Model model){
-		if (order.getOrderStatus().equals(OrderStatus.OPEN)) {//open->paid
-			orderManager.payOrder(order);
-			return "redirect:/orders";
-		}
-		if (order.getOrderStatus().equals(OrderStatus.PAID)) {//paid->complete
-
-			//adding fake InventoryItems
-			Streamable<OrderLine> orderLines = order.getOrderLines();
-			Iterator<OrderLine> iter = orderLines.iterator();
-			while(iter.hasNext()){
-				OrderLine orderLine = iter.next();
-				Quantity quantity = orderLine.getQuantity();
-				Product product = catalog.findById(orderLine.getProductIdentifier()).get();
-				inventory.save(new InventoryItem(product,quantity));
-			}
-
-			orderManager.completeOrder(order);//removing fake InventoryItems
-
-			//clearing
-			Iterator<InventoryItem> it = inventory.findAll().iterator();
-			while(it.hasNext()){
-				InventoryItem inventoryItem = it.next();
-				if (!(inventoryItem.getProduct() instanceof FlowerShopItem))
-					inventory.delete(inventoryItem);
-			}
-
-			return "redirect:/orders";
-		}
-		return "redirect:/orders";
-	}
-
 
 }
