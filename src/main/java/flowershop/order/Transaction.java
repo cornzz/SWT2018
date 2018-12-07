@@ -15,66 +15,76 @@ public class Transaction extends Order {
 		DEFICIT,
 		ORDER,
 		REORDER,
-		DONE
+		DONE,
+		CUSTOM
 	}
 
 	private Transaction() {
 	}
 
-	private MonetaryAmount price;
 	private TransactionType type;
-	private InventoryItemIdentifier flower;
-	private String flowerName;
+	private MonetaryAmount price;
+	private InventoryItemIdentifier item;
+	private String itemName, description;
 	private Quantity quantity;
 
 
 	public Transaction(UserAccount userAccount, PaymentMethod paymentMethod, TransactionType type) {
 		super(userAccount, paymentMethod);
-		this.price = null;
+
 		this.type = type;
-		this.flower = null;
+		this.price = null;
+		this.item = null;
 		this.quantity = null;
 	}
 
 	@Override
 	public MonetaryAmount getTotalPrice() {
-		return price;
-	}
-
-	public MonetaryAmount getPrice() {
-		return price;
+		return super.getTotalPrice().isZero() ? price : super.getTotalPrice();
 	}
 
 	public TransactionType getType() {
 		return type;
 	}
 
-	public InventoryItemIdentifier getFlower() {
-		return flower;
+	public MonetaryAmount getPrice() {
+		return price;
 	}
 
-	public String getFlowerName() {
-		return flowerName;
+	public InventoryItemIdentifier getItem() {
+		return item;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	public Quantity getQuantity() {
 		return quantity;
 	}
 
-	public void setPrice(MonetaryAmount price) {
-		this.price = price;
-	}
-
 	public void setType(TransactionType type) {
 		this.type = type;
 	}
 
-	public void setFlower(InventoryItemIdentifier flower) {
-		this.flower = flower;
+	public void setPrice(MonetaryAmount price) {
+		this.price = price;
 	}
 
-	public void setFlowerName(String flowerName) {
-		this.flowerName = flowerName;
+	public void setItem(InventoryItemIdentifier item) {
+		this.item = item;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public void setQuantity(Quantity quantity) {

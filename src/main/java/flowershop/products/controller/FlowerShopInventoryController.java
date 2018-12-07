@@ -25,6 +25,7 @@ import java.util.Optional;
 import static flowershop.order.Transaction.TransactionType.DEFICIT;
 import static flowershop.order.Transaction.TransactionType.REORDER;
 import static org.salespointframework.core.Currencies.EURO;
+import static org.salespointframework.payment.Cash.CASH;
 
 @Controller
 public class FlowerShopInventoryController {
@@ -54,7 +55,7 @@ public class FlowerShopInventoryController {
 		inventory.save(inventory.findById(id).get());
 
 		MonetaryAmount price = inventory.findById(id).get().getProduct().getPrice().multiply(deficit).multiply(-1);
-		Transaction transaction = new Transaction(userAccount.get(), Cash.CASH, DEFICIT);
+		Transaction transaction = new Transaction(userAccount.get(), CASH, DEFICIT);
 		transaction.setPrice(price);
 		transactionManager.payOrder(transaction);
 		transactionManager.save(transaction);
@@ -68,10 +69,10 @@ public class FlowerShopInventoryController {
 	public String reorder(@PathVariable InventoryItemIdentifier id, int reorder, @LoggedIn Optional<UserAccount> userAccount) {
 
 		MonetaryAmount price = inventory.findById(id).get().getProduct().getPrice().multiply(reorder).multiply(-1);
-		Transaction transaction = new Transaction(userAccount.get(), Cash.CASH, REORDER);
-		transaction.setFlower(id);
+		Transaction transaction = new Transaction(userAccount.get(), CASH, REORDER);
+		transaction.setItem(id);
 		transaction.setPrice(price);
-		transaction.setFlowerName(inventory.findById(id).get().getProduct().getName());
+		transaction.setItemName(inventory.findById(id).get().getProduct().getName());
 		transaction.setQuantity(Quantity.of(reorder));
 		transactionManager.payOrder(transaction);
 		transactionManager.save(transaction);

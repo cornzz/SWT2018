@@ -27,7 +27,7 @@
                     </thead>
                     <tbody th:remove="all-but-first">
                     <tr th:each=" transaction : ${transactions}">
-                        <td class="mdl-data-table__cell--non-numeric" th:text="${transaction.flowerName}">flower</td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${transaction.itemName}">item</td>
                         <td th:text="${transaction.quantity}">5</td>
                         <td th:text="${transaction.price}">5</td>
                         <td>

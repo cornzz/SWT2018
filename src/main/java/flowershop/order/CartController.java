@@ -27,17 +27,17 @@ public class CartController {
 	}
 
 	@RequestMapping("/cart")
-	String basket() {
+	String cart() {
 		return "cart";
 	}
 
 	@RequestMapping("/cart/add/{product}")
-	String markProductToAdd(@PathVariable Product product) {
+	String addToCart(@PathVariable Product product) {
 		return "add_to_cart";
 	}
 
 	@PostMapping("/cart/add")
-	public String addToCart(@RequestParam("pid") Product product, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
+	String addToCart(@RequestParam("pid") Product product, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
 		Integer quantity = validateQuantity(qty, model);
 		if (quantity == null)
 			return "forward:/cart/add/" + product.getId();
@@ -55,7 +55,7 @@ public class CartController {
 	}
 
 	@PostMapping("/cart/edit")
-	public String editQuantity(@RequestParam("id") String itemId, @RequestParam("pid") Product product, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
+	String editQuantity(@RequestParam("id") String itemId, @RequestParam("pid") Product product, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
 		Integer quantity = validateQuantity(qty, model);
 		if (quantity == null) {
 			return "forward:/cart";
@@ -79,7 +79,7 @@ public class CartController {
 	}
 
 	@PostMapping("/checkout")
-	String buy() {
+	String checkout() {
 		return "order_confirm";
 	}
 
@@ -99,5 +99,6 @@ public class CartController {
 		}
 		return qty;
 	}
+
 }
 

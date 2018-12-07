@@ -18,11 +18,11 @@
             <h3 th:unless="${order}">Invalid order ID!</h3>
 
             <table th:if="${order}">
-                <h4 th:text="'Order ' + ${order.id} + ', Date created: ' + ${#temporals.format(order.dateCreated, 'dd.MM.yyyy HH:mm')}"></h4>
+                <h4 th:text="'Order ' + ${order.id} + ', Date created: ' + ${#temporals.format(order.dateCreated, 'dd.MM.yyyy HH:mm')} + ', Status: ' + ${order.orderStatus}"></h4>
                 <thead>
                     <tr>
                         <th>Product</th>
-                        <th>Amount</th>
+                        <th>Quantity</th>
                         <th>Price</th>
                     </tr>
                 </thead>
@@ -34,6 +34,11 @@
                     </tr>
                 </tbody>
                 <tfoot>
+                    <tr th:each="chargeLine : ${order.chargeLines}">
+                        <td th:text="${chargeLine.description} + ':'"></td>
+                        <td></td>
+                        <td th:text="${chargeLine.price}"></td>
+                    </tr>
                     <tr>
                         <td>Total:</td>
                         <td></td>

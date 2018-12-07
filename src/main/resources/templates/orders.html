@@ -34,7 +34,7 @@
                         <td th:text="${order.totalPrice}"></td>
                         <td th:text="${order.orderStatus}"></td>
                         <td sec:authorize="hasRole('ROLE_BOSS')">
-                            <a th:href="@{/orders/update?id={id} (id=${order.id})}">
+                            <a th:href="@{/order/update/{id} (id=${order.id})}">
                                 <button th:if="${order.orderStatus == statusOpen}" type="button">Paid</button>
                                 <button th:if="${order.orderStatus == statusPaid}" type="button">Completed</button>
                             </a>

@@ -2,12 +2,12 @@ package flowershop.order;
 
 import flowershop.products.CompoundFlowerShopProduct;
 import flowershop.products.FlowerShopItem;
+import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Catalog;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.order.*;
-import org.salespointframework.payment.Cash;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
@@ -21,18 +21,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.StreamSupport;
 
+import static flowershop.order.Transaction.TransactionType.ORDER;
+import static org.salespointframework.order.OrderStatus.*;
+import static org.salespointframework.payment.Cash.CASH;
+
 
 @Controller
 @PreAuthorize("isAuthenticated()")
 @SessionAttributes("cart")
 public class OrderController {
 
-	private final OrderManager<Order> orderManager;
+	private final OrderManager<Transaction> transactionManager;
 	private final Inventory<InventoryItem> inventory;
 	private final Catalog<Product> catalog;
 
-	OrderController(OrderManager<Order> orderManager, Inventory<InventoryItem> inventory, Catalog<Product> catalog) {
-		this.orderManager = orderManager;
+	OrderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory, Catalog<Product> catalog) {
+		this.transactionManager = transactionManager;
 		this.inventory = inventory;
 		this.catalog = catalog;
 	}
@@ -45,26 +49,22 @@ public class OrderController {
 				return "/cart";
 			}
 
-			Iterator it = cart.iterator(); // Removes products from inventory
-			while (it.hasNext()) {
-				CartItem cartItem = (CartItem) it.next();
+			cart.forEach(cartItem -> {
 				Product product = cartItem.getProduct();
 				Quantity quantity = cartItem.getQuantity();
 				if (product instanceof FlowerShopItem) {
-					inventory.findByProduct(product).get().decreaseQuantity(quantity);
+					inventory.findByProduct(product).ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(quantity));
 				} else {
-					Iterable<FlowerShopItem> products = ((CompoundFlowerShopProduct) product).getFlowerShopItems();
-					Iterator<FlowerShopItem> iter = products.iterator();
-					while (iter.hasNext()) {
-						inventory.findByProduct(iter.next()).get().decreaseQuantity(quantity);
-					}
+					((CompoundFlowerShopProduct) product).getFlowerShopItems().forEach(item -> {
+						inventory.findByProduct(item).ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(quantity));
+					});
 				}
-			}
+			});
 
-			Order order = new Order(account, Cash.CASH);
+			Transaction order = new Transaction(account, CASH, ORDER);
 			cart.addItemsTo(order);
 			cart.clear();
-			orderManager.save(order);
+			transactionManager.save(order);
 
 			return "redirect:/order/" + order.getId() + "?success";
 		}).orElse("redirect:/");
@@ -74,17 +74,14 @@ public class OrderController {
 	@PreAuthorize("isAuthenticated()")
 	String orders(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
 		UserAccount user = loggedIn.get();
-		Streamable<Order> orders;
+		Streamable<Transaction> orders;
 
 		if (user.hasRole(Role.of("ROLE_BOSS"))) {
-			model.addAttribute("statusOpen", OrderStatus.OPEN);
-			model.addAttribute("statusPaid", OrderStatus.PAID);
-			orders = orderManager.findBy(OrderStatus.OPEN)
-					.and(orderManager.findBy(OrderStatus.PAID))
-					.and(orderManager.findBy(OrderStatus.COMPLETED))
-					.and(orderManager.findBy(OrderStatus.CANCELLED));
+			model.addAttribute("statusOpen", OPEN);
+			model.addAttribute("statusPaid", PAID);
+			orders = findAllOrders();
 		} else {
-			orders = orderManager.findBy(user);
+			orders = transactionManager.findBy(user);
 		}
 
 		model.addAttribute("orders", orders);
@@ -92,37 +89,41 @@ public class OrderController {
 		return "orders";
 	}
 
-	@GetMapping("/orders/update")
-	String updateOrderStatus(@RequestParam(value = "id") Order order, Model model) {
-		if (order.getOrderStatus().equals(OrderStatus.OPEN)) {// open->paid
-			orderManager.payOrder(order);
-		} else if (order.getOrderStatus().equals(OrderStatus.PAID)) {// paid->complete
+	@GetMapping("/order/update/{id}")
+	String updateOrderStatus(Model model, @PathVariable(name = "id") Optional<Transaction> orderOptional) {
+		orderOptional.ifPresent(order -> {
+			if (order.getOrderStatus().equals(OPEN)) {// open->paid
+				transactionManager.payOrder(order);
+			} else if (order.getOrderStatus().equals(PAID)) {// paid->complete
 
-			// Add fake InventoryItems
-			order.getOrderLines().forEach(orderLine -> {
-				catalog.findById(orderLine.getProductIdentifier())
-						.map(product -> inventory.save(new InventoryItem(product, orderLine.getQuantity())))
-						.orElseThrow(NoSuchElementException::new);
-			});
+				// Add fake InventoryItems
+				order.getOrderLines().forEach(orderLine -> {
+					catalog.findById(orderLine.getProductIdentifier())
+							.map(product -> inventory.save(new InventoryItem(product, orderLine.getQuantity())))
+							.orElseThrow(NoSuchElementException::new);
+				});
 
-			orderManager.completeOrder(order);
+				transactionManager.completeOrder(order);
 
-			// Remove fake InventoryItems
-			StreamSupport.stream(inventory.findAll().spliterator(), false)
-					.filter(inventoryItem -> !(inventoryItem.getProduct() instanceof FlowerShopItem))
-					.forEach(inventory::delete);
-		}
+				// Remove fake InventoryItems
+				StreamSupport.stream(inventory.findAll().spliterator(), false)
+						.filter(inventoryItem -> !(inventoryItem.getProduct() instanceof FlowerShopItem))
+						.forEach(inventory::delete);
+			}
+		});
 
 		return "redirect:/orders";
 	}
 
 	@GetMapping("/order/{id}")
 	@PreAuthorize("isAuthenticated()")
-	String order(Model model, @PathVariable(name = "id") Optional<Order> order, @LoggedIn Optional<UserAccount> loggedIn) {
-		UserAccount user = loggedIn.get();
-		if (order.isPresent() && (user.hasRole(Role.of("ROLE_BOSS")) || order.get().getUserAccount().equals(user))) {
-			model.addAttribute("order", order.get());
-		}
+	String order(Model model, @PathVariable(name = "id") Optional<Transaction> orderOptional, @LoggedIn Optional<UserAccount> loggedIn) {
+		orderOptional.ifPresent(order -> {
+			UserAccount user = loggedIn.get();
+			if (user.hasRole(Role.of("ROLE_BOSS")) || order.getUserAccount().equals(user)) {
+				model.addAttribute("order", order);
+			}
+		});
 
 		return "order";
 	}
@@ -155,6 +156,13 @@ public class OrderController {
 		// Check if there is sufficient stock for every required FlowerShopItem
 		return flowerShopItems.keySet().stream()
 				.allMatch(item -> inventory.findByProductIdentifier(item.getId()).get().hasSufficientQuantity(flowerShopItems.get(item)));
+	}
+
+	Streamable<Transaction> findAllOrders() {
+		return Arrays.stream(OrderStatus.values())
+				.map(transactionManager::findBy)
+				.reduce(Streamable.empty(), Streamable::and)
+				.filter(transaction -> transaction.getType().equals(ORDER));
 	}
 
 }
