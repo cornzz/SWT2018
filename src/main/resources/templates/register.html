@@ -51,6 +51,7 @@
                 <div class="mdc-text-field">
                     <input type="tel" id="phone" class="mdc-text-field__input" th:field="*{phone}">
                     <label for="phone" class="mdc-floating-label">Phone</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
                 <div th:each="error : ${#fields.errors('phone')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
 
@@ -58,6 +59,7 @@
                 <div class="mdc-text-field">
                     <input type="password" id="newPassword" class="mdc-text-field__input" th:field="*{password}">
                     <label for="newPassword" class="mdc-floating-label">Password</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
                 <p id="username-helper-text" class="mdc-text-field-helper-text" aria-hidden="true">
                     We'll never share your password with anyone.
@@ -65,6 +67,7 @@
                 <div class="mdc-text-field">
                     <input type="password" id="newPasswordRepeat" class="mdc-text-field__input" th:field="*{passwordRepeat}">
                     <label for="newPasswordRepeat" class="mdc-floating-label">Confirm Password</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
                 <div th:if="${#fields.hasErrors('passwordRepeat') || #fields.hasErrors('password')}"
                      th:text="${#fields.errors('passwordRepeat') + ' ' + #fields.errors('password')}"
