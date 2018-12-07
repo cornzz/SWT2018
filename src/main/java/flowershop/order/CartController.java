@@ -55,21 +55,24 @@ public class CartController {
 	}
 
 	@PostMapping("/cart/edit")
-	String editQuantity(@RequestParam("id") String itemId, @RequestParam("pid") Product product, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
+	String editQuantity(@RequestParam("id") String itemId, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
 		Integer quantity = validateQuantity(qty, model);
 		if (quantity == null) {
 			return "forward:/cart";
 		}
 
-		Quantity currentItemQuantity = cart.getItem(itemId).get().getQuantity();
-		cart.addOrUpdateItem(product, Quantity.of(quantity).subtract(currentItemQuantity));
-		if (!orderController.sufficientStock(cart)) {
-			model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
-			cart.addOrUpdateItem(product, currentItemQuantity.subtract(Quantity.of(quantity)));
-			return "forward:/cart";
-		}
+		return cart.getItem(itemId).map(cartItem -> {
+			Quantity currentItemQuantity = cartItem.getQuantity();
+			Product product = cartItem.getProduct();
+			cart.addOrUpdateItem(product, Quantity.of(quantity).subtract(currentItemQuantity));
+			if (!orderController.sufficientStock(cart)) {
+				model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
+				cart.addOrUpdateItem(product, currentItemQuantity.subtract(Quantity.of(quantity)));
+				return "forward:/cart";
+			}
+			return "cart";
+		}).orElse("cart");
 
-		return "cart";
 	}
 
 	@GetMapping("/cart/remove")
@@ -78,8 +81,8 @@ public class CartController {
 		return "cart";
 	}
 
-	@PostMapping("/checkout")
-	String checkout() {
+	@RequestMapping("/checkout")
+	String checkout(@ModelAttribute Cart cart) {
 		return "order_confirm";
 	}
 

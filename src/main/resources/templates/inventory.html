@@ -16,12 +16,6 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <div class="fs-mdl-wrapper">
-                <style>
-                    #deficitbutton, #deficit, #reorderbutton, #reorder {
-                        display: inline-block;
-                        margin-right: 10px;
-                    }
-                </style>
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
@@ -38,25 +32,23 @@
                         <td th:text="${item.product.price}">3</td>
                         <td th:text="${{item.quantity}}">5</td>
                         <td>
-                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post"
-                                  th:action="@{/products/items/stock/deficit/{id}(id=${item.id})}">
-                                <input class="mdl-textfield__input" style="width: 50px" type="text"
-                                       pattern="-?[0-9]*(\.[0-9]+)?" name="deficit" id="deficit" th:object="${deficit}">
+                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post" th:action="@{/products/items/stock/deficit/{id}(id=${item.id})}"
+                                  class="fs-table-input">
+                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="deficit"
+                                       th:object="${deficit}">
                                 <span class="mdl-textfield__error">Input is not a number!</span>
-                                <button class="mdl-button mdl-js-button mdl-button--colored" id="deficitbutton"
-                                        type="submit">
+                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit">
                                     Deficit
                                 </button>
                             </form>
                         </td>
                         <td>
-                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post"
-                                  th:action="@{/products/items/stock/reorder/{id}(id=${item.id})}">
-                                <input class="mdl-textfield__input" style="width: 50px" type="text"
-                                       pattern="-?[0-9]*(\.[0-9]+)?" name="reorder" id="reorder" th:object="${reorder}">
+                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post" th:action="@{/products/items/stock/reorder/{id}(id=${item.id})}"
+                                  class="fs-table-input">
+                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="reorder"
+                                       th:object="${reorder}">
                                 <span class="mdl-textfield__error">Input is not a number!</span>
-                                <button class="mdl-button mdl-js-button mdl-button--colored" id="reorderbutton"
-                                        type="submit">
+                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit">
                                     Reorder
                                 </button>
                             </form>
@@ -65,6 +57,7 @@
                     </tbody>
                 </table>
             </div>
+
             <button th:replace="fragments/floating_action_button :: floating_action_button(@{/products/items/stock/add})"></button>
         </div>
     </div>

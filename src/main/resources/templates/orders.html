@@ -17,8 +17,9 @@
         <div class="fs-content-wrapper">
             <h4 th:if="${orders.empty}">No orders!</h4>
 
-            <table th:unless="${orders.empty}">
-                <thead>
+            <div class="fs-mdl-wrapper" th:unless="${orders.empty}">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
                     <tr>
                         <th>Order</th>
                         <th sec:authorize="hasRole('ROLE_BOSS')">Made by</th>
@@ -26,22 +27,27 @@
                         <th>Status</th>
                         <th sec:authorize="hasRole('ROLE_BOSS')">Mark as</th>
                     </tr>
-                </thead>
-                <tbody th:remove="all-but-first">
+                    </thead>
+                    <tbody th:remove="all-but-first">
                     <tr th:each="order : ${orders}">
                         <td><a th:href="'/order/' + ${order.id}" th:text="${order.id}"></a></td>
                         <td th:text="${order.userAccount.username}" sec:authorize="hasRole('ROLE_BOSS')"></td>
-                        <td th:text="${order.totalPrice}"></td>
+                        <td th:text="'EUR ' + ${#numbers.formatDecimal(order.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></td>
                         <td th:text="${order.orderStatus}"></td>
                         <td sec:authorize="hasRole('ROLE_BOSS')">
                             <a th:href="@{/order/update/{id} (id=${order.id})}">
-                                <button th:if="${order.orderStatus == statusOpen}" type="button">Paid</button>
-                                <button th:if="${order.orderStatus == statusPaid}" type="button">Completed</button>
+                                <button class="mdl-button mdl-js-button mdl-button--colored" th:if="${order.orderStatus == statusOpen}" type="button">
+                                    Paid
+                                </button>
+                                <button class="mdl-button mdl-js-button mdl-button--colored" th:if="${order.orderStatus == statusPaid}" type="button">
+                                    Completed
+                                </button>
                             </a>
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </main>

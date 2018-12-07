@@ -7,7 +7,7 @@
       margin-top: 16px;
     }
 
-    &:first-child,
+    > *:first-child,
     > .mdc-text-field-helper-text,
     .mdc-text-field-helper-text + * {
       margin-top: 0;

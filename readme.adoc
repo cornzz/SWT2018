@@ -39,6 +39,7 @@ must be wrapped by the `.fs-mdl-wrapper` class which scopes the outdated MDL sty
 |Username |Password
 
 |admin |pass
+|wholesaler |pass
 |johndoe |pass
 |larrybird |pass
 

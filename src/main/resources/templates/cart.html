@@ -10,58 +10,63 @@
 </header>
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
-        <div th:unless="${cart.empty}" class="fs-content-wrapper">
-            <table width="70%">
-                <thead>
+        <div class="fs-content-wrapper">
+            <div th:if="${cart.empty}">
+                <h5 class="mdc-typography--headline5">Dein Warenkorb ist leer.</h5>
+            </div>
+
+            <div class="fs-mdl-wrapper" th:unless="${cart.empty}">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
                     <tr>
-                        <th width="20%">Titel</th>
-                        <th width="35%">Beschreibung</th>
-                        <th width="10%">Anzahl</th>
-                        <th width="15%">Preis pro Artikel</th>
-                        <th width="10%">Bearbeiten</th>
-                        <th width="10%">Entfernen</th>
+                        <th>Produkt</th>
+                        <th>Beschreibung</th>
+                        <th>Anzahl</th>
+                        <th>Preis pro Stück</th>
+                        <th>Anzahl bearbeiten</th>
+                        <th>Entfernen</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr th:each="item : ${cart}">
-                        <td th:text="${item.product.name}">Tulpe</td>
-                        <td th:text="${item.product.description}">Eine Blume</td>
-                        <td th:text="${item.quantity}">15</td>
-                        <td th:text="${item.product.price}">EUR 10</td>
+                        <td th:text="${item.product.name}"></td>
+                        <td th:text="${item.product.description}"></td>
+                        <td th:text="${item.quantity}"></td>
+                        <td th:text="${item.product.price}"></td>
                         <td>
-                            <form method="post" th:action="@{/cart/edit?id={id} (id=${item.id})}">
-                                <input name="pid" th:value="${item.product.id}" hidden>
-                                <input type="text" pattern="(\d*)" th:value="${item.quantity}" name="quantity" id="quantity">
-                                <label for="quantity">Anzahl</label>
-                                <button type="submit">Bearbeiten</button>
+                            <form method="post" class="fs-table-input" th:action="@{/cart/edit?id={id} (id=${item.id})}">
+                                <input type="text" pattern="(\d*)" th:value="${item.quantity}" name="quantity" id="quantity"
+                                       class="mdl-textfield__input">
+                                <button type="submit" class="mdl-button mdl-js-button mdl-button--colored">Bearbeiten</button>
                             </form>
                         </td>
                         <td>
-                            <a th:href="@{/cart/remove?id={id} (id=${item.id})}">
-                                <button type="button">Entfernen</button>
+                            <a th:href="@{/cart/remove?id={id} (id=${item.id})}" class="mdl-button mdl-js-button mdl-button--colored">
+                                Entfernen
                             </a>
                         </td>
-                </tr>
-                </tbody>
-            </table>
-            Gesamt: <span th:text="${cart.price}">1337</span><br />
-            <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/checkout}">
-                <button th:unless="${cart.empty}" type="submit">Kaufen</button>
-            </form>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td>Gesamt:</td>
+                        <td></td>
+                        <td></td>
+                        <td th:text="${cart.price}"></td>
+                        <td></td>
+                        <td>
+                            <a sec:authorize="hasRole('ROLE_CUSTOMER')" href="/checkout"
+                               class="mdl-button mdl-js-button mdl-button--colored">Kaufen</a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+
             <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" hidden></div>
-            <form th:action="@{/}">
-                <button type="submit">Weitershoppen</button>
-            </form>
-        </div>
-        <div th:if="${cart.empty}" class="fs-content-wrapper">
-            <h4>Dein Warenkorb ist leer.</h4>
-            <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/checkout}">
-                <button th:unless="${cart.empty}" type="submit">Kaufen</button>
-            </form>
-            <div th:if="${message}" th:text="${message}"></div>
-            <form th:action="@{/}">
-                <button type="submit">Weitershoppen</button>
-            </form>
+            <div class="fs-buttons">
+                <button type="button" class="mdc-button mdc-button--raised" onclick="window.location='/'">Weitershoppen</button>
+            </div>
         </div>
     </div>
 </main>

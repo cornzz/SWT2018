@@ -3,6 +3,26 @@
   // TODO: only import styles required for mdl data table
   // @import "~material-design-lite/src/material-design-lite";
   @import "~material-design-lite/dist/material.min.css";
+
+  .fs-table-input {
+    > * {
+      display: inline-block;
+    }
+    > input {
+      width: 50px;
+      margin-right: 10px;
+      text-align: center;
+    }
+  }
+}
+
+.fs-buttons {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    margin-top: 16px;
+  }
 }
 
 // material components for the web

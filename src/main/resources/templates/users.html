@@ -14,22 +14,24 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <table>
-                <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>E-Mail</th>
-                    <th>Phone</th>
-                </tr>
-                </thead>
-                <tbody th:remove="all-but-first">
-                <tr th:each=" user : ${userList}">
-                    <td th:text="${user.userAccount.id}"> </td>
-                    <td th:text="${user.userAccount.email}"> </td>
-                    <td th:text="${user.phone}"> </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="fs-mdl-wrapper">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>E-Mail</th>
+                        <th>Phone</th>
+                    </tr>
+                    </thead>
+                    <tbody th:remove="all-but-first">
+                    <tr th:each=" user : ${userList}">
+                        <td th:text="${user.userAccount.id}"></td>
+                        <td th:text="${user.userAccount.email}"></td>
+                        <td th:text="${user.phone}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </main>

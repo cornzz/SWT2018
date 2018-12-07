@@ -8,46 +8,50 @@
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
-    <main>
-        <div class="mdc-top-app-bar--fixed-adjust">
-            <div class="fs-content-wrapper">
-                <table width="50%" class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <div th:if="${cart.empty}">
+                <h5 class="mdc-typography--headline5">Dein Warenkorb ist leer.</h5>
+            </div>
+
+            <div class="fs-mdl-wrapper" th:unless="${cart.empty}">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th width="25%">Titel</th>
-                        <th width="35%">Beschreibung</th>
-                        <th width="15%">Anzahl</th>
-                        <th width="25%">Preis pro Artikel</th>
+                        <th>Produkt</th>
+                        <th>Beschreibung</th>
+                        <th>Anzahl</th>
+                        <th>Preis pro Stück</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each=" item : ${cart}">
+                    <tr th:each="item : ${cart}">
                         <td th:text="${item.product.name}">Tulpe</td>
                         <td th:text="${item.product.description}">Eine Blume</td>
                         <td th:text="${item.quantity}">15</td>
-                        <td th:text="${{item.product.price}}">10 €</td>
+                        <td th:text="${item.product.price}">EUR 10</td>
                     </tr>
-                    <!-- <tr>
-                        <td> Tulpe</td>
-                        <td>3</td>
-                        <td>5</td>
-                    </tr> -->
                     </tbody>
+                    <tfoot>
                     <tr>
-                        <td />
-                        <td><b>Gesamt:</b></td>
-                        <td><div class="value"><span th:text="${{cart.price}}">123123</span></div></td>
+                        <td>Gesamt:</td>
+                        <td></td>
+                        <td></td>
+                        <td th:text="${cart.price}"></td>
                     </tr>
+                    </tfoot>
                 </table>
+            </div>
 
-            <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/completeorder}">
-                <button type="submit">Bestätigen</button>
-            </form>
-            <form th:action="@{/cart}">
-                <button type="submit">Zurück</button>
-            </form>
+            <div class="fs-buttons">
+                <button type="submit" class="mdc-button" onclick="window.location='/cart'">Zurück</button>
+                <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/completeorder}">
+                    <button type="submit" class="mdc-button mdc-button--raised">Bestätigen</button>
+                </form>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 </body>
 </html>
