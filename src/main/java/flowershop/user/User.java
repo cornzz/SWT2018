@@ -49,4 +49,8 @@ public class User {
 				return this.userAccount.getRoles().stream().findFirst().get();
 		}
 
+		public String getRoleString() {
+			return getRole().toString().replace("ROLE_", "");
+		}
+
 }
