@@ -36,7 +36,9 @@ public class ReorderController {
 
 		Streamable<Transaction> transactions = transactionManager.findBy(OrderStatus.PAID)
 				.filter(transaction -> transaction.getType() == Transaction.TransactionType.REORDER);
-
+		for (Transaction transaction : transactions) {
+			transaction.setPrice(transaction.getPrice().negate());
+		}
 		model.addAttribute("transactions", transactions);
 
 		return "reorder";

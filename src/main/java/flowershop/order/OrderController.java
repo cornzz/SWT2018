@@ -34,11 +34,13 @@ public class OrderController {
 	private final OrderManager<Transaction> transactionManager;
 	private final Inventory<InventoryItem> inventory;
 	private final Catalog<Product> catalog;
+	private final ReorderManager reorderManager;
 
-	OrderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory, Catalog<Product> catalog) {
+	OrderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory, Catalog<Product> catalog, ReorderManager reorderManager) {
 		this.transactionManager = transactionManager;
 		this.inventory = inventory;
 		this.catalog = catalog;
+		this.reorderManager = reorderManager;
 	}
 
 	@PostMapping("/completeorder")
@@ -54,9 +56,11 @@ public class OrderController {
 				Quantity quantity = cartItem.getQuantity();
 				if (product instanceof FlowerShopItem) {
 					inventory.findByProduct(product).ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(quantity));
+
 				} else {
 					((CompoundFlowerShopProduct) product).getFlowerShopItems().forEach(item -> {
 						inventory.findByProduct(item).ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(quantity));
+
 					});
 				}
 			});
@@ -65,10 +69,11 @@ public class OrderController {
 			cart.addItemsTo(order);
 			cart.clear();
 			transactionManager.save(order);
-
+			reorderManager.refillInventory();
 			return "redirect:/order/" + order.getId() + "?success";
 		}).orElse("redirect:/");
 	}
+
 
 	@GetMapping("/orders")
 	@PreAuthorize("isAuthenticated()")
@@ -164,5 +169,6 @@ public class OrderController {
 				.reduce(Streamable.empty(), Streamable::and)
 				.filter(transaction -> transaction.getType().equals(ORDER));
 	}
+
 
 }

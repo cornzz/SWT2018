@@ -1,6 +1,7 @@
 package flowershop.products.controller;
 
 
+import flowershop.order.ReorderManager;
 import flowershop.order.Transaction;
 import flowershop.products.FlowerShopItem;
 import flowershop.products.FlowerShopItemCatalog;
@@ -33,11 +34,13 @@ public class FlowerShopInventoryController {
 	private final Inventory<InventoryItem> inventory;
 	private final FlowerShopItemCatalog itemCatalog;
 	private final OrderManager<Transaction> transactionManager;
+	private final ReorderManager reorderManager;
 
-	FlowerShopInventoryController(Inventory<InventoryItem> inventory, FlowerShopItemCatalog itemCatalog, OrderManager<Transaction> transactionManager) {
+	FlowerShopInventoryController(Inventory<InventoryItem> inventory, FlowerShopItemCatalog itemCatalog, OrderManager<Transaction> transactionManager, ReorderManager reorderManager) {
 		this.itemCatalog = itemCatalog;
 		this.inventory = inventory;
 		this.transactionManager = transactionManager;
+		this.reorderManager = reorderManager;
 	}
 
 	@GetMapping("/products/items/stock")
@@ -50,27 +53,27 @@ public class FlowerShopInventoryController {
 
 	@PostMapping("/products/items/stock/deficit/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String deficit(@PathVariable InventoryItemIdentifier id, int deficit, @LoggedIn Optional<UserAccount> userAccount) {
-		inventory.findById(id).get().decreaseQuantity(Quantity.of(deficit));
+	public String deficit(Model model, @PathVariable InventoryItemIdentifier id, int deficit, @LoggedIn Optional<UserAccount> userAccount) {
+
+		InventoryItem item = inventory.findById(id).get();
+		item.decreaseQuantity(Quantity.of(deficit));
 		inventory.save(inventory.findById(id).get());
+		reorderManager.refillInventory();
 
 		return "redirect:/products/items/stock";
+
+
 	}
 
 	@PostMapping("/products/items/stock/reorder/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String reorder(@PathVariable InventoryItemIdentifier id, int reorder, @LoggedIn Optional<UserAccount> userAccount) {
+	public String reorder(Model model, @PathVariable InventoryItemIdentifier id, int reorder, @LoggedIn Optional<UserAccount> userAccount) {
 
 		MonetaryAmount price = inventory.findById(id).get().getProduct().getPrice().multiply(reorder).negate();
-		Transaction transaction = new Transaction(userAccount.get(), CASH, REORDER);
-		transaction.setItem(id);
-		transaction.setPrice(price);
-		transaction.setItemName(inventory.findById(id).get().getProduct().getName());
-		transaction.setQuantity(Quantity.of(reorder));
-		transactionManager.payOrder(transaction);
-		transactionManager.save(transaction);
-
+		reorderManager.reorder(userAccount.get(), id, price, Quantity.of(reorder));
 		return "redirect:/products/items/stock";
+
+
 	}
 
 	@GetMapping("/products/items/stock/add")
@@ -88,4 +91,6 @@ public class FlowerShopInventoryController {
 
 		return "redirect:/products/items/stock";
 	}
+
+
 }

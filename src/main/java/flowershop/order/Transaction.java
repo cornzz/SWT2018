@@ -75,20 +75,14 @@ public class Transaction extends Order {
 		this.price = price;
 	}
 
-	public void setItem(InventoryItemIdentifier item) {
-		this.item = item;
-	}
-
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public void setQuantity(Quantity quantity) {
+	public void setOptional(MonetaryAmount price, InventoryItemIdentifier item, String itemName, Quantity quantity) {
+		this.price = price;
+		this.item = item;
+		this.itemName = itemName;
 		this.quantity = quantity;
 	}
-
 }
