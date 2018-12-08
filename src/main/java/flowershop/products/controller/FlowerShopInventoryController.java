@@ -47,19 +47,12 @@ public class FlowerShopInventoryController {
 
 		return "inventory";
 	}
-	
+
 	@PostMapping("/products/items/stock/deficit/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String deficit(@PathVariable InventoryItemIdentifier id, int deficit, @LoggedIn Optional<UserAccount> userAccount) {
 		inventory.findById(id).get().decreaseQuantity(Quantity.of(deficit));
 		inventory.save(inventory.findById(id).get());
-
-		MonetaryAmount price = inventory.findById(id).get().getProduct().getPrice().multiply(deficit).multiply(-1);
-		Transaction transaction = new Transaction(userAccount.get(), CASH, DEFICIT);
-		transaction.setPrice(price);
-		transactionManager.payOrder(transaction);
-		transactionManager.save(transaction);
-
 
 		return "redirect:/products/items/stock";
 	}
@@ -68,7 +61,7 @@ public class FlowerShopInventoryController {
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String reorder(@PathVariable InventoryItemIdentifier id, int reorder, @LoggedIn Optional<UserAccount> userAccount) {
 
-		MonetaryAmount price = inventory.findById(id).get().getProduct().getPrice().multiply(reorder).multiply(-1);
+		MonetaryAmount price = inventory.findById(id).get().getProduct().getPrice().multiply(reorder).negate();
 		Transaction transaction = new Transaction(userAccount.get(), CASH, REORDER);
 		transaction.setItem(id);
 		transaction.setPrice(price);
