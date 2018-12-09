@@ -41,6 +41,10 @@ public class CompoundFlowerShopProduct extends Product {
 		return description;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public Iterable<FlowerShopItem> getFlowerShopItems() {
 		return flowerShopItems;
 	}
