@@ -10,6 +10,7 @@ import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.data.util.Streamable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class ReorderController {
 	}
 
 	@GetMapping("/products/reorder")
+	@PreAuthorize("hasRole('ROLE_WHOLESALER')")
 	public String reorder(Model model) {
 
 		Streamable<Transaction> transactions = transactionManager.findBy(OrderStatus.PAID)
@@ -45,6 +47,7 @@ public class ReorderController {
 	}
 
 	@PostMapping("/products/reorder/send/{id}")
+	@PreAuthorize("hasRole('ROLE_WHOLESALER')")
 	public String send(@PathVariable OrderIdentifier id, Quantity quantity, @LoggedIn Optional<UserAccount> userAccount) {
 
 		Streamable<Transaction> transactions = transactionManager.findBy(OrderStatus.PAID)
