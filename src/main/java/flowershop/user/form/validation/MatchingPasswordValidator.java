@@ -1,6 +1,6 @@
-package flowershop.user.validation;
+package flowershop.user.form.validation;
 
-import flowershop.user.UserDataTransferObject;
+import flowershop.user.form.UserDataTransferObject;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

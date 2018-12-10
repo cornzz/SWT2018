@@ -10,23 +10,19 @@ import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.inventory.InventoryItemIdentifier;
 import org.salespointframework.order.OrderManager;
-import org.salespointframework.payment.Cash;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.money.MonetaryAmount;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Optional;
 
-import static flowershop.order.Transaction.TransactionType.DEFICIT;
-import static flowershop.order.Transaction.TransactionType.REORDER;
 import static org.salespointframework.core.Currencies.EURO;
-import static org.salespointframework.payment.Cash.CASH;
 
 @Controller
 public class FlowerShopInventoryController {
@@ -53,27 +49,22 @@ public class FlowerShopInventoryController {
 
 	@PostMapping("/products/items/stock/deficit/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String deficit(Model model, @PathVariable InventoryItemIdentifier id, int deficit, @LoggedIn Optional<UserAccount> userAccount) {
-
-		InventoryItem item = inventory.findById(id).get();
-		item.decreaseQuantity(Quantity.of(deficit));
-		inventory.save(inventory.findById(id).get());
-		reorderManager.refillInventory();
-
-		return "redirect:/products/items/stock";
-
-
+	public String deficit(@PathVariable InventoryItemIdentifier id, int deficitQuantity, @LoggedIn Optional<UserAccount> userAccount) {
+		return inventory.findById(id).map(inventoryItem -> {
+			inventoryItem.decreaseQuantity(Quantity.of(deficitQuantity));
+			inventory.save(inventoryItem);
+			reorderManager.refillInventory();
+			return "redirect:/products/items/stock?deficit";
+		}).orElse("redirect:/products/items/stock");
 	}
 
 	@PostMapping("/products/items/stock/reorder/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String reorder(Model model, @PathVariable InventoryItemIdentifier id, int reorder, @LoggedIn Optional<UserAccount> userAccount) {
-
-		MonetaryAmount price = inventory.findById(id).get().getProduct().getPrice().multiply(reorder).negate();
-		reorderManager.reorder(userAccount.get(), id, price, Quantity.of(reorder));
-		return "redirect:/products/items/stock";
-
-
+	public String reorder(@PathVariable InventoryItemIdentifier id, int reorderQuantity, @LoggedIn Optional<UserAccount> userAccount) {
+		return inventory.findById(id).map(inventoryItem -> {
+			reorderManager.createReorder(inventoryItem, Quantity.of(reorderQuantity));
+			return "redirect:/products/items/stock?reorder";
+		}).orElse("redirect:/products/items/stock");
 	}
 
 	@GetMapping("/products/items/stock/add")
@@ -91,6 +82,5 @@ public class FlowerShopInventoryController {
 
 		return "redirect:/products/items/stock";
 	}
-
 
 }

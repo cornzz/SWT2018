@@ -20,7 +20,7 @@
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th>ID</th>
+                        <th class="mdl-data-table__cell--non-numeric">ID</th>
                         <th>Type</th>
                         <th>Date</th>
                         <th>Total</th>
@@ -28,7 +28,7 @@
                     </thead>
                     <tbody th:remove="all-but-first">
                     <tr th:each="transaction : ${transactions}">
-                        <td th:text="${transaction.id}"></td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${transaction.id}"></td>
                         <td th:text="${transaction.type}"></td>
                         <td th:text="${#temporals.format(transaction.dateCreated, 'dd.MM.yyyy HH:mm')}"></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(transaction.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></td>

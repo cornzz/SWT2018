@@ -15,8 +15,10 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <div th:if="${param.success}" class="fs-snackbar-text" role="alert" hidden>Information saved successfully!</div>
+            <h5 th:if="${form.isEmpty}" class="mdc-typography--headline5">This user does not exist!</h5>
+
             <!-- Edit Account Form -->
-            <form method="post" role="form" id="form" class="fs-form" th:action="@{/account}" th:object="${form}">
+            <form method="post" role="form" id="form" name="form" class="fs-form" th:unless="${form.isEmpty}" th:action="${form.action}" th:object="${form}">
                 <!-- First Name, Last Name -->
                 <div class="fs-form__row">
                     <div class="mdc-text-field">
@@ -54,7 +56,7 @@
                 <div th:each="error : ${#fields.errors('phone')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
 
                 <button type="submit" id="submit" class="mdc-button mdc-button--raised">Submit</button>
-                <button type="button" class="mdc-button mdc-button--raised" onclick="window.location='/account/changepass'">
+                <button type="button" class="mdc-button mdc-button--raised" onclick="window.location = document.form.action + '/changepass'">
                     Change Password
                 </button>
             </form>

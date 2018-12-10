@@ -1,4 +1,4 @@
-package flowershop.accounting.validation;
+package flowershop.accounting.form.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -19,7 +19,7 @@
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th>Produkt</th>
+                        <th class="mdl-data-table__cell--non-numeric">Produkt</th>
                         <th>Beschreibung</th>
                         <th>Anzahl</th>
                         <th>Preis pro Stück</th>
@@ -27,7 +27,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="item : ${cart}">
-                        <td th:text="${item.product.name}">Tulpe</td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.name}">Tulpe</td>
                         <td th:text="${item.product.description}">Eine Blume</td>
                         <td th:text="${item.quantity}">15</td>
                         <td th:text="${item.product.price}">EUR 10</td>

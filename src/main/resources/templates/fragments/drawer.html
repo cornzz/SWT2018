@@ -33,15 +33,15 @@
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
                 <span class="mdc-list-item__text">Users</span>
             </a>
-            <a th:class="'mdc-list-item' + ((${view} == 'reorder') ? ' mdc-list-item--activated' : '')"
+            <a th:class="'mdc-list-item' + ((${view} == 'reorders') ? ' mdc-list-item--activated' : '')"
                sec:authorize="hasRole('ROLE_WHOLESALER')"
-               th:href="@{/products/reorder}"
-               th:aria-selected="${view == 'reorder'}">
+               th:href="@{/products/reorders}"
+               th:aria-selected="${view == 'reorders'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">all_inbox</i>
                 <span class="mdc-list-item__text">Reorders</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'orders') ? ' mdc-list-item--activated' : '')"
-               sec:authorize="isAuthenticated()"
+               sec:authorize="isAuthenticated() && !hasRole('ROLE_WHOLESALER')"
                th:href="@{/orders}"
                th:aria-selected="${view == 'orders'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">assignment</i>

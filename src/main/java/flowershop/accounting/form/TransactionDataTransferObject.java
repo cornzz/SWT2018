@@ -1,4 +1,6 @@
-package flowershop.accounting.validation;
+package flowershop.accounting.form;
+
+import flowershop.accounting.form.validation.IsDouble;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

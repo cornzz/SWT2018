@@ -24,8 +24,8 @@ public class Transaction extends Order {
 
 	private TransactionType type;
 	private MonetaryAmount price;
-	private InventoryItemIdentifier item;
-	private String itemName, description;
+	private InventoryItemIdentifier itemId;
+	private String description;
 	private Quantity quantity;
 
 
@@ -34,7 +34,7 @@ public class Transaction extends Order {
 
 		this.type = type;
 		this.price = null;
-		this.item = null;
+		this.itemId = null;
 		this.quantity = null;
 	}
 
@@ -51,12 +51,8 @@ public class Transaction extends Order {
 		return price;
 	}
 
-	public InventoryItemIdentifier getItem() {
-		return item;
-	}
-
-	public String getItemName() {
-		return itemName;
+	public InventoryItemIdentifier getItemId() {
+		return itemId;
 	}
 
 	public String getDescription() {
@@ -79,10 +75,10 @@ public class Transaction extends Order {
 		this.description = description;
 	}
 
-	public void setOptional(MonetaryAmount price, InventoryItemIdentifier item, String itemName, Quantity quantity) {
-		this.price = price;
-		this.item = item;
-		this.itemName = itemName;
+	public void setOptional(InventoryItemIdentifier itemId, Quantity quantity, MonetaryAmount price, String description) {
+		this.itemId = itemId;
 		this.quantity = quantity;
+		this.price = price;
+		this.description = description;
 	}
 }

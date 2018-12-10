@@ -1,5 +1,6 @@
 package flowershop.user;
 
+import flowershop.user.form.UserDataTransferObject;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManager;
@@ -11,12 +12,12 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class UserManagement {
+public class UserManager {
 
 		private final UserRepository users;
 		private final UserAccountManager userAccountManager;
 
-		public UserManagement(UserRepository users, UserAccountManager userAccountManager) {
+		public UserManager(UserRepository users, UserAccountManager userAccountManager) {
 				this.users = users;
 				this.userAccountManager = userAccountManager;
 		}

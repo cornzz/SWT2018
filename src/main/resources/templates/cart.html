@@ -11,15 +11,13 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <div th:if="${cart.empty}">
-                <h5 class="mdc-typography--headline5">Dein Warenkorb ist leer.</h5>
-            </div>
+            <h5 th:if="${cart.empty}" class="mdc-typography--headline5">Dein Warenkorb ist leer.</h5>
 
             <div class="fs-mdl-wrapper" th:unless="${cart.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th>Produkt</th>
+                        <th class="mdl-data-table__cell--non-numeric">Produkt</th>
                         <th>Beschreibung</th>
                         <th>Anzahl</th>
                         <th>Preis pro Stück</th>
@@ -29,7 +27,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="item : ${cart}">
-                        <td th:text="${item.product.name}"></td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.name}"></td>
                         <td th:text="${item.product.description}"></td>
                         <td th:text="${item.quantity}"></td>
                         <td th:text="${item.product.price}"></td>

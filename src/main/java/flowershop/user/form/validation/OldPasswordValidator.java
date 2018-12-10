@@ -1,4 +1,4 @@
-package flowershop.user.validation;
+package flowershop.user.form.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
