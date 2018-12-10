@@ -1,0 +1,43 @@
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Events</title>
+</head>
+<body>
+<aside th:replace="fragments/drawer :: drawer('inventory')">
+    <!-- since this is a nested replace it can't be empty -->
+    Drawer
+</aside>
+<header th:replace="fragments/header :: header_catalog(_)">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Titel</th>
+                    <th>Begin am:</th>
+                    <th>Ende am:</th>
+                    <th>Erstellt am:</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="event : ${events}">
+                    <td><a th:href="@{/events/show?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">pageview</a></td>
+                    <td th:text="${event.title}">Title</td>
+                    <td th:text="${event.formatedBeginTime}">Time</td>
+                    <td th:text="${event.formatedEndTime}">Time</td>
+                    <td th:text="${event.formatedCreatedTime}">Time</td>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <button sec:authorize="hasRole('ROLE_BOSS')" th:replace="fragments/floating_action_button :: floating_action_button(@{/events/add})"></button>
+</main>
+</body>
+</html>

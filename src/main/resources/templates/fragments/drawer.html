@@ -54,6 +54,12 @@
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">attach_money</i>
                 <span class="mdc-list-item__text">Accounting</span>
             </a>
+            <a th:class="'mdc-list-item' + ((${view} == 'events') ? ' mdc-list-item--activated' : '')"
+               th:href="@{/events}"
+               th:aria-selected="${view == 'events'}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">event</i>
+                <span class="mdc-list-item__text">Events</span>
+            </a>
             <a th:class="'mdc-list-item' + ((${view} == 'register') ? ' mdc-list-item--activated' : '')"
                sec:authorize="!isAuthenticated()"
                th:href="@{/register}"
