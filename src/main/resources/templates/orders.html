@@ -1,0 +1,55 @@
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Orders</title>
+</head>
+<body>
+<aside th:replace="fragments/drawer :: drawer('orders')">
+    <!-- since this is a nested replace it can't be empty -->
+    Drawer
+</aside>
+<header th:replace="fragments/header :: header_catalog(_)">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <h4 th:if="${orders.empty}">No orders!</h4>
+
+            <div class="fs-mdl-wrapper" th:unless="${orders.empty}">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th sec:authorize="hasRole('ROLE_BOSS')">Made by</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th sec:authorize="hasRole('ROLE_BOSS')">Mark as</th>
+                    </tr>
+                    </thead>
+                    <tbody th:remove="all-but-first">
+                    <tr th:each="order : ${orders}">
+                        <td><a th:href="'/order/' + ${order.id}" th:text="${order.id}"></a></td>
+                        <td th:text="${order.userAccount.username}" sec:authorize="hasRole('ROLE_BOSS')"></td>
+                        <td th:text="'EUR ' + ${#numbers.formatDecimal(order.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></td>
+                        <td th:text="${order.orderStatus}"></td>
+                        <td sec:authorize="hasRole('ROLE_BOSS')">
+                            <a th:href="@{/order/update/{id} (id=${order.id})}">
+                                <button class="mdl-button mdl-js-button mdl-button--colored" th:if="${order.orderStatus == statusOpen}" type="button">
+                                    Paid
+                                </button>
+                                <button class="mdl-button mdl-js-button mdl-button--colored" th:if="${order.orderStatus == statusPaid}" type="button">
+                                    Completed
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

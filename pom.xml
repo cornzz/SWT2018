@@ -23,6 +23,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-java8time</artifactId>
+			<version>3.0.2.RELEASE</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -80,9 +86,6 @@
 							<!-- optional: if not specified, it will run webpack's default
                             build (and you can remove this whole <configuration> section.) -->
 							<arguments>-p --config prod.config.js</arguments>
-							<environmentVariables>
-								<NODE_ENV>production</NODE_ENV>
-							</environmentVariables>
 						</configuration>
 					</execution>
 				</executions>

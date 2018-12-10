@@ -2,6 +2,7 @@ package flowershop.products.form;
 
 import flowershop.products.FlowerShopItem;
 import flowershop.products.FlowerShopService;
+import flowershop.products.validation.OneProductMinimum;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
  *  }
  */
 
+@OneProductMinimum
 public class AddCompoundFlowerShopProductForm {
 	@NotEmpty
 	private String name;

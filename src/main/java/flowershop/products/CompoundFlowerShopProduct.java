@@ -5,6 +5,7 @@ import org.salespointframework.catalog.Product;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class CompoundFlowerShopProduct extends Product {
 	private String description;
 
 	// TODO: change cascade
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<FlowerShopItem> flowerShopItems;
 
 	// TODO: change cascade
@@ -38,6 +39,10 @@ public class CompoundFlowerShopProduct extends Product {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Iterable<FlowerShopItem> getFlowerShopItems() {

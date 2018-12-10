@@ -1,16 +1,17 @@
-<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Products</title>
 </head>
 <body>
-<aside th:replace="fragments/drawer :: drawer">
+<aside th:replace="fragments/drawer :: drawer('products')">
     <!-- since this is a nested replace it can't be empty -->
     Drawer
 </aside>
 <header th:replace="fragments/header :: header_catalog(~{::section})">
     <!-- since this is a nested replace it can't be empty -->
     <section>
-        <a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">shopping_cart</a>
+        <a th:href="@{/cart}" class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">shopping_cart</a>
     </section>
 </header>
 <main>
@@ -21,9 +22,13 @@
                     <div th:replace="fragments/product_card :: product_card (product=${product})"></div>
                 </th:block>
             </div>
+
+            <div th:if="${param.logout}" class="fs-snackbar-text" role="alert" hidden>Logout successful!</div>
+            <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" role="alert" hidden></div>
         </div>
     </div>
-    <button th:replace="fragments/floating_action_button :: floating_action_button(@{/products/add})"></button>
+    <button sec:authorize="hasRole('ROLE_BOSS')"
+            th:replace="fragments/floating_action_button :: floating_action_button(@{/products/add})"></button>
 </main>
 </body>
 </html>

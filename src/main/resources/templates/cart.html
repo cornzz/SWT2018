@@ -1,0 +1,74 @@
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Cart</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header_dialog (@{/products})">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <div th:if="${cart.empty}">
+                <h5 class="mdc-typography--headline5">Dein Warenkorb ist leer.</h5>
+            </div>
+
+            <div class="fs-mdl-wrapper" th:unless="${cart.empty}">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                    <tr>
+                        <th>Produkt</th>
+                        <th>Beschreibung</th>
+                        <th>Anzahl</th>
+                        <th>Preis pro Stück</th>
+                        <th>Anzahl bearbeiten</th>
+                        <th>Entfernen</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${cart}">
+                        <td th:text="${item.product.name}"></td>
+                        <td th:text="${item.product.description}"></td>
+                        <td th:text="${item.quantity}"></td>
+                        <td th:text="${item.product.price}"></td>
+                        <td>
+                            <form method="post" class="fs-table-input" th:action="@{/cart/edit?id={id} (id=${item.id})}">
+                                <input type="text" pattern="(\d*)" th:value="${item.quantity}" name="quantity" id="quantity"
+                                       class="mdl-textfield__input">
+                                <button type="submit" class="mdl-button mdl-js-button mdl-button--colored">Bearbeiten</button>
+                            </form>
+                        </td>
+                        <td>
+                            <a th:href="@{/cart/remove?id={id} (id=${item.id})}" class="mdl-button mdl-js-button mdl-button--colored">
+                                Entfernen
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td>Gesamt:</td>
+                        <td></td>
+                        <td></td>
+                        <td th:text="${cart.price}"></td>
+                        <td></td>
+                        <td>
+                            <a sec:authorize="hasRole('ROLE_CUSTOMER')" href="/checkout"
+                               class="mdl-button mdl-js-button mdl-button--colored">Kaufen</a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" hidden></div>
+            <div class="fs-buttons">
+                <button type="button" class="mdc-button mdc-button--raised" onclick="window.location='/'">Weitershoppen</button>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

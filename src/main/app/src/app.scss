@@ -1,3 +1,30 @@
+// material design lite
+.fs-mdl-wrapper {
+  // TODO: only import styles required for mdl data table
+  // @import "~material-design-lite/src/material-design-lite";
+  @import "~material-design-lite/dist/material.min.css";
+
+  .fs-table-input {
+    > * {
+      display: inline-block;
+    }
+    > input {
+      width: 50px;
+      margin-right: 10px;
+      text-align: center;
+    }
+  }
+}
+
+.fs-buttons {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    margin-top: 16px;
+  }
+}
+
 // material components for the web
 @import "~@material/button/mdc-button";
 @import "~@material/top-app-bar/mdc-top-app-bar";
@@ -8,10 +35,12 @@
 @import "~@material/dialog/mdc-dialog";
 @import "~@material/list/mdc-list";
 @import "~@material/textfield/mdc-text-field";
+@import "~@material/textfield/helper-text/mdc-text-field-helper-text";
 @import "~@material/form-field/mdc-form-field";
 @import "~@material/chips/mdc-chips";
 @import "~@material/checkbox/mdc-checkbox";
 @import "~@material/drawer/mdc-drawer";
+@import "~@material/snackbar/mdc-snackbar";
 
 // custom styles
 @import "scss/Base";

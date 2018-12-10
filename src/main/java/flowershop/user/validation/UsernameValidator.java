@@ -22,8 +22,8 @@ public class UsernameValidator implements ConstraintValidator<ValidUsername, Obj
 		}
 
 		@Override
-		public boolean isValid(Object form, ConstraintValidatorContext context) {
-				return validateUsername((UserDataTransferObject) form, context);
+		public boolean isValid(Object obj, ConstraintValidatorContext context) {
+				return validateUsername((UserDataTransferObject) obj, context);
 		}
 
 		private boolean validateUsername(UserDataTransferObject form, ConstraintValidatorContext context) {

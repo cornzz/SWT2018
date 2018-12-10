@@ -11,40 +11,46 @@ import org.springframework.stereotype.Component;
 @Order(10)
 public class UserDataInitializer implements DataInitializer {
 
-		private final UserAccountManager userAccountManager;
-		private final UserRepository userRepository;
+	private final UserAccountManager userAccountManager;
+	private final UserRepository userRepository;
 
-		public UserDataInitializer(UserAccountManager userAccountManager, UserRepository userRepository) {
-				this.userAccountManager = userAccountManager;
-				this.userRepository = userRepository;
+	public UserDataInitializer(UserAccountManager userAccountManager, UserRepository userRepository) {
+		this.userAccountManager = userAccountManager;
+		this.userRepository = userRepository;
+	}
+
+	@Override
+	public void initialize() {
+
+		if (userAccountManager.findByUsername("admin").isPresent()) {
+			return;
 		}
 
-		@Override
-		public void initialize() {
+		UserAccount adminAccount = userAccountManager.create("admin", "pass", Role.of("ROLE_BOSS"));
+		UserAccount wholesalerAccount = userAccountManager.create("wholesaler", "pass", Role.of("ROLE_WHOLESALER"));
+		UserAccount userAccount1 = userAccountManager.create("johndoe", "pass", Role.of("ROLE_CUSTOMER"));
+		UserAccount userAccount2 = userAccountManager.create("larrybird", "pass", Role.of("ROLE_CUSTOMER"));
 
-				if (userAccountManager.findByUsername("admin").isPresent()) {
-						return;
-				}
+		adminAccount.setFirstname("Ad");
+		adminAccount.setLastname("Min");
+		adminAccount.setEmail("ad@m.in");
 
-				UserAccount adminAccount = userAccountManager.create("admin", "pass", Role.of("ROLE_BOSS"));
-				UserAccount userAccount1 = userAccountManager.create("johndoe", "pass", Role.of("ROLE_CUSTOMER"));
-				UserAccount userAccount2 = userAccountManager.create("larrybird", "pass", Role.of("ROLE_CUSTOMER"));
+		wholesalerAccount.setFirstname("Whole");
+		wholesalerAccount.setLastname("Sale");
+		wholesalerAccount.setEmail("whole@sa.le");
 
-				adminAccount.setFirstname("Ad");
-				adminAccount.setLastname("Min");
-				adminAccount.setEmail("ad@m.in");
+		userAccount1.setFirstname("John");
+		userAccount1.setLastname("Doe");
+		userAccount1.setEmail("john@doe.com");
 
-				userAccount1.setFirstname("John");
-				userAccount1.setLastname("Doe");
-				userAccount1.setEmail("john@doe.com");
+		userAccount2.setFirstname("Larry");
+		userAccount2.setLastname("Bird");
+		userAccount2.setEmail("larry@bird.biz");
 
-				userAccount2.setFirstname("Larry");
-				userAccount2.setLastname("Bird");
-				userAccount2.setEmail("larry@bird.biz");
+		userRepository.save(new User(adminAccount, "+1 234 56 789"));
+		userRepository.save(new User(wholesalerAccount, "+6 555 43 210"));
+		userRepository.save(new User(userAccount1, "+2 345 67 890"));
+		userRepository.save(new User(userAccount2, "+9 876 54 321"));
+	}
 
-				userRepository.save(new User(adminAccount, "+1 234 56 789"));
-				userRepository.save(new User(userAccount1, "+2 345 67 890"));
-				userRepository.save(new User(userAccount2, "+9 876 54 321"));
-
-		}
 }

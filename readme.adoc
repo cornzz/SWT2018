@@ -1,4 +1,6 @@
-= Kickstart
+= Flower Power
+
+== About
 
 The flowershop module is a template project to bootstrap the Java project in the Software Engineering lab.
 The project is supposed to be copied into the group's repository to get it started easily.
@@ -9,9 +11,36 @@ It contains the following features:
 
 == How to run the application?
 
-* In the IDE: find `Application.java`, richt-click project, select "Run As > Java Application"
+We use the package manager `yarn` to handle our dependencies. These dependencies are later getting bundled
+together using `webpack`.
+
+https://yarnpkg.com/lang/en/docs/install/[How to install yarn?]
+
+* Run `yarn install` from inside the `src/main/app` directory to install the dependencies.
+* Run `yarn run dev` to generate the bundles which you can then find inside `src/main/resources/static/resources`.
+* In the IDE: find `Application.java`, right-click project, select "Run As > Java Application"
 * From the command line: run `mvn spring-boot:run`
+
+(If you only want to just take a look at the application you can spare yourself the hassle of using `yarn` by packaging the
+application as shown below.)
 
 == How to package the application?
 
 * Run `mvn clean package`. The packaged application (a JAR in `target/`) can be run with `java -jar $jarName`.
+
+== How to use MDL elements?
+
+We support the outdated MDL elements due to the absence of a MDC data table. To avoid style interferences MDL elements
+must be wrapped by the `.fs-mdl-wrapper` class which scopes the outdated MDL styles.
+
+== Dummy User Accounts
+
+|===
+|Username |Password
+
+|admin |pass
+|wholesaler |pass
+|johndoe |pass
+|larrybird |pass
+
+|===

@@ -12,6 +12,7 @@
     "@material/layout-grid": "^0.41.0",
     "@material/list": "^0.41.0",
     "@material/ripple": "^0.41.0",
+    "@material/snackbar": "^0.41.0",
     "@material/textfield": "^0.41.0",
     "@material/top-app-bar": "^0.41.0",
     "@material/typography": "^0.41.0",
@@ -22,18 +23,22 @@
     "babel-preset-es2015": "^6.24.1",
     "css-loader": "^1.0.1",
     "extract-loader": "^3.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "install": "^0.12.2",
+    "material-design-lite": "^1.3.0",
     "node-sass": "^4.10.0",
     "postcss-loader": "^3.0.0",
     "postcss-normalize": "^7.0.1",
     "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
     "webpack": "3",
+    "webpack-cli": "^3.1.2",
     "webpack-merge": "^4.1.4"
   },
   "scripts": {
-    "build": "NODE_ENV=production webpack -p --config prod.config.js",
-    "dev": "NODE_ENV=development webpack --watch --config dev.config.js"
+    "build": "webpack -p --config prod.config.js",
+    "dev": "webpack --watch --config dev.config.js"
   }
 }

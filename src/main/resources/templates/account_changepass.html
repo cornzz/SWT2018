@@ -1,0 +1,49 @@
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Change Password</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header_dialog (@{/account})">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <form method="post" role="form" id="passwordForm" class="fs-form" th:action="@{/account/changepass}" th:object="${form}">
+                <!-- Old Password -->
+                <div class="mdc-text-field">
+                    <input type="password" id="oldPassword" class="mdc-text-field__input" th:field="*{oldPassword}">
+                    <label for="oldPassword" class="mdc-floating-label">Current Password</label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <div th:each="error : ${#fields.errors('oldPassword')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
+
+                <!-- New Password -->
+                <div class="mdc-text-field">
+                    <input type="password" id="newPassword" class="mdc-text-field__input" th:field="*{password}">
+                    <label for="newPassword" class="mdc-floating-label">New Password</label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <p id="username-helper-text" class="mdc-text-field-helper-text" aria-hidden="true">
+                    We'll never share your password with anyone.
+                </p>
+                <div class="mdc-text-field">
+                    <input type="password" id="newPasswordConfirm" class="mdc-text-field__input" th:field="*{passwordRepeat}">
+                    <label for="newPasswordConfirm" class="mdc-floating-label">Confirm Password</label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <div th:if="${#fields.hasErrors('passwordRepeat') || #fields.hasErrors('password')}"
+                     th:text="${#fields.errors('passwordRepeat') + ' ' + #fields.errors('password')}"
+                     class="fs-snackbar-text" role="alert" hidden>
+                    Passwords have to match!
+                </div>
+
+                <button type="button" class="mdc-button" onclick="window.location='/account'">Cancel</button>
+                <button type="submit" id="submitPassword" class="mdc-button mdc-button--raised">Submit</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

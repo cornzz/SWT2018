@@ -8,6 +8,12 @@
 <body class="mdc-typography">
 <header th:replace="${header}"></header>
 <main th:replace="${main}"></main>
+<div class="mdc-snackbar" aria-live="assertive" aria-atomic="true" aria-hidden="true">
+    <div class="mdc-snackbar__text"></div>
+    <div class="mdc-snackbar__action-wrapper">
+        <button type="button" class="mdc-snackbar__action-button"></button>
+    </div>
+</div>
 <script type="text/javascript" src="bundle.js" async th:src="@{/resources/js/bundle.js}"></script>
 </body>
 </html>

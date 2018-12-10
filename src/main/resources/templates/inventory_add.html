@@ -1,6 +1,6 @@
 <html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Items</title>
+    <title>Add Item</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header_dialog (@{/products/items/stock})">
@@ -8,26 +8,33 @@
     Header
 </header>
 <main>
-    <div class="mdc-top-app-bar--fixed-adjust">a
+    <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form method="post" role="post" th:action="@{/products/items/stock/add}">
-                <div>
-                    <input type="text" name="name" id="name" th:object="${name}">
-                    <label  for="name">Name</label>
+            <form method="post" role="post" class="fs-form" th:action="@{/products/items/stock/add}">
+                <div class="mdc-text-field">
+                    <input type="text" name="name" id="name" class="mdc-text-field__input" th:object="${name}">
+                    <label for="name" class="mdc-floating-label">Name</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <div>
-                    <input type="text" name="price" id="price" th:object="${price}">
-                    <label for="price">Price</label>
+                <div class="mdc-text-field">
+                    <input type="text" name="price" id="price" class="mdc-text-field__input" th:object="${price}">
+                    <label for="price" class="mdc-floating-label">Price</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <div>
-                    <input type="text" name="amount" id="amount" th:object="${amount}">
-                    <label for="amount">Amount</label>
+                <div class="mdc-text-field">
+                    <input type="text" name="amount" id="amount" class="mdc-text-field__input" th:object="${amount}">
+                    <label for="amount" class="mdc-floating-label">Amount</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <div>
-                    <input type="text" name="description" id="description" th:object="${description}">
-                    <label for="amount">Description</label>
+                <div class="mdc-text-field">
+                    <input type="text" name="description" id="description" class="mdc-text-field__input"
+                           th:object="${description}">
+                    <label for="amount" class="mdc-floating-label">Description</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <button type="submit">save</button>
+                <button type="submit" class="mdc-button mdc-button--raised ">
+                    Save
+                </button>
             </form>
         </div>
     </div>

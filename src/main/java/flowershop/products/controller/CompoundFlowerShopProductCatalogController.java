@@ -5,12 +5,19 @@ import flowershop.products.CompoundFlowerShopProductCatalog;
 import flowershop.products.FlowerShopItemCatalog;
 import flowershop.products.FlowerShopServiceCatalog;
 import flowershop.products.form.AddCompoundFlowerShopProductForm;
+import flowershop.products.form.EditCompoundFlowerShopProductForm;
+import org.salespointframework.catalog.ProductIdentifier;
+import org.salespointframework.useraccount.Role;
+import org.salespointframework.useraccount.UserAccount;
+import org.salespointframework.useraccount.web.LoggedIn;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class CompoundFlowerShopProductCatalogController {
@@ -25,12 +32,12 @@ public class CompoundFlowerShopProductCatalogController {
 		this.flowerShopServiceCatalog = flowerShopServiceCatalog;
 	}
 
-	@GetMapping("/")
+	@RequestMapping("/")
 	public String index() {
-		return "redirect:/products/";
+		return "forward:/products";
 	}
 
-	@GetMapping("/products")
+	@RequestMapping("/products")
 	public String products(Model model) {
 
 		model.addAttribute("products", compoundFlowerShopProductCatalog.findAll());
@@ -39,6 +46,7 @@ public class CompoundFlowerShopProductCatalogController {
 	}
 
 	@GetMapping("/products/add")
+	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String addProduct(Model model, AddCompoundFlowerShopProductForm form) {
 
 		model.addAttribute("form", form);
@@ -50,15 +58,53 @@ public class CompoundFlowerShopProductCatalogController {
 	}
 
 	@PostMapping("/products/add")
+	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String addProduct(@Valid AddCompoundFlowerShopProductForm form, Errors result) {
-
-		// TODO: use form validator to check if there is at least one product selected
-		if (result.hasErrors() || (form.getSelectedFlowerShopItems().isEmpty() && form.getSelectedFlowerShopServices().isEmpty())) {
+		if (result.hasErrors()) {
 			return "redirect:/products/add";
 		}
 
 		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct(form.getName(), form.getDescription(), form.getSelectedFlowerShopItems(), form.getSelectedFlowerShopServices()));
 
 		return "redirect:/products";
+	}
+
+
+	@GetMapping("/products/{id}")
+	public String product(@PathVariable ProductIdentifier id, Model model, @LoggedIn Optional<UserAccount> userAccountOptional) {
+
+		if (compoundFlowerShopProductCatalog.findById(id).isPresent()) {
+
+			model.addAttribute("product", compoundFlowerShopProductCatalog.findById(id).get());
+
+			if (!userAccountOptional.isPresent()) {
+				return "products_detail";
+			}
+
+			return userAccountOptional.get().hasRole(Role.of("ROLE_BOSS")) ? "products_edit" : "products_detail";
+		}
+
+		return "redirect:/products";
+	}
+
+	@PostMapping("/products/{id}")
+	@PreAuthorize("hasRole('ROLE_BOSS')")
+	public String editProduct(@PathVariable ProductIdentifier id, @Valid EditCompoundFlowerShopProductForm form, Errors result) {
+		if (result.hasErrors()) {
+			return "redirect:/products/" + id.getIdentifier();
+		}
+
+		if (compoundFlowerShopProductCatalog.findById(id).isPresent()) {
+			CompoundFlowerShopProduct compoundFlowerShopProduct = compoundFlowerShopProductCatalog.findById(id).get();
+
+			compoundFlowerShopProduct.setName(form.getName());
+			compoundFlowerShopProduct.setDescription(form.getDescription());
+
+			compoundFlowerShopProductCatalog.save(compoundFlowerShopProduct);
+
+			return "redirect:/products/";
+		}
+
+		return "redirect:/products/" + id.getIdentifier();
 	}
 }

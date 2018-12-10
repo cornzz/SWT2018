@@ -1,9 +1,10 @@
-<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Register</title>
 </head>
 <body>
-<aside th:replace="fragments/drawer :: drawer">
+<aside th:replace="fragments/drawer :: drawer('register')">
     <!-- since this is a nested replace it can't be empty -->
     Drawer
 </aside>
@@ -15,61 +16,67 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <!-- Registration Form -->
-            <form method="post" role="form" id="form" th:action="@{/register}" th:object="${form}">
+            <form role="form" id="form" class="fs-form" th:object="${form}" th:action="@{/register}" method="post">
                 <!-- First Name, Last Name -->
-                <div>
-                    <div>
-                        <input type="text" id="firstName" th:field="*{firstName}" required>
-                        <label for="firstName" >First Name</label>
+                <div class="fs-form__row">
+                    <div class="mdc-text-field">
+                        <input type="text" id="firstName" class="mdc-text-field__input" th:field="*{firstName}">
+                        <label for="firstName" class="mdc-floating-label">First Name</label>
+                        <div class="mdc-line-ripple"></div>
                     </div>
-                    <div >
-                        <input type="text" id="lastName" th:field="*{lastName}" required>
-                        <label for="lastName" >Last Name</label>
+                    <div class="mdc-text-field">
+                        <input type="text" id="lastName" class="mdc-text-field__input" th:field="*{lastName}">
+                        <label for="lastName" class="mdc-floating-label">Last Name</label>
+                        <div class="mdc-line-ripple"></div>
                     </div>
                 </div>
-
                 <div th:if="${#fields.hasErrors('firstName') || #fields.hasErrors('lastName')}"
-                     th:text="${#fields.errors('firstName') + ' ' + #fields.errors('lastName')}"
-                     role="alert">
+                     th:utext="${#fields.errors('firstName') + ' ' + #fields.errors('lastName')}"
+                     class="fs-snackbar-text" role="alert" hidden>
                 </div>
                 <div th:if="${#fields.hasErrors('username')}"
                      th:text="'An account with the username ' + *{username} + ' is already registered!'"
-                     role="alert">
+                     class="fs-snackbar-text" role="alert" hidden>
                 </div>
 
                 <!-- E-Mail -->
-                <div >
-                    <input type="email" class="form-control" id="email" th:field="*{email}" required>
-                    <label for="email" >E-Mail</label>
+                <div class="mdc-text-field">
+                    <input type="email" id="email" class="mdc-text-field__input" th:field="*{email}">
+                    <label for="email" class="mdc-floating-label">E-Mail</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <div  th:each="error : ${#fields.errors('email')}" th:text="${error}" role="alert"></div>
+                <div th:each="error : ${#fields.errors('email')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
 
                 <!-- Phone -->
-                <div>
-                    <input type="tel" id="phone" th:field="*{phone}" required>
-                    <label for="phone" >Phone</label>
+                <div class="mdc-text-field">
+                    <input type="tel" id="phone" class="mdc-text-field__input" th:field="*{phone}">
+                    <label for="phone" class="mdc-floating-label">Phone</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <div  th:each="error : ${#fields.errors('phone')}" th:text="${error}" role="alert"></div>
+                <div th:each="error : ${#fields.errors('phone')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
 
                 <!-- Password -->
-                <div>
-                    <input type="password" id="newPassword" th:field="*{password}" required>
-                    <label for="newPassword" >Password</label>
-                    <span class="bmd-help">We'll never share your password with anyone else.</span>
+                <div class="mdc-text-field">
+                    <input type="password" id="newPassword" class="mdc-text-field__input" th:field="*{password}">
+                    <label for="newPassword" class="mdc-floating-label">Password</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
-                <div>
-                    <input type="password" id="newPasswordRepeat" th:field="*{passwordRepeat}" required>
-                    <label for="newPasswordRepeat" >Repeat Password</label>
+                <p id="username-helper-text" class="mdc-text-field-helper-text" aria-hidden="true">
+                    We'll never share your password with anyone.
+                </p>
+                <div class="mdc-text-field">
+                    <input type="password" id="newPasswordRepeat" class="mdc-text-field__input" th:field="*{passwordRepeat}">
+                    <label for="newPasswordRepeat" class="mdc-floating-label">Confirm Password</label>
+                    <div class="mdc-line-ripple"></div>
                 </div>
                 <div th:if="${#fields.hasErrors('passwordRepeat') || #fields.hasErrors('password')}"
                      th:text="${#fields.errors('passwordRepeat') + ' ' + #fields.errors('password')}"
-                     role="alert"
-                     id="pass">
+                     class="fs-snackbar-text" role="alert" hidden>
                     Passwords have to match!
                 </div>
 
-                <button type="reset">Cancel</button>
-                <button type="submit" id="submitButton">Register</button>
+                <button type="button" class="mdc-button" onclick="window.location='/'">Cancel</button>
+                <button type="submit" class="mdc-button mdc-button--raised">Register</button>
             </form>
         </div>
     </div>
