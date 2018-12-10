@@ -33,8 +33,18 @@ public class CompoundFlowerShopProduct extends Product {
 	}
 
 	private static Money calcPrice(Iterable<FlowerShopItem> flowerShopItems, Iterable<FlowerShopService> flowerShopServices) {
-		// TODO: calc price
-		return Money.of(300, "EUR");
+
+		Money price = Money.of(0, "EUR");
+
+		for (FlowerShopItem flowerShopItem : flowerShopItems) {
+			price = price.add(flowerShopItem.getPrice());
+		}
+
+		for (FlowerShopService flowerShopService : flowerShopServices) {
+			price = price.add(flowerShopService.getPrice());
+		}
+
+		return price;
 	}
 
 	public String getDescription() {
