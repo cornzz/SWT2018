@@ -10,7 +10,7 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form method="post" role="form" class="fs-form" id="form" th:action="@{/products/add}" th:object="${form}">
+            <form method="post" role="form" class="fs-form" id="form" th:action="@{/products/add}" th:object="${form}" enctype="multipart/form-data">
                 <div class="mdc-text-field">
                     <input type="text" id="tf-outlined" class="mdc-text-field__input" name="name" th:field="*{name}">
                     <label for="tf-outlined" class="mdc-floating-label">Name</label>
@@ -32,6 +32,7 @@
                     <div class="mdc-chip__text">Add Services</div>
                 </div>
                 <div th:replace="fragments/dialog :: add_services_dialog"></div>
+                <input type="file" name="image" th:field="*{image}"/>
                 <button class="mdc-button mdc-button--raised ">
                     Save
                 </button>

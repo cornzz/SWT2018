@@ -68,7 +68,7 @@ public class CompoundFlowerShopProductCatalogController {
 			return "redirect:/products/add";
 		}
 
-		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct(form.getName(), form.getDescription(), form.getSelectedFlowerShopItems(), form.getSelectedFlowerShopServices()));
+		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct(form.getName(), form.getDescription(), form.getSelectedFlowerShopItems(), form.getSelectedFlowerShopServices(), form.getImageBase64()));
 
 		return "redirect:/products";
 	}

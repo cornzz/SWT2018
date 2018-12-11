@@ -1,5 +1,6 @@
 package flowershop.products;
 
+import org.hibernate.annotations.Type;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 
@@ -21,15 +22,20 @@ public class CompoundFlowerShopProduct extends Product {
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<FlowerShopService> flowerShopServices;
 
-	@SuppressWarnings("unused")
-	private CompoundFlowerShopProduct() {}
+	@Type(type="text")
+	private String image;
 
-	public CompoundFlowerShopProduct(String name, String description, List<FlowerShopItem> flowerShopItems, List<FlowerShopService> flowerShopServices) {
+	@SuppressWarnings("unused")
+	private CompoundFlowerShopProduct() {
+	}
+
+	public CompoundFlowerShopProduct(String name, String description, List<FlowerShopItem> flowerShopItems, List<FlowerShopService> flowerShopServices, String image) {
 		super(name, CompoundFlowerShopProduct.calcPrice(flowerShopItems, flowerShopServices));
 
 		this.description = description;
 		this.flowerShopItems = flowerShopItems;
 		this.flowerShopServices = flowerShopServices;
+		this.image = image;
 	}
 
 	private static Money calcPrice(Iterable<FlowerShopItem> flowerShopItems, Iterable<FlowerShopService> flowerShopServices) {
@@ -61,5 +67,9 @@ public class CompoundFlowerShopProduct extends Product {
 
 	public Iterable<FlowerShopService> getFlowerShopServices() {
 		return flowerShopServices;
+	}
+
+	public String getImage() {
+		return image;
 	}
 }

@@ -8,9 +8,10 @@
   // TODO: use grid system
 
   &__image {
+    // TODO: generate image size dynamically
     display: block;
-    width: 100%;
-    height: calc(100% / 16 * 9);
+    width: 400px;
+    height: 400px;
 
     background-image: url("https://media.gettyimages.com/photos/various-fresh-flowers-against-white-background-picture-id733516645");
     background-size: cover;

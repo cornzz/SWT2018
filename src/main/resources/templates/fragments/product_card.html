@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div class="fs-card mdc-card" th:fragment="product_card (product)">
     <div class="mdc-card__primary-action">
-        <div class="fs-card__media mdc-card__media mdc-card__media--16-9"></div>
+        <div class="fs-card__media mdc-card__media mdc-card__media--16-9" th:style="'background-image: url(' + ${product.image} + ')'"></div>
         <div class="fs-card__primary">
             <h2 class="fs-card__title mdc-typography--headline6" th:text="${product.name}">product!</h2>
             <h3 class="fs-card__subtitle mdc-typography--subtitle2" th:text="${product.price}">EUR 300</h3>
