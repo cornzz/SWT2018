@@ -3,7 +3,7 @@
     <title>Change Password</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (@{/account})">
+<header th:replace="fragments/header :: header_dialog (title = 'Change Password', cancel_destination = @{/account})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>

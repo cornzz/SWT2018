@@ -3,7 +3,7 @@
     <title>Add Item</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (@{/products/items/stock})">
+<header th:replace="fragments/header :: header_dialog (title = 'Add Item', cancel_destination = @{/products/items/stock})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>

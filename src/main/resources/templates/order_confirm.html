@@ -4,7 +4,7 @@
     <title>Confirm Order</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (@{/products})">
+<header th:replace="fragments/header :: header_dialog (title = 'Confirm Order', cancel_destination = @{/products})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
