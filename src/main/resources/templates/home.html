@@ -1,0 +1,54 @@
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Home</title>
+</head>
+<body>
+<aside th:replace="fragments/drawer :: drawer('home')">
+    <!-- since this is a nested replace it can't be empty -->
+    Drawer
+</aside>
+<header th:replace="fragments/header :: header_catalog(_)">
+    <!-- since this is a nested replace it can't be empty -->
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <div class="fs-mdl-wrapper">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Role</th>
+                        <th class="mdl-data-table__cell--non-numeric">Username</th>
+                        <th class="mdl-data-table__cell--non-numeric">Password</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">ROLE_BOSS</td>
+                        <td class="mdl-data-table__cell--non-numeric">admin</td>
+                        <td class="mdl-data-table__cell--non-numeric">pass</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">ROLE_WHOLESALER</td>
+                        <td class="mdl-data-table__cell--non-numeric">wholesaler</td>
+                        <td class="mdl-data-table__cell--non-numeric">pass</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">ROLE_CUSTOMER</td>
+                        <td class="mdl-data-table__cell--non-numeric">johndoe</td>
+                        <td class="mdl-data-table__cell--non-numeric">pass</td>
+                    </tr>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">ROLE_CUSTOMER</td>
+                        <td class="mdl-data-table__cell--non-numeric">larrybird</td>
+                        <td class="mdl-data-table__cell--non-numeric">pass</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

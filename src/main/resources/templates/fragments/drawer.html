@@ -6,6 +6,12 @@
     </div>
     <div class="mdc-drawer__content">
         <div class="mdc-list">
+            <a th:class="'mdc-list-item' + ((${view} == 'home') ? ' mdc-list-item--activated' : '')"
+               th:href="@{/}"
+               th:aria-selected="${view == 'home'}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+                <span class="mdc-list-item__text">Home</span>
+            </a>
             <a th:class="'mdc-list-item' + ((${view} == 'products') ? ' mdc-list-item--activated' : '')"
                th:href="@{/products}"
                th:aria-selected="${view == 'products'}">

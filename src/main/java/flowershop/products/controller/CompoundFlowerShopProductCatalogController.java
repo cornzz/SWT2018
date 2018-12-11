@@ -32,8 +32,12 @@ public class CompoundFlowerShopProductCatalogController {
 		this.flowerShopServiceCatalog = flowerShopServiceCatalog;
 	}
 
+	// TODO: move to new controller
 	@RequestMapping("/")
-	public String index() {
+	public String index(@LoggedIn Optional<UserAccount> userAccountOptional) {
+		if (!userAccountOptional.isPresent()) {
+			return "home";
+		}
 		return "forward:/products";
 	}
 
