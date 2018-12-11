@@ -37,7 +37,7 @@
 
         </div>
     </div>
-    <button sec:authorize="hasRole('ROLE_BOSS')" th:replace="fragments/floating_action_button :: floating_action_button(@{/events/add})"></button>
+    <button sec:authorize="hasRole('ROLE_BOSS')" th:replace="fragments/floating_action_button :: floating_action_button(path = @{/events/add})"></button>
 </main>
 </body>
 </html>

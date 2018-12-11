@@ -1,7 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<form th:action="${action}" th:fragment="floating_action_button (action)">
+<form th:action="${path}" th:fragment="floating_action_button">
     <button class="mdc-fab fs-fab" aria-label="Favorite">
-        <span class="mdc-fab__icon material-icons">add</span>
+        <span th:if="${icon}" class="mdc-fab__icon material-icons" th:text="${icon}"></span>
+        <span th:unless="${icon}" class="mdc-fab__icon material-icons">add</span>
     </button>
 </form>
 </html>

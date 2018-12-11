@@ -59,7 +59,7 @@
             <div th:if="${param.deficit}" class="fs-snackbar-text" role="alert" hidden>Deficit registered.</div>
             <div th:if="${param.reorder}" class="fs-snackbar-text" role="alert" hidden>Reorder registered.</div>
 
-            <button th:replace="fragments/floating_action_button :: floating_action_button(@{/products/items/stock/add})"></button>
+            <button th:replace="fragments/floating_action_button :: floating_action_button(path = @{/products/items/stock/add})"></button>
         </div>
     </div>
 </main>

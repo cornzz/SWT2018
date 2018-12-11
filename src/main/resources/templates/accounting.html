@@ -45,7 +45,7 @@
                 </table>
             </div>
 
-            <button th:replace="fragments/floating_action_button :: floating_action_button(@{/accounting/transaction/add})"></button>
+            <button th:replace="fragments/floating_action_button :: floating_action_button(path = @{/accounting/transaction/add})"></button>
         </div>
     </div>
 </main>

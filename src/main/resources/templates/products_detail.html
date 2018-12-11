@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-    <button th:replace="fragments/floating_action_button :: floating_action_button(@{/cart/add/{id}(id=${product.id})})"></button>
+    <button th:replace="fragments/floating_action_button :: floating_action_button(path = @{/cart/add/{id}(id=${product.id})}, icon = 'add_shopping_cart')"></button>
 </main>
 </body>
 </html>
