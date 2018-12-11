@@ -7,6 +7,7 @@
     <div class="mdc-drawer__content">
         <div class="mdc-list">
             <a th:class="'mdc-list-item' + ((${view} == 'home') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="!isAuthenticated()"
                th:href="@{/}"
                th:aria-selected="${view == 'home'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
