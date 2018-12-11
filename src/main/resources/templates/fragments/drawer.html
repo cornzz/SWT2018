@@ -6,6 +6,13 @@
     </div>
     <div class="mdc-drawer__content">
         <div class="mdc-list">
+            <a th:class="'mdc-list-item' + ((${view} == 'home') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="!isAuthenticated()"
+               th:href="@{/}"
+               th:aria-selected="${view == 'home'}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+                <span class="mdc-list-item__text">Home</span>
+            </a>
             <a th:class="'mdc-list-item' + ((${view} == 'products') ? ' mdc-list-item--activated' : '')"
                th:href="@{/products}"
                th:aria-selected="${view == 'products'}">
@@ -33,15 +40,15 @@
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
                 <span class="mdc-list-item__text">Users</span>
             </a>
-            <a th:class="'mdc-list-item' + ((${view} == 'reorder') ? ' mdc-list-item--activated' : '')"
+            <a th:class="'mdc-list-item' + ((${view} == 'reorders') ? ' mdc-list-item--activated' : '')"
                sec:authorize="hasRole('ROLE_WHOLESALER')"
-               th:href="@{/products/reorder}"
-               th:aria-selected="${view == 'reorder'}">
+               th:href="@{/products/reorders}"
+               th:aria-selected="${view == 'reorders'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">all_inbox</i>
                 <span class="mdc-list-item__text">Reorders</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'orders') ? ' mdc-list-item--activated' : '')"
-               sec:authorize="isAuthenticated()"
+               sec:authorize="isAuthenticated() && !hasRole('ROLE_WHOLESALER')"
                th:href="@{/orders}"
                th:aria-selected="${view == 'orders'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">assignment</i>
@@ -53,6 +60,12 @@
                th:aria-selected="${view == 'accounting'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">attach_money</i>
                 <span class="mdc-list-item__text">Accounting</span>
+            </a>
+            <a th:class="'mdc-list-item' + ((${view} == 'events') ? ' mdc-list-item--activated' : '')"
+               th:href="@{/events}"
+               th:aria-selected="${view == 'events'}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">event</i>
+                <span class="mdc-list-item__text">Events</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'register') ? ' mdc-list-item--activated' : '')"
                sec:authorize="!isAuthenticated()"

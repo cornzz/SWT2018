@@ -1,6 +1,6 @@
 package flowershop.accounting;
 
-import flowershop.accounting.validation.TransactionDataTransferObject;
+import flowershop.accounting.form.TransactionDataTransferObject;
 import flowershop.order.Transaction;
 import org.javamoney.moneta.Money;
 import org.salespointframework.order.Order;

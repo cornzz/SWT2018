@@ -1,0 +1,29 @@
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Change Password</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header_dialog (title = 'Change Password', cancel_destination = ${form.action})">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <h5 th:if="${form.isEmpty}" class="mdc-typography--headline5">This user does not exist!</h5>
+
+            <form method="post" role="form" id="passwordForm" class="fs-form" th:unless="${form.isEmpty}" th:action="${form.action + '/changepass'}" th:object="${form}">
+                <div class="mdc-text-field">
+                    <input type="password" id="newPassword" class="mdc-text-field__input" th:field="*{password}">
+                    <label for="newPassword" class="mdc-floating-label">New Password</label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+
+                <button type="button" class="mdc-button" onclick="window.history.back()">Cancel</button>
+                <button type="submit" id="submitPassword" class="mdc-button mdc-button--raised">Submit</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

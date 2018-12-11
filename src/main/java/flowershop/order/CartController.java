@@ -33,14 +33,22 @@ public class CartController {
 
 	@RequestMapping("/cart/add/{product}")
 	String addToCart(@PathVariable Product product) {
+		if (product == null) {
+			return "redirect:/products";
+		}
 		return "add_to_cart";
 	}
 
 	@PostMapping("/cart/add")
 	String addToCart(@RequestParam("pid") Product product, @RequestParam("quantity") String qty, @ModelAttribute Cart cart, Model model) {
+		if (product == null) {
+			return "redirect:/products";
+		}
 		Integer quantity = validateQuantity(qty, model);
-		if (quantity == null)
+		if (quantity == null){
 			return "forward:/cart/add/" + product.getId();
+
+		}
 
 		CartItem newCartItem = cart.addOrUpdateItem(product, quantity);
 		if (!orderController.sufficientStock(cart)){
@@ -86,7 +94,7 @@ public class CartController {
 		return "order_confirm";
 	}
 
-	// TODO: move to external class (and make static)
+	// TODO: Find better solution, move to external class (and make static)
 	private Integer validateQuantity(String quantity, Model model) {
 		int qty;
 

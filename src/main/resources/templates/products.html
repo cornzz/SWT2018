@@ -28,7 +28,7 @@
         </div>
     </div>
     <button sec:authorize="hasRole('ROLE_BOSS')"
-            th:replace="fragments/floating_action_button :: floating_action_button(@{/products/add})"></button>
+            th:replace="fragments/floating_action_button :: floating_action_button(path = @{/products/add})"></button>
 </main>
 </body>
 </html>

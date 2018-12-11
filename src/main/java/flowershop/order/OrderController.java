@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 import java.util.stream.StreamSupport;
@@ -77,7 +78,7 @@ public class OrderController {
 
 	@GetMapping("/orders")
 	@PreAuthorize("isAuthenticated()")
-	String orders(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
+	ModelAndView orders(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
 		UserAccount user = loggedIn.get();
 		Streamable<Transaction> orders;
 
@@ -89,13 +90,11 @@ public class OrderController {
 			orders = transactionManager.findBy(user);
 		}
 
-		model.addAttribute("orders", orders);
-
-		return "orders";
+		return new ModelAndView("orders", "orders", orders);
 	}
 
 	@GetMapping("/order/update/{id}")
-	String updateOrderStatus(Model model, @PathVariable(name = "id") Optional<Transaction> orderOptional) {
+	String updateOrderStatus(@PathVariable(name = "id") Optional<Transaction> orderOptional) {
 		orderOptional.ifPresent(order -> {
 			if (order.getOrderStatus().equals(OPEN)) {// open->paid
 				transactionManager.payOrder(order);

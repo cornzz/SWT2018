@@ -10,13 +10,14 @@
         </section>
     </div>
 </header>
-<header class="mdc-top-app-bar mdc-top-app-bar--fixed fs-dialog-header" th:fragment="header_dialog (url)">
+<header class="mdc-top-app-bar mdc-top-app-bar--fixed fs-dialog-header" th:fragment="header_dialog">
     <div class="mdc-top-app-bar__row">
         <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-            <span class="mdc-top-app-bar__title">Dialog Title</span>
+            <span th:if="${title}" class="mdc-top-app-bar__title" th:text="${title}"></span>
+            <span th:unless="${title}" class="mdc-top-app-bar__title">Dialog Title</span>
         </section>
         <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-            <a th:href="${url}" class="material-icons mdc-top-app-bar__action-item" aria-label="Cancel" alt="Cancel">cancel</a>
+            <a th:href="${cancel_destination}" class="material-icons mdc-top-app-bar__action-item" aria-label="Cancel" alt="Cancel">cancel</a>
         </section>
     </div>
 </header>

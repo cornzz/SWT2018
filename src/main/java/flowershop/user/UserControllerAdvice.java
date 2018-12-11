@@ -11,15 +11,15 @@ import java.util.Optional;
 @ControllerAdvice
 public class UserControllerAdvice {
 
-		private final UserManagement userManagement;
+	private final UserManager userManager;
 
-		public UserControllerAdvice(UserManagement userManagement) {
-				this.userManagement = userManagement;
-		}
+	public UserControllerAdvice(UserManager userManager) {
+		this.userManager = userManager;
+	}
 
-		@ModelAttribute
-		public void addUserToModel(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
-				loggedIn.ifPresent(u -> model.addAttribute("loggedIn", userManagement.findByAccount(u).get()));
-		}
+	@ModelAttribute
+	public void addUserToModel(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
+		loggedIn.ifPresent(u -> model.addAttribute("loggedIn", userManager.findByAccount(u).get()));
+	}
 
 }

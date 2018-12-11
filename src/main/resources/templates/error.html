@@ -1,0 +1,19 @@
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header_dialog (title  = 'Error', cancel_destination = @{/})">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <h1 class="mdc-typography--headline" th:text="${statusCode}">418</h1>
+            <p class="mdc-typography--caption fs-error__caption" th:text="${exception}">I'm a teapot</p>
+        </div>
+    </div>
+</main>
+</body>
+</html>

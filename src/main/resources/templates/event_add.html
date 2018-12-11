@@ -1,0 +1,32 @@
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Item</title>
+</head>
+<body>
+<header th:replace="fragments/header :: header_dialog (title = 'Add Event', cancel_destination = @{/events})">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <form method="post" th:action="@{/events/add}">
+                <label for="title">Titel:</label>
+                <input type="text" pattern=".{5,}" title="Der Titel ist zu kurz." value="" name="title" id="title">
+                <br />
+                <label for="title">Inhalt:</label>
+                <input type="text" value="" name="text" id="text">
+                <br />
+                <label for="title">Tagen bis Beginn:</label>
+                <input type="text" value="0" name="begin" id="begin">
+                <br />
+                <label for="title">Dauer in Tagen:</label>
+                <input type="text" value="7" name="end" id="end"><br/>
+                <button type="submit">Hinzufügen</button>
+            </form>
+            <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" hidden></div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

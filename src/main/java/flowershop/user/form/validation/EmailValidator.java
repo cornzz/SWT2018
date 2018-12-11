@@ -1,11 +1,11 @@
-package flowershop.user.validation;
+package flowershop.user.form.validation;
 
 import java.util.Optional;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import flowershop.user.UserManagement;
+import flowershop.user.UserManager;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
 
@@ -13,11 +13,11 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
 		private static final String EMAIL_PATTERN = "^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-zA-Z0-9-]*[a-z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])+$";
 		private AuthenticationManager authenticationManager;
-		private UserManagement userManagement;
+		private UserManager userManager;
 
-		public EmailValidator(AuthenticationManager authenticationManager, UserManagement userManagement) {
+		public EmailValidator(AuthenticationManager authenticationManager, UserManager userManager) {
 				this.authenticationManager = authenticationManager;
-				this.userManagement = userManagement;
+				this.userManager = userManager;
 		}
 
 		@Override
@@ -31,7 +31,7 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
 		private boolean validateEmail(String email) {
 				Optional<UserAccount> loggedIn = authenticationManager.getCurrentUser();
-				if (userManagement.mailExists(email) && (!loggedIn.isPresent() || !loggedIn.get().getEmail().equals(email))) {
+				if (userManager.mailExists(email) && (!loggedIn.isPresent() || !loggedIn.get().getEmail().equals(email))) {
 						return false;
 				}
 				Pattern pattern = Pattern.compile(EMAIL_PATTERN);

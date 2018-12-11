@@ -1,20 +1,19 @@
-package flowershop.user.validation;
+package flowershop.user.form.validation;
 
-import java.util.Optional;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import flowershop.user.UserDataTransferObject;
-import flowershop.user.UserManagement;
+import flowershop.user.form.UserDataTransferObject;
+import flowershop.user.UserManager;
 import org.salespointframework.useraccount.AuthenticationManager;
 
 public class UsernameValidator implements ConstraintValidator<ValidUsername, Object> {
 
 		private AuthenticationManager authenticationManager;
-		private UserManagement userManagement;
+		private UserManager userManager;
 
-		public UsernameValidator(AuthenticationManager authenticationManager, UserManagement userManagement) {
+		public UsernameValidator(AuthenticationManager authenticationManager, UserManager userManager) {
 				this.authenticationManager = authenticationManager;
-				this.userManagement = userManagement;
+				this.userManager = userManager;
 		}
 
 		@Override
@@ -29,7 +28,7 @@ public class UsernameValidator implements ConstraintValidator<ValidUsername, Obj
 		private boolean validateUsername(UserDataTransferObject form, ConstraintValidatorContext context) {
 				String username = (form.getFirstName() + form.getLastName()).replaceAll("\\s", "").toLowerCase();
 				form.setUsername(username);
-				boolean isValid = !userManagement.nameExists(username);
+				boolean isValid = !userManager.nameExists(username);
 				if (!isValid) {
 						context.disableDefaultConstraintViolation(); // Prevent global error registration
 						context.buildConstraintViolationWithTemplate("{Dto.username.Taken}")
