@@ -10,12 +10,29 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h1>Product Detail</h1>
-            <span th:text="${product.name}">name</span>
-            <span th:text="${product.description}">description</span>
-            <span th:text="${product.price}">price</span>
+            <div class="fs-product-detail">
+                <div class="fs-product-detail__image"></div>
+                <h4 class="mdc-typography--headline4" th:text="${product.name}">Product Detail</h4>
+
+                <span class="mdc-typography--body1" th:text="${product.description}">description</span>
+
+                <h5 class="mdc-typography--headline5">Items</h5>
+
+                <th:block th:each="item : ${product.flowerShopItems}">
+                    <span class="mdc-typography--body2" th:text="'1 x ' + ${item.name}">item</span>
+                </th:block>
+
+                <h5 class="mdc-typography--headline5">Services</h5>
+
+                <th:block th:each="service : ${product.flowerShopServices}">
+                    <span class="mdc-typography--body2" th:text="'1 x ' + ${service.name}">item</span>
+                </th:block>
+
+                <h5 class="mdc-typography--headline5" th:text="${product.price}">Price</h5>
+            </div>
         </div>
     </div>
+    <button th:replace="fragments/floating_action_button :: floating_action_button(@{/cart/add/{id}(id=${product.id})})"></button>
 </main>
 </body>
 </html>
