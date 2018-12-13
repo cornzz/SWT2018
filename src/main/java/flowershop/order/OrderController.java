@@ -95,7 +95,7 @@ public class OrderController {
 
 	@GetMapping("/order/update/{id}")
 	String updateOrderStatus(@PathVariable(name = "id") Optional<Transaction> orderOptional) {
-		orderOptional.ifPresent(order -> {
+		return orderOptional.map(order -> {
 			if (order.getOrderStatus().equals(OPEN)) {// open->paid
 				transactionManager.payOrder(order);
 			} else if (order.getOrderStatus().equals(PAID)) {// paid->complete
@@ -114,9 +114,8 @@ public class OrderController {
 						.filter(inventoryItem -> !(inventoryItem.getProduct() instanceof FlowerShopItem))
 						.forEach(inventory::delete);
 			}
-		});
-
-		return "redirect:/orders";
+			return "redirect:/orders?update";
+		}).orElse("redirect:/orders");
 	}
 
 	@GetMapping("/order/{id}")
@@ -168,6 +167,5 @@ public class OrderController {
 				.reduce(Streamable.empty(), Streamable::and)
 				.filter(transaction -> transaction.getType().equals(ORDER));
 	}
-
 
 }

@@ -1,31 +1,31 @@
 <html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Add To Cart</title>
+    <title th:text="#{title.cart.add}">Add To Cart</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (title = 'Add to Cart', cancel_destination = @{/products})">
+<header th:replace="fragments/header :: header_dialog (title = #{title.cart.add}, cancel_destination = @{/products})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h5 class="mdc-typography--headline5" th:text="${product.name} + ' zum Warenkorb hinzufügen:'"></h5>
+            <h5 class="mdc-typography--headline5" th:text="#{cart.add.product(${product.name})}"></h5>
             <i><div class="mdc-typography--overline" th:text="${product.description}"></div></i>
             <form method="post" class="fs-form" action="/cart/add">
                 <input name="pid" value="0" th:value="${product.id}" hidden>
 
                 <div class="mdc-text-field">
                     <input type="text" pattern="(\d*)" value="1" name="quantity" id="quantity" class="mdc-text-field__input">
-                    <label for="quantity" class="mdc-floating-label">Anzahl:</label>
+                    <label for="quantity" class="mdc-floating-label" th:text="#{cart.quantity}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
 
-                <button type="submit" class="mdc-button mdc-button--raised">Hinzufügen</button>
+                <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.add}"></button>
             </form>
 
-            <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" hidden></div>
+            <div th:if="${message}" th:text="#{${message}}" class="fs-snackbar-text" hidden></div>
         </div>
     </div>
 </main>

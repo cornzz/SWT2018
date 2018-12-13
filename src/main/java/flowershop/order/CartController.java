@@ -36,7 +36,7 @@ public class CartController {
 		if (product == null) {
 			return "redirect:/products";
 		}
-		return "add_to_cart";
+		return "cart_add";
 	}
 
 	@PostMapping("/cart/add")
@@ -101,11 +101,11 @@ public class CartController {
 		try {
 			qty = Integer.valueOf(quantity);
 		} catch (NumberFormatException e) {
-			model.addAttribute("message", "Invalide Anzahl");
+			model.addAttribute("message", "cart.quantity.invalid");
 			return null;
 		}
 		if (qty <= 0) {
-			model.addAttribute("message", "Anzahl sollte positiv sein.");
+			model.addAttribute("message", "cart.quantity.positive");
 			return null;
 		}
 		return qty;

@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Home</title>
+    <title th:text="#{title.home}">Home</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('home')">
@@ -18,9 +18,9 @@
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Role</th>
-                        <th class="mdl-data-table__cell--non-numeric">Username</th>
-                        <th class="mdl-data-table__cell--non-numeric">Password</th>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{user.role}"></th>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{user.username}"></th>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{user.password}"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -47,6 +47,8 @@
                     </tbody>
                 </table>
             </div>
+
+            <div th:if="${param.logout}" th:text="#{snackbar.logout}" class="fs-snackbar-text" role="alert" hidden>Logout successful!</div>
         </div>
     </div>
 </main>

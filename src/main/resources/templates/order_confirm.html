@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Confirm Order</title>
+    <title th:text="#{title.order.confirm}">Confirm Order</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header_dialog (title = 'Confirm Order', cancel_destination = @{/products})">
@@ -11,31 +11,30 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <div th:if="${cart.empty}">
-                <h5 class="mdc-typography--headline5">Dein Warenkorb ist leer.</h5>
-            </div>
+            <h5 th:if="${cart.empty}" th:text="#{cart.empty}" class="mdc-typography--headline5"></h5>
+
 
             <div class="fs-mdl-wrapper" th:unless="${cart.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Produkt</th>
-                        <th>Beschreibung</th>
-                        <th>Anzahl</th>
-                        <th>Preis pro Stück</th>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{cart.product}"></th>
+                        <th th:text="#{cart.description}"></th>
+                        <th th:text="#{cart.quantity}"></th>
+                        <th th:text="#{cart.price.pp}"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="item : ${cart}">
-                        <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.name}">Tulpe</td>
-                        <td th:text="${item.product.description}">Eine Blume</td>
-                        <td th:text="${item.quantity}">15</td>
-                        <td th:text="${item.product.price}">EUR 10</td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.name}"></td>
+                        <td th:text="${item.product.description}"></td>
+                        <td th:text="${item.quantity}"></td>
+                        <td th:text="${item.product.price}"></td>
                     </tr>
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td>Gesamt:</td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="#{cart.price.total}"></td>
                         <td></td>
                         <td></td>
                         <td th:text="${cart.price}"></td>
@@ -45,9 +44,9 @@
             </div>
 
             <div class="fs-buttons">
-                <button type="submit" class="mdc-button" onclick="window.location='/cart'">Zurück</button>
-                <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/completeorder}">
-                    <button type="submit" class="mdc-button mdc-button--raised">Bestätigen</button>
+                <button type="submit" class="mdc-button" onclick="window.location='/cart'" th:text="#{menu.back}">Back</button>
+                <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/completeorder}" th:unless="${cart.empty}">
+                    <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.confirm}">Confirm</button>
                 </form>
             </div>
         </div>

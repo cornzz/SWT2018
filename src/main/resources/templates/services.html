@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Services</title>
+    <title th:text="#{title.services}">Services</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('services')">
@@ -20,14 +20,13 @@
                     <thead>
                     <tr>
                         <th class="mdl-data-table__cell--non-numeric">Service</th>
-                        <th>Base price</th>
-
+                        <th th:text="#{service.price}"></th>
                     </tr>
                     </thead>
                     <tbody th:remove="all-but-first">
                     <tr th:each=" service: ${services}">
-                        <td class="mdl-data-table__cell--non-numeric" th:text="${service.name}">watering flowers</td>
-                        <td th:text="${service.price}">3</td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${service.name}"></td>
+                        <td th:text="${service.price}"></td>
                     </tr>
                     </tbody>
                 </table>

@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
       xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Inventory</title>
+    <title th:text="#{title.inventory}">Inventory</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('inventory')">
@@ -19,11 +19,11 @@
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Item</th>
-                        <th>Base price</th>
-                        <th>Quantity</th>
-                        <th>Deficit</th>
-                        <th>Reorder</th>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{inventory.item}"></th>
+                        <th th:text="#{inventory.price.base}"></th>
+                        <th th:text="#{inventory.quantity}"></th>
+                        <th th:text="#{inventory.deficit}"></th>
+                        <th th:text="#{inventory.reorder}"></th>
                     </tr>
                     </thead>
                     <tbody th:remove="all-but-first">
@@ -36,9 +36,7 @@
                                   class="fs-table-input">
                                 <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="deficitQuantity" th:object="${deficitQuantity}">
                                 <span class="mdl-textfield__error">Input is not a number!</span>
-                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit">
-                                    Deficit
-                                </button>
+                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit" th:text="#{inventory.deficit}"></button>
                             </form>
                         </td>
                         <td>
@@ -46,9 +44,7 @@
                                   class="fs-table-input">
                                 <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="reorderQuantity" th:object="${reorderQuantity}">
                                 <span class="mdl-textfield__error">Input is not a number!</span>
-                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit">
-                                    Reorder
-                                </button>
+                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit" th:text="#{inventory.reorder}"></button>
                             </form>
                         </td>
                     </tr>
@@ -56,8 +52,9 @@
                 </table>
             </div>
 
-            <div th:if="${param.deficit}" class="fs-snackbar-text" role="alert" hidden>Deficit registered.</div>
-            <div th:if="${param.reorder}" class="fs-snackbar-text" role="alert" hidden>Reorder registered.</div>
+            <div th:if="${param.deficit}" th:text="#{inventory.deficit.success}" class="fs-snackbar-text" role="alert" hidden></div>
+            <div th:if="${param.reorder}" th:text="#{inventory.reorder.success}" class="fs-snackbar-text" role="alert" hidden></div>
+            <div th:if="${message}" th:text="#{${message}}" class="fs-snackbar-text" role="alert" hidden></div>
 
             <button th:replace="fragments/floating_action_button :: floating_action_button(path = @{/products/items/stock/add})"></button>
         </div>

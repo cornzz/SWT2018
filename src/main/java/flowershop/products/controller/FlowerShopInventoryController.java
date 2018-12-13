@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class FlowerShopInventoryController {
 		this.reorderManager = reorderManager;
 	}
 
-	@GetMapping("/products/items/stock")
+	@RequestMapping("/products/items/stock")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String inventory(Model model) {
 		model.addAttribute("inventory", inventory.findAll());
@@ -49,9 +50,13 @@ public class FlowerShopInventoryController {
 
 	@PostMapping("/products/items/stock/deficit/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String deficit(@PathVariable InventoryItemIdentifier id, int deficitQuantity, @LoggedIn Optional<UserAccount> userAccount) {
+	public String deficit(@PathVariable InventoryItemIdentifier id, String deficitQuantity, Model model, @LoggedIn Optional<UserAccount> userAccount) {
+		Long quantity = validateQuantity(deficitQuantity, model);
+		if (quantity == null) {
+			return "forward:/products/items/stock";
+		}
 		return inventory.findById(id).map(inventoryItem -> {
-			inventoryItem.decreaseQuantity(Quantity.of(deficitQuantity));
+			inventoryItem.decreaseQuantity(Quantity.of(quantity));
 			inventory.save(inventoryItem);
 			reorderManager.refillInventory();
 			return "redirect:/products/items/stock?deficit";
@@ -60,9 +65,13 @@ public class FlowerShopInventoryController {
 
 	@PostMapping("/products/items/stock/reorder/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String reorder(@PathVariable InventoryItemIdentifier id, int reorderQuantity, @LoggedIn Optional<UserAccount> userAccount) {
+	public String reorder(@PathVariable InventoryItemIdentifier id, String reorderQuantity, Model model, @LoggedIn Optional<UserAccount> userAccount) {
+		Long quantity = validateQuantity(reorderQuantity, model);
+		if (quantity == null) {
+			return "forward:/products/items/stock";
+		}
 		return inventory.findById(id).map(inventoryItem -> {
-			reorderManager.createReorder(inventoryItem, Quantity.of(reorderQuantity));
+			reorderManager.createReorder(inventoryItem, Quantity.of(quantity));
 			return "redirect:/products/items/stock?reorder";
 		}).orElse("redirect:/products/items/stock");
 	}
@@ -81,6 +90,23 @@ public class FlowerShopInventoryController {
 		inventory.save(new InventoryItem(item, Quantity.of(amount)));
 
 		return "redirect:/products/items/stock";
+	}
+
+	// TODO: Find better solution, move to external class (and make static)
+	private Long validateQuantity(String quantity, Model model) {
+		long qty;
+
+		try {
+			qty = Long.valueOf(quantity);
+		} catch (NumberFormatException e) {
+			model.addAttribute("message", "inventory.quantity.invalid");
+			return null;
+		}
+		if (qty <= 0) {
+			model.addAttribute("message", "inventory.quantity.positive");
+			return null;
+		}
+		return qty;
 	}
 
 }

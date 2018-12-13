@@ -1,0 +1,48 @@
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="#{title.event.list}">Events</title>
+</head>
+<body>
+<aside th:replace="fragments/drawer :: drawer('events')">
+    <!-- since this is a nested replace it can't be empty -->
+    Drawer
+</aside>
+<header th:replace="fragments/header :: header_catalog(_)">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <h4 th:if="${events.empty}">No orders!</h4>
+
+            <div class="fs-mdl-wrapper" th:unless="${events.empty}">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th th:text="#{event.title}" class="mdl-data-table__cell--non-numeric"></th>
+                        <th th:text="#{event.begin}"></th>
+                        <th th:text="#{event.end}"></th>
+                        <th th:text="#{event.created}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="event : ${events}">
+                        <td><a th:href="@{/event/show?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">pageview</a></td>
+                        <td th:text="${event.title}">Title</td>
+                        <td th:text="${event.formatedBeginTime}"></td>
+                        <td th:text="${event.formatedEndTime}"></td>
+                        <td th:text="${event.formatedCreatedTime}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <button sec:authorize="hasRole('ROLE_BOSS')" th:replace="fragments/floating_action_button :: floating_action_button(path = @{/event/add})"></button>
+</main>
+</body>
+</html>

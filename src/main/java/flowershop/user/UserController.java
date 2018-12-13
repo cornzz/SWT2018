@@ -63,7 +63,7 @@ public class UserController {
 		} catch (ServletException e) {
 		}
 
-		return new ModelAndView("forward:/", "message", String.format("Thank you for signing up, %s!", form.getFirstName()));
+		return new ModelAndView("forward:/", "newUser", form.getFirstName());
 	}
 
 	@GetMapping("/account")

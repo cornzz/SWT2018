@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Cart</title>
+    <title th:text="#{title.event}">Event</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header_dialog (title = 'Event', cancel_destination = @{/events})">
@@ -11,9 +11,8 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h2 th:text="${event.title}">Title</h2>
-            <span th:if="${active}">Das Event ist aktiv.</span>
-            <span th:unless="${active}">Das Event ist unaktiv.</span>
+            <h2 th:text="${event.title}"></h2>
+            <span th:text="${active} ? #{event.active} : #{event.inactive(${event.formatedBeginTime})}"></span>
             <span th:text="${event.text}">Text</span>
             <a th:href="@{/events}">
                 <button type="button">Zurück</button>

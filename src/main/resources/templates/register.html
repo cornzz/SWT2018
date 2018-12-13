@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Register</title>
+    <title th:text="#{title.register}">Register</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('register')">
@@ -21,12 +21,12 @@
                 <div class="fs-form__row">
                     <div class="mdc-text-field">
                         <input type="text" id="firstName" class="mdc-text-field__input" th:field="*{firstName}">
-                        <label for="firstName" class="mdc-floating-label">First Name</label>
+                        <label for="firstName" class="mdc-floating-label" th:text="#{user.firstname}"></label>
                         <div class="mdc-line-ripple"></div>
                     </div>
                     <div class="mdc-text-field">
                         <input type="text" id="lastName" class="mdc-text-field__input" th:field="*{lastName}">
-                        <label for="lastName" class="mdc-floating-label">Last Name</label>
+                        <label for="lastName" class="mdc-floating-label" th:text="#{user.lastname}"></label>
                         <div class="mdc-line-ripple"></div>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                 <!-- E-Mail -->
                 <div class="mdc-text-field">
                     <input type="email" id="email" class="mdc-text-field__input" th:field="*{email}">
-                    <label for="email" class="mdc-floating-label">E-Mail</label>
+                    <label for="email" class="mdc-floating-label" th:text="#{user.email}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <div th:each="error : ${#fields.errors('email')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
@@ -50,7 +50,7 @@
                 <!-- Phone -->
                 <div class="mdc-text-field">
                     <input type="tel" id="phone" class="mdc-text-field__input" th:field="*{phone}">
-                    <label for="phone" class="mdc-floating-label">Phone</label>
+                    <label for="phone" class="mdc-floating-label" th:text="#{user.phone}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <div th:each="error : ${#fields.errors('phone')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
@@ -58,15 +58,13 @@
                 <!-- Password -->
                 <div class="mdc-text-field">
                     <input type="password" id="newPassword" class="mdc-text-field__input" th:field="*{password}">
-                    <label for="newPassword" class="mdc-floating-label">Password</label>
+                    <label for="newPassword" class="mdc-floating-label" th:text="#{user.password}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
-                <p id="username-helper-text" class="mdc-text-field-helper-text" aria-hidden="true">
-                    We'll never share your password with anyone.
-                </p>
+                <p id="username-helper-text" class="mdc-text-field-helper-text" aria-hidden="true" th:text="#{user.password.helper}"></p>
                 <div class="mdc-text-field">
                     <input type="password" id="newPasswordRepeat" class="mdc-text-field__input" th:field="*{passwordRepeat}">
-                    <label for="newPasswordRepeat" class="mdc-floating-label">Confirm Password</label>
+                    <label for="newPasswordRepeat" class="mdc-floating-label" th:text="#{user.password.confirm}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <div th:if="${#fields.hasErrors('passwordRepeat') || #fields.hasErrors('password')}"
@@ -75,8 +73,8 @@
                     Passwords have to match!
                 </div>
 
-                <button type="button" class="mdc-button" onclick="window.location='/'">Cancel</button>
-                <button type="submit" class="mdc-button mdc-button--raised">Register</button>
+                <button type="button" class="mdc-button" onclick="window.location='/'" th:text="#{menu.cancel}"></button>
+                <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.register}"></button>
             </form>
         </div>
     </div>

@@ -1,21 +1,29 @@
 <html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Product</title>
+    <title th:text="#{title.products.edit}">Edit Product</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (title = 'Edit Product', cancel_destination = @{/products})">
+<header th:replace="fragments/header :: header_dialog (title = #{title.products.edit}, cancel_destination = @{/products})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h1>Edit Product</h1>
-            <form method="post" th:action="@{/products/__${product.id}__}" class="fs-form">
-                <input type="text" th:field="${product.name}" class="fs-form__row">name</input>
-                <input type="text" th:field="${product.description}" class="fs-form__row">description</input>
-                <span th:text="${product.price}">price</span>
-                <button type="submit">Save</button>
+            <h3>Edit Product</h3>
+            <form method="post" class="fs-form" th:action="@{/products/__${product.id}__}">
+                <div class="mdc-text-field">
+                    <input type="text" id="tf-outlined" class="mdc-text-field__input" th:field="${product.name}">
+                    <label for="tf-outlined" class="mdc-floating-label" th:text="#{product.name}"></label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <div class="mdc-text-field">
+                    <input type="text" id="tf2-outlined" class="mdc-text-field__input" th:field="${product.description}">
+                    <label for="tf2-outlined" class="mdc-floating-label" th:text="#{product.description}"></label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <span th:text="${product.price}"></span>
+                <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.save}"></button>
             </form>
         </div>
     </div>

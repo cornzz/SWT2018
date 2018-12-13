@@ -1,14 +1,10 @@
-<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
-      xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Login</title>
+    <title th:text="#{title.login}">Sign in</title>
 </head>
 <body>
-<aside th:replace="fragments/drawer :: drawer('login')">
-    <!-- since this is a nested replace it can't be empty -->
-    Drawer
-</aside>
-<header th:replace="fragments/header :: header_catalog(_)">
+<header th:replace="fragments/header :: header_dialog (title = #{title.login}, cancel_destination = @{/})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
@@ -18,23 +14,21 @@
             <form role="form" class="fs-form" th:action="@{/login}" method="post">
                 <div class="mdc-text-field">
                     <input type="text" id="username" name="username" autofocus="autofocus" class="mdc-text-field__input" required>
-                    <label for="username" class="mdc-floating-label">Username</label>
+                    <label for="username" class="mdc-floating-label" th:text="#{user.username}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
-                <p class="mdc-text-field-helper-text" aria-hidden="true">
-                    Your username is your first and last name combined.
-                </p>
+                <p class="mdc-text-field-helper-text" aria-hidden="true" th:text="#{user.username.helper}"></p>
 
                 <div class="mdc-text-field">
                     <input type="password" id="password" name="password" class="mdc-text-field__input" required>
-                    <label for="password" class="mdc-floating-label">Password</label>
+                    <label for="password" class="mdc-floating-label" th:text="#{user.password}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
 
-                <div th:if="${param.error}" class="fs-snackbar-text" role="alert" hidden>Invalid username or password!</div>
-
-                <button type="submit" class="mdc-button mdc-button--raised">Login</button>
+                <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.login}">Sign in</button>
             </form>
+
+            <div th:if="${param.error}" class="fs-snackbar-text" role="alert" hidden th:text="#{snackbar.login.error}"></div>
         </div>
     </div>
 </main>

@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Products</title>
+    <title th:text="#{title.products}">Products</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('products')">
@@ -23,8 +23,7 @@
                 </th:block>
             </div>
 
-            <div th:if="${param.logout}" class="fs-snackbar-text" role="alert" hidden>Logout successful!</div>
-            <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" role="alert" hidden></div>
+            <div th:if="${newUser}" th:text="#{snackbar.welcome(${newUser})}" class="fs-snackbar-text" role="alert" hidden></div>
         </div>
     </div>
     <button sec:authorize="hasRole('ROLE_BOSS')"
