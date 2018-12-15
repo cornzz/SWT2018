@@ -1,14 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div class="fs-card mdc-card" th:fragment="product_card (product)">
-    <div class="mdc-card__primary-action">
-        <div class="fs-card__media mdc-card__media mdc-card__media--16-9" th:style="'background-image: url(' + ${product.image} + ')'"></div>
-        <div class="fs-card__primary">
-            <h2 class="fs-card__title mdc-typography--headline6" th:text="${product.name}"></h2>
-            <h3 class="fs-card__subtitle mdc-typography--subtitle2" th:text="${product.price}"></h3>
-        </div>
-        <div class="fs-card__secondary mdc-typography--body2" th:text="${product.description}">
-            CompoundFlowerShopProduct in an Arched Window, Ambrosius Bosschaert, circa 1618-1620. The earliest formal flower arrangements in Europe were Dutch, as shown in many paintings of the 17th century.
-        </div>
+    <div class="fs-card__media mdc-card__media mdc-card__media--16-9" th:style="'background-image: url(' + ${product.image} + ')'"></div>
+    <div class="fs-card__primary">
+        <h2 class="fs-card__title mdc-typography--headline6" th:text="${product.name}"></h2>
+        <h3 class="fs-card__subtitle mdc-typography--subtitle2" th:text="${product.price}"></h3>
+    </div>
+    <div class="fs-card__secondary mdc-typography--body2" th:text="${product.description}">
+        CompoundFlowerShopProduct in an Arched Window, Ambrosius Bosschaert, circa 1618-1620. The earliest formal flower arrangements in Europe were
+        Dutch, as shown in many paintings of the 17th century.
     </div>
     <div class="mdc-card__actions">
         <div class="mdc-card__action-buttons">
@@ -17,7 +16,7 @@
             </form>
         </div>
         <div class="mdc-card__action-icons">
-            <form th:action="@{/cart/add/{id}(id=${product.id})}" >
+            <form th:action="@{/cart/add/{id}(id=${product.id})}">
                 <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Add to cart">add_shopping_cart</button>
             </form>
         </div>
