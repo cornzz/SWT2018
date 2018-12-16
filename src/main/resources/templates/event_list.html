@@ -15,7 +15,7 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h4 th:if="${events.empty}">No orders!</h4>
+            <h4 th:if="${events.empty}">No events!</h4>
 
             <div class="fs-mdl-wrapper" th:unless="${events.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
@@ -26,6 +26,8 @@
                         <th th:text="#{event.begin}"></th>
                         <th th:text="#{event.end}"></th>
                         <th th:text="#{event.created}"></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -35,6 +37,16 @@
                         <td th:text="${event.formatedBeginTime}"></td>
                         <td th:text="${event.formatedEndTime}"></td>
                         <td th:text="${event.formatedCreatedTime}"></td>
+                        <td>
+                            <a sec:authorize="hasRole('ROLE_BOSS')" th:href="@{/event/edit?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">
+                                settings
+                            </a>
+                        </td>
+                        <td>
+                            <a sec:authorize="hasRole('ROLE_BOSS')" th:href="@{/event/remove?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">
+                                delete
+                            </a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

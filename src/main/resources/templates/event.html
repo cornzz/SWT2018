@@ -13,7 +13,14 @@
         <div class="fs-content-wrapper">
             <h2 th:text="${event.title}"></h2>
             <span th:text="${active} ? #{event.active} : #{event.inactive(${event.formatedBeginTime})}"></span>
-            <span th:text="${event.text}">Text</span>
+            <div th:each="line : ${event.textLines}">
+                    <span th:text="${line}">A big textLine. A big textLine. A big textLine. A big textLine. A big textLine.
+                        A big textLine. A big textLine. A big textLine. A big textLine. A big textLine. A big textLine.
+                        A big textLine. A big textLine. A big textLine. A big textLine. A big textLine. A big textLine.
+                        A big textLine. A big textLine. A big textLine. A big textLine. A big textLine. A big textLine.
+                        A big textLine. A big textLine. A big textLine. A big textLine. A big textLine. A big
+                        textLine. </span><br /></div>
+            </article>
             <a th:href="@{/events}">
                 <button type="button">Zurück</button>
             </a>
