@@ -124,28 +124,28 @@ public class EventController {
 	@GetMapping("/event/edit/btm")
 	public String beginTimeMinus(@RequestParam(value = "id") long eventId) {
 		beginTimeEdit--;
-		return "forward:/events/edit?id=" + eventId;
+		return "forward:/event/edit?id=" + eventId;
 	}
 
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	@GetMapping("/event/edit/btp")
 	public String beginTimePlus(@RequestParam(value = "id") long eventId) {
 		beginTimeEdit++;
-		return "forward:/events/edit?id=" + eventId;
+		return "forward:/event/edit?id=" + eventId;
 	}
 
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	@GetMapping("/event/edit/etm")
 	public String endTimeMinus(@RequestParam(value = "id") long eventId) {
 		endTimeEdit--;
-		return "forward:/events/edit?id=" + eventId;
+		return "forward:/event/edit?id=" + eventId;
 	}
 
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	@GetMapping("/event/edit/etp")
 	public String endTimePlus(@RequestParam(value = "id") long eventId) {
 		endTimeEdit++;
-		return "forward:/events/edit?id=" + eventId;
+		return "forward:/event/edit?id=" + eventId;
 	}
 
 	private LocalDateTime convertToLocalDateTime(String date) throws Exception {
