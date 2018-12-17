@@ -1,59 +1,62 @@
 <html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{title.event.add}">Add Event</title>
+    <title>Add Item</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (title = #{title.event.add}, cancel_destination = @{/events})">
+<header th:replace="fragments/header :: header_dialog (title = 'Add Event', cancel_destination = @{/events})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form method="post" class="fs-form" th:action="@{/event/add}">
+            <form method="post" th:action="@{/event/edit}">
                 <table>
                     <tr>
                         <td>
-                            <input name="id" hidden>
+                            <input name="id" th:value="${event.id}" hidden>
                             <label>Titel:</label></td>
                         <td>
                             <input type="text" size="100" pattern=".{5,}" title="Der Titel ist zu kurz."
-                                   name="title" id="title" required></td>
+                                   th:value="${event.title}" name="title" id="title" required></td>
                         <br/></tr>
                     <tr>
                         <td>
                             <label>Inhalt:</label></td>
                         <td>
-                            <textarea rows="8" cols="100" type="text" size="200" name="text"
-                                      id="text" maxlength="4000" wrap="hard" required></textarea>
+                            <textarea rows="8" cols="100" type="text" size="200" th:value="${event.text}" name="text"
+                                      id="text" maxlength="4000" wrap="hard" required>[[${event.text}]]</textarea>
                             <br/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label>Tagen bis Beginn:</label></td>
+                            <label>Beginn:</label></td>
                         <td>
-                            <input type="text" value="0" name="begin" id="begin">
+                            <a th:href="@{/event/edit/btm?id={id} (id=${event.id})}">-</a>
+                            <input type="text" size="12" th:value="${beginTime}" name="begin" id="begin">
+                            <a th:href="@{/event/edit/btp?id={id} (id=${event.id})}">+</a>
                             <br/></td>
                     </tr>
                     <tr>
                         <td>
-                            <label></label>Dauer in Tagen:</label></td>
+                            <label>Ende:</label></td>
                         <td>
-                            <input type="text" value="7" name="end" id="end">
+                            <a th:href="@{/event/edit/etm?id={id} (id=${event.id})}"><b>-</b></a>
+                            <input type="text" size="12" th:value="${endTime}" name="end" id="end">
+                            <a th:href="@{/event/edit/etp?id={id} (id=${event.id})}"><b>+</b></a>
                             <br/></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>
-                            <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.add}">Hinzufugen</button>
+                            <button type="submit">Bearbeiten</button>
                             <button type="button" onclick="window.location='/events'">Zurück</button>
                         </td>
                     </tr>
                 </table>
             </form>
-
-            <div th:if="${message}" th:text="#{${message}}" class="fs-snackbar-text" hidden></div>
+            <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" hidden></div>
         </div>
     </div>
 </main>

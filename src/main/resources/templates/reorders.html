@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
       xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Reorders</title>
+    <title th:text="#{title.reorders}">Reorders</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('reorders')">
@@ -15,28 +15,26 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h4 th:if="${transactions.empty}">No reorders!</h4>
+            <h4 th:if="${transactions.empty}" th:text="#{reorder.empty}">No reorders!</h4>
 
             <div class="fs-mdl-wrapper" th:unless="${transactions.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Item</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Send</th>
+                        <th th:text="#{reorder.item}" class="mdl-data-table__cell--non-numeric"></th>
+                        <th th:text="#{reorder.quantity}"></th>
+                        <th th:text="#{reorder.price}"></th>
+                        <th th:text="#{reorder.send}"></th>
                     </tr>
                     </thead>
                     <tbody th:remove="all-but-first">
                     <tr th:each="transaction : ${transactions}">
-                        <td class="mdl-data-table__cell--non-numeric" th:text="${transaction.description}">item</td>
-                        <td th:text="${transaction.quantity}">5</td>
-                        <td th:text="${transaction.price.negate()}">5</td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${transaction.description}"></td>
+                        <td th:text="${transaction.quantity}"></td>
+                        <td th:text="${transaction.price.negate()}"></td>
                         <td>
                             <form sec:authorize="hasRole('ROLE_WHOLESALER')" method="post" th:action="@{/products/reorders/send/{id}(id=${transaction.id})}">
-                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit">
-                                    Send
-                                </button>
+                                <button th:text="#{reorder.send}" class="mdl-button mdl-js-button mdl-button--colored" type="submit"></button>
                             </form>
                         </td>
                     </tr>
@@ -44,7 +42,7 @@
                 </table>
             </div>
 
-            <div th:if="${param.success}" class="fs-snackbar-text" hidden>Reorder sent!</div>
+            <div th:if="${param.success}" th:text="#{reorder.success}" class="fs-snackbar-text" hidden></div>
         </div>
     </div>
 </main>

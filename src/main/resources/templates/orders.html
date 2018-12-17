@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Orders</title>
+    <title th:text="#{title.orders}">Orders</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('orders')">
@@ -15,17 +15,17 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h4 th:if="${orders.empty}">No orders!</h4>
+            <h4 th:if="${orders.empty}" th:text="#{order.list.empty}"></h4>
 
             <div class="fs-mdl-wrapper" th:unless="${orders.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Order</th>
-                        <th sec:authorize="hasRole('ROLE_BOSS')">Made by</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th sec:authorize="hasRole('ROLE_BOSS')">Mark as</th>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{order.list.id}"></th>
+                        <th sec:authorize="hasRole('ROLE_BOSS')" th:text="#{order.list.madeby}"></th>
+                        <th th:text="#{order.list.total}"></th>
+                        <th th:text="#{order.list.status}"></th>
+                        <th sec:authorize="hasRole('ROLE_BOSS')" th:text="#{order.list.markas}"></th>
                     </tr>
                     </thead>
                     <tbody th:remove="all-but-first">
@@ -33,20 +33,20 @@
                         <td class="mdl-data-table__cell--non-numeric"><a th:href="@{/order/{id} (id=${order.id})}" th:text="${order.id}"></a></td>
                         <td th:text="${order.userAccount.username}" sec:authorize="hasRole('ROLE_BOSS')"></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(order.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></td>
-                        <td th:text="${order.orderStatus}"></td>
+                        <td th:text="#{'order.list.status.' + ${order.orderStatus}}"></td>
                         <td sec:authorize="hasRole('ROLE_BOSS')">
                             <a th:href="@{/order/update/{id} (id=${order.id})}">
-                                <button class="mdl-button mdl-js-button mdl-button--colored" th:if="${order.orderStatus == statusOpen}" type="button">
-                                    Paid
-                                </button>
-                                <button class="mdl-button mdl-js-button mdl-button--colored" th:if="${order.orderStatus == statusPaid}" type="button">
-                                    Completed
-                                </button>
+                                <button class="mdl-button mdl-js-button mdl-button--colored" th:if="${order.orderStatus == statusOpen}"
+                                        th:text="#{order.list.button.paid}" type="button"></button>
+                                <button class="mdl-button mdl-js-button mdl-button--colored" th:if="${order.orderStatus == statusPaid}"
+                                        th:text="#{order.list.button.completed}" type="button"></button>
                             </a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+
+                <div th:if="${param.update}" th:text="#{order.list.status.update}" class="fs-snackbar-text" role="alert" hidden></div>
             </div>
         </div>
     </div>

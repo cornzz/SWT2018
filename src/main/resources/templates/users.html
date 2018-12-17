@@ -1,6 +1,6 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Registered Users</title>
+    <title th:text="#{title.users}">Registered Users</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('users')">
@@ -18,10 +18,10 @@
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Username</th>
-                        <th>Role</th>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{user.username}"></th>
+                        <th th:text="#{user.role}"></th>
                         <th>E-Mail</th>
-                        <th>Phone</th>
+                        <th th:text="#{user.phone}"></th>
                     </tr>
                     </thead>
                     <tbody th:remove="all-but-first">

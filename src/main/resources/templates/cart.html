@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Cart</title>
+    <title th:text="#{title.cart}">Cart</title>
 </head>
 <body>
 <header th:replace="fragments/header :: header_dialog (title = 'Cart', cancel_destination = @{/products})">
@@ -11,18 +11,18 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h5 th:if="${cart.empty}" class="mdc-typography--headline5">Dein Warenkorb ist leer.</h5>
+            <h5 th:if="${cart.empty}" th:text="#{cart.empty}" class="mdc-typography--headline5">Your cart is empty.</h5>
 
             <div class="fs-mdl-wrapper" th:unless="${cart.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Produkt</th>
-                        <th>Beschreibung</th>
-                        <th>Anzahl</th>
-                        <th>Preis pro Stück</th>
-                        <th>Anzahl bearbeiten</th>
-                        <th>Entfernen</th>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{cart.product}"></th>
+                        <th th:text="#{cart.description}"></th>
+                        <th th:text="#{cart.quantity}"></th>
+                        <th th:text="#{cart.price.pp}"></th>
+                        <th th:text="#{cart.quantity.edit}"></th>
+                        <th th:text="#{cart.remove}"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -35,26 +35,24 @@
                             <form method="post" class="fs-table-input" th:action="@{/cart/edit?id={id} (id=${item.id})}">
                                 <input type="text" pattern="(\d*)" th:value="${item.quantity}" name="quantity" id="quantity"
                                        class="mdl-textfield__input">
-                                <button type="submit" class="mdl-button mdl-js-button mdl-button--colored">Bearbeiten</button>
+                                <button type="submit" class="mdl-button mdl-js-button mdl-button--colored" th:text="#{cart.edit}"></button>
                             </form>
                         </td>
                         <td>
-                            <a th:href="@{/cart/remove?id={id} (id=${item.id})}" class="mdl-button mdl-js-button mdl-button--colored">
-                                Entfernen
-                            </a>
+                            <a th:href="@{/cart/remove?id={id} (id=${item.id})}" class="mdl-button mdl-js-button mdl-button--colored" th:text="#{cart.remove}"></a>
                         </td>
                     </tr>
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td>Gesamt:</td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="#{cart.price.total}"></td>
                         <td></td>
                         <td></td>
                         <td th:text="${cart.price}"></td>
                         <td></td>
                         <td>
                             <a sec:authorize="hasRole('ROLE_CUSTOMER')" href="/checkout"
-                               class="mdl-button mdl-js-button mdl-button--colored">Kaufen</a>
+                               class="mdl-button mdl-js-button mdl-button--colored" th:text="#{cart.buy}"></a>
                         </td>
                     </tr>
                     </tfoot>
@@ -63,7 +61,7 @@
 
             <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" hidden></div>
             <div class="fs-buttons">
-                <button type="button" class="mdc-button mdc-button--raised" onclick="window.location='/'">Weitershoppen</button>
+                <button type="button" class="mdc-button mdc-button--raised" onclick="window.location='/'" th:text="#{cart.continueshopping}"></button>
             </div>
         </div>
     </div>

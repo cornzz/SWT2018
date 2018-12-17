@@ -81,4 +81,5 @@ public class Transaction extends Order {
 		this.price = price;
 		this.description = description;
 	}
+
 }

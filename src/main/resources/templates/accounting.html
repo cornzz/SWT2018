@@ -1,6 +1,6 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Accounting</title>
+    <title th:text="#{title.accounting}">Accounting</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('accounting')">
@@ -14,16 +14,16 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h4 th:if="${transactions.empty}">No transactions!</h4>
+            <h4 th:if="${transactions.empty}" th:text="#{accounting.empty}"></h4>
 
             <div class="fs-mdl-wrapper" th:unless="${transactions.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">ID</th>
-                        <th>Type</th>
-                        <th>Date</th>
-                        <th>Total</th>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{accounting.id}"></th>
+                        <th th:text="#{accounting.type}"></th>
+                        <th th:text="#{accounting.date}"></th>
+                        <th th:text="#{accounting.amount}"></th>
                     </tr>
                     </thead>
                     <tbody th:remove="all-but-first">
@@ -36,7 +36,7 @@
                     </tbody>
                     <tfoot>
                     <t>
-                        <td>Sum</td>
+                        <td th:text="#{accounting.total}"></td>
                         <td></td>
                         <td></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(total.number, 0, 'COMMA', 2, 'POINT')}"></td>

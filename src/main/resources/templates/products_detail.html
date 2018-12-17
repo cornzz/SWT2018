@@ -1,9 +1,9 @@
 <html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Product</title>
+    <title th:text="#{title.products.detail}">Product</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (title = 'Product Details', cancel_destination = @{/products})">
+<header th:replace="fragments/header :: header_dialog (title = #{title.products.detail}, cancel_destination = @{/products})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
@@ -12,23 +12,23 @@
         <div class="fs-content-wrapper">
             <div class="fs-product-detail">
                 <div class="fs-product-detail__image" th:style="'background-image: url(' + ${product.image} + ')'"></div>
-                <h4 class="mdc-typography--headline4" th:text="${product.name}">Product Detail</h4>
+                <h4 class="mdc-typography--headline4" th:text="${product.name}"></h4>
 
-                <span class="mdc-typography--body1" th:text="${product.description}">description</span>
+                <span class="mdc-typography--body1" th:text="${product.description}"></span>
 
-                <h5 class="mdc-typography--headline5">Items</h5>
+                <h5 class="mdc-typography--headline5" th:text="#{product.detail.items}"></h5>
 
                 <th:block th:each="item : ${product.flowerShopItems}">
-                    <span class="mdc-typography--body2" th:text="'1 x ' + ${item.name}">item</span>
+                    <span class="mdc-typography--body2" th:text="'1 x ' + ${item.name}"></span>
                 </th:block>
 
-                <h5 class="mdc-typography--headline5">Services</h5>
+                <h5 class="mdc-typography--headline5" th:text="#{product.detail.services}"></h5>
 
                 <th:block th:each="service : ${product.flowerShopServices}">
-                    <span class="mdc-typography--body2" th:text="'1 x ' + ${service.name}">item</span>
+                    <span class="mdc-typography--body2" th:text="'1 x ' + ${service.name}"></span>
                 </th:block>
 
-                <h5 class="mdc-typography--headline5" th:text="${product.price}">Price</h5>
+                <h5 class="mdc-typography--headline5" th:text="${product.price}"></h5>
             </div>
         </div>
     </div>
