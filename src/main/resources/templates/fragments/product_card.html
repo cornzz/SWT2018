@@ -17,7 +17,7 @@
         </div>
         <div class="mdc-card__action-icons">
             <form th:action="@{/cart/add/{id}(id=${product.id})}">
-                <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" title="Add to cart">add_shopping_cart</button>
+                <button class="material-icons mdc-icon-button mdc-card__action mdc-card__action--icon" th:title="#{product.add.cart}">add_shopping_cart</button>
             </form>
         </div>
     </div>

@@ -18,28 +18,61 @@ package flowershop;
 import org.salespointframework.EnableSalespoint;
 import org.salespointframework.SalespointSecurityConfiguration;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import java.util.Locale;
 
 @EnableSalespoint
 public class Application {
 
-		public static void main(String[] args) {
-				SpringApplication.run(Application.class, args);
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
+
+	@Configuration
+	static class WebSecurityConfiguration extends SalespointSecurityConfiguration {
+
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			http.csrf().disable();
+
+			http.authorizeRequests().antMatchers("/**").permitAll().and()
+					.formLogin().loginPage("/login").loginProcessingUrl("/login").and()
+					.logout().logoutUrl("/logout").logoutSuccessUrl("/?logout").and()
+					.exceptionHandling().accessDeniedPage("/accessDenied");
 		}
 
-		@Configuration
-		static class WebSecurityConfiguration extends SalespointSecurityConfiguration {
+	}
 
-				@Override
-				protected void configure(HttpSecurity http) throws Exception {
-						http.csrf().disable();
+	@Configuration
+	static class FlowerShopWebConfiguration implements WebMvcConfigurer {
 
-						http.authorizeRequests().antMatchers("/**").permitAll().and()
-								.formLogin().loginPage("/login").loginProcessingUrl("/login").and()
-								.logout().logoutUrl("/logout").logoutSuccessUrl("/?logout").and()
-								.exceptionHandling().accessDeniedPage("/accessDenied");
-				}
+		@Bean
+		public LocaleResolver localeResolver() {
+			SessionLocaleResolver localeResolver = new SessionLocaleResolver();
+			localeResolver.setDefaultLocale(Locale.GERMAN);
+			return localeResolver;
 		}
+
+		@Bean
+		public LocaleChangeInterceptor localeChangeInterceptor() {
+			LocaleChangeInterceptor changeInterceptor = new LocaleChangeInterceptor();
+			changeInterceptor.setParamName("lang");
+			return changeInterceptor;
+		}
+
+		@Override
+		public void addInterceptors(InterceptorRegistry registry) {
+			registry.addInterceptor(localeChangeInterceptor());
+		}
+
+	}
 
 }

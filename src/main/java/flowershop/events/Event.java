@@ -7,6 +7,9 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import static java.time.format.FormatStyle.LONG;
+import static java.time.format.FormatStyle.MEDIUM;
+
 @Entity
 public class Event {
 	private String title;
@@ -53,15 +56,15 @@ public class Event {
 	}
 
 	public String getFormatedCreatedTime() {
-		return createdTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+		return createdTime.format(DateTimeFormatter.ofLocalizedDateTime(MEDIUM));
 	}
 
 	public String getFormatedBeginTime() {
-		return beginTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+		return beginTime.format(DateTimeFormatter.ofLocalizedDate(MEDIUM));
 	}
 
 	public String getFormatedEndTime() {
-		return endTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+		return endTime.format(DateTimeFormatter.ofLocalizedDate(MEDIUM));
 	}
 
 	public LocalDateTime getBeginTime() {

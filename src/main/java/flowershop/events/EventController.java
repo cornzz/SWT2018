@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.ArrayList;
+
+import static java.time.format.FormatStyle.*;
 
 @Controller
 public class EventController {
@@ -27,8 +27,7 @@ public class EventController {
 	public String eventsList(Model model) {
 		beginTimeEdit = 0;
 		endTimeEdit = 0;
-		ArrayList<Event> eventsList = eventsList();
-		model.addAttribute("events", eventsList);
+		model.addAttribute("events", events.findAll());
 		return "event_list";
 	}
 
@@ -40,7 +39,7 @@ public class EventController {
 
 	@PostMapping("/event/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String addEvent(Model model, @RequestParam("title") String title, @RequestParam("text") String text, @RequestParam("begin") String daysToBegin, @RequestParam("end") String duration) {
+	public String addEvent(Model model, @RequestParam("title") String title, @RequestParam("text") String text, @RequestParam("begin") String daysToBegin, @RequestParam("duration") String duration) {
 		int convertedDaysToBegin;
 		int convertedDaysDuration;
 		try {
@@ -70,12 +69,14 @@ public class EventController {
 	@GetMapping("/event/show")
 	public String event(@RequestParam(value = "id") long eventId, Model model) {
 		Event event = events.findById(eventId).get();
-		boolean isActive = false;
+		int state = -1; // -1 = scheduled, 0 = active, 1 = over
 		model.addAttribute("event", event);
 		if (event.getBeginTime().isBefore(LocalDateTime.now()) && event.getEndTime().isAfter(LocalDateTime.now())) {
-			isActive = true;
+			state = 0;
+		} else if (event.getEndTime().isBefore(LocalDateTime.now())) {
+			state = 1;
 		}
-		model.addAttribute("active", isActive);
+		model.addAttribute("state", state);
 		return "event";
 	}
 
@@ -92,8 +93,8 @@ public class EventController {
 	public String editEvent(@RequestParam(value = "id") long eventId, Model model) {
 		Event event = events.findById(eventId).get();
 		model.addAttribute("event", event);
-		model.addAttribute("beginTime", event.getBeginTime().plusDays(beginTimeEdit).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
-		model.addAttribute("endTime", event.getEndTime().plusDays(endTimeEdit).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
+		model.addAttribute("beginTime", event.getBeginTime().plusDays(beginTimeEdit));
+		model.addAttribute("endTime", event.getEndTime().plusDays(endTimeEdit));
 		return "event_edit";
 	}
 
@@ -105,17 +106,20 @@ public class EventController {
 		LocalDateTime convertedEndTime;
 		beginTimeEdit = 0;
 		endTimeEdit = 0;
+		/*
 		try {
 			convertedBeginTime = convertToLocalDateTime(beginTime);
 			convertedEndTime = convertToLocalDateTime(endTime);
 		} catch (Exception e) {
-			return "forward:/events/edit?id=" + id;
+			e.printStackTrace();
+			return "redirect:/event/edit?id=" + id;
 		}
+		*/
 		Event event = events.findById(id).get();
 		event.setTitle(title);
 		event.setText(text);
-		event.setBeginTime(convertedBeginTime);
-		event.setEndTime(convertedEndTime);
+		event.setBeginTime(LocalDateTime.parse(beginTime));
+		event.setEndTime(LocalDateTime.parse(endTime));
 		events.save(event);
 		return "redirect:/events";
 	}
@@ -154,10 +158,10 @@ public class EventController {
 		String day = "";
 		for (int i = 0; i < date.length(); i++) {
 			if (i < 2) {
-				day = day + date.charAt(i);
+				month = month + date.charAt(i);
 			}
 			if (i > 2 && i < 5) {
-				month = month + date.charAt(i);
+				day = day + date.charAt(i);
 			}
 			if (i > 5) {
 				year = year + date.charAt(i);
@@ -169,7 +173,4 @@ public class EventController {
 		return LocalDateTime.of(Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day), 0, 0);
 	}
 
-	public ArrayList<Event> eventsList(){
-		return (ArrayList<Event>) events.findAll();
-	}
 }
