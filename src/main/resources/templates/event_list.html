@@ -15,7 +15,7 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h4 th:if="${events.empty}">No events!</h4>
+            <h4 th:if="${events.empty}" th:text="#{event.list.empty}"></h4>
 
             <div class="fs-mdl-wrapper" th:unless="${events.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
