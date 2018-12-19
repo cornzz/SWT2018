@@ -106,15 +106,6 @@ public class EventController {
 		LocalDateTime convertedEndTime;
 		beginTimeEdit = 0;
 		endTimeEdit = 0;
-		/*
-		try {
-			convertedBeginTime = convertToLocalDateTime(beginTime);
-			convertedEndTime = convertToLocalDateTime(endTime);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "redirect:/event/edit?id=" + id;
-		}
-		*/
 		Event event = events.findById(id).get();
 		event.setTitle(title);
 		event.setText(text);
@@ -150,27 +141,6 @@ public class EventController {
 	public String endTimePlus(@RequestParam(value = "id") long eventId) {
 		endTimeEdit++;
 		return "forward:/event/edit?id=" + eventId;
-	}
-
-	private LocalDateTime convertToLocalDateTime(String date) throws Exception {
-		String year = "";
-		String month = "";
-		String day = "";
-		for (int i = 0; i < date.length(); i++) {
-			if (i < 2) {
-				month = month + date.charAt(i);
-			}
-			if (i > 2 && i < 5) {
-				day = day + date.charAt(i);
-			}
-			if (i > 5) {
-				year = year + date.charAt(i);
-			}
-			if (i > 9) {
-				throw new Exception();
-			}
-		}
-		return LocalDateTime.of(Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day), 0, 0);
 	}
 
 }
