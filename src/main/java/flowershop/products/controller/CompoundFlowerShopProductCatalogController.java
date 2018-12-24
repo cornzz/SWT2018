@@ -1,9 +1,6 @@
 package flowershop.products.controller;
 
-import flowershop.products.CompoundFlowerShopProduct;
-import flowershop.products.CompoundFlowerShopProductCatalog;
-import flowershop.products.FlowerShopItemCatalog;
-import flowershop.products.FlowerShopServiceCatalog;
+import flowershop.products.*;
 import flowershop.products.form.AddCompoundFlowerShopProductForm;
 import flowershop.products.form.EditCompoundFlowerShopProductForm;
 import org.salespointframework.catalog.ProductIdentifier;
@@ -44,7 +41,9 @@ public class CompoundFlowerShopProductCatalogController {
 	@RequestMapping("/products")
 	public String products(Model model) {
 
-		model.addAttribute("products", compoundFlowerShopProductCatalog.findAll());
+		Iterable<CompoundFlowerShopProduct> compoundFlowerShopProducts = compoundFlowerShopProductCatalog.findAll();
+
+		model.addAttribute("products", compoundFlowerShopProducts);
 
 		return "products";
 	}
@@ -68,7 +67,7 @@ public class CompoundFlowerShopProductCatalogController {
 			return "redirect:/products/add";
 		}
 
-		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct(form.getName(), form.getDescription(), form.getSelectedFlowerShopItems(), form.getSelectedFlowerShopServices(), form.getImageBase64()));
+		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct(form.getName(), form.getDescription(), form.getSelectedFlowerShopItemsWithQuantities(), form.getSelectedFlowerShopServices(), form.getImageBase64()));
 
 		return "redirect:/products";
 	}

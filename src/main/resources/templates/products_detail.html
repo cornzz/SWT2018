@@ -18,14 +18,14 @@
 
                 <h5 class="mdc-typography--headline5" th:text="#{product.detail.items}"></h5>
 
-                <th:block th:each="item : ${product.flowerShopItems}">
-                    <span class="mdc-typography--body2" th:text="'1 x ' + ${item.name}"></span>
+                <th:block th:each="item : ${product.compoundFlowerShopProductFlowerShopItems}">
+                    <span class="mdc-typography--body2" th:text="${item.quantity} + 'x ' + ${item.flowerShopItem.name} + ' @ ' + ${item.flowerShopItem.price}"></span>
                 </th:block>
 
                 <h5 class="mdc-typography--headline5" th:text="#{product.detail.services}"></h5>
 
                 <th:block th:each="service : ${product.flowerShopServices}">
-                    <span class="mdc-typography--body2" th:text="'1 x ' + ${service.name}"></span>
+                    <span class="mdc-typography--body2" th:text="${service.name} + ' @ ' + ${service.price}"></span>
                 </th:block>
 
                 <h5 class="mdc-typography--headline5" th:text="${product.price}"></h5>

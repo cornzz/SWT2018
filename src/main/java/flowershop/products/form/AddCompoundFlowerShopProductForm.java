@@ -3,9 +3,11 @@ package flowershop.products.form;
 import flowershop.products.FlowerShopItem;
 import flowershop.products.FlowerShopService;
 import flowershop.products.validation.OneProductMinimum;
+import org.salespointframework.quantity.Quantity;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.*;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
@@ -30,8 +32,11 @@ public class AddCompoundFlowerShopProductForm {
 	private String name;
 	@NotEmpty
 	private String description;
+
 	private List<FlowerShopItem> selectedFlowerShopItems;
 	private List<FlowerShopService> selectedFlowerShopServices;
+
+	private Map<FlowerShopItem, Quantity> quantities = new HashMap<>();
 
 	private MultipartFile image;
 	private String imageBase64;
@@ -66,6 +71,27 @@ public class AddCompoundFlowerShopProductForm {
 
 	public List<FlowerShopService> getSelectedFlowerShopServices() {
 		return selectedFlowerShopServices;
+	}
+
+	public Map<FlowerShopItem, Quantity> getQuantities() {
+		return quantities;
+	}
+
+	public void setQuantities(Map<FlowerShopItem, Quantity> quantities) {
+		this.quantities = quantities;
+	}
+
+	public HashMap<FlowerShopItem, Quantity> getSelectedFlowerShopItemsWithQuantities() {
+
+		HashMap<FlowerShopItem, Quantity> selectedFlowerShopItemsWithQuantities = new HashMap<>();
+
+		selectedFlowerShopItems.forEach(item -> selectedFlowerShopItemsWithQuantities.put(item, getQuantities().get(item)));
+
+		selectedFlowerShopItemsWithQuantities.values().removeIf(Objects::isNull);
+
+		selectedFlowerShopItemsWithQuantities.forEach((key, value) -> System.out.println("Selected Item: " + key.getId() + " Quantity: " + value));
+
+		return selectedFlowerShopItemsWithQuantities;
 	}
 
 	public void setImage(MultipartFile image) throws IOException {

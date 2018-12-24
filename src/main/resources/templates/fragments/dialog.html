@@ -14,7 +14,7 @@
                     <th:block th:each="item, iteration : ${flowerShopItems}">
                         <li class="mdc-list-item" th:tabindex="${iteration.index}">
                             <span class="mdc-list-item__graphic">
-                                <div class="mdc-checkbox">
+                                <div class="mdc-checkbox fs-choose-flower-dialog__checkbox">
                                     <input type="checkbox"
                                            class="mdc-checkbox__native-control"
                                            th:value="${item.id}"
@@ -33,6 +33,11 @@
                             </span>
                             <label th:for="${item.id}" class="mdc-list-item__text" th:text="${item.name}">Flower</label>
                         </li>
+                        <div class="mdc-text-field mdc-text-field--disabled fs-choose-flower-dialog__quantity-input">
+                            <input class="mdc-text-field__input" th:type="number" step="1" min="1" th:field="*{quantities[__${item.id}__]}" disabled>
+                            <label th:for="'quantities' + ${item.id}" class="mdc-floating-label" >Quantity</label>
+                            <div class="mdc-line-ripple"></div>
+                        </div>
                     </th:block>
                 </ul>
             </div>
