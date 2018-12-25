@@ -23,28 +23,28 @@ let flowerDialogCheckboxes = [];
     const checkbox = new MDCCheckbox(checkboxElement);
 
     if (checkboxElement.classList.contains('fs-choose-flower-dialog__checkbox')) {
-        flowerDialogCheckboxes.push(checkbox)
-    }
+        flowerDialogCheckboxes.push(checkbox);
 
-    checkboxElement.getElementsByTagName('input')[0].addEventListener('click', function () {
+        checkboxElement.getElementsByTagName('input')[0].addEventListener('click', function () {
 
-        let index = flowerDialogCheckboxes.indexOf(checkbox);
+            let index = flowerDialogCheckboxes.indexOf(checkbox);
 
-        if (index !== -1 && flowerDialogTextFields.size === flowerDialogCheckboxes.size) {
+            if (index !== -1 && flowerDialogTextFields.size === flowerDialogCheckboxes.size) {
 
-            const textField = flowerDialogTextFields[index];
+                const textField = flowerDialogTextFields[index];
 
-            textField.disabled = !checkbox.checked;
+                textField.disabled = !checkbox.checked;
 
-            if (checkbox.checked) {
-                try {
-                    textField.focus(); // focus not a function?
-                } catch (err) {
-                    textField.input_.focus(); // fuck off
+                if (checkbox.checked) {
+                    try {
+                        textField.focus(); // focus not a function?
+                    } catch (err) {
+                        textField.input_.focus(); // fuck off
+                    }
+                } else {
+                    textField.value = null;
                 }
-            } else {
-                textField.value = null;
             }
-        }
-    });
+        });
+    }
 });
