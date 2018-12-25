@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EventIntegrationTests extends AbstractIntegrationTests {
 
+	// TODO: Could not autowire. No beans of 'EventRepository' type found.
 	@Autowired
 	EventRepository eventRepository;
 
@@ -21,9 +21,9 @@ class EventIntegrationTests extends AbstractIntegrationTests {
 	void basicTest() {
 		Event event1 = new Event("Titel", "Inhalt", LocalDateTime.of(2018, 12, 31, 1, 1), 31);
 		Event event2 = new Event("Titel", "Inhalt", LocalDateTime.of(2018, 1, 1, 1, 1), LocalDateTime.of(2018, 1, 8, 1, 1));
-		assertNotNull("Event1 is null", event1);
-		assertNotNull("Event2 is null", event2);
-		assertNotNull("Event repository is null", eventRepository);
+		assertNotNull(event1, "Event1 is null");
+		assertNotNull(event2, "Event2 is null");
+		assertNotNull(eventRepository, "Event repository is null");
 	}
 
 	@Test
@@ -92,8 +92,8 @@ class EventIntegrationTests extends AbstractIntegrationTests {
 		long id1 = event1.getId();
 		long id2 = event2.getId();
 
-		assertNotNull("EventId wrong or null", event1.getId());
-		assertNotNull("EventId wrong or null", event2.getId());
+		assertNotNull(event1.getId(), "EventId wrong or null");
+		assertNotNull(event2.getId(), "EventId wrong or null");
 		System.out.println(id1);
 		System.out.println(id2);
 		assertNotSame(event1.getId(), event2.getId(), "Two events has the same id");
