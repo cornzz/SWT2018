@@ -3,12 +3,17 @@ package flowershop.products.controller;
 
 import flowershop.products.FlowerShopService;
 import flowershop.products.FlowerShopServiceCatalog;
+import flowershop.products.form.AddFlowerShopServiceForm;
 import org.javamoney.moneta.Money;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import static org.salespointframework.core.Currencies.EURO;
 
@@ -31,15 +36,19 @@ public class FlowerShopServiceController {
 
 	@GetMapping("/products/services/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String add(Model model) {
-		return "service_add";
+	public ModelAndView add(Model model, AddFlowerShopServiceForm form) {
+
+		return new ModelAndView("service_add", "form", form);
 	}
 
 	@PostMapping("/products/services/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String add(String name, int price, String description) {
-		FlowerShopService service = new FlowerShopService(name, Money.of(price, EURO), description);
+	public ModelAndView add(@ModelAttribute("form") @Validated AddFlowerShopServiceForm form, BindingResult result) {
+		if (result.hasErrors()) {
+			return new ModelAndView("service_add", "form", form);
+		}
+		FlowerShopService service = new FlowerShopService(form.getName(), Money.of(Double.valueOf(form.getAmount()), EURO), form.getDescription());
 		serviceCatalog.save(service);
-		return "redirect:/products/services";
+		return new ModelAndView("redirect:/products/services");
 	}
 }
