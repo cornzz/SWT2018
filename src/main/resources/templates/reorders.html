@@ -15,7 +15,7 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h4 th:if="${subTransactions.empty}">No reorders!</h4>
+            <h4 th:if="${subTransactions.empty}" th:text="#{reorder.empty}"></h4>
 
             <div class="fs-mdl-wrapper" th:unless="${subTransactions.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">

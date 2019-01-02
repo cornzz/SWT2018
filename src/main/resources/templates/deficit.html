@@ -15,7 +15,9 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <div class="fs-mdl-wrapper">
+            <h4 th:if="${deficits.empty}" th:text="#{deficit.empty}"></h4>
+
+            <div class="fs-mdl-wrapper" th:unless="${deficits.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
