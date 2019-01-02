@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static flowershop.order.Transaction.TransactionType.*;
 import static org.salespointframework.order.OrderStatus.PAID;
@@ -45,6 +48,7 @@ public class ReorderController {
 			inventoryItem.decreaseQuantity(Quantity.of(quantity));
 			inventory.save(inventoryItem);
 			reorderManager.refillInventory();
+			reorderManager.createReorder(inventoryItem, Quantity.of(quantity), SubTransaction.SubTransactionType.DEFICIT);
 			return "redirect:/products/items/stock?deficit";
 		}).orElse("redirect:/products/items/stock");
 	}
@@ -57,7 +61,7 @@ public class ReorderController {
 			return "forward:/products/items/stock";
 		}
 		return inventory.findById(id).map(inventoryItem -> {
-			reorderManager.createReorder(inventoryItem, Quantity.of(quantity));
+			reorderManager.createReorder(inventoryItem, Quantity.of(quantity), SubTransaction.SubTransactionType.REORDER);
 			return "redirect:/products/items/stock?reorder";
 		}).orElse("redirect:/products/items/stock");
 	}
@@ -65,15 +69,25 @@ public class ReorderController {
 	@GetMapping("/products/reorders")
 	@PreAuthorize("hasRole('ROLE_WHOLESALER')")
 	ModelAndView reorders(Model model) {
-		Streamable<Transaction> transactions = transactionManager.findBy(PAID).filter(transaction -> transaction.getType() == REORDER);
-
-		return new ModelAndView("reorders", "transactions", transactions);
+		Streamable<Transaction> transactions = transactionManager.findBy(PAID).filter(transaction -> transaction.getType() == COLLECTION);
+		List<SubTransaction> subTransactionList = new ArrayList<>();
+		for (Transaction transaction : transactions) {
+			for (SubTransaction subTransaction : transaction.getSubTransactions())
+				if (subTransaction.getStatus().equals(true) && subTransaction.getType() == SubTransaction.SubTransactionType.REORDER) {
+					subTransactionList.add(subTransaction);
+				}
+		}
+		Streamable<SubTransaction> subTransactions = Streamable.of(subTransactionList);
+		return new ModelAndView("reorders", "subTransactions", subTransactions);
 	}
 
 	@PostMapping("/products/reorders/send/{id}")
 	@PreAuthorize("hasRole('ROLE_WHOLESALER')")
-	String sendReorder(@PathVariable(name = "id") Optional<Transaction> reorderOptional, @LoggedIn Optional<UserAccount> userAccount) {
-		return reorderOptional.map(reorder -> inventory.findById(reorder.getItemId()).map(inventoryItem -> {
+	String sendReorder(@PathVariable(name = "id") Optional<SubTransaction> reorderOptional, @LoggedIn Optional<UserAccount> userAccount) {
+		InventoryItemIdentifier reorderId = Streamable.of(inventory.findAll())
+				.filter(item -> item.getProduct().getName().equals(reorderOptional.get().getFlower())).get()
+				.findFirst().get().getId();
+		return reorderOptional.map(reorder -> inventory.findById(reorderId).map(inventoryItem -> {
 			reorderManager.sendReorder(reorder, inventoryItem);
 			return "redirect:/products/reorders?success";
 		}).orElse("redirect:/products/reorders")).orElse("redirect:/products/reorders");

@@ -33,6 +33,13 @@
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">waves</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.services}">Services</span>
             </a>
+            <a th:class="'mdc-list-item' + ((${view} == 'deficit') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="hasRole('ROLE_BOSS')"
+               th:href="@{/products/deficit}"
+               th:aria-selected="${view == 'deficit'}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">delete_outline</i>
+                <span class="mdc-list-item__text" th:text="#{drawer.deficit}">Defictis</span>
+            </a>
             <a th:class="'mdc-list-item' + ((${view} == 'users') ? ' mdc-list-item--activated' : '')"
                sec:authorize="hasRole('ROLE_BOSS')"
                th:href="@{/users}"

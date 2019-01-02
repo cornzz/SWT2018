@@ -7,14 +7,17 @@ import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.UserAccount;
 
 import javax.money.MonetaryAmount;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Transaction extends Order {
 	public enum TransactionType {
-		DEFICIT,
 		ORDER,
-		REORDER,
+		COLLECTION,
 		DONE,
 		CUSTOM
 	}
@@ -26,8 +29,9 @@ public class Transaction extends Order {
 	private MonetaryAmount price;
 	private InventoryItemIdentifier itemId;
 	private String description;
-	private Quantity quantity;
 
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<SubTransaction> subTransactions = new ArrayList<>();
 
 	public Transaction(UserAccount userAccount, PaymentMethod paymentMethod, TransactionType type) {
 		super(userAccount, paymentMethod);
@@ -35,7 +39,10 @@ public class Transaction extends Order {
 		this.type = type;
 		this.price = null;
 		this.itemId = null;
-		this.quantity = null;
+	}
+
+	public void addSubTransaction(SubTransaction subTransaction) {
+		this.subTransactions.add(subTransaction);
 	}
 
 	@Override
@@ -59,8 +66,8 @@ public class Transaction extends Order {
 		return description;
 	}
 
-	public Quantity getQuantity() {
-		return quantity;
+	public List<SubTransaction> getSubTransactions() {
+		return subTransactions;
 	}
 
 	public void setType(TransactionType type) {
@@ -75,9 +82,8 @@ public class Transaction extends Order {
 		this.description = description;
 	}
 
-	public void setOptional(InventoryItemIdentifier itemId, Quantity quantity, MonetaryAmount price, String description) {
+	public void setOptional(InventoryItemIdentifier itemId, MonetaryAmount price, String description) {
 		this.itemId = itemId;
-		this.quantity = quantity;
 		this.price = price;
 		this.description = description;
 	}

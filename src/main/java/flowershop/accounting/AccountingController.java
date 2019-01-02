@@ -1,6 +1,7 @@
 package flowershop.accounting;
 
 import flowershop.accounting.form.TransactionDataTransferObject;
+import flowershop.order.SubTransaction;
 import flowershop.order.Transaction;
 import org.javamoney.moneta.Money;
 import org.salespointframework.order.Order;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.money.MonetaryAmount;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static flowershop.order.Transaction.TransactionType.CUSTOM;
@@ -42,9 +45,18 @@ public class AccountingController {
 	@GetMapping("/accounting")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	String orders(Model model) {
-		Streamable<Transaction> transactions = findAllTransactions();
-		MonetaryAmount total = transactions.stream().map(Order::getTotalPrice).reduce(ZERO_EURO, MonetaryAmount::add);
+		Streamable<Transaction> transactions = findAllTransactions().filter(transaction -> transaction.getType() != Transaction.TransactionType.COLLECTION);
+		List<SubTransaction> subTransactionList = new ArrayList<>();
+		findAllTransactions().filter(transaction -> transaction.getType() == Transaction.TransactionType.COLLECTION)
+				.forEach(transaction -> transaction.getSubTransactions()
+						.forEach(subTransaction -> {
+							if (subTransaction.getType().equals(SubTransaction.SubTransactionType.REORDER)) {
+								subTransactionList.add(subTransaction);
+							}
+						}));
+		MonetaryAmount total = transactions.stream().map(Order::getTotalPrice).reduce(ZERO_EURO, MonetaryAmount::add).add(subTransactionList.stream().map(SubTransaction::getPrice).reduce(ZERO_EURO, MonetaryAmount::add).negate());
 		model.addAttribute("transactions", transactions);
+		model.addAttribute("reorders", Streamable.of(subTransactionList));
 		model.addAttribute("total", total);
 
 		return "accounting";
