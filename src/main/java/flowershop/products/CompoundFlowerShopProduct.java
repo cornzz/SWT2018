@@ -1,21 +1,19 @@
 package flowershop.products;
 
+import flowershop.products.form.CompoundFlowerShopProductTransferObject;
 import org.hibernate.annotations.Type;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.quantity.Quantity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 public class CompoundFlowerShopProduct extends Product {
 	private String description;
 
-	@OneToMany(mappedBy = "compoundFlowerShopProduct", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "compoundFlowerShopProduct", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	private List<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItems;
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
@@ -24,11 +22,12 @@ public class CompoundFlowerShopProduct extends Product {
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<FlowerShopService> flowerShopServices;
 
-	@Type(type="text")
+	@Type(type = "text")
 	private String image;
 
 	@SuppressWarnings("unused")
-	private CompoundFlowerShopProduct() {}
+	private CompoundFlowerShopProduct() {
+	}
 
 	public CompoundFlowerShopProduct(String name, String description, List<FlowerShopItem> flowerShopItems, List<FlowerShopService> flowerShopServices, String image) {
 		super(name, CompoundFlowerShopProduct.calcPrice(flowerShopItems, flowerShopServices));
@@ -79,7 +78,11 @@ public class CompoundFlowerShopProduct extends Product {
 		return price;
 	}
 
-	private  static Money calcPrice(Map<FlowerShopItem, Quantity> flowerItemsWithQuantities, Iterable<FlowerShopService> flowerShopServices) {
+	public Money getPrice() {
+		return calcPrice(getFlowerShopItemsWithQuantities(), getFlowerShopServices());
+	}
+
+	public static Money calcPrice(Map<FlowerShopItem, Quantity> flowerItemsWithQuantities, Iterable<FlowerShopService> flowerShopServices) {
 		Money price = Money.of(0, "EUR");
 
 		for (Map.Entry<FlowerShopItem, Quantity> entry : flowerItemsWithQuantities.entrySet()) {
@@ -110,6 +113,7 @@ public class CompoundFlowerShopProduct extends Product {
 
 	public void setCompoundFlowerShopProductFlowerShopItems(List<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItems) {
 		this.compoundFlowerShopProductFlowerShopItems = compoundFlowerShopProductFlowerShopItems;
+		refreshPrice();
 	}
 
 	public String getDescription() {
@@ -124,7 +128,7 @@ public class CompoundFlowerShopProduct extends Product {
 		return flowerShopItems;
 	}
 
-	public Iterable<FlowerShopService> getFlowerShopServices() {
+	public List<FlowerShopService> getFlowerShopServices() {
 		return flowerShopServices;
 	}
 
@@ -132,6 +136,11 @@ public class CompoundFlowerShopProduct extends Product {
 		return image;
 	}
 
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	// TODO: do we want this to be public?
 	public void addCompoundFlowerShopProductFlowerShopItem(CompoundFlowerShopProductFlowerShopItem compoundFlowerShopProductFlowerShopItem) {
 		compoundFlowerShopProductFlowerShopItems.add(compoundFlowerShopProductFlowerShopItem);
 	}
@@ -146,5 +155,58 @@ public class CompoundFlowerShopProduct extends Product {
 		addCompoundFlowerShopProductFlowerShopItem(compoundFlowerShopProductFlowerShopItem);
 
 		return compoundFlowerShopProductFlowerShopItem;
+	}
+
+	public CompoundFlowerShopProductTransferObject createTransferObject() {
+		CompoundFlowerShopProductTransferObject form = new CompoundFlowerShopProductTransferObject();
+
+		form.setId(getId());
+		form.setName(getName());
+		form.setDescription(getDescription());
+		form.setImageBase64(getImage());
+
+		// TODO: keySet from quantities?
+		List<FlowerShopItem> flowerShopItems = new ArrayList<>();
+		getCompoundFlowerShopProductFlowerShopItems()
+				.forEach(compoundFlowerShopProductFlowerShopItem -> flowerShopItems
+						.add(compoundFlowerShopProductFlowerShopItem.getFlowerShopItem()));
+
+		form.setSelectedFlowerShopItems(flowerShopItems);
+
+		Map<FlowerShopItem, Quantity> quantities = new HashMap<>();
+		getCompoundFlowerShopProductFlowerShopItems()
+				.forEach(compoundFlowerShopProductFlowerShopItem -> quantities
+						.put(compoundFlowerShopProductFlowerShopItem.getFlowerShopItem(),
+								compoundFlowerShopProductFlowerShopItem.getQuantity()));
+
+		form.setQuantities(quantities);
+
+		Iterable<FlowerShopService> serviceIterable = getFlowerShopServices();
+		List<FlowerShopService> flowerShopServices = new ArrayList<>();
+		serviceIterable.forEach(flowerShopServices::add);
+
+		form.setSelectedFlowerShopServices(flowerShopServices);
+
+		return form;
+	}
+
+	public void setFlowerShopServices(List<FlowerShopService> flowerShopServices) {
+		this.flowerShopServices = flowerShopServices;
+		refreshPrice();
+	}
+
+	// TODO: deprecated?
+	public void refreshPrice() {
+		super.setPrice(CompoundFlowerShopProduct.calcPrice(flowerShopItems, flowerShopServices));
+	}
+
+	public Optional<CompoundFlowerShopProductFlowerShopItem> getCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(FlowerShopItem flowerShopItem) {
+		return getCompoundFlowerShopProductFlowerShopItems().stream().filter(item -> item.getFlowerShopItem().equals(flowerShopItem)).findFirst();
+	}
+
+	public void removeCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(FlowerShopItem flowerShopItem) {
+		getCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(flowerShopItem).ifPresent(compoundFlowerShopProductFlowerShopItem -> getCompoundFlowerShopProductFlowerShopItems().remove(compoundFlowerShopProductFlowerShopItem));
+		flowerShopItems.remove(flowerShopItem);
+		refreshPrice();
 	}
 }

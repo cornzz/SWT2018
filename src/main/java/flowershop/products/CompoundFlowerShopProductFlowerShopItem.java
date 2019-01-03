@@ -1,5 +1,6 @@
 package flowershop.products;
 
+import org.hibernate.annotations.Type;
 import org.salespointframework.quantity.Quantity;
 
 import javax.persistence.*;
@@ -9,12 +10,12 @@ import javax.persistence.*;
 public class CompoundFlowerShopProductFlowerShopItem {
 
 	@Id
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	@JoinColumn
 	private CompoundFlowerShopProduct compoundFlowerShopProduct;
 
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn
 	private FlowerShopItem flowerShopItem;
 

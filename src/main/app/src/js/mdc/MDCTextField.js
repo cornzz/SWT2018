@@ -33,7 +33,8 @@ let flowerDialogCheckboxes = [];
 
                 const textField = flowerDialogTextFields[index];
 
-                textField.disabled = !checkbox.checked;
+                // disabled for now to avoid messing up the edit dialog
+                // textField.disabled = !checkbox.checked;
 
                 if (checkbox.checked) {
                     try {
