@@ -7,10 +7,8 @@ import org.salespointframework.quantity.Quantity;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.*;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 /*
  *  TODO: use interface instead of POJO

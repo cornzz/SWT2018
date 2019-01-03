@@ -2,12 +2,11 @@ package flowershop.user.form;
 
 import flowershop.user.form.validation.MatchingPassword;
 import flowershop.user.form.validation.ValidEmail;
+import flowershop.user.form.validation.ValidOldPassword;
+import flowershop.user.form.validation.ValidUsername;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import flowershop.user.form.validation.ValidOldPassword;
-import flowershop.user.form.validation.ValidUsername;
 
 @MatchingPassword(message = "{Dto.password.MustMatch}", groups = {UserDataTransferObject.RegistrationProcess.class, UserDataTransferObject.ChangePassProcess.class})
 @ValidUsername(groups = {UserDataTransferObject.RegistrationProcess.class})

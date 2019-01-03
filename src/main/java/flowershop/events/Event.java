@@ -3,11 +3,8 @@ package flowershop.events;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
-import java.util.Optional;
 
-import static java.time.format.FormatStyle.LONG;
 import static java.time.format.FormatStyle.MEDIUM;
 
 @Entity

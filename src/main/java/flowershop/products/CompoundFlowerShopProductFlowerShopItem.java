@@ -1,6 +1,5 @@
 package flowershop.products;
 
-import org.hibernate.annotations.Type;
 import org.salespointframework.quantity.Quantity;
 
 import javax.persistence.*;

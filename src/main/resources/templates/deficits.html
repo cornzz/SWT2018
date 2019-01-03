@@ -1,7 +1,7 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{title.services}">Deficits</title>
+    <title th:text="#{title.deficits}">Deficits</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('deficits')">
@@ -15,24 +15,31 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h4 th:if="${deficits.empty}" th:text="#{deficit.empty}"></h4>
+            <h4 th:if="${deficits.empty}" th:text="#{deficits.empty}"></h4>
 
             <div class="fs-mdl-wrapper" th:unless="${deficits.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric" th:text="#{deficit.name}"></th>
-                        <th th:text="#{deficit.quantity}"></th>
-                        <th th:text="#{deficit.price}"></th>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{deficits.name}"></th>
+                        <th th:text="#{deficits.quantity}"></th>
+                        <th th:text="#{deficits.price}"></th>
                     </tr>
                     </thead>
                     <tbody th:remove="all-but-first">
                     <tr th:each=" deficit: ${deficits}">
                         <td class="mdl-data-table__cell--non-numeric" th:text="${deficit.flower}"></td>
                         <td th:text="${deficit.quantity}"></td>
-                        <td th:text="${deficit.price}"></td>
+                        <td th:text="'EUR ' + ${#numbers.formatDecimal(deficit.price.number, 0, 'COMMA', 2, 'POINT')}"></td>
                     </tr>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <td th:text="#{deficits.total}"></td>
+                        <td></td>
+                        <td th:text="'EUR ' + ${#numbers.formatDecimal(total.number, 0, 'COMMA', 2, 'POINT')}"></td>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

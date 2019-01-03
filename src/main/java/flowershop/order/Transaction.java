@@ -3,7 +3,6 @@ package flowershop.order;
 import org.salespointframework.inventory.InventoryItemIdentifier;
 import org.salespointframework.order.Order;
 import org.salespointframework.payment.PaymentMethod;
-import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.UserAccount;
 
 import javax.money.MonetaryAmount;

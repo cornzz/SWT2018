@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static java.time.format.FormatStyle.*;
 
 @Controller
 public class EventController {

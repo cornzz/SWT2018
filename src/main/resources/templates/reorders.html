@@ -29,9 +29,9 @@
                     </thead>
                     <tbody th:remove="all-but-first">
                     <tr th:each="subTransaction : ${subTransactions}">
-                        <td class="mdl-data-table__cell--non-numeric" th:text="${subTransaction.flower}">item</td>
-                        <td th:text="${subTransaction.quantity}">5</td>
-                        <td th:text="${subTransaction.price.negate()}">5</td>
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${subTransaction.flower}"></td>
+                        <td th:text="${subTransaction.quantity}"></td>
+                        <td th:text="'EUR ' + ${#numbers.formatDecimal(subTransaction.price.negate().number, 0, 'COMMA', 2, 'POINT')}"></td>
                         <td>
                             <form sec:authorize="hasRole('ROLE_WHOLESALER')" method="post"
                                   th:action="@{/products/reorders/send/{id}(id=${subTransaction.id})}">

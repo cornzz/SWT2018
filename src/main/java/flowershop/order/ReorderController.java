@@ -19,9 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import static flowershop.order.Transaction.TransactionType.*;
+import static flowershop.order.Transaction.TransactionType.COLLECTION;
 import static org.salespointframework.order.OrderStatus.PAID;
 
 @Controller

@@ -1,8 +1,8 @@
 package flowershop.order;
 
-import javax.persistence.Embeddable;
-
 import org.salespointframework.core.SalespointIdentifier;
+
+import javax.persistence.Embeddable;
 
 @Embeddable
 class SubTransactionIdentifier extends SalespointIdentifier {

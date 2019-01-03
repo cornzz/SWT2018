@@ -1,10 +1,11 @@
 package flowershop.user.form.validation;
 
+import flowershop.user.UserManager;
+import flowershop.user.form.UserDataTransferObject;
+import org.salespointframework.useraccount.AuthenticationManager;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import flowershop.user.form.UserDataTransferObject;
-import flowershop.user.UserManager;
-import org.salespointframework.useraccount.AuthenticationManager;
 
 public class UsernameValidator implements ConstraintValidator<ValidUsername, Object> {
 

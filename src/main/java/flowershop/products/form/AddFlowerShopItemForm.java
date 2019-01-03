@@ -2,7 +2,6 @@ package flowershop.products.form;
 
 import flowershop.accounting.form.validation.IsDouble;
 
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 

@@ -21,14 +21,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.money.MonetaryAmount;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static flowershop.order.SubTransaction.SubTransactionType.REORDER;
+import static flowershop.order.Transaction.TransactionType.COLLECTION;
 import static flowershop.order.Transaction.TransactionType.CUSTOM;
 import static org.salespointframework.core.Currencies.ZERO_EURO;
-import static org.salespointframework.order.OrderStatus.*;
+import static org.salespointframework.order.OrderStatus.OPEN;
 import static org.salespointframework.payment.Cash.CASH;
 
 
@@ -45,18 +46,16 @@ public class AccountingController {
 	@GetMapping("/accounting")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	String orders(Model model) {
-		Streamable<Transaction> transactions = findAllTransactions().filter(transaction -> transaction.getType() != Transaction.TransactionType.COLLECTION);
-		List<SubTransaction> subTransactionList = new ArrayList<>();
-		findAllTransactions().filter(transaction -> transaction.getType() == Transaction.TransactionType.COLLECTION)
-				.forEach(transaction -> transaction.getSubTransactions()
-						.forEach(subTransaction -> {
-							if (subTransaction.getType().equals(SubTransaction.SubTransactionType.REORDER)) {
-								subTransactionList.add(subTransaction);
-							}
-						}));
-		MonetaryAmount total = transactions.stream().map(Order::getTotalPrice).reduce(ZERO_EURO, MonetaryAmount::add).add(subTransactionList.stream().map(SubTransaction::getPrice).reduce(ZERO_EURO, MonetaryAmount::add).negate());
+		Streamable<Transaction> transactions = findAllTransactions().filter(transaction -> transaction.getType() != COLLECTION);
+		Streamable<SubTransaction> subTransactions = findAllTransactions().filter(transaction -> transaction.getType() == COLLECTION).
+				map(Transaction::getSubTransactions).get().flatMap(List::stream).
+				filter(subTransaction -> subTransaction.getType().equals(REORDER)).
+				map(Streamable::of).reduce(Streamable.empty(), Streamable::and);
+		MonetaryAmount total = transactions.stream().map(Order::getTotalPrice).reduce(ZERO_EURO, MonetaryAmount::add).
+				add(subTransactions.get().map(SubTransaction::getPrice).reduce(ZERO_EURO, MonetaryAmount::add).negate());
+
 		model.addAttribute("transactions", transactions);
-		model.addAttribute("reorders", Streamable.of(subTransactionList));
+		model.addAttribute("reorders", subTransactions);
 		model.addAttribute("total", total);
 
 		return "accounting";

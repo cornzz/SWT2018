@@ -1,9 +1,10 @@
 package flowershop.user.form.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.Password;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 public class OldPasswordValidator implements ConstraintValidator<ValidOldPassword, String> {
 

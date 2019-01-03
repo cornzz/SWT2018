@@ -52,7 +52,7 @@ public class CartController {
 
 		CartItem newCartItem = cart.addOrUpdateItem(product, quantity);
 		if (!orderController.sufficientStock(cart)){
-			model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
+			model.addAttribute("message", "cart.add.notenough");
 			cart.addOrUpdateItem(product, -quantity);
 			if (newCartItem.getQuantity().subtract(Quantity.of(quantity)).isZeroOrNegative()) {
 				cart.removeItem(newCartItem.getId());
@@ -74,7 +74,7 @@ public class CartController {
 			Product product = cartItem.getProduct();
 			cart.addOrUpdateItem(product, Quantity.of(quantity).subtract(currentItemQuantity));
 			if (!orderController.sufficientStock(cart)) {
-				model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
+				model.addAttribute("message", "cart.add.notenough");
 				cart.addOrUpdateItem(product, currentItemQuantity.subtract(Quantity.of(quantity)));
 				return "forward:/cart";
 			}

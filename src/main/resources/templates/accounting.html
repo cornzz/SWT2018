@@ -15,9 +15,9 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <!-- <h4 th:if="${transactions.empty}" th:text="#{accounting.empty}"></h4> -->
+            <h4 th:if="${transactions.empty && reorders.empty}" th:text="#{accounting.empty}"></h4>
 
-            <div class="fs-mdl-wrapper"><!--th:unless="${transactions.empty}">-->
+            <div class="fs-mdl-wrapper" th:unless="${transactions.empty && reorders.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
@@ -30,7 +30,7 @@
                     <tbody th:remove="all-but-first">
                     <tr th:each="transaction : ${transactions}">
                         <td class="mdl-data-table__cell--non-numeric" th:text="${transaction.id}"></td>
-                        <td th:text="${transaction.type}"></td>
+                        <td th:text="#{'transaction.type.' + ${transaction.type}}"></td>
                         <td th:text="${#temporals.format(transaction.dateCreated, 'dd.MM.yyyy HH:mm')}"></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(transaction.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></td>
                     </tr>
@@ -38,18 +38,18 @@
                     <tbody th:remove="all-but-first">
                     <tr th:each="subTransaction : ${reorders}">
                         <td class="mdl-data-table__cell--non-numeric" th:text="${subTransaction.id}"></td>
-                        <td th:text="${subTransaction.type}"></td>
-                        <td th:text="${subTransaction.date}"></td>
+                        <td th:text="#{'transaction.type.' + ${subTransaction.type}}"></td>
+                        <td th:text="${#temporals.format(subTransaction.date, 'dd.MM.yyyy HH:mm')}"></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(subTransaction.price.negate().number, 0, 'COMMA', 2, 'POINT')}"></td>
                     </tr>
                     </tbody>
                     <tfoot>
-                    <t>
+                    <tr>
                         <td th:text="#{accounting.total}"></td>
                         <td></td>
                         <td></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(total.number, 0, 'COMMA', 2, 'POINT')}"></td>
-                    </t>
+                    </tr>
                     </tfoot>
                 </table>
             </div>

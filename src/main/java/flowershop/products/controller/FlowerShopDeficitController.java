@@ -10,10 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
+import javax.money.MonetaryAmount;
 import java.util.List;
 
 import static flowershop.order.Transaction.TransactionType.COLLECTION;
+import static org.salespointframework.core.Currencies.ZERO_EURO;
 import static org.salespointframework.order.OrderStatus.PAID;
 
 
@@ -26,19 +27,19 @@ public class FlowerShopDeficitController {
 		this.transactionManager = transactionManager;
 	}
 
-	@GetMapping("/products/deficit")
+	@GetMapping("/products/deficits")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String deficit(Model model) {
-		Streamable<Transaction> transactions = transactionManager.findBy(PAID).filter(transaction -> transaction.getType() == COLLECTION);
-		List<SubTransaction> subTransactionList = new ArrayList<>();
-		transactions.forEach(transaction -> transaction.getSubTransactions().forEach(subTransaction -> {
-			if (subTransaction.getType().equals(SubTransaction.SubTransactionType.DEFICIT) && subTransaction.getStatus().equals(true)) {
-				subTransactionList.add(subTransaction);
-			}
-		}));
-		Streamable<SubTransaction> subTransactions = Streamable.of(subTransactionList);
-		model.addAttribute("deficits", subTransactions);
+		Streamable<SubTransaction> subTransactions = transactionManager.findBy(PAID).filter(transaction -> transaction.getType() == COLLECTION).
+				map(Transaction::getSubTransactions).get().flatMap(List::stream).
+				filter(subTransaction -> subTransaction.getType().equals(SubTransaction.SubTransactionType.DEFICIT)).
+				filter(subTransaction -> subTransaction.getStatus().equals(true)).
+				map(Streamable::of).reduce(Streamable.empty(), Streamable::and);
+		MonetaryAmount total = subTransactions.get().map(SubTransaction::getPrice).reduce(ZERO_EURO, MonetaryAmount::add);
 
-		return "deficit";
+		model.addAttribute("deficits", subTransactions);
+		model.addAttribute("total", total);
+
+		return "deficits";
 	}
 }

@@ -59,7 +59,7 @@
                 </table>
             </div>
 
-            <div th:if="${message}" th:text="${message}" class="fs-snackbar-text" hidden></div>
+            <div th:if="${message}" th:text="#{${message}}" class="fs-snackbar-text" hidden></div>
             <div class="fs-buttons">
                 <button type="button" class="mdc-button mdc-button--raised" onclick="window.location='/'" th:text="#{cart.continueshopping}"></button>
             </div>

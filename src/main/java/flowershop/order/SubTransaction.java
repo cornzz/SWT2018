@@ -1,13 +1,15 @@
 package flowershop.order;
 
 import org.salespointframework.core.AbstractEntity;
-import org.salespointframework.inventory.InventoryItemIdentifier;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.lang.NonNull;
 
 import javax.money.MonetaryAmount;
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -24,7 +26,7 @@ public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 	private @NonNull
 	Quantity quantity;
 	private @NonNull
-	Date date;
+	LocalDateTime date;
 	private @NonNull
 	MonetaryAmount price;
 	private @NonNull
@@ -39,9 +41,9 @@ public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 	private SubTransactionIdentifier subTransactionIdentifier = new SubTransactionIdentifier();
 
 
-	public SubTransaction(Quantity quantity, Date date, MonetaryAmount price, String flower, SubTransactionType type) {
+	public SubTransaction(Quantity quantity, MonetaryAmount price, String flower, SubTransactionType type) {
 		this.quantity = quantity;
-		this.date = date;
+		this.date = LocalDateTime.now();
 		this.price = price;
 		this.flower = flower;
 		this.type = type;
@@ -56,7 +58,7 @@ public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 		return quantity;
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 

@@ -2,12 +2,14 @@ package flowershop.order;
 
 import flowershop.products.CompoundFlowerShopProduct;
 import flowershop.products.FlowerShopItem;
-import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Catalog;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
-import org.salespointframework.order.*;
+import org.salespointframework.order.Cart;
+import org.salespointframework.order.CartItem;
+import org.salespointframework.order.OrderManager;
+import org.salespointframework.order.OrderStatus;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
@@ -23,7 +25,8 @@ import java.util.*;
 import java.util.stream.StreamSupport;
 
 import static flowershop.order.Transaction.TransactionType.ORDER;
-import static org.salespointframework.order.OrderStatus.*;
+import static org.salespointframework.order.OrderStatus.OPEN;
+import static org.salespointframework.order.OrderStatus.PAID;
 import static org.salespointframework.payment.Cash.CASH;
 
 
@@ -48,7 +51,7 @@ public class OrderController {
 	String buy(@ModelAttribute Cart cart, @LoggedIn Optional<UserAccount> userAccount, Model model) {
 		return userAccount.map(account -> {
 			if (!sufficientStock(cart)) {
-				model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
+				model.addAttribute("message", "cart.add.notenough");
 				return "/cart";
 			}
 
