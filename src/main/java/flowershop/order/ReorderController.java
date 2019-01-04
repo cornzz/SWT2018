@@ -66,7 +66,7 @@ public class ReorderController {
 	}
 
 	@GetMapping("/products/reorders")
-	@PreAuthorize("hasRole('ROLE_WHOLESALER')")
+	@PreAuthorize("hasRole('ROLE_WHOLESALER') or hasRole('ROLE_BOSS')")
 	ModelAndView reorders(Model model) {
 		Streamable<Transaction> transactions = transactionManager.findBy(PAID).filter(transaction -> transaction.getType() == COLLECTION);
 		List<SubTransaction> subTransactionList = new ArrayList<>();

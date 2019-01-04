@@ -40,15 +40,9 @@
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">delete_outline</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.deficits}">Deficits</span>
             </a>
-            <a th:class="'mdc-list-item' + ((${view} == 'users') ? ' mdc-list-item--activated' : '')"
-               sec:authorize="hasRole('ROLE_BOSS')"
-               th:href="@{/users}"
-               th:aria-selected="${view == 'users'}">
-                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
-                <span class="mdc-list-item__text" th:text="#{drawer.users}">Users</span>
-            </a>
+
             <a th:class="'mdc-list-item' + ((${view} == 'reorders') ? ' mdc-list-item--activated' : '')"
-               sec:authorize="hasRole('ROLE_WHOLESALER')"
+               sec:authorize="hasRole('ROLE_WHOLESALER') or hasRole('ROLE_BOSS')"
                th:href="@{/products/reorders}"
                th:aria-selected="${view == 'reorders'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">all_inbox</i>
@@ -80,6 +74,13 @@
                th:aria-selected="${view == 'register'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">person_add</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.signup}">Sign up</span>
+            </a>
+            <a th:class="'mdc-list-item' + ((${view} == 'users') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="hasRole('ROLE_BOSS')"
+               th:href="@{/users}"
+               th:aria-selected="${view == 'users'}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
+                <span class="mdc-list-item__text" th:text="#{drawer.users}">Users</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'account') ? ' mdc-list-item--activated' : '')"
                sec:authorize="isAuthenticated()"

@@ -4,7 +4,7 @@
     <title th:text="#{title.cart}">Cart</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (title = 'Cart', cancel_destination = @{/products})">
+<header th:replace="fragments/header :: header_dialog (title = #{cart}, cancel_destination = @{/products})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>

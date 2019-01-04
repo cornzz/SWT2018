@@ -24,7 +24,7 @@
                         <th th:text="#{reorder.item}" class="mdl-data-table__cell--non-numeric"></th>
                         <th th:text="#{reorder.quantity}"></th>
                         <th th:text="#{reorder.price}"></th>
-                        <th th:text="#{reorder.send}"></th>
+                        <th th:text="#{reorder.send}" sec:authorize="hasRole('ROLE_WHOLESALER')"></th>
                     </tr>
                     </thead>
                     <tbody th:remove="all-but-first">
@@ -32,9 +32,8 @@
                         <td class="mdl-data-table__cell--non-numeric" th:text="${subTransaction.flower}"></td>
                         <td th:text="${subTransaction.quantity}"></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(subTransaction.price.negate().number, 0, 'COMMA', 2, 'POINT')}"></td>
-                        <td>
-                            <form sec:authorize="hasRole('ROLE_WHOLESALER')" method="post"
-                                  th:action="@{/products/reorders/send/{id}(id=${subTransaction.id})}">
+                        <td sec:authorize="hasRole('ROLE_WHOLESALER')">
+                            <form method="post" th:action="@{/products/reorders/send/{id}(id=${subTransaction.id})}">
                                 <button th:text="#{reorder.send}" class="mdl-button mdl-js-button mdl-button--colored"
                                         type="submit"></button>
                             </form>
