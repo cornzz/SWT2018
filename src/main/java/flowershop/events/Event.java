@@ -96,8 +96,8 @@ public class Event {
 		this.endTime = endTime;
 	}
 
-	public void setPrivate(){
-		this.isPrivate=true;
+	public void setPrivate(boolean isPrivate){
+		this.isPrivate = isPrivate;
 	}
 
 	public ArrayList<String> getTextLines(){

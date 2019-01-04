@@ -36,13 +36,20 @@
                     <div class="mdc-line-ripple"></div>
                 </div>
 
-                <div class="mdc-text-field">
-                    <input type="checkbox" value="private" name="isPrivate" id="isPrivate">
+                <div class="mdc-form-field">
+                    <div class="mdc-checkbox">
+                        <input class="mdc-checkbox__native-control" th:type="checkbox" value="true" name="isPrivate" id="isPrivate"/>
+                        <input type="hidden" name="isPrivate" value="false"/>
+                        <div class="mdc-checkbox__background">
+                            <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
+                                <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+                            </svg>
+                            <div class="mdc-checkbox__mixedmark"></div>
+                        </div>
+                    </div>
                     <label for="isPrivate" th:text="#{event.add.private}"></label>
-                    <div class="mdc-line-ripple"></div>
                 </div>
 
-                <button type="button" class="mdc-button" onclick="window.location='/events'" th:text="#{menu.back}">Zurück</button>
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.add}"></button>
             </form>
 

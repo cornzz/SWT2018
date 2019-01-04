@@ -8,7 +8,7 @@
     <div class="mdc-dialog__container">
         <div class="mdc-dialog__surface">
             <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-            <h2 class="mdc-dialog__title"><!---->Choose Flowers<!----></h2>
+            <h2 class="mdc-dialog__title" th:text="#{product.add.items}"></h2>
             <div class="mdc-dialog__content">
                 <ul id="fs-add-items-list" class="mdc-list">
                     <th:block th:each="item, iteration : ${flowerShopItems}">
@@ -59,7 +59,7 @@
     <div class="mdc-dialog__container">
         <div class="mdc-dialog__surface">
             <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-            <h2 class="mdc-dialog__title"><!---->Choose Services<!----></h2>
+            <h2 class="mdc-dialog__title" th:text="#{product.add.services}"></h2>
             <div class="mdc-dialog__content">
                 <ul id="fs-add-services-list" class="mdc-list">
                     <th:block th:each="service, iteration : ${flowerShopServices}">

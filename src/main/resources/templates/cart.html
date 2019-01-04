@@ -11,7 +11,7 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h5 th:if="${cart.empty}" th:text="#{cart.empty}" class="mdc-typography--headline5">Your cart is empty.</h5>
+            <h5 th:if="${cart.empty}" th:text="#{cart.empty}" class="mdc-typography--headline5"></h5>
 
             <div class="fs-mdl-wrapper" th:unless="${cart.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">

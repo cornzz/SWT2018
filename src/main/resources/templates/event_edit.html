@@ -10,7 +10,9 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form method="post" class="fs-form" th:action="@{/event/edit}">
+            <h5 th:unless="${event}" th:text="#{event.notexist}" class="mdc-typography--headline5"></h5>
+
+            <form th:if="${event}" method="post" class="fs-form" th:action="@{/event/edit}">
                 <input name="id" th:value="${event.id}" hidden>
                 <div class="mdc-text-field">
                     <input type="text" pattern=".{5,}" title="Der Titel ist zu kurz." class="mdc-text-field__input"

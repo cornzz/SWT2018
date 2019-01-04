@@ -4,6 +4,7 @@ import org.salespointframework.core.DataInitializer;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Component
 public class EventsInitializer implements DataInitializer {
@@ -15,7 +16,9 @@ public class EventsInitializer implements DataInitializer {
 
 	@Override
 	public void initialize() {
-		Event event = new Event("Blumentag", "Blumentag - für jede Produkt gilt Preissenkung 20%. \n\nFür jede Produkt gilt Preissenkung 20%. Für jede Produkt gilt Preissenkung 20%. Für jede Produkt gilt Preissenkung 20%. Für jede Produkt gilt Preissenkung 20%.", LocalDateTime.now(), 10);
-		events.save(event);
+		Event event1 = new Event("Blumentag", "Blumentag - 20% Rabatt auf alle Produkte!", LocalDateTime.now(), 10);
+		Event event2 = new Event("Frühjahrsputz", "Frühjahrsputz", LocalDateTime.now(), 1);
+		event2.setPrivate(true);
+		events.saveAll(Arrays.asList(event1, event2));
 	}
 }
