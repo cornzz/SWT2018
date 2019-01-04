@@ -36,6 +36,12 @@
                     <div class="mdc-line-ripple"></div>
                 </div>
 
+                <div class="mdc-text-field">
+                    <input type="checkbox" value="private" name="isPrivate" id="isPrivate">
+                    <label for="isPrivate" th:text="#{event.add.private}"></label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+
                 <button type="button" class="mdc-button" onclick="window.location='/events'" th:text="#{menu.back}">Zurück</button>
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.add}"></button>
             </form>

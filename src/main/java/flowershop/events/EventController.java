@@ -1,6 +1,9 @@
 package flowershop.events;
 
 
+import org.salespointframework.useraccount.Role;
+import org.salespointframework.useraccount.UserAccount;
+import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 public class EventController {
@@ -36,7 +40,8 @@ public class EventController {
 
 	@PostMapping("/event/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String addEvent(Model model, @RequestParam("title") String title, @RequestParam("text") String text, @RequestParam("begin") String daysToBegin, @RequestParam("duration") String duration) {
+	public String addEvent(Model model, @RequestParam("title") String title, @RequestParam("text") String text, @RequestParam("begin") String daysToBegin,
+						   @RequestParam("duration") String duration, @RequestParam("isPrivate") String isPrivate) {
 		int convertedDaysToBegin;
 		int convertedDaysDuration;
 		try {
@@ -59,13 +64,25 @@ public class EventController {
 		}
 		LocalDateTime currentTime = LocalDateTime.now();
 		LocalDateTime beginTime = currentTime.plusDays(convertedDaysToBegin);
-		events.save(new Event(title, text, beginTime, convertedDaysDuration));
+		Event event = new Event(title, text, beginTime, convertedDaysDuration);
+		event.setPrivate();
+		events.save(event);
 		return "redirect:/events";
 	}
 
 	@GetMapping("/event/show")
-	public String event(@RequestParam(value = "id") long eventId, Model model) {
+	public String event(@RequestParam(value = "id") long eventId, Model model, @LoggedIn Optional<UserAccount> loggedIn) {
 		Event event = events.findById(eventId).get();
+		if (event.getIsPrivate()) {
+			if (loggedIn.isPresent()) {
+				UserAccount user = loggedIn.get();
+				if (!user.hasRole(Role.of("ROLE_BOSS"))) {
+					return "redirect:/events";
+				}
+			} else {
+				return "redirect:/events";
+			}
+		}
 		int state = -1; // -1 = scheduled, 0 = active, 1 = over
 		model.addAttribute("event", event);
 		if (event.getBeginTime().isBefore(LocalDateTime.now()) && event.getEndTime().isAfter(LocalDateTime.now())) {

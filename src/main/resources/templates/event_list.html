@@ -32,17 +32,17 @@
                     </thead>
                     <tbody>
                     <tr th:each="event : ${events}">
-                        <td><a th:href="@{/event/show?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">pageview</a></td>
-                        <td th:text="${event.title}" class="mdl-data-table__cell--non-numeric"></td>
-                        <td th:text="${event.formatedBeginTime}"></td>
-                        <td th:text="${event.formatedEndTime}"></td>
-                        <td th:text="${event.formatedCreatedTime}"></td>
-                        <td sec:authorize="hasRole('ROLE_BOSS')">
+                        <td th:unless="${event.isPrivate}"><a th:href="@{/event/show?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">pageview</a></td>
+                        <td th:unless="${event.isPrivate}" th:text="${event.title}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td th:unless="${event.isPrivate}" th:text="${event.formatedBeginTime}"></td>
+                        <td th:unless="${event.isPrivate}" th:text="${event.formatedEndTime}"></td>
+                        <td th:unless="${event.isPrivate}" th:text="${event.formatedCreatedTime}"></td>
+                        <td th:unless="${event.isPrivate}" sec:authorize="hasRole('ROLE_BOSS')">
                             <a th:href="@{/event/edit?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">
                                 settings
                             </a>
                         </td>
-                        <td sec:authorize="hasRole('ROLE_BOSS')">
+                        <td th:unless="${event.isPrivate}" sec:authorize="hasRole('ROLE_BOSS')">
                             <a th:href="@{/event/remove?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">
                                 delete
                             </a>
@@ -51,6 +51,44 @@
                     </tbody>
                 </table>
             </div>
+            <br />
+            <h4 sec:authorize="hasRole('ROLE_BOSS')" th:text="#{event.list.private}"></h4>
+            <div sec:authorize="hasRole('ROLE_BOSS')" class="fs-mdl-wrapper" th:unless="${events.empty}">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th th:text="#{event.title}" class="mdl-data-table__cell--non-numeric"></th>
+                        <th th:text="#{event.begin}"></th>
+                        <th th:text="#{event.end}"></th>
+                        <th th:text="#{event.created}"></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="event : ${events}">
+                        <td th:if="${event.isPrivate}"><a th:href="@{/event/show?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">pageview</a></td>
+                        <td th:if="${event.isPrivate}" th:text="${event.title}" class="mdl-data-table__cell--non-numeric"></td>
+                        <td th:if="${event.isPrivate}" th:text="${event.formatedBeginTime}"></td>
+                        <td th:if="${event.isPrivate}" th:text="${event.formatedEndTime}"></td>
+                        <td th:if="${event.isPrivate}" th:text="${event.formatedCreatedTime}"></td>
+                        <td th:if="${event.isPrivate}" sec:authorize="hasRole('ROLE_BOSS')">
+                            <a th:href="@{/event/edit?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">
+                                settings
+                            </a>
+                        </td>
+                        <td th:if="${event.isPrivate}" sec:authorize="hasRole('ROLE_BOSS')">
+                            <a th:href="@{/event/remove?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">
+                                delete
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
 
         </div>
     </div>

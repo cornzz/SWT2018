@@ -18,6 +18,7 @@
                         <span th:case="0" th:text="#{event.active}"></span>
                         <span th:case="1" th:text="#{event.over}"></span>
                     </h3>
+                    <h3 th:if="${event.isPrivate}" class="fs-card__subtitle mdc-typography--subtitle2" th:text="#{event.private}"></h3>
                 </div>
                 <div class="fs-card__secondary mdc-typography--body2" th:text="${event.text}"></div>
                 <div class="mdc-card__actions">
