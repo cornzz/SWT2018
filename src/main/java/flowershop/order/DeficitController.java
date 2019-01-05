@@ -1,8 +1,6 @@
-package flowershop.products.controller;
+package flowershop.order;
 
 
-import flowershop.order.SubTransaction;
-import flowershop.order.Transaction;
 import org.salespointframework.order.OrderManager;
 import org.springframework.data.util.Streamable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,11 +17,11 @@ import static org.salespointframework.order.OrderStatus.PAID;
 
 
 @Controller
-public class FlowerShopDeficitController {
+public class DeficitController {
 
 	private final OrderManager<Transaction> transactionManager;
 
-	FlowerShopDeficitController(OrderManager<Transaction> transactionManager) {
+	DeficitController(OrderManager<Transaction> transactionManager) {
 		this.transactionManager = transactionManager;
 	}
 

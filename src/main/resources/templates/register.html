@@ -33,10 +33,7 @@
                      th:utext="${#fields.errors('firstName') + ' ' + #fields.errors('lastName')}"
                      class="fs-snackbar-text" role="alert" hidden>
                 </div>
-                <div th:if="${#fields.hasErrors('username')}"
-                     th:text="'An account with the username ' + *{username} + ' is already registered!'"
-                     class="fs-snackbar-text" role="alert" hidden>
-                </div>
+                <div th:each="error : ${#fields.errors('username')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
 
                 <!-- E-Mail -->
                 <div class="mdc-text-field">

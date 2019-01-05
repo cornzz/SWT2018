@@ -9,10 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
@@ -23,13 +20,10 @@ import java.util.Optional;
 public class UserController {
 
 	private final UserManager userManager;
-	private final AuthenticationManager authenticationManager;
 
-	public UserController(UserManager userManager, AuthenticationManager authenticationManager) {
+	public UserController(UserManager userManager) {
 		this.userManager = userManager;
-		this.authenticationManager = authenticationManager;
 	}
-
 
 	@GetMapping("/login")
 	String login(@LoggedIn Optional<UserAccount> loggedIn) {
@@ -60,8 +54,7 @@ public class UserController {
 		try {
 			String username = (form.getFirstName() + form.getLastName()).toLowerCase();
 			request.login(username, form.getPassword());
-		} catch (ServletException e) {
-		}
+		} catch (ServletException ignored) {}
 
 		return new ModelAndView("forward:/", "newUser", form.getFirstName());
 	}
@@ -150,13 +143,14 @@ public class UserController {
 		}).orElse(new ModelAndView("account_changepass_admin"));
 	}
 
-	@GetMapping("/users")
+	@RequestMapping("/users")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	ModelAndView users(Model model) {
-		return new ModelAndView("users", "userList", userManager.findAll());
+	ModelAndView users(ModelAndView model) {
+		model.addObject("userList", userManager.findAll()).setViewName("users");
+		return model;
 	}
 
-	private void populateForm(UserDataTransferObject form, @LoggedIn UserAccount loggedIn) {
+	void populateForm(UserDataTransferObject form, @LoggedIn UserAccount loggedIn) {
 		User user = userManager.findByAccount(loggedIn).get();
 		form.setFirstName(loggedIn.getFirstname());
 		form.setLastName(loggedIn.getLastname());

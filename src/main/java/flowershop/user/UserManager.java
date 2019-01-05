@@ -54,6 +54,10 @@ public class UserManager {
 				return this.findAll().stream().filter(u -> u.getUserAccount().equals(userAccount)).findFirst();
 		}
 
+		public Optional<User> findByUsername(String username) {
+			return this.findAll().stream().filter(u -> u.getUserAccount().getUsername().equals(username)).findFirst();
+		}
+
 		public boolean nameExists(String username) {
 				return this.findAll().stream().anyMatch(u -> u.getUserAccount().getUsername().equals(username));
 		}

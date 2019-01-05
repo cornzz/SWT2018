@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <aside class="mdc-drawer mdc-drawer--modal" th:fragment="drawer (view)">
-    <div class="mdc-drawer__header" sec:authorize="isAuthenticated()">
+    <div class="mdc-drawer__header" sec:authorize="isAuthenticated()" th:if="${loggedIn}">
         <h3 class="mdc-drawer__title" th:text="${loggedIn.userAccount.username}"></h3>
         <h6 class="mdc-drawer__subtitle" th:text="${loggedIn.userAccount.email}"></h6>
     </div>

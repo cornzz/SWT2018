@@ -24,8 +24,7 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 		@Override
 		public boolean isValid(String email, ConstraintValidatorContext context) {
 				if (email == null || email.isEmpty()) {
-						// In this case @NotNull / @NotEmpty takes over
-						return true;
+						return true; // In this case @NotNull / @NotEmpty takes over
 				}
 				return validateEmail(email);
 		}

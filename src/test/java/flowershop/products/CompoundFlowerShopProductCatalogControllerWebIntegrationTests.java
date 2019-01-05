@@ -5,19 +5,26 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import flowershop.AbstractWebIntegrationTests;
 import flowershop.products.controller.CompoundFlowerShopProductCatalogController;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MockMvc;
 
 /**
  * Integration test for the {@link CompoundFlowerShopProductCatalogController} on the web layer, i.e. simulating HTTP requests.
  *
  * @author Jonas Knobloch
  */
-class CompoundFlowerShopProductCatalogControllerWebIntegrationTests extends AbstractWebIntegrationTests {
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class CompoundFlowerShopProductCatalogControllerWebIntegrationTests {
+
+	@Autowired MockMvc mvc;
 
 	// TODO: Could not autowire. No beans of 'CompoundFlowerShopProductCatalog' type found.
 	@Autowired

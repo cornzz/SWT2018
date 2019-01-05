@@ -22,10 +22,6 @@ public class UserDataInitializer implements DataInitializer {
 	@Override
 	public void initialize() {
 
-		if (userAccountManager.findByUsername("admin").isPresent()) {
-			return;
-		}
-
 		UserAccount adminAccount = userAccountManager.create("admin", "pass", Role.of("ROLE_BOSS"));
 		UserAccount wholesalerAccount = userAccountManager.create("wholesaler", "pass", Role.of("ROLE_WHOLESALER"));
 		UserAccount userAccount1 = userAccountManager.create("johndoe", "pass", Role.of("ROLE_CUSTOMER"));
