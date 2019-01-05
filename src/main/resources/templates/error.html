@@ -11,7 +11,8 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <h1 class="mdc-typography--headline" th:text="${statusCode}">418</h1>
-            <p class="mdc-typography--caption fs-error__caption" th:text="${exception}">I'm a teapot</p>
+            <p class="mdc-typography--caption fs-error__caption" th:unless="${exception == null}" th:text="${exception}">I'm a teapot</p>
+            <p class="mdc-typography--caption fs-error__caption" th:unless="${message == null}" th:text="${message}"><p>
         </div>
     </div>
 </main>
