@@ -16,20 +16,44 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+/**
+ * A Spring MVC controller to manage {@link User}.
+ *
+ * @author Cornelius Kummer
+ */
 @Controller
 public class UserController {
 
 	private final UserManager userManager;
 
+	/**
+	 * Creates a new {@link UserController} with the given {@link UserManager}.
+	 *
+	 * @param userManager must not be {@literal null}.
+	 */
 	public UserController(UserManager userManager) {
 		this.userManager = userManager;
 	}
 
+	/**
+	 * Lets the user log in.
+	 *
+	 * @param loggedIn will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@GetMapping("/login")
 	String login(@LoggedIn Optional<UserAccount> loggedIn) {
 		return loggedIn.isPresent() ? "redirect:/products" : "login";
 	}
 
+
+	/**
+	 * Shows the registration form.
+	 *
+	 * @param form     will never be {@literal null}.
+	 * @param loggedIn will never be {@literal null}.
+	 * @return the view name and, if the user is not logged in, the registration form object.
+	 */
 	@GetMapping("/register")
 	ModelAndView register(UserDataTransferObject form, @LoggedIn Optional<UserAccount> loggedIn) {
 		if (loggedIn.isPresent()) {
@@ -39,6 +63,15 @@ public class UserController {
 		return new ModelAndView("register", "form", form);
 	}
 
+	/**
+	 * Registers a new {@link User}.
+	 *
+	 * @param form     must not be {@literal null}.
+	 * @param result   will never be {@literal null}.
+	 * @param request  will never be {@literal null}.
+	 * @param loggedIn will never be {@literal null}.
+	 * @return the view name and, if registration is not successful, the registration form object.
+	 */
 	@PostMapping("/register")
 	ModelAndView registerNew(@ModelAttribute("form") @Validated(UserDataTransferObject.RegistrationProcess.class) UserDataTransferObject form,
 							 BindingResult result, HttpServletRequest request, @LoggedIn Optional<UserAccount> loggedIn) {
@@ -59,28 +92,48 @@ public class UserController {
 		return new ModelAndView("forward:/", "newUser", form.getFirstName());
 	}
 
+	/**
+	 * Lets the user view his account data.
+	 *
+	 * @param form     will never be {@literal null}.
+	 * @param loggedIn will never be {@literal null}.
+	 * @return the view name and the account data form object.
+	 */
 	@GetMapping("/account")
 	@PreAuthorize("isAuthenticated()")
 	ModelAndView myAccount(UserDataTransferObject form, @LoggedIn Optional<UserAccount> loggedIn) {
-
-		populateForm(form, loggedIn.get());
+		loggedIn.ifPresent(userAccount -> populateForm(form, userAccount));
 
 		return new ModelAndView("account", "form", form);
 	}
 
+	/**
+	 * Lets the user update his account data.
+	 *
+	 * @param form     will never be {@literal null}.
+	 * @param result   will never be {@literal null}.
+	 * @param loggedIn will never be {@literal null}.
+	 * @return the view name and, if update process unsuccessful, the account data form object.
+	 */
 	@PostMapping("/account")
 	@PreAuthorize("isAuthenticated()")
 	ModelAndView updateMyAccount(@ModelAttribute("form") @Validated(UserDataTransferObject.UpdateAccProcess.class) UserDataTransferObject form,
-							   BindingResult result, @LoggedIn Optional<UserAccount> loggedIn) {
+								 BindingResult result, @LoggedIn Optional<UserAccount> loggedIn) {
 		if (result.hasErrors()) {
 			return new ModelAndView("account", "form", form);
 		}
-
-		userManager.modifyUser(form, loggedIn.get());
+		loggedIn.ifPresent(userAccount -> userManager.modifyUser(form, userAccount));
 
 		return new ModelAndView("redirect:/account?success");
 	}
 
+	/**
+	 * Lets the admin view the account data of any user.
+	 *
+	 * @param userAccount must not be {@literal null}.
+	 * @param form        will never be {@literal null}.
+	 * @return the view name and the account data form object.
+	 */
 	@GetMapping("/account/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	ModelAndView account(@PathVariable(name = "id") Optional<UserAccount> userAccount, UserDataTransferObject form) {
@@ -93,6 +146,13 @@ public class UserController {
 		return new ModelAndView("account", "form", form);
 	}
 
+	/**
+	 * Lets the admin update the account data of any user.
+	 *
+	 * @param userAccount must not be {@literal null}.
+	 * @param form        must not be {@literal null}.
+	 * @return the view name.
+	 */
 	@PostMapping("/account/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	ModelAndView updateAccount(@PathVariable(name = "id") Optional<UserAccount> userAccount, @ModelAttribute("form") UserDataTransferObject form) {
@@ -102,29 +162,50 @@ public class UserController {
 		}).orElse(new ModelAndView("redirect:/account/{id}"));
 	}
 
+	/**
+	 * Displays the password change form.
+	 *
+	 * @param form will never be {@literal null}.
+	 * @return the view name and account data form object.
+	 */
 	@GetMapping("/account/changepass")
 	@PreAuthorize("isAuthenticated()")
-	ModelAndView changeMyPassword(UserDataTransferObject form) {
+	ModelAndView changeMyPasswordForm(UserDataTransferObject form) {
 		return new ModelAndView("account_changepass", "form", form);
 	}
 
+	/**
+	 * Lets the user update his password
+	 *
+	 * @param form     must not be {@literal null}.
+	 * @param result   will never be {@literal null}.
+	 * @param loggedIn will never be {@literal null}.
+	 * @return the view name and, if update process unsuccessful, the account data form object.
+	 */
 	@PostMapping("/account/changepass")
 	@PreAuthorize("isAuthenticated()")
 	ModelAndView changeMyPassword(@ModelAttribute("form") @Validated(UserDataTransferObject.ChangePassProcess.class) UserDataTransferObject form,
-								BindingResult result, @LoggedIn Optional<UserAccount> loggedIn) {
+								  BindingResult result, @LoggedIn Optional<UserAccount> loggedIn) {
 		if (result.hasErrors()) {
 			populateForm(form, loggedIn.get());
 			return new ModelAndView("account_changepass", "form", form);
 		}
 
-		userManager.changePass(form, loggedIn.get());
+		loggedIn.ifPresent(userAccount -> userManager.changePass(form, userAccount));
 
 		return new ModelAndView("redirect:/account?success");
 	}
 
+	/**
+	 * Displays the password change form for the admin.
+	 *
+	 * @param userAccount must not be {@literal null}.
+	 * @param form        will never be {@literal null}.
+	 * @return the view name and account data form object.
+	 */
 	@GetMapping("/account/{id}/changepass")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	ModelAndView changePassword(@PathVariable(name = "id") Optional<UserAccount> userAccount, UserDataTransferObject form) {
+	ModelAndView changePasswordForm(@PathVariable(name = "id") Optional<UserAccount> userAccount, UserDataTransferObject form) {
 		form.setIsEmpty(true);
 		userAccount.ifPresent(account -> {
 			form.setIsEmpty(false);
@@ -134,15 +215,28 @@ public class UserController {
 		return new ModelAndView("account_changepass_admin", "form", form);
 	}
 
+	/**
+	 * Lets the admin update the password of any user.
+	 *
+	 * @param userAccount must not be {@literal null}.
+	 * @param form        must not be {@literal null}.
+	 * @return the view name.
+	 */
 	@PostMapping("/account/{id}/changepass")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	ModelAndView changePassword(@PathVariable(name = "id") Optional<UserAccount> userAccount, @ModelAttribute("form") UserDataTransferObject form, @LoggedIn Optional<UserAccount> loggedIn) {
+	ModelAndView changePassword(@PathVariable(name = "id") Optional<UserAccount> userAccount, @ModelAttribute("form") UserDataTransferObject form) {
 		return userAccount.map(account -> {
 			userManager.changePass(form, account);
 			return new ModelAndView("redirect:/account/{id}?success");
 		}).orElse(new ModelAndView("account_changepass_admin"));
 	}
 
+	/**
+	 * Displays all {@link User}s in the system to the admin.
+	 *
+	 * @param model will never be {@literal null}.
+	 * @return the view name and all existing {@link User} instances
+	 */
 	@RequestMapping("/users")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	ModelAndView users(ModelAndView model) {
@@ -150,13 +244,21 @@ public class UserController {
 		return model;
 	}
 
-	void populateForm(UserDataTransferObject form, @LoggedIn UserAccount loggedIn) {
-		User user = userManager.findByAccount(loggedIn).get();
-		form.setFirstName(loggedIn.getFirstname());
-		form.setLastName(loggedIn.getLastname());
-		form.setEmail(loggedIn.getEmail());
-		form.setPhone(user.getPhone());
-		form.setIsEmpty(false);
+
+	/**
+	 * Populates the given {@link UserDataTransferObject} with the account data of the given {@link UserAccount}.
+	 *
+	 * @param form        must not be {@literal null}.
+	 * @param userAccount must not be {@literal null}.
+	 */
+	void populateForm(UserDataTransferObject form, UserAccount userAccount) {
+		userManager.findByAccount(userAccount).ifPresent(user -> {
+			form.setFirstName(userAccount.getFirstname());
+			form.setLastName(userAccount.getLastname());
+			form.setEmail(userAccount.getEmail());
+			form.setPhone(user.getPhone());
+			form.setIsEmpty(false);
+		});
 	}
 
 }

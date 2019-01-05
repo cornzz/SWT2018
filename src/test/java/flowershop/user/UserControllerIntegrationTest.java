@@ -16,6 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Integration tests interacting with the {@link UserController} directly.
+ *
+ * @author Cornelius Kummer
+ */
 class UserControllerIntegrationTest extends AbstractIntegrationTests {
 
 	@Autowired UserController controller;

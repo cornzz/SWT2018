@@ -6,6 +6,11 @@ import org.salespointframework.useraccount.Password;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * Validator for a given password that is supposed to be the password of a {@link flowershop.user.User} entity.
+ *
+ * @author Cornelius Kummer
+ */
 public class OldPasswordValidator implements ConstraintValidator<ValidOldPassword, String> {
 
 	private AuthenticationManager authMgr;
@@ -14,6 +19,11 @@ public class OldPasswordValidator implements ConstraintValidator<ValidOldPasswor
 		this.authMgr = authenticationManager;
 	}
 
+	/**
+	 * @param oldPasswordCandidate
+	 * @param constraintValidatorContext must not be {@literal null}.
+	 * @return <code>true</code> if given password matches the currently logged in users password; <code>false</code> otherwise.
+	 */
 	@Override
 	public boolean isValid(String oldPasswordCandidate, ConstraintValidatorContext constraintValidatorContext) {
 		if (oldPasswordCandidate == null || oldPasswordCandidate.isEmpty()) {

@@ -21,13 +21,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Integration test for the {@link UserController} on the web layer, i.e. simulating HTTP requests.
+ *
+ * @author Cornelius Kummer
+ */
+
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
 class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 
-	@Autowired
-	MockMvc mvc;
-	@Autowired
-	UserManager userManager;
+	@Autowired MockMvc mvc;
+	@Autowired UserManager userManager;
 
 	private RequestBuilder login(String user, String pass) {
 		return post("/login").

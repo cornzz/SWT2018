@@ -7,6 +7,11 @@ import org.hibernate.validator.constraintvalidation.HibernateConstraintValidator
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * Validator that checks whether {@link flowershop.user.User} with a given username already exists.
+ *
+ * @author Cornelius Kummer
+ */
 public class UsernameValidator implements ConstraintValidator<ValidUsername, Object> {
 
 	private UserManager userManager;
@@ -20,6 +25,12 @@ public class UsernameValidator implements ConstraintValidator<ValidUsername, Obj
 		return validateUsername((UserDataTransferObject) obj, context);
 	}
 
+	/**
+	 * @param form    must not be {@literal null}.
+	 * @param context must not be {@literal null}.
+	 * @return <code>false</code> if a {@link flowershop.user.User} with given username is already registered;
+	 * <code>true</code> otherwise.
+	 */
 	private boolean validateUsername(UserDataTransferObject form, ConstraintValidatorContext context) {
 		String username = (form.getFirstName() + form.getLastName()).replaceAll("\\s", "").toLowerCase();
 		form.setUsername(username);

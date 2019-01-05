@@ -5,10 +5,12 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import flowershop.AbstractIntegrationTests;
 import flowershop.products.controller.CompoundFlowerShopProductCatalogController;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
  * @author Jonas Knobloch
  */
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class CompoundFlowerShopProductCatalogControllerWebIntegrationTests {
+@AutoConfigureMockMvc(print = MockMvcPrint.NONE)
+class CompoundFlowerShopProductCatalogControllerWebIntegrationTests extends AbstractIntegrationTests {
 
 	@Autowired MockMvc mvc;
 

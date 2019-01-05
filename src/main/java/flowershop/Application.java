@@ -29,6 +29,11 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
+/**
+ * The central application class to configure the Spring container and run the application.
+ *
+ * @author Cornelius Kummer
+ */
 @EnableSalespoint
 public class Application {
 
@@ -39,6 +44,12 @@ public class Application {
 	@Configuration
 	static class WebSecurityConfiguration extends SalespointSecurityConfiguration {
 
+		/**
+		 * Disabling Spring Securitys CSRF support as we do not implement pre-flight request handling for the sake of
+		 * simplicity. Setting up basic security, defining login and logout options and an access denied page.
+		 *
+		 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
+		 */
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable();
@@ -54,6 +65,9 @@ public class Application {
 	@Configuration
 	static class FlowerShopWebConfiguration implements WebMvcConfigurer {
 
+		/**
+		 * @return {@link LocaleResolver} for the project with default locale set to German.
+		 */
 		@Bean
 		public LocaleResolver localeResolver() {
 			SessionLocaleResolver localeResolver = new SessionLocaleResolver();
@@ -61,6 +75,9 @@ public class Application {
 			return localeResolver;
 		}
 
+		/**
+		 * @return {@link LocaleChangeInterceptor} for the project with the parameter name to be intercepted set to <code>lang</code>.
+		 */
 		@Bean
 		public LocaleChangeInterceptor localeChangeInterceptor() {
 			LocaleChangeInterceptor changeInterceptor = new LocaleChangeInterceptor();
@@ -68,6 +85,11 @@ public class Application {
 			return changeInterceptor;
 		}
 
+		/**
+		 * Adds our {@link LocaleChangeInterceptor} for pre- and post-processing of controller method invocations.
+		 *
+		 * @param registry will never be {@literal null}.
+		 */
 		@Override
 		public void addInterceptors(InterceptorRegistry registry) {
 			registry.addInterceptor(localeChangeInterceptor());

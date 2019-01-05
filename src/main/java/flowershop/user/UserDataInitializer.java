@@ -7,6 +7,11 @@ import org.salespointframework.useraccount.UserAccountManager;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+/**
+ * Initializes {@link User}s
+ *
+ * @author Cornelius Kummer
+ */
 @Component
 @Order(10)
 public class UserDataInitializer implements DataInitializer {

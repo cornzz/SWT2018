@@ -8,49 +8,52 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+/**
+ * @author Cornelius Kummer
+ */
 @Entity
 public class User {
 
-		private @Id
-		@GeneratedValue
-		long id;
+	private @Id
+	@GeneratedValue
+	long id;
 
-		private String phone;
+	private String phone;
 
-		@OneToOne
-		private UserAccount userAccount;
+	@OneToOne
+	private UserAccount userAccount;
 
-		@SuppressWarnings("unused")
-		private User() {
-		}
+	@SuppressWarnings("unused")
+	private User() {
+	}
 
-		public User(UserAccount userAccount, String phone) {
-				this.userAccount = userAccount;
-				this.phone = phone;
-		}
+	public User(UserAccount userAccount, String phone) {
+		this.userAccount = userAccount;
+		this.phone = phone;
+	}
 
-		public long getId() {
-				return id;
-		}
+	public long getId() {
+		return id;
+	}
 
-		public String getPhone() {
-				return phone;
-		}
+	public String getPhone() {
+		return phone;
+	}
 
-		public void setPhone(String phone) {
-				this.phone = phone;
-		}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-		public UserAccount getUserAccount() {
-				return userAccount;
-		}
+	public UserAccount getUserAccount() {
+		return userAccount;
+	}
 
-		public Role getRole() {
-				return this.userAccount.getRoles().stream().findFirst().get();
-		}
+	public Role getRole() {
+		return this.userAccount.getRoles().stream().findFirst().get();
+	}
 
-		public String getRoleString() {
-			return getRole().toString().replace("ROLE_", "");
-		}
+	public String getRoleString() {
+		return getRole().toString().replace("ROLE_", "");
+	}
 
 }

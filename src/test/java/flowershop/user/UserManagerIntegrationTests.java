@@ -16,6 +16,11 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
+/**
+ * Integration tests interacting with the {@link UserManager} directly.
+ *
+ * @author Cornelius Kummer
+ */
 class UserManagerIntegrationTests extends AbstractIntegrationTests {
 
 	@Autowired UserManager userManager;
