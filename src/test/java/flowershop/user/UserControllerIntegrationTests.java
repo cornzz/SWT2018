@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Cornelius Kummer
  */
-class UserControllerIntegrationTest extends AbstractIntegrationTests {
+class UserControllerIntegrationTests extends AbstractIntegrationTests {
 
 	@Autowired UserController controller;
 	@Autowired UserManager userManager;

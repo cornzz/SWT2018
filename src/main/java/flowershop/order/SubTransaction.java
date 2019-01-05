@@ -11,9 +11,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
-
 @Entity
-
 public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 	public enum SubTransactionType {
 		DEFICIT,
@@ -41,7 +39,7 @@ public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 	private SubTransactionIdentifier subTransactionIdentifier = new SubTransactionIdentifier();
 
 
-	public SubTransaction(Quantity quantity, MonetaryAmount price, String flower, SubTransactionType type) {
+	public SubTransaction(String flower, Quantity quantity, MonetaryAmount price, SubTransactionType type) {
 		this.quantity = quantity;
 		this.date = LocalDateTime.now();
 		this.price = price;

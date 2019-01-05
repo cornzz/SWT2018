@@ -3,6 +3,7 @@ package flowershop.order;
 import org.salespointframework.inventory.InventoryItemIdentifier;
 import org.salespointframework.order.Order;
 import org.salespointframework.payment.PaymentMethod;
+import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.UserAccount;
 
 import javax.money.MonetaryAmount;
@@ -40,7 +41,8 @@ public class Transaction extends Order {
 		this.itemId = null;
 	}
 
-	public void addSubTransaction(SubTransaction subTransaction) {
+	public void addSubTransaction(String item, Quantity quantity, MonetaryAmount price, SubTransaction.SubTransactionType type) {
+		SubTransaction subTransaction = new SubTransaction(item, quantity, price, type);
 		this.subTransactions.add(subTransaction);
 	}
 
@@ -69,12 +71,20 @@ public class Transaction extends Order {
 		return subTransactions;
 	}
 
+	public Quantity getQuantity() {
+		return getSubTransactions().stream().map(SubTransaction::getQuantity).reduce(Quantity.of(0), Quantity::add);
+	}
+
 	public void setType(TransactionType type) {
 		this.type = type;
 	}
 
 	public void setPrice(MonetaryAmount price) {
 		this.price = price;
+	}
+
+	public void setItemId(InventoryItemIdentifier itemId) {
+		this.itemId = itemId;
 	}
 
 	public void setDescription(String description) {
