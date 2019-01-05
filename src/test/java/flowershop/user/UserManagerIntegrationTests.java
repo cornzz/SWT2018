@@ -2,19 +2,16 @@ package flowershop.user;
 
 import flowershop.AbstractIntegrationTests;
 import flowershop.user.form.UserDataTransferObject;
-import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.salespointframework.useraccount.AuthenticationManager;
-import org.salespointframework.useraccount.Password;
-import org.salespointframework.useraccount.UserAccount;
-import org.salespointframework.useraccount.UserAccountManager;
+import org.salespointframework.useraccount.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Streamable;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Integration tests interacting with the {@link UserManager} directly.
@@ -23,15 +20,13 @@ import static org.assertj.core.api.Assertions.*;
  */
 class UserManagerIntegrationTests extends AbstractIntegrationTests {
 
-	@Autowired UserManager userManager;
-	@Autowired UserAccountManager userAccountManager;
-	@Autowired UserRepository userRepository;
 	@Autowired AuthenticationManager authenticationManager;
 	private UserDataTransferObject form = new UserDataTransferObject();
-
+	@Autowired UserManager userManager;
+	@Autowired UserAccountManager userAccountManager;
 
 	@BeforeAll
-	void setUp() {
+	void setup2() {
 		form.setFirstName("Dave");
 		form.setLastName("Smith");
 		form.setPassword("pass");
@@ -42,39 +37,39 @@ class UserManagerIntegrationTests extends AbstractIntegrationTests {
 	}
 
 	@Test
-	void testFindAll() {
+	void findAllTest() {
 		Streamable<User> result = userManager.findAll();
 		assertThat(result).isNotEmpty();
 		result.forEach(System.out::println);
 	}
 
 	@Test
-	void testFindByAccount() {
+	void findByAccountTest() {
 		UserAccount user = userAccountManager.findAll().stream().findFirst().get();
 		Optional<User> result = userManager.findByAccount(user);
 		assertThat(result).isNotEmpty();
 	}
 
 	@Test
-	void testFindByUsername() {
+	void findByUsernameTest() {
 		Optional<User> result = userManager.findByUsername("davesmith");
 		assertThat(result).isNotEmpty();
 	}
 
 	@Test
-	void testNameExists() {
+	void nameExistsTest() {
 		boolean result = userManager.nameExists("davesmith");
 		assertThat(result).isTrue();
 	}
 
 	@Test
-	void mailExists() {
+	void mailExistsTest() {
 		boolean result = userManager.mailExists("email");
 		assertThat(result).isTrue();
 	}
 
 	@Test
-	void testModifyUser() {
+	void modifyUserTest() {
 		form.setFirstName("Mike");
 		UserAccount user = userAccountManager.findByUsername("davesmith").get();
 		User result = userManager.modifyUser(form, user);
@@ -82,12 +77,20 @@ class UserManagerIntegrationTests extends AbstractIntegrationTests {
 	}
 
 	@Test
-	void testChangePassword() {
+	void changePasswordTest() {
 		form.setPassword("newpass");
 		UserAccount user = userAccountManager.findByUsername("davesmith").get();
 		userManager.changePass(form, user);
 		boolean result = authenticationManager.matches(Password.unencrypted("newpass"), user.getPassword());
-		assertThat(result).isTrue();
+		assertTrue(result);
+	}
+
+	@Test
+	void addRoleTest() {
+		Role role = Role.of("ROLE_BOSS");
+		userManager.addRole("davesmith", role);
+		boolean result = userManager.findByUsername("davesmith").get().getUserAccount().hasRole(role);
+		assertTrue(result);
 	}
 
 }

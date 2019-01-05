@@ -1,12 +1,11 @@
 package flowershop.products;
 
-import static org.assertj.core.api.Assertions.*;
-
 import flowershop.AbstractIntegrationTests;
-
 import org.junit.jupiter.api.Test;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link CompoundFlowerShopProductCatalog}.

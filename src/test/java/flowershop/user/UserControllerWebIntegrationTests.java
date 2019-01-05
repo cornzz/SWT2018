@@ -1,16 +1,12 @@
 package flowershop.user;
 
 import flowershop.AbstractIntegrationTests;
-import flowershop.user.form.UserDataTransferObject;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.endsWith;
@@ -18,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -26,30 +21,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Cornelius Kummer
  */
-
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
 class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 
 	@Autowired MockMvc mvc;
 	@Autowired UserManager userManager;
-
-	private RequestBuilder login(String user, String pass) {
-		return post("/login").
-				param("username", user).
-				param("password", pass);
-	}
-
-	@BeforeAll
-	void setUp() {
-		UserDataTransferObject form = new UserDataTransferObject();
-		form.setFirstName("te");
-		form.setLastName("st");
-		form.setPassword("test");
-		form.setEmail("te@st.te");
-		form.setPhone("test");
-
-		assertThat(userManager.createUser(form)).isNotNull();
-	}
 
 	@Test
 	void redirectsToLoginPageForSecuredResource() throws Exception {

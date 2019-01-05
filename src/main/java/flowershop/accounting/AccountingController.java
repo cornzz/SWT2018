@@ -45,7 +45,7 @@ public class AccountingController {
 
 	@GetMapping("/accounting")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	String orders(Model model) {
+	String accounting(Model model) {
 		Streamable<Transaction> transactions = findAllTransactions().filter(transaction -> transaction.getType() != COLLECTION);
 		Streamable<SubTransaction> subTransactions = findAllTransactions().filter(transaction -> transaction.getType() == COLLECTION).
 				map(Transaction::getSubTransactions).get().flatMap(List::stream).
@@ -74,11 +74,12 @@ public class AccountingController {
 		if (result.hasErrors()) {
 			return new ModelAndView("accounting_add", "form", form);
 		}
-
-		Transaction transaction = new Transaction(loggedIn.get(), CASH, CUSTOM);
-		transaction.setPrice(Money.of(Double.valueOf(form.getAmount()), "EUR"));
-		transaction.setDescription(form.getDescription());
-		transactionManager.payOrder(transaction);
+		loggedIn.ifPresent(userAccount -> {
+			Transaction transaction = new Transaction(userAccount, CASH, CUSTOM);
+			transaction.setPrice(Money.of(Double.valueOf(form.getAmount()), "EUR"));
+			transaction.setDescription(form.getDescription());
+			transactionManager.payOrder(transaction);
+		});
 
 		return new ModelAndView("redirect:/accounting");
 	}

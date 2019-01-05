@@ -87,6 +87,17 @@ public class UserManager {
 		return Streamable.of(users.findAll());
 	}
 
+	/**
+	 * Adds a given {@link Role} to the {@link UserAccount} of the {@link User} entity with the given username
+	 *
+	 * @param username must not be {@literal null}.
+	 * @param role must not be {@literal null}.
+	 * @return <code>true</code> if {@link User} with given username exists and role was added; <code>false</code> otherwise.
+	 */
+	public boolean addRole(String username, Role role) {
+		return userAccountManager.findByUsername(username).map(userAccount -> userAccount.add(role)).orElse(false);
+	}
+
 
 	/**
 	 * @param userAccount must not be {@literal null}.

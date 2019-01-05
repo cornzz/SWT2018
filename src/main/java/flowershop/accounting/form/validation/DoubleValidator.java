@@ -10,7 +10,7 @@ public class DoubleValidator implements ConstraintValidator<IsDouble, String> {
 		Double value;
 		try {
 			value = Double.valueOf(s);
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			return false;
 		}
 		return !(value >= Double.POSITIVE_INFINITY) && !(value <= Double.NEGATIVE_INFINITY);

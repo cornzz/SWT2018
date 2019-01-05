@@ -2,7 +2,6 @@ package flowershop.user;
 
 import flowershop.AbstractIntegrationTests;
 import flowershop.user.form.UserDataTransferObject;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +25,6 @@ class UserControllerIntegrationTest extends AbstractIntegrationTests {
 	@Autowired UserController controller;
 	@Autowired UserManager userManager;
 
-	@BeforeAll
-	void setUp() {
-		UserDataTransferObject form = new UserDataTransferObject();
-		form.setFirstName("te");
-		form.setLastName("st");
-		form.setPassword("test");
-		form.setEmail("test");
-		form.setPhone("test");
-
-		assertThat(userManager.createUser(form)).isNotNull();
-	}
 
 	@Test
 	void returnXIfNotAuthenticated() {
@@ -69,7 +57,7 @@ class UserControllerIntegrationTest extends AbstractIntegrationTests {
 		UserDataTransferObject form = new UserDataTransferObject();
 		UserAccount userAccount = userManager.findByUsername("test").get().getUserAccount();
 		controller.populateForm(form, userAccount);
-		assertEquals(form.getEmail(), "test");
+		assertEquals(form.getEmail(), "te@st.te");
 	}
 
 }
