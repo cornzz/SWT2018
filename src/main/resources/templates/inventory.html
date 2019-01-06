@@ -29,22 +29,28 @@
                     <tbody th:remove="all-but-first">
                     <tr th:each=" item : ${inventory}">
                         <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.name}"></td>
-                        <td th:text="${item.product.price}"></td>
+                        <td th:text="${item.product.basePrice}"></td>
                         <td th:text="${{item.quantity}}"></td>
                         <td>
-                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post" th:action="@{/products/items/stock/deficit/{id}(id=${item.id})}"
+                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post"
+                                  th:action="@{/products/items/stock/deficit/{id}(id=${item.id})}"
                                   class="fs-table-input">
-                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="deficitQuantity" th:object="${deficitQuantity}">
+                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?"
+                                       name="deficitQuantity" th:object="${deficitQuantity}">
                                 <span class="mdl-textfield__error">Input is not a number!</span>
-                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit" th:text="#{inventory.deficit}"></button>
+                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit"
+                                        th:text="#{inventory.deficit}"></button>
                             </form>
                         </td>
                         <td>
-                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post" th:action="@{/products/items/stock/reorder/{id}(id=${item.id})}"
+                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post"
+                                  th:action="@{/products/items/stock/reorder/{id}(id=${item.id})}"
                                   class="fs-table-input">
-                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" name="reorderQuantity" th:object="${reorderQuantity}">
+                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?"
+                                       name="reorderQuantity" th:object="${reorderQuantity}">
                                 <span class="mdl-textfield__error">Input is not a number!</span>
-                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit" th:text="#{inventory.reorder}"></button>
+                                <button class="mdl-button mdl-js-button mdl-button--colored" type="submit"
+                                        th:text="#{inventory.reorder}"></button>
                             </form>
                         </td>
                     </tr>
@@ -52,8 +58,10 @@
                 </table>
             </div>
 
-            <div th:if="${param.deficit}" th:text="#{inventory.deficit.success}" class="fs-snackbar-text" role="alert" hidden></div>
-            <div th:if="${param.reorder}" th:text="#{inventory.reorder.success}" class="fs-snackbar-text" role="alert" hidden></div>
+            <div th:if="${param.deficit}" th:text="#{inventory.deficit.success}" class="fs-snackbar-text" role="alert"
+                 hidden></div>
+            <div th:if="${param.reorder}" th:text="#{inventory.reorder.success}" class="fs-snackbar-text" role="alert"
+                 hidden></div>
             <div th:if="${message}" th:text="#{${message}}" class="fs-snackbar-text" role="alert" hidden></div>
 
             <button th:replace="fragments/floating_action_button :: floating_action_button(path = @{/products/items/stock/add})"></button>

@@ -1,5 +1,6 @@
 package flowershop.order;
 
+import flowershop.products.FlowerShopItem;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.inventory.InventoryItemIdentifier;
@@ -46,7 +47,8 @@ public class ReorderManager {
 	public void createReorder(InventoryItem inventoryItem, Quantity quantity, SubTransaction.SubTransactionType type) {
 		userAccountManager.findByUsername("admin").ifPresent(userAccount -> {
 			String name = inventoryItem.getProduct().getName();
-			MonetaryAmount price = inventoryItem.getProduct().getPrice().multiply(quantity.getAmount());
+			FlowerShopItem item = (FlowerShopItem) inventoryItem.getProduct();
+			MonetaryAmount price = item.getBasePrice().multiply(quantity.getAmount());
 			Transaction reorder = findByInventoryId(inventoryItem.getId()).orElse(new Transaction(userAccount, CASH, COLLECTION));
 			if (!reorder.isPaid()) {
 				reorderManager.payOrder(reorder);

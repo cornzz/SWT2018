@@ -19,13 +19,13 @@ public class CompoundFlowerShopProductUnitTest {
 
 	private static final Money FLOWER_PRICE = Money.of(100, EURO);
 	private static final Money SERVICE_PRICE = Money.of(100, EURO);
-	private static final Money COMPOUND_PRICE = Money.of(300, EURO);
+	private static final Money COMPOUND_PRICE = Money.of(340, EURO);
 
 	private static final String IMAGE = "Base64EncodedDummyImage";
 
 	private static final Quantity FLOWER_QUANTITY = Quantity.of(2);
 
-	private static final FlowerShopItem FLOWER = new FlowerShopItem("Foo", FLOWER_PRICE, "Bar");
+	private static final FlowerShopItem FLOWER = new FlowerShopItem("Foo", FLOWER_PRICE, "Bar", 0.2);
 	private static final FlowerShopService SERVICE = new FlowerShopService("Foo", SERVICE_PRICE, "Bar");
 
 	private static CompoundFlowerShopProduct createDummyProduct() {

@@ -4,6 +4,7 @@ import flowershop.products.FlowerShopItem;
 import flowershop.products.FlowerShopItemCatalog;
 import org.javamoney.moneta.Money;
 import org.salespointframework.core.DataInitializer;
+import org.salespointframework.quantity.Quantity;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -28,8 +29,8 @@ public class FlowerShopItemCatalogInitializer implements DataInitializer {
 			return;
 		}
 
-		flowerShopItemCatalog.save(new FlowerShopItem("Red FlowerShopItem", Money.of(100, EURO), "Expensive red flower"));
-		flowerShopItemCatalog.save(new FlowerShopItem("Green FlowerShopItem", Money.of(100, EURO), "Expensive green flower"));
-		flowerShopItemCatalog.save(new FlowerShopItem("Blue FlowerShopItem", Money.of(100, EURO), "Expensive blue flower"));
+		flowerShopItemCatalog.save(new FlowerShopItem("Red FlowerShopItem", Money.of(100, EURO), "Expensive red flower", 0.2));
+		flowerShopItemCatalog.save(new FlowerShopItem("Green FlowerShopItem", Money.of(100, EURO), "Expensive green flower", 0.2));
+		flowerShopItemCatalog.save(new FlowerShopItem("Blue FlowerShopItem", Money.of(100, EURO), "Expensive blue flower", 0.2));
 	}
 }

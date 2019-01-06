@@ -27,10 +27,17 @@
                     <label for="amount" class="mdc-floating-label" th:text="#{inventory.quantity}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
+
                 <div class="mdc-text-field">
                     <input type="text" name="description" id="description" class="mdc-text-field__input"
                            th:field="*{description}">
-                    <label for="amount" class="mdc-floating-label" th:text="#{inventory.add.description}"></label>
+                    <label for="description" class="mdc-floating-label" th:text="#{inventory.add.description}"></label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <div class="mdc-text-field">
+                    <input type="text" name="profit" id="profit" class="mdc-text-field__input"
+                           th:field="*{profit}">
+                    <label for="profit" class="mdc-floating-label" th:text="#{inventory.add.profit}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.add}"></button>

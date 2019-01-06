@@ -37,7 +37,11 @@ public class ReorderController {
 			return "forward:/products/items/stock";
 		}
 		return inventory.findById(id).map(inventoryItem -> {
-			inventoryItem.decreaseQuantity(Quantity.of(quantity));
+			if (Quantity.of(quantity).isGreaterThan(inventoryItem.getQuantity())) {
+				inventoryItem.decreaseQuantity(inventoryItem.getQuantity());
+			} else {
+				inventoryItem.decreaseQuantity(Quantity.of(quantity));
+			}
 			inventory.save(inventoryItem);
 			reorderManager.refillInventory();
 			reorderManager.createReorder(inventoryItem, Quantity.of(quantity), SubTransaction.SubTransactionType.DEFICIT);

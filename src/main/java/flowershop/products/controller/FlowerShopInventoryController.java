@@ -53,7 +53,7 @@ public class FlowerShopInventoryController {
 		if (result.hasErrors()) {
 			return new ModelAndView("inventory_add", "form", form);
 		}
-		FlowerShopItem item = new FlowerShopItem(form.getName(), Money.of(Double.valueOf(form.getPrice()), EURO), form.getDescription());
+		FlowerShopItem item = new FlowerShopItem(form.getName(), Money.of(Double.valueOf(form.getPrice()), EURO), form.getDescription(), Double.valueOf(form.getProfit()));
 		itemCatalog.save(item);
 		inventory.save(new InventoryItem(item, Quantity.of(Double.valueOf(form.getAmount()))));
 
