@@ -13,6 +13,9 @@ public class DoubleValidator implements ConstraintValidator<IsDouble, String> {
 	@Override
 	public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
 		Double value;
+		if (s.isEmpty()) {
+			return true; // NotEmpty takes over
+		}
 		try {
 			value = Double.valueOf(s);
 		} catch (Exception e) {

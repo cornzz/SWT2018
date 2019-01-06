@@ -21,21 +21,21 @@
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'inventory') ? ' mdc-list-item--activated' : '')"
                sec:authorize="hasRole('ROLE_BOSS')"
-               th:href="@{/products/items/stock}"
+               th:href="@{/items}"
                th:aria-selected="${view == 'inventory'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">local_florist</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.inventory}">Inventory</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'services') ? ' mdc-list-item--activated' : '')"
                sec:authorize="hasRole('ROLE_BOSS')"
-               th:href="@{/products/services}"
+               th:href="@{/services}"
                th:aria-selected="${view == 'services'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">waves</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.services}">Services</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'deficits') ? ' mdc-list-item--activated' : '')"
                sec:authorize="hasRole('ROLE_BOSS')"
-               th:href="@{/products/deficits}"
+               th:href="@{/deficits}"
                th:aria-selected="${view == 'deficits'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">delete_outline</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.deficits}">Deficits</span>
@@ -43,7 +43,7 @@
 
             <a th:class="'mdc-list-item' + ((${view} == 'reorders') ? ' mdc-list-item--activated' : '')"
                sec:authorize="hasRole('ROLE_WHOLESALER') or hasRole('ROLE_BOSS')"
-               th:href="@{/products/reorders}"
+               th:href="@{/reorders}"
                th:aria-selected="${view == 'reorders'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">all_inbox</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.reorders}">Reorders</span>

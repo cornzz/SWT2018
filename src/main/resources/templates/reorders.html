@@ -33,7 +33,7 @@
                         <td th:text="${subTransaction.quantity}"></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(subTransaction.price.negate().number, 0, 'COMMA', 2, 'POINT')}"></td>
                         <td sec:authorize="hasRole('ROLE_WHOLESALER')">
-                            <form method="post" th:action="@{/products/reorders/send/{id}(id=${subTransaction.id})}">
+                            <form method="post" th:action="@{/reorders/send/{id}(id=${subTransaction.id})}">
                                 <button th:text="#{reorder.send}" class="mdl-button mdl-js-button mdl-button--colored"
                                         type="submit"></button>
                             </form>

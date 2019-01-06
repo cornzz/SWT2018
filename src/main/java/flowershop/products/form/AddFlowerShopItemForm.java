@@ -7,16 +7,15 @@ import javax.validation.constraints.NotNull;
 
 public class AddFlowerShopItemForm {
 
-
 	@NotNull(message = "{Dto.description.NotEmpty}")
 	@NotEmpty(message = "{Dto.name.NotEmpty}")
 	private String name;
 
-	@NotNull(message = "{Dto.amount.NotEmpty}")
-	@IsDouble(message = "{Dto.amount.Numeric}")
+	@NotEmpty(message = "{Dto.price.NotEmpty}")
+	@IsDouble(message = "{Dto.price.Numeric}")
 	private String price;
 
-	@NotNull(message = "{Dto.amount.NotEmpty}")
+	@NotEmpty(message = "{Dto.amount.NotEmpty}")
 	@IsDouble(message = "{Dto.amount.Numeric}")
 	private String amount;
 
@@ -24,8 +23,8 @@ public class AddFlowerShopItemForm {
 	@NotEmpty(message = "{Dto.description.NotEmpty}")
 	private String description;
 
-	@NotNull(message = "{Dto.amount.NotEmpty}")
-	@IsDouble(message = "{Dto.amount.Numeric}")
+	@NotEmpty(message = "{Dto.profit.NotEmpty}")
+	@IsDouble(message = "{Dto.profit.Numeric}")
 	private String profit;
 
 	public void setName(String name) {

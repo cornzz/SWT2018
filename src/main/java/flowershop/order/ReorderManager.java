@@ -10,6 +10,7 @@ import org.salespointframework.useraccount.UserAccountManager;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import javax.money.MonetaryAmount;
 import java.util.Optional;
@@ -73,6 +74,22 @@ public class ReorderManager {
 
 	public Optional<Transaction> findByInventoryId(InventoryItemIdentifier id) {
 		return findAll().stream().filter(transaction -> transaction.getItemId().equals(id)).findFirst();
+	}
+
+	Long validateQuantity(String quantity, Model model) {
+		long qty;
+
+		try {
+			qty = Long.valueOf(quantity);
+		} catch (NumberFormatException e) {
+			model.addAttribute("message", "inventory.quantity.invalid");
+			return null;
+		}
+		if (qty <= 0) {
+			model.addAttribute("message", "inventory.quantity.positive");
+			return null;
+		}
+		return qty;
 	}
 
 }

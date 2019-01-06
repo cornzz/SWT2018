@@ -26,7 +26,7 @@ public class FlowerShopServiceController {
 		this.serviceCatalog = serviceCatalog;
 	}
 
-	@GetMapping("/products/services")
+	@GetMapping("/services")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String services(Model model) {
 		model.addAttribute("services", serviceCatalog.findAll());
@@ -34,21 +34,21 @@ public class FlowerShopServiceController {
 		return "services";
 	}
 
-	@GetMapping("/products/services/add")
+	@GetMapping("/services/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public ModelAndView add(Model model, AddFlowerShopServiceForm form) {
 
 		return new ModelAndView("service_add", "form", form);
 	}
 
-	@PostMapping("/products/services/add")
+	@PostMapping("/services/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public ModelAndView add(@ModelAttribute("form") @Validated AddFlowerShopServiceForm form, BindingResult result) {
 		if (result.hasErrors()) {
 			return new ModelAndView("service_add", "form", form);
 		}
-		FlowerShopService service = new FlowerShopService(form.getName(), Money.of(Double.valueOf(form.getAmount()), EURO), form.getDescription());
+		FlowerShopService service = new FlowerShopService(form.getName(), Money.of(Double.valueOf(form.getPrice()), EURO), form.getDescription());
 		serviceCatalog.save(service);
-		return new ModelAndView("redirect:/products/services");
+		return new ModelAndView("redirect:/services");
 	}
 }

@@ -33,7 +33,7 @@
                         <td th:text="${{item.quantity}}"></td>
                         <td>
                             <form sec:authorize="hasRole('ROLE_BOSS')" method="post"
-                                  th:action="@{/products/items/stock/deficit/{id}(id=${item.id})}"
+                                  th:action="@{/items/deficit/{id}(id=${item.id})}"
                                   class="fs-table-input">
                                 <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?"
                                        name="deficitQuantity" th:object="${deficitQuantity}">
@@ -44,7 +44,7 @@
                         </td>
                         <td>
                             <form sec:authorize="hasRole('ROLE_BOSS')" method="post"
-                                  th:action="@{/products/items/stock/reorder/{id}(id=${item.id})}"
+                                  th:action="@{/items/reorder/{id}(id=${item.id})}"
                                   class="fs-table-input">
                                 <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?"
                                        name="reorderQuantity" th:object="${reorderQuantity}">
@@ -64,7 +64,7 @@
                  hidden></div>
             <div th:if="${message}" th:text="#{${message}}" class="fs-snackbar-text" role="alert" hidden></div>
 
-            <button th:replace="fragments/floating_action_button :: floating_action_button(path = @{/products/items/stock/add})"></button>
+            <button th:replace="fragments/floating_action_button :: floating_action_button(path = @{/items/add})"></button>
         </div>
     </div>
 </main>

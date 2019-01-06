@@ -29,40 +29,20 @@ public class ReorderController {
 		this.inventory = inventory;
 	}
 
-	@PostMapping("/products/items/stock/deficit/{id}")
-	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String deficit(@PathVariable InventoryItemIdentifier id, String deficitQuantity, Model model) {
-		Long quantity = validateQuantity(deficitQuantity, model);
-		if (quantity == null) {
-			return "forward:/products/items/stock";
-		}
-		return inventory.findById(id).map(inventoryItem -> {
-			if (Quantity.of(quantity).isGreaterThan(inventoryItem.getQuantity())) {
-				inventoryItem.decreaseQuantity(inventoryItem.getQuantity());
-			} else {
-				inventoryItem.decreaseQuantity(Quantity.of(quantity));
-			}
-			inventory.save(inventoryItem);
-			reorderManager.refillInventory();
-			reorderManager.createReorder(inventoryItem, Quantity.of(quantity), SubTransaction.SubTransactionType.DEFICIT);
-			return "redirect:/products/items/stock?deficit";
-		}).orElse("redirect:/products/items/stock");
-	}
-
-	@PostMapping("/products/items/stock/reorder/{id}")
+	@PostMapping("/items/reorder/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String reorder(@PathVariable InventoryItemIdentifier id, String reorderQuantity, Model model) {
-		Long quantity = validateQuantity(reorderQuantity, model);
+		Long quantity = reorderManager.validateQuantity(reorderQuantity, model);
 		if (quantity == null) {
-			return "forward:/products/items/stock";
+			return "forward:/items";
 		}
 		return inventory.findById(id).map(inventoryItem -> {
 			reorderManager.createReorder(inventoryItem, Quantity.of(quantity), REORDER);
-			return "redirect:/products/items/stock?reorder";
-		}).orElse("redirect:/products/items/stock");
+			return "redirect:/items?reorder";
+		}).orElse("redirect:/items");
 	}
 
-	@GetMapping("/products/reorders")
+	@GetMapping("/reorders")
 	@PreAuthorize("hasRole('ROLE_WHOLESALER') or hasRole('ROLE_BOSS')")
 	ModelAndView reorders(Model model) {
 		Streamable<SubTransaction> subTransactions = reorderManager.findAll().
@@ -72,28 +52,11 @@ public class ReorderController {
 		return new ModelAndView("reorders", "subTransactions", subTransactions);
 	}
 
-	@PostMapping("/products/reorders/send/{id}")
+	@PostMapping("/reorders/send/{id}")
 	@PreAuthorize("hasRole('ROLE_WHOLESALER')")
 	String sendReorder(@PathVariable(name = "id") Optional<SubTransaction> reorderOptional) {
 		reorderOptional.ifPresent(reorderManager::sendReorder);
-		return "redirect:/products/reorders";
-	}
-
-	// TODO: Find better solution, move to external class (and make static)
-	private Long validateQuantity(String quantity, Model model) {
-		long qty;
-
-		try {
-			qty = Long.valueOf(quantity);
-		} catch (NumberFormatException e) {
-			model.addAttribute("message", "inventory.quantity.invalid");
-			return null;
-		}
-		if (qty <= 0) {
-			model.addAttribute("message", "inventory.quantity.positive");
-			return null;
-		}
-		return qty;
+		return "redirect:/reorders";
 	}
 
 }

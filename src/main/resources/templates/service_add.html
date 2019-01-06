@@ -3,14 +3,14 @@
     <title th:text="#{title.services.add}">Add Service</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (title = #{title.services.add}, cancel_destination = @{/products/services})">
+<header th:replace="fragments/header :: header_dialog (title = #{title.services.add}, cancel_destination = @{/services})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form method="post" role="form" id="form" class="fs-form" th:action="@{/products/services/add}"
+            <form method="post" role="form" id="form" class="fs-form" th:action="@{/services/add}"
                   th:object="${form}">
                 <div class="mdc-text-field">
                     <input type="text" name="name" id="name" class="mdc-text-field__input" th:field="*{name}">
@@ -18,7 +18,7 @@
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <div class="mdc-text-field">
-                    <input type="text" name="price" id="price" class="mdc-text-field__input" th:field="*{amount}">
+                    <input type="text" name="price" id="price" class="mdc-text-field__input" th:field="*{price}">
                     <label for="price" class="mdc-floating-label" th:text="#{service.price}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>

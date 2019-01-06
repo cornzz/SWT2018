@@ -32,7 +32,7 @@ public class FlowerShopInventoryController {
 		this.inventory = inventory;
 	}
 
-	@RequestMapping("/products/items/stock")
+	@RequestMapping("/items")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String inventory(Model model) {
 		model.addAttribute("inventory", inventory.findAll());
@@ -40,14 +40,14 @@ public class FlowerShopInventoryController {
 		return "inventory";
 	}
 
-	@GetMapping("/products/items/stock/add")
+	@GetMapping("/items/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public ModelAndView add(Model model, AddFlowerShopItemForm form) {
 
 		return new ModelAndView("inventory_add", "form", form);
 	}
 
-	@PostMapping("/products/items/stock/add")
+	@PostMapping("/items/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public ModelAndView add(@ModelAttribute("form") @Validated AddFlowerShopItemForm form, BindingResult result) {
 		if (result.hasErrors()) {
@@ -57,7 +57,7 @@ public class FlowerShopInventoryController {
 		itemCatalog.save(item);
 		inventory.save(new InventoryItem(item, Quantity.of(Double.valueOf(form.getAmount()))));
 
-		return new ModelAndView("redirect:/products/items/stock");
+		return new ModelAndView("redirect:/items");
 	}
 
 }
