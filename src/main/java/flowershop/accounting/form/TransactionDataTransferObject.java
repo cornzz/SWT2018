@@ -5,6 +5,11 @@ import flowershop.accounting.form.validation.IsDouble;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Transfer object for {@link flowershop.order.Transaction} data.
+ *
+ * @author Cornelius Kummer
+ */
 public class TransactionDataTransferObject {
 
 	@NotNull(message = "{Dto.amount.NotEmpty}")

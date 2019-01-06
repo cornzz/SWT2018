@@ -3,6 +3,11 @@ package flowershop.accounting.form.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * Validator for a String that is supposed to be converted to a Double
+ *
+ * @author Cornelius Kummer
+ */
 public class DoubleValidator implements ConstraintValidator<IsDouble, String> {
 
 	@Override

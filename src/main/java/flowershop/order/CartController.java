@@ -10,6 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * A Spring MVC controller to manage the {@link Cart}. {@link Cart} instances are held in the session as they're
+ * specific to a certain user. That's also why the entire controller is secured by a {@code PreAuthorize} clause.
+ *
+ * @author Tomasz Ludyga
+ * @author Cornelius Kummer
+ */
 @Controller
 @PreAuthorize("isAuthenticated()")
 @SessionAttributes("cart")

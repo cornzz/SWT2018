@@ -3,10 +3,7 @@ package flowershop.order;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.inventory.InventoryItemIdentifier;
-import org.salespointframework.order.OrderManager;
 import org.salespointframework.quantity.Quantity;
-import org.salespointframework.useraccount.UserAccount;
-import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.data.util.Streamable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,13 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static flowershop.order.SubTransaction.SubTransactionType.REORDER;
-import static flowershop.order.Transaction.TransactionType.COLLECTION;
-import static org.salespointframework.order.OrderStatus.PAID;
 
 @Controller
 public class ReorderController {

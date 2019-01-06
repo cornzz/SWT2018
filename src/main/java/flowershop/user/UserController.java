@@ -1,12 +1,10 @@
 package flowershop.user;
 
 import flowershop.user.form.UserDataTransferObject;
-import org.salespointframework.useraccount.AuthenticationManager;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**
- * A Spring MVC controller to manage {@link User}.
+ * A Spring MVC controller to manage {@link User}s.
  *
  * @author Cornelius Kummer
  */

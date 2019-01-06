@@ -33,6 +33,11 @@ import static org.salespointframework.order.OrderStatus.OPEN;
 import static org.salespointframework.payment.Cash.CASH;
 
 
+/**
+ * Displays {@link Transaction}s relevant for accounting.
+ *
+ * @author Cornelius Kummer
+ */
 @Controller
 @PreAuthorize("isAuthenticated()")
 public class AccountingController {

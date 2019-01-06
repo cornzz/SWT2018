@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.money.MonetaryAmount;
-
 import java.util.Optional;
 
 import static flowershop.order.SubTransaction.SubTransactionType.REORDER;

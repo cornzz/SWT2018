@@ -30,6 +30,12 @@ import static org.salespointframework.order.OrderStatus.PAID;
 import static org.salespointframework.payment.Cash.CASH;
 
 
+/**
+ * A Spring MVC controller to manage the ordering process.
+ *
+ * @author Tomasz Ludyga
+ * @author Cornelius Kummer
+ */
 @Controller
 @PreAuthorize("isAuthenticated()")
 @SessionAttributes("cart")
