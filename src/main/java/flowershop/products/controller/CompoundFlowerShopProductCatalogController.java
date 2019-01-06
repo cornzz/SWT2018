@@ -1,7 +1,6 @@
 package flowershop.products.controller;
 
 import flowershop.products.*;
-import flowershop.products.form.AddCompoundFlowerShopProductForm;
 import flowershop.products.form.CompoundFlowerShopProductTransferObject;
 import org.salespointframework.catalog.ProductIdentifier;
 import org.salespointframework.quantity.Quantity;
@@ -62,7 +61,7 @@ public class CompoundFlowerShopProductCatalogController {
 
 	@GetMapping("/products/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String addProduct(Model model, AddCompoundFlowerShopProductForm form) {
+	public String addProduct(Model model, CompoundFlowerShopProductTransferObject form) {
 
 		model.addAttribute("form", form);
 
@@ -74,12 +73,12 @@ public class CompoundFlowerShopProductCatalogController {
 
 	@PostMapping("/products/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String addProduct(@Valid AddCompoundFlowerShopProductForm form, Errors result) {
+	public String addProduct(@Valid CompoundFlowerShopProductTransferObject form, Errors result) {
 		if (result.hasErrors()) {
 			return "redirect:/products/add";
 		}
 
-		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct(form.getName(), form.getDescription(), form.getSelectedFlowerShopItemsWithQuantities(), form.getSelectedFlowerShopServices(), form.getImageBase64()));
+		compoundFlowerShopProductCatalog.save(form.convertToObject());
 
 		return "redirect:/products";
 	}
@@ -104,7 +103,12 @@ public class CompoundFlowerShopProductCatalogController {
 
 	@PostMapping("/products/{id}/edit")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String updateProductBar(@PathVariable ProductIdentifier id, CompoundFlowerShopProductTransferObject form) {
+	public String updateProduct(@PathVariable ProductIdentifier id, @Valid CompoundFlowerShopProductTransferObject form, Errors result) {
+
+		if (result.hasErrors()) {
+			// TODO: display error message
+			return "redirect:/products/" + id + "/edit";
+		}
 
 		if (!compoundFlowerShopProductCatalog.findById(id).isPresent()) {
 			return "redirect:/products";
@@ -212,7 +216,7 @@ public class CompoundFlowerShopProductCatalogController {
 
 	@GetMapping("/products/{id}/edit")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String editProductFoo(@PathVariable ProductIdentifier id, Model model) {
+	public String editProduct(@PathVariable ProductIdentifier id, Model model) {
 
 		if (!compoundFlowerShopProductCatalog.findById(id).isPresent()) {
 			return "redirect:/products";

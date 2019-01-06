@@ -3,21 +3,28 @@ package flowershop.products.form;
 import flowershop.products.CompoundFlowerShopProduct;
 import flowershop.products.FlowerShopItem;
 import flowershop.products.FlowerShopService;
+import flowershop.products.validation.OneProductMinimum;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.ProductIdentifier;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@OneProductMinimum
 public class CompoundFlowerShopProductTransferObject {
 
+	// TODO: validation?
 	private ProductIdentifier id;
 
+	@NotBlank
 	private String name;
+
+	@NotBlank
 	private String description;
 
 	private List<FlowerShopItem> selectedFlowerShopItems = new ArrayList<>();
@@ -54,8 +61,8 @@ public class CompoundFlowerShopProductTransferObject {
 
 	public MultipartFile getImage() {
 
-		Pattern pattern = Pattern.compile("data:(?<type>image/png|image/jpg);base64,(?<content>[a-zA-Z0-9+/=]+)");
-		Matcher matcher = pattern.matcher(getImageBase64());
+		// Pattern pattern = Pattern.compile("data:(?<type>image/png|image/jpg);base64,(?<content>[a-zA-Z0-9+/=]+)");
+		// Matcher matcher = pattern.matcher(getImageBase64());
 
 		// TODO: convert base64 string back to to file (create MultipartFile from FileItem -> use org.apache.commons.fileupload)
 		// currently not required -> leaving this blank for now
