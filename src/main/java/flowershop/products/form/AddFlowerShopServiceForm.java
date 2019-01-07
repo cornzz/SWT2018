@@ -15,6 +15,8 @@ public class AddFlowerShopServiceForm {
 	@IsDouble(message = "{Dto.price.Numeric}")
 	private String price;
 
+	@NotNull(message = "{Dto.name.NotEmpty}")
+	@NotEmpty(message = "{Dto.name.NotEmpty}")
 	private String description;
 
 	public void setName(String name) {

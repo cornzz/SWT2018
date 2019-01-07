@@ -22,6 +22,12 @@
                     <label for="price" class="mdc-floating-label" th:text="#{service.price}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
+                <div class="mdc-text-field">
+                    <input type="text" name="description" id="description" class="mdc-text-field__input"
+                           th:field="*{description}">
+                    <label for="description" class="mdc-floating-label" th:text="#{service.description}"></label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.add}"></button>
                 <div th:each="error : ${#fields.errors()}" th:text="${error}" class="fs-snackbar-text" role="alert"
                      hidden></div>
