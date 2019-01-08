@@ -32,9 +32,7 @@
                         <td th:text="${item.product.basePrice}"></td>
                         <td th:text="${{item.quantity}}"></td>
                         <td>
-                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post"
-                                  th:action="@{/items/deficit/{id}(id=${item.id})}"
-                                  class="fs-table-input">
+                            <form method="post" th:action="@{/items/deficit/{id}(id=${item.id})}" class="fs-table-input">
                                 <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?"
                                        name="deficitQuantity" th:object="${deficitQuantity}">
                                 <span class="mdl-textfield__error">Input is not a number!</span>
@@ -43,9 +41,7 @@
                             </form>
                         </td>
                         <td>
-                            <form sec:authorize="hasRole('ROLE_BOSS')" method="post"
-                                  th:action="@{/items/reorder/{id}(id=${item.id})}"
-                                  class="fs-table-input">
+                            <form method="post" th:action="@{/items/reorder/{id}(id=${item.id})}" class="fs-table-input">
                                 <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?"
                                        name="reorderQuantity" th:object="${reorderQuantity}">
                                 <span class="mdl-textfield__error">Input is not a number!</span>

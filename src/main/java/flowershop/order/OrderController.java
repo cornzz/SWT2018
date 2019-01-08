@@ -106,9 +106,8 @@ public class OrderController {
 
 				// Add fake InventoryItems
 				order.getOrderLines().forEach(orderLine -> {
-					catalog.findById(orderLine.getProductIdentifier())
-							.map(product -> inventory.save(new InventoryItem(product, orderLine.getQuantity())))
-							.orElseThrow(NoSuchElementException::new);
+					Product product = catalog.findById(orderLine.getProductIdentifier()).get();
+					inventory.save(new InventoryItem(product, orderLine.getQuantity()));
 				});
 
 				transactionManager.completeOrder(order);
