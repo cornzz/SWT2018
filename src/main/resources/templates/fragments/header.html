@@ -6,6 +6,7 @@
             <span class="mdc-top-app-bar__title">Flower Power</span>
         </section>
         <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar" th:include="${action}">
+            <button th:replace="fragments/flags :: #{lang.flag}"></button>
             <!--<a href="#" class="material-icons mdc-top-app-bar__action-item" aria-label="Cart" alt="Cart">shopping_cart</a>-->
         </section>
     </div>

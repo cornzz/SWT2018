@@ -10,35 +10,37 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form method="post" role="form" class="fs-form" id="form" th:action="@{/products/add}" th:object="${form}" enctype="multipart/form-data">
+            <h3>Add Product</h3>
+            <form method="post" class="fs-form" th:action="@{/products/add}" enctype="multipart/form-data">
                 <div class="mdc-text-field">
-                    <input type="text" id="tf-outlined" class="mdc-text-field__input" name="name" th:field="*{name}">
+                    <input type="text" id="tf-outlined" class="mdc-text-field__input" th:field="${form.name}">
                     <label for="tf-outlined" class="mdc-floating-label" th:text="#{product.name}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <div class="mdc-text-field">
-                    <input type="text" id="tf2-outlined" class="mdc-text-field__input" name="description" th:field="*{description}">
+                    <input type="text" id="tf2-outlined" class="mdc-text-field__input" th:field="${form.description}">
                     <label for="tf2-outlined" class="mdc-floating-label" th:text="#{product.description}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
+                <div th:replace="fragments/add_items_dialog :: dialog"></div>
                 <div id="fs-add-items-chip" class="mdc-chip fs-chip">
                     <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">add</i>
                     <div class="mdc-chip__text" th:text="#{product.add.items}"></div>
                 </div>
-                <div th:replace="fragments/dialog :: add_flowers_dialog"></div>
+                <div th:replace="fragments/add_services_dialog :: dialog"></div>
                 <div id="fs-add-services-chip" class="mdc-chip fs-chip">
                     <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">add</i>
                     <div class="mdc-chip__text" th:text="#{product.add.services}"></div>
                 </div>
-                <div th:replace="fragments/dialog :: add_services_dialog"></div>
                 <div>
                     <label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
                         <i class="material-icons">attach_file</i>
-                        <input type="file" id="file" style="display: none;" th:field="*{image}"/>
+                        <input type="file" id="file" style="display: none;" th:field="*{form.image}"/>
                     </label>
                     <span th:text="#{product.add.image}"></span>
                 </div>
-                <button class="mdc-button mdc-button--raised" th:text="#{menu.add}"></button>
+                <!--<span th:text="${form.price}"></span>-->
+                <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.save}"></button>
             </form>
         </div>
     </div>

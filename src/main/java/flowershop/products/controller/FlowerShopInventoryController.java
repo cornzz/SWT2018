@@ -3,6 +3,7 @@ package flowershop.products.controller;
 
 import flowershop.products.FlowerShopItem;
 import flowershop.products.FlowerShopItemCatalog;
+import flowershop.products.form.AddFlowerShopItemForm;
 import org.javamoney.moneta.Money;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
@@ -10,9 +11,13 @@ import org.salespointframework.quantity.Quantity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import static org.salespointframework.core.Currencies.EURO;
 
@@ -27,7 +32,7 @@ public class FlowerShopInventoryController {
 		this.inventory = inventory;
 	}
 
-	@RequestMapping("/products/items/stock")
+	@RequestMapping("/items")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String inventory(Model model) {
 		model.addAttribute("inventory", inventory.findAll());
@@ -35,20 +40,24 @@ public class FlowerShopInventoryController {
 		return "inventory";
 	}
 
-	@GetMapping("/products/items/stock/add")
+	@GetMapping("/items/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String add(Model model) {
-		return "inventory_add";
+	public ModelAndView add(Model model, AddFlowerShopItemForm form) {
+
+		return new ModelAndView("inventory_add", "form", form);
 	}
 
-	@PostMapping("/products/items/stock/add")
+	@PostMapping("/items/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	public String add(String name, int price, int amount, String description) {
-		FlowerShopItem item = new FlowerShopItem(name, Money.of(price, EURO), description);
+	public ModelAndView add(@ModelAttribute("form") @Validated AddFlowerShopItemForm form, BindingResult result) {
+		if (result.hasErrors()) {
+			return new ModelAndView("inventory_add", "form", form);
+		}
+		FlowerShopItem item = new FlowerShopItem(form.getName(), Money.of(Double.valueOf(form.getPrice()), EURO), form.getDescription(), Double.valueOf(form.getProfit()));
 		itemCatalog.save(item);
-		inventory.save(new InventoryItem(item, Quantity.of(amount)));
+		inventory.save(new InventoryItem(item, Quantity.of(Double.valueOf(form.getAmount()))));
 
-		return "redirect:/products/items/stock";
+		return new ModelAndView("redirect:/items");
 	}
 
 }

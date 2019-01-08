@@ -15,26 +15,27 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h4 th:if="${transactions.empty}" th:text="#{reorder.empty}">No reorders!</h4>
+            <h4 th:if="${subTransactions.empty}" th:text="#{reorder.empty}"></h4>
 
-            <div class="fs-mdl-wrapper" th:unless="${transactions.empty}">
+            <div class="fs-mdl-wrapper" th:unless="${subTransactions.empty}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
                         <th th:text="#{reorder.item}" class="mdl-data-table__cell--non-numeric"></th>
                         <th th:text="#{reorder.quantity}"></th>
                         <th th:text="#{reorder.price}"></th>
-                        <th th:text="#{reorder.send}"></th>
+                        <th th:text="#{reorder.send}" sec:authorize="hasRole('ROLE_WHOLESALER')"></th>
                     </tr>
                     </thead>
                     <tbody th:remove="all-but-first">
-                    <tr th:each="transaction : ${transactions}">
-                        <td class="mdl-data-table__cell--non-numeric" th:text="${transaction.description}"></td>
-                        <td th:text="${transaction.quantity}"></td>
-                        <td th:text="${transaction.price.negate()}"></td>
-                        <td>
-                            <form sec:authorize="hasRole('ROLE_WHOLESALER')" method="post" th:action="@{/products/reorders/send/{id}(id=${transaction.id})}">
-                                <button th:text="#{reorder.send}" class="mdl-button mdl-js-button mdl-button--colored" type="submit"></button>
+                    <tr th:each="subTransaction : ${subTransactions}">
+                        <td class="mdl-data-table__cell--non-numeric" th:text="${subTransaction.flower}"></td>
+                        <td th:text="${subTransaction.quantity}"></td>
+                        <td th:text="'EUR ' + ${#numbers.formatDecimal(subTransaction.price.negate().number, 0, 'COMMA', 2, 'POINT')}"></td>
+                        <td sec:authorize="hasRole('ROLE_WHOLESALER')">
+                            <form method="post" th:action="@{/reorders/send/{id}(id=${subTransaction.id})}">
+                                <button th:text="#{reorder.send}" class="mdl-button mdl-js-button mdl-button--colored"
+                                        type="submit"></button>
                             </form>
                         </td>
                     </tr>

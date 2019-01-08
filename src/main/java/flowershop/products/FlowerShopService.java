@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class FlowerShopService extends Product {
-	private String desrciption;
+	private String description;
 
 	@SuppressWarnings("unused")
 	private FlowerShopService() {}
@@ -15,11 +15,11 @@ public class FlowerShopService extends Product {
 	public FlowerShopService(String name, Money price, String description) {
 		super(name, price);
 
-		this.desrciption = description;
+		this.description = description;
 	}
 
 	public String getDescription() {
-		return desrciption;
+		return description;
 	}
 }
 

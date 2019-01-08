@@ -15,7 +15,6 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <!-- Registration Form -->
             <form role="form" id="form" class="fs-form" th:object="${form}" th:action="@{/register}" method="post">
                 <!-- First Name, Last Name -->
                 <div class="fs-form__row">
@@ -34,10 +33,7 @@
                      th:utext="${#fields.errors('firstName') + ' ' + #fields.errors('lastName')}"
                      class="fs-snackbar-text" role="alert" hidden>
                 </div>
-                <div th:if="${#fields.hasErrors('username')}"
-                     th:text="'An account with the username ' + *{username} + ' is already registered!'"
-                     class="fs-snackbar-text" role="alert" hidden>
-                </div>
+                <div th:each="error : ${#fields.errors('username')}" th:text="${error}" class="fs-snackbar-text" role="alert" hidden></div>
 
                 <!-- E-Mail -->
                 <div class="mdc-text-field">
@@ -73,7 +69,7 @@
                     Passwords have to match!
                 </div>
 
-                <button type="button" class="mdc-button" onclick="window.location='/'" th:text="#{menu.cancel}"></button>
+                <button type="button" class="mdc-button" onclick="window.history.back()" th:text="#{menu.cancel}"></button>
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.register}"></button>
             </form>
         </div>

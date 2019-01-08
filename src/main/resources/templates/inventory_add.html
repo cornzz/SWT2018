@@ -3,35 +3,46 @@
     <title th:text="#{title.inventory.add}">Add Item</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (title = #{title.inventory.add}, cancel_destination = @{/products/items/stock})">
+<header th:replace="fragments/header :: header_dialog (title = #{title.inventory.add}, cancel_destination = @{/items})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form method="post" role="post" class="fs-form" th:action="@{/products/items/stock/add}">
+            <form method="post" role="form" id="form" class="fs-form" th:action="@{/items/add}"
+                  th:object="${form}">
                 <div class="mdc-text-field">
-                    <input type="text" name="name" id="name" class="mdc-text-field__input" th:object="${name}">
+                    <input type="text" name="name" id="name" class="mdc-text-field__input" th:field="*{name}">
                     <label for="name" class="mdc-floating-label" th:text="#{inventory.add.name}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <div class="mdc-text-field">
-                    <input type="text" name="price" id="price" class="mdc-text-field__input" th:object="${price}">
+                    <input type="text" name="price" id="price" class="mdc-text-field__input" th:field="*{price}">
                     <label for="price" class="mdc-floating-label" th:text="#{inventory.add.price}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <div class="mdc-text-field">
-                    <input type="text" name="amount" id="amount" class="mdc-text-field__input" th:object="${amount}">
+                    <input type="text" name="amount" id="amount" class="mdc-text-field__input" th:field="*{amount}">
                     <label for="amount" class="mdc-floating-label" th:text="#{inventory.quantity}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
+
                 <div class="mdc-text-field">
-                    <input type="text" name="description" id="description" class="mdc-text-field__input" th:object="${description}">
-                    <label for="amount" class="mdc-floating-label" th:text="#{inventory.add.description}"></label>
+                    <input type="text" name="description" id="description" class="mdc-text-field__input"
+                           th:field="*{description}">
+                    <label for="description" class="mdc-floating-label" th:text="#{inventory.add.description}"></label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <div class="mdc-text-field">
+                    <input type="text" name="profit" id="profit" class="mdc-text-field__input"
+                           th:field="*{profit}">
+                    <label for="profit" class="mdc-floating-label" th:text="#{inventory.add.profit}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.add}"></button>
+                <div th:each="error : ${#fields.errors()}" th:text="${error}" class="fs-snackbar-text" role="alert"
+                     hidden></div>
             </form>
         </div>
     </div>

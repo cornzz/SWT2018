@@ -1,6 +1,6 @@
 package flowershop.products.validation;
 
-import flowershop.products.form.AddCompoundFlowerShopProductForm;
+import flowershop.products.form.CompoundFlowerShopProductTransferObject;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -9,7 +9,9 @@ public class OneProductMinimumValidator implements ConstraintValidator<OneProduc
 
 	@Override
 	public boolean isValid(Object obj, ConstraintValidatorContext constraintValidatorContext) {
-		AddCompoundFlowerShopProductForm form = (AddCompoundFlowerShopProductForm) obj;
+
+		CompoundFlowerShopProductTransferObject form = (CompoundFlowerShopProductTransferObject) obj;
 		return !form.getSelectedFlowerShopItems().isEmpty() || !form.getSelectedFlowerShopServices().isEmpty();
+
 	}
 }

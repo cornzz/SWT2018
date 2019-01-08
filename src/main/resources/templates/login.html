@@ -1,10 +1,9 @@
-<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{title.login}">Sign in</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (title = #{title.login}, cancel_destination = @{/})">
+<header th:replace="fragments/header :: header_dialog (title = #{title.login}, cancel_destination = 'javascript:window.history.back()')">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>
@@ -26,6 +25,7 @@
                 </div>
 
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.login}">Sign in</button>
+                <button type="button" class="mdc-button" onclick="window.location='/register'" th:text="#{drawer.signup}"></button>
             </form>
 
             <div th:if="${param.error}" class="fs-snackbar-text" role="alert" hidden th:text="#{snackbar.login.error}"></div>

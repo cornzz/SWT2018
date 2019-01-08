@@ -44,10 +44,10 @@
             </div>
 
             <div class="fs-buttons">
-                <button type="submit" class="mdc-button" onclick="window.location='/cart'" th:text="#{menu.back}">Back</button>
                 <form sec:authorize="hasRole('ROLE_CUSTOMER')" method="post" th:action="@{/completeorder}" th:unless="${cart.empty}">
                     <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.confirm}">Confirm</button>
                 </form>
+                <button type="submit" class="mdc-button" onclick="window.location='/cart'" th:text="#{menu.back}">Back</button>
             </div>
         </div>
     </div>

@@ -1,5 +1,4 @@
-<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{title.event}">Event</title>
 </head>
@@ -11,19 +10,27 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h2 th:text="${event.title}"></h2>
-            <span th:text="${active} ? #{event.active} : #{event.inactive(${event.formatedBeginTime})}"></span>
-            <div th:each="line : ${event.textLines}">
-                    <span th:text="${line}">A big textLine. A big textLine. A big textLine. A big textLine. A big textLine.
-                        A big textLine. A big textLine. A big textLine. A big textLine. A big textLine. A big textLine.
-                        A big textLine. A big textLine. A big textLine. A big textLine. A big textLine. A big textLine.
-                        A big textLine. A big textLine. A big textLine. A big textLine. A big textLine. A big textLine.
-                        A big textLine. A big textLine. A big textLine. A big textLine. A big textLine. A big
-                        textLine. </span><br /></div>
-            </article>
-            <a th:href="@{/events}">
-                <button type="button">Zurück</button>
-            </a>
+            <h5 th:unless="${event}" th:text="#{event.notexist}" class="mdc-typography--headline5"></h5>
+
+            <div class="fs-card fs-card--medium mdc-card" th:if="${event}">
+                <div class="fs-card__primary">
+                    <h2 class="fs-card__title mdc-typography--headline4" th:text="${event.title}"></h2>
+                    <h3 class="fs-card__subtitle mdc-typography--subtitle2" th:switch="${state}">
+                        <span th:case="-1" th:text="#{event.scheduled(${event.formatedBeginTime})}"></span>
+                        <span th:case="0" th:text="#{event.active}"></span>
+                        <span th:case="1" th:text="#{event.over}"></span>
+                    </h3>
+                    <h3 th:if="${event.isPrivate}" class="fs-card__subtitle mdc-typography--subtitle2" th:text="#{event.private}"></h3>
+                </div>
+                <div class="fs-card__secondary mdc-typography--body2" th:text="${event.text}"></div>
+                <div class="mdc-card__actions">
+                    <div class="mdc-card__action-buttons">
+                        <form th:action="@{/events}">
+                            <button class="mdc-button mdc-card__action mdc-card__action--button" th:text="#{menu.back}"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </main>

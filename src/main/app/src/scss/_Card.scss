@@ -1,7 +1,6 @@
 @import "Variables";
 
 .fs-card {
-  width: $fs-card-width;
 
   &__media {
     background-image: url("https://media.gettyimages.com/photos/various-fresh-flowers-against-white-background-picture-id733516645");
@@ -23,5 +22,17 @@
   &__secondary {
     padding: 0 1rem 8px;
     color: var(--mdc-theme-text-secondary-on-background,rgba(0,0,0,.54))
+  }
+
+  &--small {
+    width: $fs-card-width;
+  }
+
+  &--medium {
+    width: calc(#{$fs-card-width} * 2);
+  }
+
+  &--large {
+    width: calc(#{$fs-card-width} * 3);
   }
 }

@@ -21,17 +21,19 @@
                     <tr>
                         <th class="mdl-data-table__cell--non-numeric">Service</th>
                         <th th:text="#{service.price}"></th>
+                        <th th:text="#{service.description}"></th>
                     </tr>
                     </thead>
                     <tbody th:remove="all-but-first">
                     <tr th:each=" service: ${services}">
                         <td class="mdl-data-table__cell--non-numeric" th:text="${service.name}"></td>
                         <td th:text="${service.price}"></td>
+                        <td th:text="${service.description}"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <button th:replace="fragments/floating_action_button :: floating_action_button(path = @{/products/services/add})"></button>
+            <button th:replace="fragments/floating_action_button :: floating_action_button(path = @{/services/add})"></button>
         </div>
     </div>
 </main>

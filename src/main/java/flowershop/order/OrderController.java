@@ -2,12 +2,14 @@ package flowershop.order;
 
 import flowershop.products.CompoundFlowerShopProduct;
 import flowershop.products.FlowerShopItem;
-import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Catalog;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
-import org.salespointframework.order.*;
+import org.salespointframework.order.Cart;
+import org.salespointframework.order.CartItem;
+import org.salespointframework.order.OrderManager;
+import org.salespointframework.order.OrderStatus;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
@@ -23,10 +25,17 @@ import java.util.*;
 import java.util.stream.StreamSupport;
 
 import static flowershop.order.Transaction.TransactionType.ORDER;
-import static org.salespointframework.order.OrderStatus.*;
+import static org.salespointframework.order.OrderStatus.OPEN;
+import static org.salespointframework.order.OrderStatus.PAID;
 import static org.salespointframework.payment.Cash.CASH;
 
 
+/**
+ * A Spring MVC controller to manage the ordering process.
+ *
+ * @author Tomasz Ludyga
+ * @author Cornelius Kummer
+ */
 @Controller
 @PreAuthorize("isAuthenticated()")
 @SessionAttributes("cart")
@@ -48,22 +57,17 @@ public class OrderController {
 	String buy(@ModelAttribute Cart cart, @LoggedIn Optional<UserAccount> userAccount, Model model) {
 		return userAccount.map(account -> {
 			if (!sufficientStock(cart)) {
-				model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
+				model.addAttribute("message", "cart.add.notenough");
 				return "/cart";
 			}
 
 			cart.forEach(cartItem -> {
-				Product product = cartItem.getProduct();
-				Quantity quantity = cartItem.getQuantity();
-				if (product instanceof FlowerShopItem) {
-					inventory.findByProduct(product).ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(quantity));
-
-				} else {
-					((CompoundFlowerShopProduct) product).getFlowerShopItems().forEach(item -> {
-						inventory.findByProduct(item).ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(quantity));
-
-					});
-				}
+				CompoundFlowerShopProduct product = (CompoundFlowerShopProduct) cartItem.getProduct();
+				Quantity productQuantity = cartItem.getQuantity();
+				product.getFlowerShopItemsWithQuantities().forEach(((flowerShopItem, itemQuantity) -> {
+					Quantity productItemQuantity = multiplyQuantities(productQuantity, itemQuantity);
+					inventory.findByProduct(flowerShopItem).ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(productItemQuantity));
+				}));
 			});
 
 			Transaction order = new Transaction(account, CASH, ORDER);
@@ -110,9 +114,9 @@ public class OrderController {
 				transactionManager.completeOrder(order);
 
 				// Remove fake InventoryItems
-				StreamSupport.stream(inventory.findAll().spliterator(), false)
-						.filter(inventoryItem -> !(inventoryItem.getProduct() instanceof FlowerShopItem))
-						.forEach(inventory::delete);
+				Streamable.of(inventory.findAll()).
+						filter(inventoryItem -> !(inventoryItem.getProduct() instanceof FlowerShopItem)).
+						forEach(inventory::delete);
 			}
 			return "redirect:/orders?update";
 		}).orElse("redirect:/orders");
@@ -122,43 +126,31 @@ public class OrderController {
 	@PreAuthorize("isAuthenticated()")
 	String order(Model model, @PathVariable(name = "id") Optional<Transaction> orderOptional, @LoggedIn Optional<UserAccount> loggedIn) {
 		orderOptional.ifPresent(order -> {
-			UserAccount user = loggedIn.get();
-			if (user.hasRole(Role.of("ROLE_BOSS")) || order.getUserAccount().equals(user)) {
-				model.addAttribute("order", order);
-			}
+			loggedIn.ifPresent(user -> {
+				if (user.hasRole(Role.of("ROLE_BOSS")) || order.getUserAccount().equals(user)) {
+					model.addAttribute("order", order);
+				}
+			});
 		});
 
 		return "order";
 	}
 
 	boolean sufficientStock(Cart cart) {
-		Map<FlowerShopItem, Quantity> flowerShopItems = new HashMap<>(); // Map with all FlowerShopItems required for given cart
-		for (CartItem cartItem : cart) {
-			Product product = cartItem.getProduct();
-			Quantity itemQuantity = cartItem.getQuantity();
-
-			if (product instanceof CompoundFlowerShopProduct) {
-				CompoundFlowerShopProduct compoundProduct = (CompoundFlowerShopProduct) product;
-				for (FlowerShopItem productItem : compoundProduct.getFlowerShopItems()) {
-					if (!flowerShopItems.containsKey(productItem)) {
-						flowerShopItems.put(productItem, itemQuantity);
-					} else {
-						flowerShopItems.put(productItem, flowerShopItems.get(productItem).add(itemQuantity));
-					}
-				}
-			} else if (product instanceof FlowerShopItem) {
-				FlowerShopItem item = (FlowerShopItem) product;
-				if (!flowerShopItems.containsKey(item)) {
-					flowerShopItems.put(item, itemQuantity);
+		Map<FlowerShopItem, Quantity> requiredItems = new HashMap<>(); // Map with all FlowerShopItems required for given cart
+		cart.forEach(cartItem -> {
+			((CompoundFlowerShopProduct) cartItem.getProduct()).getFlowerShopItemsWithQuantities().forEach((item, quantity) -> {
+				if (!requiredItems.containsKey(item)) {
+					requiredItems.put(item, multiplyQuantities(cartItem.getQuantity(), quantity));
 				} else {
-					flowerShopItems.put(item, flowerShopItems.get(item).add(itemQuantity));
+					requiredItems.put(item, requiredItems.get(item).add(multiplyQuantities(cartItem.getQuantity(), quantity)));
 				}
-			}
-		}
+			});
+		});
 
 		// Check if there is sufficient stock for every required FlowerShopItem
-		return flowerShopItems.keySet().stream()
-				.allMatch(item -> inventory.findByProductIdentifier(item.getId()).get().hasSufficientQuantity(flowerShopItems.get(item)));
+		return requiredItems.keySet().stream()
+				.allMatch(item -> inventory.findByProductIdentifier(item.getId()).get().hasSufficientQuantity(requiredItems.get(item)));
 	}
 
 	Streamable<Transaction> findAllOrders() {
@@ -166,6 +158,10 @@ public class OrderController {
 				.map(transactionManager::findBy)
 				.reduce(Streamable.empty(), Streamable::and)
 				.filter(transaction -> transaction.getType().equals(ORDER));
+	}
+
+	Quantity multiplyQuantities(Quantity a, Quantity b) {
+		return Quantity.of(a.getAmount().multiply(b.getAmount()).intValue());
 	}
 
 }

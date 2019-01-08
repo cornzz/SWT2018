@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <aside class="mdc-drawer mdc-drawer--modal" th:fragment="drawer (view)">
-    <div class="mdc-drawer__header" sec:authorize="isAuthenticated()">
+    <div class="mdc-drawer__header" sec:authorize="isAuthenticated()" th:if="${loggedIn}">
         <h3 class="mdc-drawer__title" th:text="${loggedIn.userAccount.username}"></h3>
         <h6 class="mdc-drawer__subtitle" th:text="${loggedIn.userAccount.email}"></h6>
     </div>
@@ -21,28 +21,29 @@
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'inventory') ? ' mdc-list-item--activated' : '')"
                sec:authorize="hasRole('ROLE_BOSS')"
-               th:href="@{/products/items/stock}"
+               th:href="@{/items}"
                th:aria-selected="${view == 'inventory'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">local_florist</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.inventory}">Inventory</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'services') ? ' mdc-list-item--activated' : '')"
                sec:authorize="hasRole('ROLE_BOSS')"
-               th:href="@{/products/services}"
+               th:href="@{/services}"
                th:aria-selected="${view == 'services'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">waves</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.services}">Services</span>
             </a>
-            <a th:class="'mdc-list-item' + ((${view} == 'users') ? ' mdc-list-item--activated' : '')"
+            <a th:class="'mdc-list-item' + ((${view} == 'deficits') ? ' mdc-list-item--activated' : '')"
                sec:authorize="hasRole('ROLE_BOSS')"
-               th:href="@{/users}"
-               th:aria-selected="${view == 'users'}">
-                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
-                <span class="mdc-list-item__text" th:text="#{drawer.users}">Users</span>
+               th:href="@{/deficits}"
+               th:aria-selected="${view == 'deficits'}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">delete_outline</i>
+                <span class="mdc-list-item__text" th:text="#{drawer.deficits}">Deficits</span>
             </a>
+
             <a th:class="'mdc-list-item' + ((${view} == 'reorders') ? ' mdc-list-item--activated' : '')"
-               sec:authorize="hasRole('ROLE_WHOLESALER')"
-               th:href="@{/products/reorders}"
+               sec:authorize="hasRole('ROLE_WHOLESALER') or hasRole('ROLE_BOSS')"
+               th:href="@{/reorders}"
                th:aria-selected="${view == 'reorders'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">all_inbox</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.reorders}">Reorders</span>
@@ -73,6 +74,13 @@
                th:aria-selected="${view == 'register'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">person_add</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.signup}">Sign up</span>
+            </a>
+            <a th:class="'mdc-list-item' + ((${view} == 'users') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="hasRole('ROLE_BOSS')"
+               th:href="@{/users}"
+               th:aria-selected="${view == 'users'}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
+                <span class="mdc-list-item__text" th:text="#{drawer.users}">Users</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'account') ? ' mdc-list-item--activated' : '')"
                sec:authorize="isAuthenticated()"

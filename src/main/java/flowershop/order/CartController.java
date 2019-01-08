@@ -10,6 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * A Spring MVC controller to manage the {@link Cart}. {@link Cart} instances are held in the session as they're
+ * specific to a certain user. That's also why the entire controller is secured by a {@code PreAuthorize} clause.
+ *
+ * @author Tomasz Ludyga
+ * @author Cornelius Kummer
+ */
 @Controller
 @PreAuthorize("isAuthenticated()")
 @SessionAttributes("cart")
@@ -52,7 +59,7 @@ public class CartController {
 
 		CartItem newCartItem = cart.addOrUpdateItem(product, quantity);
 		if (!orderController.sufficientStock(cart)){
-			model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
+			model.addAttribute("message", "cart.add.notenough");
 			cart.addOrUpdateItem(product, -quantity);
 			if (newCartItem.getQuantity().subtract(Quantity.of(quantity)).isZeroOrNegative()) {
 				cart.removeItem(newCartItem.getId());
@@ -74,7 +81,7 @@ public class CartController {
 			Product product = cartItem.getProduct();
 			cart.addOrUpdateItem(product, Quantity.of(quantity).subtract(currentItemQuantity));
 			if (!orderController.sufficientStock(cart)) {
-				model.addAttribute("message", "Es gibt nicht genug davon in Inventory.");
+				model.addAttribute("message", "cart.add.notenough");
 				cart.addOrUpdateItem(product, currentItemQuantity.subtract(Quantity.of(quantity)));
 				return "forward:/cart";
 			}

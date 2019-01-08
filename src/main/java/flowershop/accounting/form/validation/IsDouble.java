@@ -9,6 +9,9 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * @author Cornelius Kummer
+ */
 @Target({TYPE, ANNOTATION_TYPE, FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Constraint(validatedBy = DoubleValidator.class)

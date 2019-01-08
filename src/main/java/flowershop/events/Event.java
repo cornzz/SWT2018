@@ -3,9 +3,9 @@ package flowershop.events;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
-import java.util.Optional;
+
+import static java.time.format.FormatStyle.MEDIUM;
 
 @Entity
 public class Event {
@@ -19,12 +19,14 @@ public class Event {
 	private @Id
 	@GeneratedValue
 	long id;
+	private boolean isPrivate;
 
 	@SuppressWarnings("unused")
 	private Event() {
 	}
 
 	public Event(String title, String text, LocalDateTime beginTime, int duration) {
+		this.isPrivate=false;
 		this.title = title;
 		this.createdTime = LocalDateTime.now();
 		this.text = text;
@@ -32,6 +34,7 @@ public class Event {
 		this.endTime = this.beginTime.plusDays(duration);
 	}
 	public Event(String title, String text, LocalDateTime beginTime, LocalDateTime endTime) {
+		this.isPrivate=false;
 		this.title = title;
 		this.createdTime = LocalDateTime.now();
 		this.text = text;
@@ -53,15 +56,15 @@ public class Event {
 	}
 
 	public String getFormatedCreatedTime() {
-		return createdTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+		return createdTime.format(DateTimeFormatter.ofLocalizedDateTime(MEDIUM));
 	}
 
 	public String getFormatedBeginTime() {
-		return beginTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+		return beginTime.format(DateTimeFormatter.ofLocalizedDate(MEDIUM));
 	}
 
 	public String getFormatedEndTime() {
-		return endTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+		return endTime.format(DateTimeFormatter.ofLocalizedDate(MEDIUM));
 	}
 
 	public LocalDateTime getBeginTime() {
@@ -76,6 +79,10 @@ public class Event {
 		return id;
 	}
 
+	public boolean getIsPrivate(){
+		return isPrivate;
+	}
+
 	public void setTitle(String title){
 		this.title = title;
 	}
@@ -88,6 +95,11 @@ public class Event {
 	public void setEndTime(LocalDateTime endTime){
 		this.endTime = endTime;
 	}
+
+	public void setPrivate(boolean isPrivate){
+		this.isPrivate = isPrivate;
+	}
+
 	public ArrayList<String> getTextLines(){
 		String[] arrayLines = text.split("\r\n|\r|\n");
 		ArrayList<String> lines = new ArrayList<>();

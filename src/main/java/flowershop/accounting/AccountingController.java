@@ -1,6 +1,7 @@
 package flowershop.accounting;
 
 import flowershop.accounting.form.TransactionDataTransferObject;
+import flowershop.order.SubTransaction;
 import flowershop.order.Transaction;
 import org.javamoney.moneta.Money;
 import org.salespointframework.order.Order;
@@ -21,14 +22,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.money.MonetaryAmount;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import static flowershop.order.SubTransaction.SubTransactionType.REORDER;
+import static flowershop.order.Transaction.TransactionType.COLLECTION;
 import static flowershop.order.Transaction.TransactionType.CUSTOM;
 import static org.salespointframework.core.Currencies.ZERO_EURO;
-import static org.salespointframework.order.OrderStatus.*;
+import static org.salespointframework.order.OrderStatus.OPEN;
 import static org.salespointframework.payment.Cash.CASH;
 
 
+/**
+ * Displays {@link Transaction}s relevant for accounting.
+ *
+ * @author Cornelius Kummer
+ */
 @Controller
 @PreAuthorize("isAuthenticated()")
 public class AccountingController {
@@ -41,10 +50,17 @@ public class AccountingController {
 
 	@GetMapping("/accounting")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
-	String orders(Model model) {
-		Streamable<Transaction> transactions = findAllTransactions();
-		MonetaryAmount total = transactions.stream().map(Order::getTotalPrice).reduce(ZERO_EURO, MonetaryAmount::add);
+	String accounting(Model model) {
+		Streamable<Transaction> transactions = findAllTransactions().filter(transaction -> transaction.getType() != COLLECTION);
+		Streamable<SubTransaction> subTransactions = findAllTransactions().filter(transaction -> transaction.getType() == COLLECTION).
+				map(Transaction::getSubTransactions).get().flatMap(List::stream).
+				filter(subTransaction -> subTransaction.getType().equals(REORDER)).
+				map(Streamable::of).reduce(Streamable.empty(), Streamable::and);
+		MonetaryAmount total = transactions.stream().map(Order::getTotalPrice).reduce(ZERO_EURO, MonetaryAmount::add).
+				add(subTransactions.get().map(SubTransaction::getPrice).reduce(ZERO_EURO, MonetaryAmount::add).negate());
+
 		model.addAttribute("transactions", transactions);
+		model.addAttribute("reorders", subTransactions);
 		model.addAttribute("total", total);
 
 		return "accounting";
@@ -63,11 +79,12 @@ public class AccountingController {
 		if (result.hasErrors()) {
 			return new ModelAndView("accounting_add", "form", form);
 		}
-
-		Transaction transaction = new Transaction(loggedIn.get(), CASH, CUSTOM);
-		transaction.setPrice(Money.of(Double.valueOf(form.getAmount()), "EUR"));
-		transaction.setDescription(form.getDescription());
-		transactionManager.payOrder(transaction);
+		loggedIn.ifPresent(userAccount -> {
+			Transaction transaction = new Transaction(userAccount, CASH, CUSTOM);
+			transaction.setPrice(Money.of(Double.valueOf(form.getAmount()), "EUR"));
+			transaction.setDescription(form.getDescription());
+			transactionManager.payOrder(transaction);
+		});
 
 		return new ModelAndView("redirect:/accounting");
 	}
