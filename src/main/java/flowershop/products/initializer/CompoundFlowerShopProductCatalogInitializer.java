@@ -3,12 +3,15 @@ package flowershop.products.initializer;
 import flowershop.products.*;
 import flowershop.products.form.PlaceholderImage;
 import org.salespointframework.core.DataInitializer;
+import org.salespointframework.quantity.Quantity;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Order(30)
@@ -38,8 +41,8 @@ public class CompoundFlowerShopProductCatalogInitializer implements DataInitiali
 
 		// convert list to iterable
 		Iterable<FlowerShopItem> flowersIterable = flowerShopItemCatalog.findAll();
-		List<FlowerShopItem> flowerShopItems = new ArrayList<>();
-		flowersIterable.forEach(flowerShopItems::add);
+		Map<FlowerShopItem, Quantity> flowerShopItems = new HashMap<>();
+		flowersIterable.forEach(flowerShopItem -> flowerShopItems.put(flowerShopItem, Quantity.of(1)));
 
 		// convert list to iterable
 		Iterable<FlowerShopService> serviceIterable = flowerShopServiceCatalog.findAll();

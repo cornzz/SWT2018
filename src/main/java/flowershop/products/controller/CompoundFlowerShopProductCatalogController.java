@@ -3,6 +3,8 @@ package flowershop.products.controller;
 import flowershop.products.*;
 import flowershop.products.form.CompoundFlowerShopProductTransferObject;
 import org.salespointframework.catalog.ProductIdentifier;
+import org.salespointframework.inventory.Inventory;
+import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
@@ -29,13 +31,15 @@ public class CompoundFlowerShopProductCatalogController {
 	private final CompoundFlowerShopProductCatalog compoundFlowerShopProductCatalog;
 	private final FlowerShopItemCatalog flowerShopItemCatalog;
 	private final FlowerShopServiceCatalog flowerShopServiceCatalog;
+	private final Inventory<InventoryItem> inventory;
 
 	private final CompoundFlowerShopProductFlowerShopItemRepository compoundFlowerShopProductFlowerShopItemRepository;
 
-	CompoundFlowerShopProductCatalogController(CompoundFlowerShopProductCatalog compoundFlowerShopProductCatalog, FlowerShopItemCatalog flowerShopItemCatalog, FlowerShopServiceCatalog flowerShopServiceCatalog, CompoundFlowerShopProductFlowerShopItemRepository compoundFlowerShopProductFlowerShopItemRepository) {
+	CompoundFlowerShopProductCatalogController(CompoundFlowerShopProductCatalog compoundFlowerShopProductCatalog, FlowerShopItemCatalog flowerShopItemCatalog, FlowerShopServiceCatalog flowerShopServiceCatalog, Inventory<InventoryItem> inventory, CompoundFlowerShopProductFlowerShopItemRepository compoundFlowerShopProductFlowerShopItemRepository) {
 		this.compoundFlowerShopProductCatalog = compoundFlowerShopProductCatalog;
 		this.flowerShopItemCatalog = flowerShopItemCatalog;
 		this.flowerShopServiceCatalog = flowerShopServiceCatalog;
+		this.inventory = inventory;
 
 		this.compoundFlowerShopProductFlowerShopItemRepository = compoundFlowerShopProductFlowerShopItemRepository;
 	}
@@ -53,8 +57,8 @@ public class CompoundFlowerShopProductCatalogController {
 	public String products(Model model) {
 
 		Iterable<CompoundFlowerShopProduct> compoundFlowerShopProducts = compoundFlowerShopProductCatalog.findAll();
-
 		model.addAttribute("products", compoundFlowerShopProducts);
+		compoundFlowerShopProducts.forEach(product -> product.setInStock(inStock(product)));
 
 		return "products";
 	}
@@ -193,7 +197,6 @@ public class CompoundFlowerShopProductCatalogController {
 						// update quantity in compoundFlowerShopProductFlowerShopItem
 						Optional<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItemOptional = compoundFlowerShopProduct.getCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(entry.getKey());
 						compoundFlowerShopProductFlowerShopItemOptional.ifPresent(compoundFlowerShopProductFlowerShopItem -> compoundFlowerShopProductFlowerShopItem.setQuantity(entry.getValue()));
-						compoundFlowerShopProduct.refreshPrice(); // refresh price manually
 					}
 				}
 			}
@@ -230,4 +233,14 @@ public class CompoundFlowerShopProductCatalogController {
 
 		return "products_edit";
 	}
+
+	public boolean inStock(CompoundFlowerShopProduct product) {
+		Map<FlowerShopItem, Quantity> itemQuantities = product.getFlowerShopItemsWithQuantities();
+		return itemQuantities.keySet().stream().allMatch(flowerShopItem ->
+				inventory.findByProductIdentifier(flowerShopItem.getId()).
+						map(item -> item.hasSufficientQuantity(itemQuantities.get(flowerShopItem))).
+						orElse(false)
+		);
+	}
+
 }

@@ -3,7 +3,7 @@
     <div class="fs-card__media mdc-card__media mdc-card__media--16-9" th:style="'background-image: url(' + ${product.image} + ')'"></div>
     <div class="fs-card__primary">
         <h2 class="fs-card__title mdc-typography--headline6" th:text="${product.name}"></h2>
-        <h3 class="fs-card__subtitle mdc-typography--subtitle2" th:text="${product.price}"></h3>
+        <h3 class="fs-card__subtitle mdc-typography--subtitle2" th:text="${!product.inStock} ? #{product.outofstock} : ${product.price}"></h3>
     </div>
     <div class="fs-card__secondary mdc-typography--body2" th:text="${product.description}">
         CompoundFlowerShopProduct in an Arched Window, Ambrosius Bosschaert, circa 1618-1620. The earliest formal flower arrangements in Europe were

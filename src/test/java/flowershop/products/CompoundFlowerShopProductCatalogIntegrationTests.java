@@ -25,12 +25,6 @@ public class CompoundFlowerShopProductCatalogIntegrationTests extends AbstractIn
 	}
 
 	@Test
-	void compoundProductsContainFlowerShopItems() {
-		Iterable<CompoundFlowerShopProduct> compoundFlowerShopProducts = compoundFlowerShopProductCatalog.findAll();
-		compoundFlowerShopProducts.forEach(product -> assertThat(product.getFlowerShopItems()).hasSize(3));
-	}
-
-	@Test
 	void compoundProductsContainFlowerShopItemsWithQuantities() {
 		Iterable<CompoundFlowerShopProduct> compoundFlowerShopProducts = compoundFlowerShopProductCatalog.findAll();
 		compoundFlowerShopProducts.forEach(product -> assertThat(product.getFlowerShopItemsWithQuantities()).hasSize(3));

@@ -8,16 +8,14 @@ import org.salespointframework.quantity.Quantity;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class CompoundFlowerShopProduct extends Product {
 	private String description;
 
 	@OneToMany(mappedBy = "compoundFlowerShopProduct", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
-	private List<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItems;
-
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	private List<FlowerShopItem> flowerShopItems;
+	private List<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItems = new ArrayList<>();
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<FlowerShopService> flowerShopServices;
@@ -25,61 +23,97 @@ public class CompoundFlowerShopProduct extends Product {
 	@Type(type = "text")
 	private String image;
 
+	private boolean inStock;
+
 	@SuppressWarnings("unused")
 	private CompoundFlowerShopProduct() {
-	}
-
-	public CompoundFlowerShopProduct(String name, String description, List<FlowerShopItem> flowerShopItems, List<FlowerShopService> flowerShopServices, String image) {
-		super(name, CompoundFlowerShopProduct.calcPrice(flowerShopItems, flowerShopServices));
-
-		this.description = description;
-		this.flowerShopItems = flowerShopItems;
-		this.flowerShopServices = flowerShopServices;
-		this.image = image;
-
-		this.compoundFlowerShopProductFlowerShopItems = new ArrayList<>();
-
-		// create relationships
-		createCompoundFlowerShopProductFlowerShopItems(this.flowerShopItems);
 	}
 
 	public CompoundFlowerShopProduct(String name, String description, Map<FlowerShopItem, Quantity> flowerShopItemsWithQuantities, List<FlowerShopService> flowerShopServices, String image) {
 		super(name, CompoundFlowerShopProduct.calcPrice(flowerShopItemsWithQuantities, flowerShopServices));
 
 		this.description = description;
-		this.flowerShopItems = new ArrayList<>(flowerShopItemsWithQuantities.keySet());
 		this.flowerShopServices = flowerShopServices;
 		this.image = image;
 
-		this.compoundFlowerShopProductFlowerShopItems = new ArrayList<>();
-
 		// create relationships
-		flowerShopItemsWithQuantities.forEach((flowerShopItem, quantity) -> addFlowerShopItem(flowerShopItem, quantity));
+		flowerShopItemsWithQuantities.forEach(this::addFlowerShopItem);
 	}
 
-	private void createCompoundFlowerShopProductFlowerShopItems(List<FlowerShopItem> flowerShopItems) {
-		for (FlowerShopItem flowerShopItem : flowerShopItems) {
-			addFlowerShopItem(flowerShopItem, Quantity.of(1));
-		}
-	}
-
-	private static Money calcPrice(Iterable<FlowerShopItem> flowerShopItems, Iterable<FlowerShopService> flowerShopServices) {
-
-		Money price = Money.of(0, "EUR");
-
-		for (FlowerShopItem flowerShopItem : flowerShopItems) {
-			price = price.add(flowerShopItem.getPrice());
-		}
-
-		for (FlowerShopService flowerShopService : flowerShopServices) {
-			price = price.add(flowerShopService.getPrice());
-		}
-
-		return price;
-	}
-
+	@Override
 	public Money getPrice() {
 		return calcPrice(getFlowerShopItemsWithQuantities(), getFlowerShopServices());
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public List<CompoundFlowerShopProductFlowerShopItem> getCompoundFlowerShopProductFlowerShopItems() {
+		return compoundFlowerShopProductFlowerShopItems;
+	}
+
+	public List<FlowerShopService> getFlowerShopServices() {
+		return flowerShopServices;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public boolean getInStock() {
+		return this.inStock;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setCompoundFlowerShopProductFlowerShopItems(List<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItems) {
+		this.compoundFlowerShopProductFlowerShopItems = compoundFlowerShopProductFlowerShopItems;
+	}
+
+	public void setFlowerShopServices(List<FlowerShopService> flowerShopServices) {
+		this.flowerShopServices = flowerShopServices;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public void setInStock(boolean inStock) {
+		this.inStock = inStock;
+	}
+
+	// pure convenience, provides easier access to the product's ingredient quantities
+	public Map<FlowerShopItem, Quantity> getFlowerShopItemsWithQuantities() {
+		return getCompoundFlowerShopProductFlowerShopItems().stream().collect(
+				Collectors.toMap(CompoundFlowerShopProductFlowerShopItem::getFlowerShopItem, CompoundFlowerShopProductFlowerShopItem::getQuantity));
+	}
+
+	public CompoundFlowerShopProductFlowerShopItem addFlowerShopItem(FlowerShopItem flowerShopItem, Quantity quantity) {
+		CompoundFlowerShopProductFlowerShopItem compoundFlowerShopProductFlowerShopItem = new CompoundFlowerShopProductFlowerShopItem();
+
+		compoundFlowerShopProductFlowerShopItem.setCompoundFlowerShopProduct(this);
+		compoundFlowerShopProductFlowerShopItem.setFlowerShopItem(flowerShopItem);
+		compoundFlowerShopProductFlowerShopItem.setQuantity(quantity);
+
+		addCompoundFlowerShopProductFlowerShopItem(compoundFlowerShopProductFlowerShopItem);
+
+		return compoundFlowerShopProductFlowerShopItem;
+	}
+
+	// TODO: do we want this to be public?
+	public void addCompoundFlowerShopProductFlowerShopItem(CompoundFlowerShopProductFlowerShopItem compoundFlowerShopProductFlowerShopItem) {
+		compoundFlowerShopProductFlowerShopItems.add(compoundFlowerShopProductFlowerShopItem);
+	}
+
+	public Optional<CompoundFlowerShopProductFlowerShopItem> getCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(FlowerShopItem flowerShopItem) {
+		return getCompoundFlowerShopProductFlowerShopItems().stream().filter(item -> item.getFlowerShopItem().equals(flowerShopItem)).findFirst();
+	}
+
+	public void removeCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(FlowerShopItem flowerShopItem) {
+		getCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(flowerShopItem).ifPresent(compoundFlowerShopProductFlowerShopItem -> getCompoundFlowerShopProductFlowerShopItems().remove(compoundFlowerShopProductFlowerShopItem));
 	}
 
 	public static Money calcPrice(Map<FlowerShopItem, Quantity> flowerItemsWithQuantities, Iterable<FlowerShopService> flowerShopServices) {
@@ -94,67 +128,6 @@ public class CompoundFlowerShopProduct extends Product {
 		}
 
 		return price;
-	}
-
-	public List<CompoundFlowerShopProductFlowerShopItem> getCompoundFlowerShopProductFlowerShopItems() {
-		return compoundFlowerShopProductFlowerShopItems;
-	}
-
-	// pure convenience, provides easier access to the product's ingredient quantities
-	public Map<FlowerShopItem, Quantity> getFlowerShopItemsWithQuantities() {
-		Map<FlowerShopItem, Quantity> flowerShopItemsWithQuantities = new HashMap<>();
-
-		getCompoundFlowerShopProductFlowerShopItems()
-				.forEach(compoundFlowerShopProductFlowerShopItem -> flowerShopItemsWithQuantities
-						.put(compoundFlowerShopProductFlowerShopItem.getFlowerShopItem(), compoundFlowerShopProductFlowerShopItem.getQuantity()));
-
-		return flowerShopItemsWithQuantities;
-	}
-
-	public void setCompoundFlowerShopProductFlowerShopItems(List<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItems) {
-		this.compoundFlowerShopProductFlowerShopItems = compoundFlowerShopProductFlowerShopItems;
-		refreshPrice();
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Iterable<FlowerShopItem> getFlowerShopItems() {
-		return flowerShopItems;
-	}
-
-	public List<FlowerShopService> getFlowerShopServices() {
-		return flowerShopServices;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	// TODO: do we want this to be public?
-	public void addCompoundFlowerShopProductFlowerShopItem(CompoundFlowerShopProductFlowerShopItem compoundFlowerShopProductFlowerShopItem) {
-		compoundFlowerShopProductFlowerShopItems.add(compoundFlowerShopProductFlowerShopItem);
-	}
-
-	public CompoundFlowerShopProductFlowerShopItem addFlowerShopItem(FlowerShopItem flowerShopItem, Quantity quantity) {
-		CompoundFlowerShopProductFlowerShopItem compoundFlowerShopProductFlowerShopItem = new CompoundFlowerShopProductFlowerShopItem();
-
-		compoundFlowerShopProductFlowerShopItem.setCompoundFlowerShopProduct(this);
-		compoundFlowerShopProductFlowerShopItem.setFlowerShopItem(flowerShopItem);
-		compoundFlowerShopProductFlowerShopItem.setQuantity(quantity);
-
-		addCompoundFlowerShopProductFlowerShopItem(compoundFlowerShopProductFlowerShopItem);
-
-		return compoundFlowerShopProductFlowerShopItem;
 	}
 
 	public CompoundFlowerShopProductTransferObject createTransferObject() {
@@ -190,23 +163,4 @@ public class CompoundFlowerShopProduct extends Product {
 		return form;
 	}
 
-	public void setFlowerShopServices(List<FlowerShopService> flowerShopServices) {
-		this.flowerShopServices = flowerShopServices;
-		refreshPrice();
-	}
-
-	// TODO: deprecated?
-	public void refreshPrice() {
-		super.setPrice(CompoundFlowerShopProduct.calcPrice(flowerShopItems, flowerShopServices));
-	}
-
-	public Optional<CompoundFlowerShopProductFlowerShopItem> getCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(FlowerShopItem flowerShopItem) {
-		return getCompoundFlowerShopProductFlowerShopItems().stream().filter(item -> item.getFlowerShopItem().equals(flowerShopItem)).findFirst();
-	}
-
-	public void removeCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(FlowerShopItem flowerShopItem) {
-		getCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(flowerShopItem).ifPresent(compoundFlowerShopProductFlowerShopItem -> getCompoundFlowerShopProductFlowerShopItems().remove(compoundFlowerShopProductFlowerShopItem));
-		flowerShopItems.remove(flowerShopItem);
-		refreshPrice();
-	}
 }
