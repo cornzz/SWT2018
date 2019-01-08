@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<div class="fs-card mdc-card" th:fragment="product_card (product)">
+<div class="fs-card fs-card--small mdc-card" th:fragment="product_card (product)">
     <div class="fs-card__media mdc-card__media mdc-card__media--16-9" th:style="'background-image: url(' + ${product.image} + ')'"></div>
     <div class="fs-card__primary">
         <h2 class="fs-card__title mdc-typography--headline6" th:text="${product.name}"></h2>

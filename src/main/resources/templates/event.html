@@ -12,7 +12,7 @@
         <div class="fs-content-wrapper">
             <h5 th:unless="${event}" th:text="#{event.notexist}" class="mdc-typography--headline5"></h5>
 
-            <div class="fs-card mdc-card" th:if="${event}">
+            <div class="fs-card fs-card--medium mdc-card" th:if="${event}">
                 <div class="fs-card__primary">
                     <h2 class="fs-card__title mdc-typography--headline4" th:text="${event.title}"></h2>
                     <h3 class="fs-card__subtitle mdc-typography--subtitle2" th:switch="${state}">
