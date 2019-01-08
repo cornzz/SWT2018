@@ -4,6 +4,11 @@ import org.salespointframework.core.SalespointIdentifier;
 
 import javax.persistence.Embeddable;
 
+/**
+ * {@link SubTransactionIdentifier} serves as an identifier type for {@link SubTransaction} objects.
+ *
+ * @author Friedrich Bethke
+ */
 @Embeddable
 class SubTransactionIdentifier extends SalespointIdentifier {
 

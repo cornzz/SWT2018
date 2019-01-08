@@ -15,6 +15,11 @@ import java.util.List;
 
 import static flowershop.order.SubTransaction.SubTransactionType.REORDER;
 
+/**
+ * An extension of {@link Order} to add flower shop specific methods and values.
+ *
+ * @author Friedrich Bethke
+ */
 @Entity
 public class Transaction extends Order {
 	public enum TransactionType {

@@ -20,6 +20,11 @@ import static flowershop.order.Transaction.TransactionType.COLLECTION;
 import static org.salespointframework.order.OrderStatus.PAID;
 import static org.salespointframework.payment.Cash.CASH;
 
+/**
+ * A manager for {@link Transaction}s.
+ *
+ * @author Friedrich Bethke
+ */
 @Service
 @Transactional
 public class ReorderManager {
@@ -27,12 +32,23 @@ public class ReorderManager {
 	private final Inventory<InventoryItem> inventory;
 	private final UserAccountManager userAccountManager;
 
+	/**
+	 * Creates a new {@link ReorderManager} with the given {@link OrderManager}, {@link Inventory} and {@link UserAccountManager}.
+	 *
+	 * @param reorderManager must not be {@literal null}.
+	 * @param inventory must not be {@literal null}.
+	 * @param userAccountManager must not be {@literal null}.
+	 */
 	public ReorderManager(OrderManager<Transaction> reorderManager, Inventory<InventoryItem> inventory, UserAccountManager userAccountManager) {
 		this.reorderManager = reorderManager;
 		this.inventory = inventory;
 		this.userAccountManager = userAccountManager;
 	}
 
+	/**
+	 * Checks if the quantity of every {@link FlowerShopItem} in the {@link Inventory} is high enough,
+	 * if that is not the case a new {@link SubTransaction} from type REORDER, for that {@link FlowerShopItem}, will be created.
+	 */
 	public void refillInventory() {
 		inventory.findAll().forEach(item -> {
 			Quantity standardStock = Quantity.of(((FlowerShopItem) item.getProduct()).getBaseStock());
@@ -45,6 +61,13 @@ public class ReorderManager {
 		});
 	}
 
+	/**
+	 * Creates a new {@link SubTransaction} for the given {@link FlowerShopItem}.
+	 *
+	 * @param inventoryItem will never be {@literal null}.
+	 * @param quantity will never be {@literal null}.
+	 * @param type will never be {@literal null}.
+	 */
 	public void createReorder(InventoryItem inventoryItem, Quantity quantity, SubTransaction.SubTransactionType type) {
 		if (quantity.isLessThan(Quantity.of(1))) {
 			return;
@@ -63,6 +86,11 @@ public class ReorderManager {
 		});
 	}
 
+	/**
+	 * Increases the quantity for the given item in the inventory and marks the reorder as done.
+	 *
+	 * @param reorder will never be {@literal null}.
+	 */
 	public void sendReorder(SubTransaction reorder) {
 		Streamable.of(inventory.findAll()).stream().filter(item -> item.getProduct().getName().equals(reorder.getFlower())).findFirst().ifPresent(inventoryItem -> {
 			inventoryItem.increaseQuantity(reorder.getQuantity());

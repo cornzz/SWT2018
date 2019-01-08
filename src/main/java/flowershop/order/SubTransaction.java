@@ -11,6 +11,11 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
+/**
+ * {@link SubTransaction} stores the data of a deficit or reorder.
+ *
+ * @author Friedrich Bethke
+ */
 @Entity
 public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 	public enum SubTransactionType {

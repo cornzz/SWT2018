@@ -22,7 +22,11 @@ import static flowershop.order.Transaction.TransactionType.COLLECTION;
 import static org.salespointframework.core.Currencies.ZERO_EURO;
 import static org.salespointframework.order.OrderStatus.PAID;
 
-
+/**
+ * A Spring MVC controller to view {@link SubTransaction}s with DEFICIT type.
+ *
+ * @author Friedrich Bethke
+ */
 @Controller
 public class DeficitController {
 
@@ -30,12 +34,27 @@ public class DeficitController {
 	private final Inventory<InventoryItem> inventory;
 	private final OrderManager<Transaction> transactionManager;
 
+	/**
+	 * Creates a new {@link DeficitController} with the given {@link ReorderManager}, {@link Inventory} and {@link OrderManager}.
+	 *
+	 * @param reorderManager must not be {@literal null}.
+	 * @param inventory must not be {@literal null}.
+	 * @param transactionManager must not be {@literal null}.
+	 */
 	DeficitController(ReorderManager reorderManager, Inventory<InventoryItem> inventory, OrderManager<Transaction> transactionManager) {
 		this.reorderManager = reorderManager;
 		this.inventory = inventory;
 		this.transactionManager = transactionManager;
 	}
 
+	/**
+	 * Creates a new deficit.
+	 *
+	 * @param id will never be {@literal null}.
+	 * @param deficitQuantity will never be {@literal null}.
+	 * @param model will never be {@literal null}.
+	 * @return the view name and, if creating the deficit was not successful, the inventory view.
+	 */
 	@PostMapping("/items/deficit/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String deficit(@PathVariable InventoryItemIdentifier id, String deficitQuantity, Model model) {
@@ -57,6 +76,12 @@ public class DeficitController {
 		}).orElse("redirect:/items");
 	}
 
+	/**
+	 * Displays all deficits.
+	 *
+	 * @param model will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@GetMapping("/deficits")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String deficit(Model model) {
