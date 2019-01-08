@@ -35,7 +35,7 @@ public class ReorderManager {
 
 	public void refillInventory() {
 		inventory.findAll().forEach(item -> {
-			Quantity standardStock = Quantity.of(((FlowerShopItem) item.getProduct()).getMinStock());
+			Quantity standardStock = Quantity.of(((FlowerShopItem) item.getProduct()).getBaseStock());
 			Quantity threshold = standardStock.subtract(Quantity.of(standardStock.getAmount().intValue() / 2));
 			if (item.getQuantity().isLessThan(threshold)) {
 				Quantity quantity = standardStock.subtract(item.getQuantity());

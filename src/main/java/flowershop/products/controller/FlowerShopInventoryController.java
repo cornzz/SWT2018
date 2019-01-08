@@ -4,7 +4,6 @@ package flowershop.products.controller;
 import flowershop.products.FlowerShopItem;
 import flowershop.products.FlowerShopItemCatalog;
 import flowershop.products.form.AddFlowerShopItemForm;
-import org.javamoney.moneta.Money;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.quantity.Quantity;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import static org.salespointframework.core.Currencies.EURO;
 
 @Controller
 public class FlowerShopInventoryController {
@@ -53,7 +50,7 @@ public class FlowerShopInventoryController {
 		if (result.hasErrors()) {
 			return new ModelAndView("inventory_add", "form", form);
 		}
-		FlowerShopItem item = new FlowerShopItem(form.getName(), Money.of(Double.valueOf(form.getPrice()), EURO), Double.valueOf(form.getProfit()), form.getDescription(), Integer.valueOf(form.getAmount()));
+		FlowerShopItem item = form.convertToObject();
 		itemCatalog.save(item);
 		inventory.save(new InventoryItem(item, Quantity.of(Integer.valueOf(form.getAmount()))));
 

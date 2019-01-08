@@ -1,27 +1,28 @@
 package flowershop.accounting.form.validation;
 
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Validator for a String that is supposed to be converted to a Double
+ * Validator for a String that is supposed to be converted to a Long
  *
  * @author Cornelius Kummer
  */
-public class DoubleValidator implements ConstraintValidator<IsDouble, String> {
+public class LongValidator implements ConstraintValidator<IsLong, String> {
 
 	@Override
 	public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-		Double value;
+		Long value;
 		if (s == null || s.isEmpty()) {
 			return true; // NotEmpty takes over
 		}
 		try {
-			value = Double.valueOf(s);
+			value = Long.valueOf(s);
 		} catch (Exception e) {
 			return false;
 		}
-		return !(value >= Double.POSITIVE_INFINITY || value <= Double.NEGATIVE_INFINITY);
+		return !(value >= Long.MAX_VALUE || value <= Long.MIN_VALUE);
 	}
 
 }

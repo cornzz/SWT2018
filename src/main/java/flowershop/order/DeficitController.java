@@ -48,6 +48,7 @@ public class DeficitController {
 				inventoryItem.decreaseQuantity(Quantity.of(quantity));
 				inventory.save(inventoryItem);
 				reorderManager.refillInventory();
+				reorderManager.createReorder(inventoryItem, Quantity.of(quantity), SubTransaction.SubTransactionType.DEFICIT);
 				return "redirect:/items?deficit";
 			} else {
 				model.addAttribute("message", "inventory.notenough");

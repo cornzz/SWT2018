@@ -1,6 +1,5 @@
 package flowershop.products;
 
-import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 
 import javax.money.MonetaryAmount;
@@ -14,9 +13,9 @@ import java.util.Optional;
 @Entity
 public class FlowerShopItem extends Product {
 	private MonetaryAmount basePrice;
-	private double profit;
+	private MonetaryAmount retailPrice;
 	private String description;
-	private int minStock;
+	private int baseStock;
 
 	@OneToMany(mappedBy = "flowerShopItem", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	private List<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItems;
@@ -25,34 +24,30 @@ public class FlowerShopItem extends Product {
 	private FlowerShopItem() {
 	}
 
-	public FlowerShopItem(String name, Money price, double profit, String description, int minStock) {
-		super(name, price);
+	public FlowerShopItem(String name, MonetaryAmount basePrice, MonetaryAmount retailPrice, String description, int baseStock) {
+		super(name, basePrice);
 
+		this.basePrice = basePrice;
+		this.retailPrice = retailPrice;
 		this.description = description;
-		this.profit = profit;
-		this.basePrice = price;
-		this.minStock = minStock;
+		this.baseStock = baseStock;
 	}
 
 	@Override
 	public MonetaryAmount getPrice() {
-		return super.getPrice().multiply(profit).add(super.getPrice());
+		return retailPrice;
 	}
 
 	public MonetaryAmount getBasePrice() {
 		return basePrice;
 	}
 
-	public double getProfit() {
-		return profit;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
-	public int getMinStock() {
-		return minStock;
+	public int getBaseStock() {
+		return baseStock;
 	}
 
 	@Override

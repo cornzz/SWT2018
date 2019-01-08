@@ -28,8 +28,8 @@ public class FlowerShopItemCatalogInitializer implements DataInitializer {
 			return;
 		}
 
-		flowerShopItemCatalog.save(new FlowerShopItem("Red FlowerShopItem", Money.of(100, EURO), 0.2, "Expensive red flower", 10));
-		flowerShopItemCatalog.save(new FlowerShopItem("Green FlowerShopItem", Money.of(100, EURO), 0.2, "Expensive green flower", 10));
-		flowerShopItemCatalog.save(new FlowerShopItem("Blue FlowerShopItem", Money.of(100, EURO), 0.2, "Expensive blue flower", 10));
+		flowerShopItemCatalog.save(new FlowerShopItem("Red FlowerShopItem", Money.of(100, EURO), Money.of(120, EURO), "Expensive red flower", 10));
+		flowerShopItemCatalog.save(new FlowerShopItem("Green FlowerShopItem", Money.of(100, EURO), Money.of(120, EURO), "Expensive green flower", 10));
+		flowerShopItemCatalog.save(new FlowerShopItem("Blue FlowerShopItem", Money.of(100, EURO), Money.of(120, EURO), "Expensive blue flower", 10));
 	}
 }

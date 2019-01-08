@@ -84,18 +84,19 @@ public class OrderController {
 	@GetMapping("/orders")
 	@PreAuthorize("isAuthenticated()")
 	ModelAndView orders(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
-		UserAccount user = loggedIn.get();
-		Streamable<Transaction> orders;
+		return loggedIn.map(user -> {
+			Streamable<Transaction> orders;
 
-		if (user.hasRole(Role.of("ROLE_BOSS"))) {
-			model.addAttribute("statusOpen", OPEN);
-			model.addAttribute("statusPaid", PAID);
-			orders = findAllOrders();
-		} else {
-			orders = transactionManager.findBy(user);
-		}
+			if (user.hasRole(Role.of("ROLE_BOSS"))) {
+				model.addAttribute("statusOpen", OPEN);
+				model.addAttribute("statusPaid", PAID);
+				orders = findAllOrders();
+			} else {
+				orders = transactionManager.findBy(user);
+			}
+			return new ModelAndView("orders", "orders", orders);
+		}).orElse(new ModelAndView("orders"));
 
-		return new ModelAndView("orders", "orders", orders);
 	}
 
 	@GetMapping("/order/update/{id}")

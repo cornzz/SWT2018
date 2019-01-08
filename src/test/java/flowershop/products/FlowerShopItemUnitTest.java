@@ -2,7 +2,6 @@ package flowershop.products;
 
 import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Test;
-import org.salespointframework.quantity.Quantity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.salespointframework.core.Currencies.EURO;
@@ -11,23 +10,23 @@ public class FlowerShopItemUnitTest {
 	@Test
 	public void testGetters() {
 		String name = "Foo";
-		Money price = Money.of(100, EURO);
-		double profit = 0.2;
+		Money basePrice = Money.of(100, EURO);
+		Money retailPrice = Money.of(120, EURO);
 		String description = "Bar";
-		int minStock = 10;
+		int baseStock = 10;
 
-		FlowerShopItem flowerShopItem = new FlowerShopItem(name, price, profit, description, minStock);
+		FlowerShopItem flowerShopItem = new FlowerShopItem(name, basePrice, retailPrice, description, baseStock);
 
 		assertEquals(name, flowerShopItem.getName());
-		assertEquals(price, flowerShopItem.getBasePrice());
+		assertEquals(basePrice, flowerShopItem.getBasePrice());
+		assertEquals(retailPrice, flowerShopItem.getPrice());
 		assertEquals(description, flowerShopItem.getDescription());
-		assertEquals(profit, flowerShopItem.getProfit());
-		assertEquals(minStock, flowerShopItem.getMinStock());
+		assertEquals(baseStock, flowerShopItem.getBaseStock());
 	}
 
 	@Test
 	public void testSetters() {
-		FlowerShopItem flowerShopItem = new FlowerShopItem("Foo", Money.of(100, EURO), 0.2, "Bar", 10);
+		FlowerShopItem flowerShopItem = new FlowerShopItem("Foo", Money.of(100, EURO), Money.of(120, EURO), "Bar", 10);
 
 		String name = "Bar";
 		Money price = Money.of(200, EURO);
