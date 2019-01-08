@@ -13,7 +13,7 @@ public class DoubleValidator implements ConstraintValidator<IsDouble, String> {
 	@Override
 	public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
 		Double value;
-		if (s.isEmpty()) {
+		if (s == null || s.isEmpty()) {
 			return true; // NotEmpty takes over
 		}
 		try {

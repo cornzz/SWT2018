@@ -16,7 +16,7 @@ public class TransactionDataTransferObject {
 	@IsDouble(message = "{Dto.amount.Numeric}")
 	private String amount;
 
-	@NotNull
+	@NotNull(message = "{Dto.description.NotEmpty}")
 	@NotEmpty(message = "{Dto.description.NotEmpty}")
 	private String description;
 
