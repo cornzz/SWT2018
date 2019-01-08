@@ -91,11 +91,9 @@ public class CompoundFlowerShopProductCatalogController {
 
 			model.addAttribute("product", compoundFlowerShopProductCatalog.findById(id).get());
 
-			if (!userAccountOptional.isPresent()) {
-				return "products_detail";
-			}
+			return userAccountOptional.filter(userAccount -> userAccount.hasRole(Role.of("ROLE_BOSS"))).
+					map(userAccount -> "redirect:/products/" + id + "/edit").orElse("products_detail");
 
-			return userAccountOptional.get().hasRole(Role.of("ROLE_BOSS")) ? "redirect:/products/" + id + "/edit" : "products_detail";
 		}
 
 		return "redirect:/products";

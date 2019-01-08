@@ -2,7 +2,6 @@ package flowershop.products;
 
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
-import org.salespointframework.quantity.Quantity;
 
 import javax.money.MonetaryAmount;
 import javax.persistence.CascadeType;
@@ -14,9 +13,10 @@ import java.util.Optional;
 
 @Entity
 public class FlowerShopItem extends Product {
-	private String description;
-	private double profit;
 	private MonetaryAmount basePrice;
+	private double profit;
+	private String description;
+	private int minStock;
 
 	@OneToMany(mappedBy = "flowerShopItem", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	private List<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItems;
@@ -25,21 +25,13 @@ public class FlowerShopItem extends Product {
 	private FlowerShopItem() {
 	}
 
-	public FlowerShopItem(String name, Money price, String description, double profit) {
+	public FlowerShopItem(String name, Money price, double profit, String description, int minStock) {
 		super(name, price);
 
 		this.description = description;
 		this.profit = profit;
 		this.basePrice = price;
-
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public double getProfit() {
-		return profit;
+		this.minStock = minStock;
 	}
 
 	@Override
@@ -49,6 +41,18 @@ public class FlowerShopItem extends Product {
 
 	public MonetaryAmount getBasePrice() {
 		return basePrice;
+	}
+
+	public double getProfit() {
+		return profit;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public int getMinStock() {
+		return minStock;
 	}
 
 	@Override

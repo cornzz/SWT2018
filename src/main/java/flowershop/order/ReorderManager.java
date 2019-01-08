@@ -35,8 +35,8 @@ public class ReorderManager {
 
 	public void refillInventory() {
 		inventory.findAll().forEach(item -> {
-			Quantity threshold = Quantity.of(5);
-			Quantity standardStock = Quantity.of(10);
+			Quantity standardStock = Quantity.of(((FlowerShopItem) item.getProduct()).getMinStock());
+			Quantity threshold = standardStock.subtract(Quantity.of(standardStock.getAmount().intValue() / 2));
 			if (item.getQuantity().isLessThan(threshold)) {
 				Quantity quantity = standardStock.subtract(item.getQuantity());
 				Quantity reorderQuantity = findByInventoryId(item.getId()).map(t -> quantity.subtract(t.getQuantity())).orElse(quantity);
@@ -46,6 +46,9 @@ public class ReorderManager {
 	}
 
 	public void createReorder(InventoryItem inventoryItem, Quantity quantity, SubTransaction.SubTransactionType type) {
+		if (quantity.isLessThan(Quantity.of(1))) {
+			return;
+		}
 		userAccountManager.findByUsername("admin").ifPresent(userAccount -> {
 			String name = inventoryItem.getProduct().getName();
 			FlowerShopItem item = (FlowerShopItem) inventoryItem.getProduct();

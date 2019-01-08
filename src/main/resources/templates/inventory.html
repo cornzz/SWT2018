@@ -29,7 +29,7 @@
                     <tbody th:remove="all-but-first">
                     <tr th:each=" item : ${inventory}">
                         <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.name}"></td>
-                        <td th:text="${item.product.basePrice}"></td>
+                        <td th:text="'EUR ' + ${#numbers.formatDecimal(item.product.basePrice.number, 0, 'COMMA', 2, 'POINT')}"></td>
                         <td th:text="${{item.quantity}}"></td>
                         <td>
                             <form method="post" th:action="@{/items/deficit/{id}(id=${item.id})}" class="fs-table-input">

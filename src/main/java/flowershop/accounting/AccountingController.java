@@ -54,7 +54,7 @@ public class AccountingController {
 		Streamable<Transaction> transactions = findAllTransactions().filter(transaction -> transaction.getType() != COLLECTION);
 		Streamable<SubTransaction> subTransactions = findAllTransactions().filter(transaction -> transaction.getType() == COLLECTION).
 				map(Transaction::getSubTransactions).get().flatMap(List::stream).
-				filter(subTransaction -> subTransaction.getType().equals(REORDER)).
+				filter(subTransaction -> subTransaction.isType(REORDER)).
 				map(Streamable::of).reduce(Streamable.empty(), Streamable::and);
 		MonetaryAmount total = transactions.stream().map(Order::getTotalPrice).reduce(ZERO_EURO, MonetaryAmount::add).
 				add(subTransactions.get().map(SubTransaction::getPrice).reduce(ZERO_EURO, MonetaryAmount::add).negate());

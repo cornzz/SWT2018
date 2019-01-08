@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+import static flowershop.order.SubTransaction.SubTransactionType.REORDER;
+
 @Entity
 public class Transaction extends Order {
 	public enum TransactionType {
@@ -72,7 +74,8 @@ public class Transaction extends Order {
 	}
 
 	public Quantity getQuantity() {
-		return getSubTransactions().stream().map(SubTransaction::getQuantity).reduce(Quantity.of(0), Quantity::add);
+		return getSubTransactions().stream().filter(subTransaction -> subTransaction.isType(REORDER))
+				.map(SubTransaction::getQuantity).reduce(Quantity.of(0), Quantity::add);
 	}
 
 	public void setType(TransactionType type) {

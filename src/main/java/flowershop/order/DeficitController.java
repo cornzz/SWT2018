@@ -48,7 +48,6 @@ public class DeficitController {
 				inventoryItem.decreaseQuantity(Quantity.of(quantity));
 				inventory.save(inventoryItem);
 				reorderManager.refillInventory();
-				reorderManager.createReorder(inventoryItem, Quantity.of(quantity), SubTransaction.SubTransactionType.DEFICIT);
 				return "redirect:/items?deficit";
 			} else {
 				model.addAttribute("message", "inventory.notenough");
@@ -63,8 +62,8 @@ public class DeficitController {
 		Streamable<SubTransaction> subTransactions = transactionManager.findBy(PAID).
 				filter(transaction -> transaction.getType() == COLLECTION).
 				map(Transaction::getSubTransactions).get().flatMap(List::stream).
-				filter(subTransaction -> subTransaction.getType().equals(DEFICIT)).
-				filter(subTransaction -> subTransaction.getStatus().equals(true)).
+				filter(subTransaction -> subTransaction.isType(DEFICIT)).
+				filter(SubTransaction::getStatus).
 				map(Streamable::of).reduce(Streamable.empty(), Streamable::and);
 		MonetaryAmount total = subTransactions.get().map(SubTransaction::getPrice).reduce(ZERO_EURO, MonetaryAmount::add);
 

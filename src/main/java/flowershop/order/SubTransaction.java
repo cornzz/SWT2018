@@ -72,11 +72,16 @@ public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 		return subTransactionIdentifier;
 	}
 
-	public Boolean getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
 	public SubTransactionType getType() {
 		return type;
 	}
+
+	public boolean isType(SubTransactionType type) {
+		return this.type.equals(type);
+	}
+
 }

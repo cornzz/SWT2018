@@ -53,9 +53,9 @@ public class FlowerShopInventoryController {
 		if (result.hasErrors()) {
 			return new ModelAndView("inventory_add", "form", form);
 		}
-		FlowerShopItem item = new FlowerShopItem(form.getName(), Money.of(Double.valueOf(form.getPrice()), EURO), form.getDescription(), Double.valueOf(form.getProfit()));
+		FlowerShopItem item = new FlowerShopItem(form.getName(), Money.of(Double.valueOf(form.getPrice()), EURO), Double.valueOf(form.getProfit()), form.getDescription(), Integer.valueOf(form.getAmount()));
 		itemCatalog.save(item);
-		inventory.save(new InventoryItem(item, Quantity.of(Double.valueOf(form.getAmount()))));
+		inventory.save(new InventoryItem(item, Quantity.of(Integer.valueOf(form.getAmount()))));
 
 		return new ModelAndView("redirect:/items");
 	}

@@ -47,8 +47,8 @@ public class ReorderController {
 	ModelAndView reorders(Model model) {
 		Streamable<SubTransaction> subTransactions = reorderManager.findAll().
 				map(Transaction::getSubTransactions).flatMap(List::stream).
-				filter(subTransaction -> subTransaction.getStatus().equals(true)).
-				filter(subTransaction -> subTransaction.getType() == REORDER);
+				filter(SubTransaction::getStatus).
+				filter(subTransaction -> subTransaction.isType(REORDER));
 		return new ModelAndView("reorders", "subTransactions", subTransactions);
 	}
 

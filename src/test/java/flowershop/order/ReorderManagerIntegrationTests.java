@@ -11,6 +11,7 @@ import org.springframework.data.util.Streamable;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Integration tests interacting with the {@link ReorderManager} directly.
@@ -34,7 +35,7 @@ class ReorderManagerIntegrationTests extends AbstractIntegrationTests {
 			reorderManager.sendReorder(reorder);
 			InventoryItem i = Streamable.of(inventory.findAll()).stream().filter(item -> item.getProduct().getName().equals(reorder.getFlower())).findFirst().get();
 			assertEquals(10, i.getQuantity().getAmount().intValue());
-			assertEquals(false, reorder.getStatus());
+			assertFalse(reorder.getStatus());
 		});
 	}
 
