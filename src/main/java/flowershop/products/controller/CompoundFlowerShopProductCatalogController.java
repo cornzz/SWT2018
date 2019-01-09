@@ -3,6 +3,8 @@ package flowershop.products.controller;
 import flowershop.products.*;
 import flowershop.products.form.CompoundFlowerShopProductTransferObject;
 import org.salespointframework.catalog.ProductIdentifier;
+import org.salespointframework.inventory.Inventory;
+import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
@@ -23,19 +25,34 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * A Spring MVC controller to manage {@link CompoundFlowerShopProduct}s.
+ *
+ * @author Jonas Knobloch
+ */
 @Controller
 public class CompoundFlowerShopProductCatalogController {
 
 	private final CompoundFlowerShopProductCatalog compoundFlowerShopProductCatalog;
 	private final FlowerShopItemCatalog flowerShopItemCatalog;
 	private final FlowerShopServiceCatalog flowerShopServiceCatalog;
+	private final Inventory<InventoryItem> inventory;
 
 	private final CompoundFlowerShopProductFlowerShopItemRepository compoundFlowerShopProductFlowerShopItemRepository;
 
-	CompoundFlowerShopProductCatalogController(CompoundFlowerShopProductCatalog compoundFlowerShopProductCatalog, FlowerShopItemCatalog flowerShopItemCatalog, FlowerShopServiceCatalog flowerShopServiceCatalog, CompoundFlowerShopProductFlowerShopItemRepository compoundFlowerShopProductFlowerShopItemRepository) {
+	/**
+	 * Creates new {@link CompoundFlowerShopProductCatalogController}.
+	 *
+	 * @param compoundFlowerShopProductCatalog                  must not be {@literal null}.
+	 * @param flowerShopItemCatalog                             must not be {@literal null}.
+	 * @param flowerShopServiceCatalog                          must not be {@literal null}.
+	 * @param compoundFlowerShopProductFlowerShopItemRepository must not be {@literal null}.
+	 */
+	CompoundFlowerShopProductCatalogController(CompoundFlowerShopProductCatalog compoundFlowerShopProductCatalog, FlowerShopItemCatalog flowerShopItemCatalog, FlowerShopServiceCatalog flowerShopServiceCatalog, Inventory<InventoryItem> inventory, CompoundFlowerShopProductFlowerShopItemRepository compoundFlowerShopProductFlowerShopItemRepository) {
 		this.compoundFlowerShopProductCatalog = compoundFlowerShopProductCatalog;
 		this.flowerShopItemCatalog = flowerShopItemCatalog;
 		this.flowerShopServiceCatalog = flowerShopServiceCatalog;
+		this.inventory = inventory;
 
 		this.compoundFlowerShopProductFlowerShopItemRepository = compoundFlowerShopProductFlowerShopItemRepository;
 	}
@@ -49,16 +66,29 @@ public class CompoundFlowerShopProductCatalogController {
 		return "forward:/products";
 	}
 
+	/**
+	 * Shows product catalog.
+	 *
+	 * @param model will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@RequestMapping("/products")
 	public String products(Model model) {
 
 		Iterable<CompoundFlowerShopProduct> compoundFlowerShopProducts = compoundFlowerShopProductCatalog.findAll();
-
 		model.addAttribute("products", compoundFlowerShopProducts);
+		compoundFlowerShopProducts.forEach(product -> product.setInStock(inStock(product)));
 
 		return "products";
 	}
 
+	/**
+	 * Shows add product dialog.
+	 *
+	 * @param model will never be {@literal null}.
+	 * @param form  will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@GetMapping("/products/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String addProduct(Model model, CompoundFlowerShopProductTransferObject form) {
@@ -71,6 +101,13 @@ public class CompoundFlowerShopProductCatalogController {
 		return "products_add";
 	}
 
+	/**
+	 * Adds new {@link CompoundFlowerShopProduct} to the catalog.
+	 *
+	 * @param form   will never be {@literal null}.
+	 * @param result will never be {@literal null}.
+	 * @return redirect to products view.
+	 */
 	@PostMapping("/products/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String addProduct(@Valid CompoundFlowerShopProductTransferObject form, Errors result) {
@@ -83,7 +120,14 @@ public class CompoundFlowerShopProductCatalogController {
 		return "redirect:/products";
 	}
 
-
+	/**
+	 * Returns edit/detail view depending on the users role.
+	 *
+	 * @param id                  will never be {@literal null}.
+	 * @param model               will never be {@literal null}.
+	 * @param userAccountOptional must not be {@literal null}.
+	 * @return the view name.
+	 */
 	@GetMapping("/products/{id}")
 	public String product(@PathVariable ProductIdentifier id, Model model, @LoggedIn Optional<UserAccount> userAccountOptional) {
 
@@ -91,16 +135,22 @@ public class CompoundFlowerShopProductCatalogController {
 
 			model.addAttribute("product", compoundFlowerShopProductCatalog.findById(id).get());
 
-			if (!userAccountOptional.isPresent()) {
-				return "products_detail";
-			}
+			return userAccountOptional.filter(userAccount -> userAccount.hasRole(Role.of("ROLE_BOSS"))).
+					map(userAccount -> "redirect:/products/" + id + "/edit").orElse("products_detail");
 
-			return userAccountOptional.get().hasRole(Role.of("ROLE_BOSS")) ? "redirect:/products/" + id + "/edit" : "products_detail";
 		}
 
 		return "redirect:/products";
 	}
 
+	/**
+	 * Compares the given form values with the existing {@link CompoundFlowerShopProduct} and updates changed values.
+	 *
+	 * @param id     will never be {@literal null}.
+	 * @param form   will never be {@literal null}.
+	 * @param result will never be {@literal null}.
+	 * @return redirect to products view.
+	 */
 	@PostMapping("/products/{id}/edit")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String updateProduct(@PathVariable ProductIdentifier id, @Valid CompoundFlowerShopProductTransferObject form, Errors result) {
@@ -195,7 +245,6 @@ public class CompoundFlowerShopProductCatalogController {
 						// update quantity in compoundFlowerShopProductFlowerShopItem
 						Optional<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItemOptional = compoundFlowerShopProduct.getCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(entry.getKey());
 						compoundFlowerShopProductFlowerShopItemOptional.ifPresent(compoundFlowerShopProductFlowerShopItem -> compoundFlowerShopProductFlowerShopItem.setQuantity(entry.getValue()));
-						compoundFlowerShopProduct.refreshPrice(); // refresh price manually
 					}
 				}
 			}
@@ -214,6 +263,13 @@ public class CompoundFlowerShopProductCatalogController {
 		return "redirect:/products";
 	}
 
+	/**
+	 * Returns the edit product view if a {@link CompoundFlowerShopProduct} with the given {@link ProductIdentifier} if found.
+	 *
+	 * @param id    will never be {@literal null}.
+	 * @param model will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@GetMapping("/products/{id}/edit")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String editProduct(@PathVariable ProductIdentifier id, Model model) {
@@ -231,5 +287,14 @@ public class CompoundFlowerShopProductCatalogController {
 		model.addAttribute("form", form);
 
 		return "products_edit";
+	}
+
+	public boolean inStock(CompoundFlowerShopProduct product) {
+		Map<FlowerShopItem, Quantity> itemQuantities = product.getFlowerShopItemsWithQuantities();
+		return itemQuantities.keySet().stream().allMatch(flowerShopItem ->
+				inventory.findByProductIdentifier(flowerShopItem.getId()).
+						map(item -> item.hasSufficientQuantity(itemQuantities.get(flowerShopItem))).
+						orElse(false)
+		);
 	}
 }

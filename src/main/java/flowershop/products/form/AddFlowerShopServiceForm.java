@@ -5,6 +5,11 @@ import flowershop.accounting.form.validation.IsDouble;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Transfer object for {@link flowershop.products.FlowerShopService} data.
+ *
+ * @author Friedrich Bethke
+ */
 public class AddFlowerShopServiceForm {
 
 	@NotNull(message = "{Dto.name.NotEmpty}")

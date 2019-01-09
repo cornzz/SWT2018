@@ -1,8 +1,6 @@
 package flowershop.products;
 
-import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
-import org.salespointframework.quantity.Quantity;
 
 import javax.money.MonetaryAmount;
 import javax.persistence.CascadeType;
@@ -12,11 +10,17 @@ import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * An extension of {@link Product}.
+ *
+ * @author Jonas Knobloch
+ */
 @Entity
 public class FlowerShopItem extends Product {
-	private String description;
-	private double profit;
 	private MonetaryAmount basePrice;
+	private MonetaryAmount retailPrice;
+	private String description;
+	private int baseStock;
 
 	@OneToMany(mappedBy = "flowerShopItem", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	private List<CompoundFlowerShopProductFlowerShopItem> compoundFlowerShopProductFlowerShopItems;
@@ -25,30 +29,30 @@ public class FlowerShopItem extends Product {
 	private FlowerShopItem() {
 	}
 
-	public FlowerShopItem(String name, Money price, String description, double profit) {
-		super(name, price);
+	public FlowerShopItem(String name, MonetaryAmount basePrice, MonetaryAmount retailPrice, String description, int baseStock) {
+		super(name, basePrice);
 
+		this.basePrice = basePrice;
+		this.retailPrice = retailPrice;
 		this.description = description;
-		this.profit = profit;
-		this.basePrice = price;
+		this.baseStock = baseStock;
+	}
 
+	@Override
+	public MonetaryAmount getPrice() {
+		return retailPrice;
+	}
+
+	public MonetaryAmount getBasePrice() {
+		return basePrice;
 	}
 
 	public String getDescription() {
 		return description;
 	}
 
-	public double getProfit() {
-		return profit;
-	}
-
-	@Override
-	public MonetaryAmount getPrice() {
-		return super.getPrice().multiply(profit).add(super.getPrice());
-	}
-
-	public MonetaryAmount getBasePrice() {
-		return basePrice;
+	public int getBaseStock() {
+		return baseStock;
 	}
 
 	@Override
@@ -65,6 +69,11 @@ public class FlowerShopItem extends Product {
 		return getCompoundFlowerShopProductFlowerShopItems().stream().filter(compoundFlowerShopProductFlowerShopItem -> compoundFlowerShopProductFlowerShopItem.getCompoundFlowerShopProduct().equals(compoundFlowerShopProduct)).findFirst();
 	}
 
+	/**
+	 * Removes {@link CompoundFlowerShopProduct} from compoundFlowerShopProductFlowerShopItems list.
+	 *
+	 * @param compoundFlowerShopProduct must not be {@literal null}.
+	 */
 	public void removeCompoundFlowerShopProductFlowerShopItemByCompoundFlowerShopProduct(CompoundFlowerShopProduct compoundFlowerShopProduct) {
 		getCompoundFlowerShopProductFlowerShopItemByCompoundFlowerShopProduct(compoundFlowerShopProduct).ifPresent(compoundFlowerShopProductFlowerShopItem -> getCompoundFlowerShopProductFlowerShopItems().remove(compoundFlowerShopProductFlowerShopItem));
 	}

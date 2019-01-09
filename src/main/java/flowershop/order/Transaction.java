@@ -13,12 +13,18 @@ import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+import static flowershop.order.SubTransaction.SubTransactionType.REORDER;
+
+/**
+ * An extension of {@link Order} to add flower shop specific methods and values.
+ *
+ * @author Friedrich Bethke
+ */
 @Entity
 public class Transaction extends Order {
 	public enum TransactionType {
 		ORDER,
 		COLLECTION,
-		DONE,
 		CUSTOM
 	}
 
@@ -72,7 +78,8 @@ public class Transaction extends Order {
 	}
 
 	public Quantity getQuantity() {
-		return getSubTransactions().stream().map(SubTransaction::getQuantity).reduce(Quantity.of(0), Quantity::add);
+		return getSubTransactions().stream().filter(subTransaction -> subTransaction.isType(REORDER))
+				.map(SubTransaction::getQuantity).reduce(Quantity.of(0), Quantity::add);
 	}
 
 	public void setType(TransactionType type) {
@@ -89,6 +96,10 @@ public class Transaction extends Order {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public boolean isType(TransactionType type) {
+		return this.type.equals(type);
 	}
 
 	public void setOptional(InventoryItemIdentifier itemId, MonetaryAmount price, String description) {

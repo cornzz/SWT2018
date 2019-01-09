@@ -7,7 +7,6 @@ import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.order.Cart;
-import org.salespointframework.order.CartItem;
 import org.salespointframework.order.OrderManager;
 import org.salespointframework.order.OrderStatus;
 import org.salespointframework.quantity.Quantity;
@@ -21,8 +20,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
-import java.util.stream.StreamSupport;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import static flowershop.order.Transaction.TransactionType.ORDER;
 import static org.salespointframework.order.OrderStatus.OPEN;
@@ -53,6 +54,14 @@ public class OrderController {
 		this.reorderManager = reorderManager;
 	}
 
+	/**
+	 * Tries to check out a users {@link Cart}. If successful, a new Transaction is created and the inventory is refilled if necessary.
+	 *
+	 * @param cart        will never be {@literal null}.
+	 * @param userAccount will never be {@literal null}.
+	 * @param model       will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@PostMapping("/completeorder")
 	String buy(@ModelAttribute Cart cart, @LoggedIn Optional<UserAccount> userAccount, Model model) {
 		return userAccount.map(account -> {
@@ -80,23 +89,38 @@ public class OrderController {
 	}
 
 
+	/**
+	 * Displays all orders the current user has made or, if the user is admin, displays all {@link Transaction}s of
+	 * {@link flowershop.order.Transaction.TransactionType} <code>ORDER</code> in the system.
+	 *
+	 * @param model    will never be {@literal null}.
+	 * @param loggedIn will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@GetMapping("/orders")
 	@PreAuthorize("isAuthenticated()")
 	ModelAndView orders(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
-		UserAccount user = loggedIn.get();
-		Streamable<Transaction> orders;
+		return loggedIn.map(user -> {
+			Streamable<Transaction> orders;
 
-		if (user.hasRole(Role.of("ROLE_BOSS"))) {
-			model.addAttribute("statusOpen", OPEN);
-			model.addAttribute("statusPaid", PAID);
-			orders = findAllOrders();
-		} else {
-			orders = transactionManager.findBy(user);
-		}
+			if (user.hasRole(Role.of("ROLE_BOSS"))) {
+				model.addAttribute("statusOpen", OPEN);
+				model.addAttribute("statusPaid", PAID);
+				orders = findAllOrders();
+			} else {
+				orders = transactionManager.findBy(user);
+			}
+			return new ModelAndView("orders", "orders", orders);
+		}).orElse(new ModelAndView("orders"));
 
-		return new ModelAndView("orders", "orders", orders);
 	}
 
+	/**
+	 * Lets the admin update the status of a users order.
+	 *
+	 * @param orderOptional will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@GetMapping("/order/update/{id}")
 	String updateOrderStatus(@PathVariable(name = "id") Optional<Transaction> orderOptional) {
 		return orderOptional.map(order -> {
@@ -106,9 +130,8 @@ public class OrderController {
 
 				// Add fake InventoryItems
 				order.getOrderLines().forEach(orderLine -> {
-					catalog.findById(orderLine.getProductIdentifier())
-							.map(product -> inventory.save(new InventoryItem(product, orderLine.getQuantity())))
-							.orElseThrow(NoSuchElementException::new);
+					Product product = catalog.findById(orderLine.getProductIdentifier()).get();
+					inventory.save(new InventoryItem(product, orderLine.getQuantity()));
 				});
 
 				transactionManager.completeOrder(order);
@@ -122,6 +145,14 @@ public class OrderController {
 		}).orElse("redirect:/orders");
 	}
 
+	/**
+	 * Displays information to a specific order.
+	 *
+	 * @param model         will never be {@literal null}.
+	 * @param orderOptional will never be {@literal null}.
+	 * @param loggedIn      will never be {@literal null}.
+	 * @return the view name and order information, if the user is authorized to see those.
+	 */
 	@GetMapping("/order/{id}")
 	@PreAuthorize("isAuthenticated()")
 	String order(Model model, @PathVariable(name = "id") Optional<Transaction> orderOptional, @LoggedIn Optional<UserAccount> loggedIn) {
@@ -136,6 +167,13 @@ public class OrderController {
 		return "order";
 	}
 
+	/**
+	 * Checks whether there is enough stock in the {@link Inventory} for all {@link org.salespointframework.order.CartItem}s
+	 * in the given {@link Cart}.
+	 *
+	 * @param cart must not be {@literal null}.
+	 * @return <code>true</code> if there is enough stock, <code>false</code> otherwise.
+	 */
 	boolean sufficientStock(Cart cart) {
 		Map<FlowerShopItem, Quantity> requiredItems = new HashMap<>(); // Map with all FlowerShopItems required for given cart
 		cart.forEach(cartItem -> {
@@ -153,13 +191,24 @@ public class OrderController {
 				.allMatch(item -> inventory.findByProductIdentifier(item.getId()).get().hasSufficientQuantity(requiredItems.get(item)));
 	}
 
+	/**
+	 * @return {@link Streamable} containing all {@link Transaction}s of {@link flowershop.order.Transaction.TransactionType}
+	 * <code>ORDER</code>.
+	 */
 	Streamable<Transaction> findAllOrders() {
 		return Arrays.stream(OrderStatus.values())
 				.map(transactionManager::findBy)
 				.reduce(Streamable.empty(), Streamable::and)
-				.filter(transaction -> transaction.getType().equals(ORDER));
+				.filter(transaction -> transaction.isType(ORDER));
 	}
 
+	/**
+	 * Helper method to multiply two {@link Quantity} Objects, since there is no native method for that.
+	 *
+	 * @param a first {@link Quantity} to be multiplied.
+	 * @param b second {@link Quantity} to be multiplied.
+	 * @return product of the operation.
+	 */
 	Quantity multiplyQuantities(Quantity a, Quantity b) {
 		return Quantity.of(a.getAmount().multiply(b.getAmount()).intValue());
 	}

@@ -5,6 +5,11 @@ import org.salespointframework.catalog.Product;
 
 import javax.persistence.Entity;
 
+/**
+ * An extension of {@link Product} to add flower shop specific methods and values.
+ *
+ * @author Friedrich Bethke
+ */
 @Entity
 public class FlowerShopService extends Product {
 	private String description;

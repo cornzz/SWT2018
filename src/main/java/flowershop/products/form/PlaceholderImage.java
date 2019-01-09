@@ -1,5 +1,10 @@
 package flowershop.products.form;
 
+/**
+ * Base64 encoded placeholder image.
+ *
+ * @author Jonas Knobloch
+ */
 public enum PlaceholderImage {
 	FOUR_HUNDRED_BY_FOUR_HUNDRED(400);
 

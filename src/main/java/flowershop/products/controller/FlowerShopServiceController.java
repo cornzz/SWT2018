@@ -17,15 +17,31 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static org.salespointframework.core.Currencies.EURO;
 
+/**
+ * A Spring MVC controller to manage {@link FlowerShopService}s.
+ *
+ * @author Friedrich Bethke
+ */
 @Controller
 public class FlowerShopServiceController {
 
 	private final FlowerShopServiceCatalog serviceCatalog;
 
+	/**
+	 * Creates a new {@link FlowerShopServiceController} with the given {@link FlowerShopServiceCatalog}.
+	 *
+	 * @param serviceCatalog must not be {@literal null}.
+	 */
 	FlowerShopServiceController(FlowerShopServiceCatalog serviceCatalog) {
 		this.serviceCatalog = serviceCatalog;
 	}
 
+	/**
+	 * Shows all available services.
+	 *
+	 * @param model will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@GetMapping("/services")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String services(Model model) {
@@ -34,6 +50,13 @@ public class FlowerShopServiceController {
 		return "services";
 	}
 
+	/**
+	 * Shows the form for adding a new service.
+	 *
+	 * @param model will never be {@literal null}.
+	 * @param form will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@GetMapping("/services/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public ModelAndView add(Model model, AddFlowerShopServiceForm form) {
@@ -41,6 +64,13 @@ public class FlowerShopServiceController {
 		return new ModelAndView("service_add", "form", form);
 	}
 
+	/**
+	 * Adds a new service.
+	 *
+	 * @param form will never be {@literal null}.
+	 * @param result will never be {@literal null}.
+	 * @return the view name and, if adding was not successful, the adding form object.
+	 */
 	@PostMapping("/services/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public ModelAndView add(@ModelAttribute("form") @Validated AddFlowerShopServiceForm form, BindingResult result) {

@@ -18,17 +18,36 @@ import java.util.Optional;
 
 import static flowershop.order.SubTransaction.SubTransactionType.REORDER;
 
+/**
+ * A Spring MVC controller to manage {@link SubTransaction}s with REORDER type.
+ *
+ * @author Friedrich Bethke
+ */
 @Controller
 public class ReorderController {
 
 	private final ReorderManager reorderManager;
 	private final Inventory<InventoryItem> inventory;
 
+	/**
+	 * Creates a new {@link ReorderController} with the given {@link ReorderManager} and {@link Inventory}.
+	 *
+	 * @param reorderManager must not be {@literal null}.
+	 * @param inventory      must not be {@literal null}.
+	 */
 	ReorderController(ReorderManager reorderManager, Inventory<InventoryItem> inventory) {
 		this.reorderManager = reorderManager;
 		this.inventory = inventory;
 	}
 
+	/**
+	 * Creates a new reorder.
+	 *
+	 * @param id              will never be {@literal null}.
+	 * @param reorderQuantity will never be {@literal null}.
+	 * @param model           will never be {@literal null}.
+	 * @return the view name and, if creating the reorder was not successful, the inventory view.
+	 */
 	@PostMapping("/items/reorder/{id}")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String reorder(@PathVariable InventoryItemIdentifier id, String reorderQuantity, Model model) {
@@ -42,16 +61,28 @@ public class ReorderController {
 		}).orElse("redirect:/items");
 	}
 
+	/**
+	 * Displays all open reorders.
+	 *
+	 * @param model will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@GetMapping("/reorders")
 	@PreAuthorize("hasRole('ROLE_WHOLESALER') or hasRole('ROLE_BOSS')")
 	ModelAndView reorders(Model model) {
 		Streamable<SubTransaction> subTransactions = reorderManager.findAll().
 				map(Transaction::getSubTransactions).flatMap(List::stream).
-				filter(subTransaction -> subTransaction.getStatus().equals(true)).
-				filter(subTransaction -> subTransaction.getType() == REORDER);
+				filter(SubTransaction::getStatus).
+				filter(subTransaction -> subTransaction.isType(REORDER));
 		return new ModelAndView("reorders", "subTransactions", subTransactions);
 	}
 
+	/**
+	 * Marks the reorder as done and sends the given amount to the inventory.
+	 *
+	 * @param reorderOptional will never be {@literal null}.
+	 * @return the view name.
+	 */
 	@PostMapping("/reorders/send/{id}")
 	@PreAuthorize("hasRole('ROLE_WHOLESALER')")
 	String sendReorder(@PathVariable(name = "id") Optional<SubTransaction> reorderOptional) {

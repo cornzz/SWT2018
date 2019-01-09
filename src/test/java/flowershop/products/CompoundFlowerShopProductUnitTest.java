@@ -25,7 +25,7 @@ public class CompoundFlowerShopProductUnitTest {
 
 	private static final Quantity FLOWER_QUANTITY = Quantity.of(2);
 
-	private static final FlowerShopItem FLOWER = new FlowerShopItem("Foo", FLOWER_PRICE, "Bar", 0.2);
+	private static final FlowerShopItem FLOWER = new FlowerShopItem("Foo", FLOWER_PRICE, Money.of(120, EURO), "Bar", 10);
 	private static final FlowerShopService SERVICE = new FlowerShopService("Foo", SERVICE_PRICE, "Bar");
 
 	private static CompoundFlowerShopProduct createDummyProduct() {
