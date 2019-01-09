@@ -52,13 +52,13 @@ public class CartController {
 			return "redirect:/products";
 		}
 		Integer quantity = validateQuantity(qty, model);
-		if (quantity == null){
+		if (quantity == null) {
 			return "forward:/cart/add/" + product.getId();
 
 		}
 
 		CartItem newCartItem = cart.addOrUpdateItem(product, quantity);
-		if (!orderController.sufficientStock(cart)){
+		if (!orderController.sufficientStock(cart)) {
 			model.addAttribute("message", "cart.add.notenough");
 			cart.addOrUpdateItem(product, -quantity);
 			if (newCartItem.getQuantity().subtract(Quantity.of(quantity)).isZeroOrNegative()) {
@@ -91,7 +91,7 @@ public class CartController {
 	}
 
 	@GetMapping("/cart/remove")
-	String removeFromCart(@ModelAttribute Cart cart, @RequestParam(value = "id") String itemId){
+	String removeFromCart(@ModelAttribute Cart cart, @RequestParam(value = "id") String itemId) {
 		cart.removeItem(itemId);
 		return "cart";
 	}

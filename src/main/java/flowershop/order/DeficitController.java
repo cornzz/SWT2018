@@ -37,8 +37,8 @@ public class DeficitController {
 	/**
 	 * Creates a new {@link DeficitController} with the given {@link ReorderManager}, {@link Inventory} and {@link OrderManager}.
 	 *
-	 * @param reorderManager must not be {@literal null}.
-	 * @param inventory must not be {@literal null}.
+	 * @param reorderManager     must not be {@literal null}.
+	 * @param inventory          must not be {@literal null}.
 	 * @param transactionManager must not be {@literal null}.
 	 */
 	DeficitController(ReorderManager reorderManager, Inventory<InventoryItem> inventory, OrderManager<Transaction> transactionManager) {
@@ -50,9 +50,9 @@ public class DeficitController {
 	/**
 	 * Creates a new deficit.
 	 *
-	 * @param id will never be {@literal null}.
+	 * @param id              will never be {@literal null}.
 	 * @param deficitQuantity will never be {@literal null}.
-	 * @param model will never be {@literal null}.
+	 * @param model           will never be {@literal null}.
 	 * @return the view name and, if creating the deficit was not successful, the inventory view.
 	 */
 	@PostMapping("/items/deficit/{id}")

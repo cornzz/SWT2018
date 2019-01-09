@@ -33,7 +33,7 @@ public class ReorderController {
 	 * Creates a new {@link ReorderController} with the given {@link ReorderManager} and {@link Inventory}.
 	 *
 	 * @param reorderManager must not be {@literal null}.
-	 * @param inventory must not be {@literal null}.
+	 * @param inventory      must not be {@literal null}.
 	 */
 	ReorderController(ReorderManager reorderManager, Inventory<InventoryItem> inventory) {
 		this.reorderManager = reorderManager;
@@ -43,9 +43,9 @@ public class ReorderController {
 	/**
 	 * Creates a new reorder.
 	 *
-	 * @param id will never be {@literal null}.
+	 * @param id              will never be {@literal null}.
 	 * @param reorderQuantity will never be {@literal null}.
-	 * @param model will never be {@literal null}.
+	 * @param model           will never be {@literal null}.
 	 * @return the view name and, if creating the reorder was not successful, the inventory view.
 	 */
 	@PostMapping("/items/reorder/{id}")

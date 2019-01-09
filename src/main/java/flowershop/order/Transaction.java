@@ -25,7 +25,6 @@ public class Transaction extends Order {
 	public enum TransactionType {
 		ORDER,
 		COLLECTION,
-		DONE,
 		CUSTOM
 	}
 
@@ -97,6 +96,10 @@ public class Transaction extends Order {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public boolean isType(TransactionType type) {
+		return this.type.equals(type);
 	}
 
 	public void setOptional(InventoryItemIdentifier itemId, MonetaryAmount price, String description) {

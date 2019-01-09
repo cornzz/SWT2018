@@ -173,7 +173,7 @@ public class UserController {
 	}
 
 	/**
-	 * Lets the user update his password
+	 * Lets the user update his password.
 	 *
 	 * @param form     must not be {@literal null}.
 	 * @param result   will never be {@literal null}.

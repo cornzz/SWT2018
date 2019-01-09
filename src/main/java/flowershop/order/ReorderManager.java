@@ -35,8 +35,8 @@ public class ReorderManager {
 	/**
 	 * Creates a new {@link ReorderManager} with the given {@link OrderManager}, {@link Inventory} and {@link UserAccountManager}.
 	 *
-	 * @param reorderManager must not be {@literal null}.
-	 * @param inventory must not be {@literal null}.
+	 * @param reorderManager     must not be {@literal null}.
+	 * @param inventory          must not be {@literal null}.
 	 * @param userAccountManager must not be {@literal null}.
 	 */
 	public ReorderManager(OrderManager<Transaction> reorderManager, Inventory<InventoryItem> inventory, UserAccountManager userAccountManager) {
@@ -65,8 +65,8 @@ public class ReorderManager {
 	 * Creates a new {@link SubTransaction} for the given {@link FlowerShopItem}.
 	 *
 	 * @param inventoryItem will never be {@literal null}.
-	 * @param quantity will never be {@literal null}.
-	 * @param type will never be {@literal null}.
+	 * @param quantity      will never be {@literal null}.
+	 * @param type          will never be {@literal null}.
 	 */
 	public void createReorder(InventoryItem inventoryItem, Quantity quantity, SubTransaction.SubTransactionType type) {
 		if (quantity.isLessThan(Quantity.of(1))) {
