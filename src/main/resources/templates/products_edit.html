@@ -42,6 +42,9 @@
                 <span th:text="${form.price}"></span>
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.save}"></button>
             </form>
+            <form method="post" th:action="@{/products/__${form.id}__/delete}">
+                <button type="submit" class="mdc-button mdc-button fs-delete-button" th:text="#{menu.delete}"></button>
+            </form>
         </div>
     </div>
 </main>
