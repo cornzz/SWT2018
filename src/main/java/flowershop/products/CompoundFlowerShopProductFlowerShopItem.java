@@ -4,6 +4,11 @@ import org.salespointframework.quantity.Quantity;
 
 import javax.persistence.*;
 
+/**
+ * Relationship between {@link CompoundFlowerShopProduct} and {@link FlowerShopItem}.
+ *
+ * @author Jonas Knobloch
+ */
 @Entity
 @IdClass(CompoundFlowerShopProductFlowerShopItemId.class)
 public class CompoundFlowerShopProductFlowerShopItem {

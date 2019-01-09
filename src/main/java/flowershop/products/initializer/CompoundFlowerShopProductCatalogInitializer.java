@@ -13,6 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Initializes {@link CompoundFlowerShopProduct}s.
+ *
+ * @author Friedrich Bethke
+ * @author  Jonas Knobloch
+ */
 @Component
 @Order(30)
 public class CompoundFlowerShopProductCatalogInitializer implements DataInitializer {

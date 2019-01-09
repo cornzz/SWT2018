@@ -13,6 +13,11 @@ import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Transfer object for {@link CompoundFlowerShopProduct}.
+ *
+ * @author Jonas Knobloch
+ */
 @OneProductMinimum
 public class CompoundFlowerShopProductTransferObject {
 

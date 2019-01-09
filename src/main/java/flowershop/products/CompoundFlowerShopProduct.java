@@ -10,6 +10,9 @@ import javax.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author Jonas Knobloch
+ */
 @Entity
 public class CompoundFlowerShopProduct extends Product {
 	private String description;
@@ -91,6 +94,13 @@ public class CompoundFlowerShopProduct extends Product {
 				Collectors.toMap(CompoundFlowerShopProductFlowerShopItem::getFlowerShopItem, CompoundFlowerShopProductFlowerShopItem::getQuantity));
 	}
 
+	/**
+	 * Adds a {@link FlowerShopItem} to the {@link CompoundFlowerShopProduct} and returns the relationship object.
+	 *
+	 * @param flowerShopItem must not be {@literal null}.
+	 * @param quantity       must not be {@literal null}.
+	 * @return {@link CompoundFlowerShopProductFlowerShopItem}
+	 */
 	public CompoundFlowerShopProductFlowerShopItem addFlowerShopItem(FlowerShopItem flowerShopItem, Quantity quantity) {
 		CompoundFlowerShopProductFlowerShopItem compoundFlowerShopProductFlowerShopItem = new CompoundFlowerShopProductFlowerShopItem();
 
@@ -116,6 +126,13 @@ public class CompoundFlowerShopProduct extends Product {
 		getCompoundFlowerShopProductFlowerShopItemByFlowerShopItem(flowerShopItem).ifPresent(compoundFlowerShopProductFlowerShopItem -> getCompoundFlowerShopProductFlowerShopItems().remove(compoundFlowerShopProductFlowerShopItem));
 	}
 
+	/**
+	 * Statically calculating the price.
+	 *
+	 * @param flowerItemsWithQuantities must not be {@literal null}.
+	 * @param flowerShopServices        must not be {@literal null}.
+	 * @return the price.
+	 */
 	public static Money calcPrice(Map<FlowerShopItem, Quantity> flowerItemsWithQuantities, Iterable<FlowerShopService> flowerShopServices) {
 		Money price = Money.of(0, "EUR");
 
@@ -130,6 +147,11 @@ public class CompoundFlowerShopProduct extends Product {
 		return price;
 	}
 
+	/**
+	 * Creates a {@link CompoundFlowerShopProductTransferObject}.
+	 *
+	 * @return {@link CompoundFlowerShopProductTransferObject}
+	 */
 	public CompoundFlowerShopProductTransferObject createTransferObject() {
 		CompoundFlowerShopProductTransferObject form = new CompoundFlowerShopProductTransferObject();
 
@@ -162,5 +184,4 @@ public class CompoundFlowerShopProduct extends Product {
 
 		return form;
 	}
-
 }

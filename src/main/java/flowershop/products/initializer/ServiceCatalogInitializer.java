@@ -8,6 +8,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+/**
+ * Initializes {@link ServiceCatalogInitializer}s.
+ *
+ * @author Friedrich Bethke
+ * @author Jonas Knobloch
+ */
 @Component
 @Order(20)
 public class ServiceCatalogInitializer implements DataInitializer {

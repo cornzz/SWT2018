@@ -10,6 +10,11 @@ import javax.validation.constraints.NotNull;
 
 import static org.salespointframework.core.Currencies.EURO;
 
+/**
+ * Transfer object for {@link flowershop.products.FlowerShopItem} data.
+ *
+ * @author Friedrich Bethke
+ */
 public class AddFlowerShopItemForm {
 
 	@NotNull(message = "{Dto.name.NotEmpty}")
@@ -81,5 +86,4 @@ public class AddFlowerShopItemForm {
 				Integer.valueOf(getAmount())
 		);
 	}
-
 }

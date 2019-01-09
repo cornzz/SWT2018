@@ -10,6 +10,11 @@ import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * An extension of {@link Product}.
+ *
+ * @author Jonas Knobloch
+ */
 @Entity
 public class FlowerShopItem extends Product {
 	private MonetaryAmount basePrice;
@@ -64,6 +69,11 @@ public class FlowerShopItem extends Product {
 		return getCompoundFlowerShopProductFlowerShopItems().stream().filter(compoundFlowerShopProductFlowerShopItem -> compoundFlowerShopProductFlowerShopItem.getCompoundFlowerShopProduct().equals(compoundFlowerShopProduct)).findFirst();
 	}
 
+	/**
+	 * Removes {@link CompoundFlowerShopProduct} from compoundFlowerShopProductFlowerShopItems list.
+	 *
+	 * @param compoundFlowerShopProduct must not be {@literal null}.
+	 */
 	public void removeCompoundFlowerShopProductFlowerShopItemByCompoundFlowerShopProduct(CompoundFlowerShopProduct compoundFlowerShopProduct) {
 		getCompoundFlowerShopProductFlowerShopItemByCompoundFlowerShopProduct(compoundFlowerShopProduct).ifPresent(compoundFlowerShopProductFlowerShopItem -> getCompoundFlowerShopProductFlowerShopItems().remove(compoundFlowerShopProductFlowerShopItem));
 	}

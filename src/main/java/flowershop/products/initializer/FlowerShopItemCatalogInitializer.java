@@ -10,6 +10,12 @@ import org.springframework.util.Assert;
 
 import static org.salespointframework.core.Currencies.EURO;
 
+/**
+ * Initializes {@link FlowerShopItem}s.
+ *
+ * @author Friedrich Bethke
+ * @author  Jonas Knobloch
+ */
 @Component
 @Order(20)
 public class FlowerShopItemCatalogInitializer implements DataInitializer {

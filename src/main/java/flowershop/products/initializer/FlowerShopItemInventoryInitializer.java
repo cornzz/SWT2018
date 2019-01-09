@@ -9,6 +9,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+/**
+ * Initializes {@link InventoryItem}s.
+ *
+ * @author Friedrich Bethke
+ */
 @Component
 @Order(20)
 public class FlowerShopItemInventoryInitializer implements DataInitializer {
