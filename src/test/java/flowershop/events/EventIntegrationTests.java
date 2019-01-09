@@ -24,6 +24,7 @@ class EventIntegrationTests extends AbstractIntegrationTests {
 		assertNotNull(event1, "Event1 is null");
 		assertNotNull(event2, "Event2 is null");
 		assertNotNull(eventRepository, "Event repository is null");
+		assertEquals("Titel", event1.toString());
 	}
 
 	@Test

@@ -15,16 +15,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * A Spring MVC controller to manage {@link Event}s.
+ *
+ * @author Tomasz Ludyga
+ */
 @Controller
 public class EventController {
 	private final EventRepository eventRepository;
-	private int beginTimeEdit = 0;
-	private int endTimeEdit = 0;
+	/**
+	 * Dynamic variables representing current event time edition, package private because of tests.
+	 */
+	int beginTimeEdit = 0;
+	int endTimeEdit = 0;
 
 	EventController(EventRepository eventRepository) {
 		this.eventRepository = eventRepository;
 	}
 
+	/**
+	 * Displays events list.
+	 *
+	 * @param model will never be {@literal null}.
+	 * @param loggedIn can be empty {@link Optional}.
+	 * @return the view name.
+	 */
 	@GetMapping("/events")
 	public String eventsList(Model model, @LoggedIn Optional<UserAccount> loggedIn) {
 		beginTimeEdit = 0;
@@ -37,12 +52,28 @@ public class EventController {
 		return "event_list";
 	}
 
+	/**
+	 * Displays event add form.
+	 *
+	 * @return the view name.
+	 */
 	@GetMapping("/event/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String addEvent() {
 		return "event_add";
 	}
 
+	/**
+	 * Adds new event and saves in eventRepository.
+	 *
+	 * @param model will never be {@literal null}.
+	 * @param title must not be {@literal null}.
+	 * @param text must not be {@literal null}.
+	 * @param daysToBegin must not be {@literal null}.
+	 * @param duration must not be {@literal null}.
+	 * @param isPrivate must not be {@literal null}.
+	 * @return {@link String} redirect to event list if params valid, otherwise event add view name
+	 */
 	@PostMapping("/event/add")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String addEvent(Model model, @RequestParam("title") String title, @RequestParam("text") String text, @RequestParam("begin") String daysToBegin,
@@ -76,6 +107,14 @@ public class EventController {
 		return "redirect:/events";
 	}
 
+	/**
+	 * Displays an event with his content.
+	 *
+	 * @param eventId must not be {@literal null}.
+	 * @param model will not be {@literal null}.
+	 * @param loggedIn will not be {@literal null}.
+	 * @return the view name or (if no access) {@link String} redirect to events list
+	 */
 	@GetMapping("/event/show")
 	public String event(@RequestParam(value = "id") long eventId, Model model, @LoggedIn Optional<UserAccount> loggedIn) {
 		return eventRepository.findById(eventId).map(event -> {
@@ -93,6 +132,12 @@ public class EventController {
 		}).orElse("event");
 	}
 
+	/**
+	 * Removes selected event from eventRepository.
+	 *
+	 * @param eventId must not be {@literal null}.
+	 * @return {@link String} redirect to events list.
+	 */
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	@GetMapping("/event/remove")
 	public String remove(@RequestParam(value = "id") long eventId) {
@@ -102,6 +147,13 @@ public class EventController {
 		}).orElse("redirect:/events");
 	}
 
+	/**
+	 * Displays event edit form
+	 *
+	 * @param eventId must not be {@literal null}.
+	 * @param model will not be {@literal null}.
+	 * @return the view name
+	 */
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	@GetMapping("/event/edit")
 	public String editEvent(@RequestParam(value = "id") long eventId, Model model) {
@@ -113,12 +165,20 @@ public class EventController {
 		}).orElse("event_edit");
 	}
 
+	/**
+	 * Changes attributes of selected event and saves it in eventRepository.
+	 *
+	 * @param title must not be {@literal null}.
+	 * @param text must not be {@literal null}.
+	 * @param id must not be {@literal null}.
+	 * @param beginTime must not be {@literal null}.
+	 * @param endTime must not be {@literal null}.
+	 * @return {@link String} redirect to events list.
+	 */
 	@PostMapping("/event/edit")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String submitEditEvent(@RequestParam("title") String title, @RequestParam("text") String text, @RequestParam("id") long id,
 								  @RequestParam("begin") String beginTime, @RequestParam("end") String endTime) {
-		LocalDateTime convertedBeginTime;
-		LocalDateTime convertedEndTime;
 		beginTimeEdit = 0;
 		endTimeEdit = 0;
 		return eventRepository.findById(id).map(event -> {
@@ -131,6 +191,12 @@ public class EventController {
 		}).orElse("redirect:/events");
 	}
 
+	/**
+	 * Reduces by 1 the beginTimeEdit value
+	 *
+	 * @param eventId must not be {@literal null}.
+	 * @return {@link String} forward to event edit form.
+	 */
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	@GetMapping("/event/edit/btm")
 	public String beginTimeMinus(@RequestParam(value = "id") long eventId) {
@@ -138,6 +204,12 @@ public class EventController {
 		return "forward:/event/edit?id=" + eventId;
 	}
 
+	/**
+	 * Increases by 1 the beginTimeEdit value
+	 *
+	 * @param eventId must not be {@literal null}.
+	 * @return {@link String} forward to event edit form.
+	 */
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	@GetMapping("/event/edit/btp")
 	public String beginTimePlus(@RequestParam(value = "id") long eventId) {
@@ -145,6 +217,12 @@ public class EventController {
 		return "forward:/event/edit?id=" + eventId;
 	}
 
+	/**
+	 * Reduces by 1 the endTimeEdit value
+	 *
+	 * @param eventId must not be {@literal null}.
+	 * @return {@link String} forward to event edit form.
+	 */
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	@GetMapping("/event/edit/etm")
 	public String endTimeMinus(@RequestParam(value = "id") long eventId) {
@@ -152,6 +230,12 @@ public class EventController {
 		return "forward:/event/edit?id=" + eventId;
 	}
 
+	/**
+	 * Increases by 1 the endTimeEdit value
+	 *
+	 * @param eventId must not be {@literal null}.
+	 * @return {@link String} forward to event edit form.
+	 */
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	@GetMapping("/event/edit/etp")
 	public String endTimePlus(@RequestParam(value = "id") long eventId) {

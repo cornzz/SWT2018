@@ -7,6 +7,11 @@ import java.util.ArrayList;
 
 import static java.time.format.FormatStyle.MEDIUM;
 
+/**
+ * A class representing an event.
+ *
+ * @author Tomasz Ludyga
+ */
 @Entity
 public class Event {
 	private String title;
@@ -25,6 +30,14 @@ public class Event {
 	private Event() {
 	}
 
+	/**
+	 * The first constructor which saves the event end time with given duration. IsPrivate attribute is setted there to false.
+	 *
+	 * @param title
+	 * @param text - event description
+	 * @param beginTime
+	 * @param duration - number of days of event duration
+	 */
 	public Event(String title, String text, LocalDateTime beginTime, int duration) {
 		this.isPrivate=false;
 		this.title = title;
@@ -86,12 +99,15 @@ public class Event {
 	public void setTitle(String title){
 		this.title = title;
 	}
+
 	public void setText(String text){
 		this.text = text;
 	}
+
 	public void setBeginTime(LocalDateTime beginTime){
 		this.beginTime = beginTime;
 	}
+
 	public void setEndTime(LocalDateTime endTime){
 		this.endTime = endTime;
 	}
@@ -100,6 +116,9 @@ public class Event {
 		this.isPrivate = isPrivate;
 	}
 
+	/**
+	 * @return event content (text) as {@link ArrayList} of {@link String}s.
+	 */
 	public ArrayList<String> getTextLines(){
 		String[] arrayLines = text.split("\r\n|\r|\n");
 		ArrayList<String> lines = new ArrayList<>();
