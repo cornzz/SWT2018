@@ -18,39 +18,54 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration test for the {@link CompoundFlowerShopProductCatalogController} on the web layer, i.e. simulating HTTP requests.
+ * Integration test for the {@link FlowerShopServiceControllerWebIntegrationTests} on the web layer, i.e. simulating HTTP requests.
  *
- * @author Jonas Knobloch
+ * @author Friedrich Bethke
  */
 
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
-class CompoundFlowerShopProductCatalogControllerWebIntegrationTests extends AbstractIntegrationTests {
+class FlowerShopServiceControllerWebIntegrationTests extends AbstractIntegrationTests {
 
 	@Autowired
 	MockMvc mvc;
 
-	// TODO: Could not autowire. No beans of 'CompoundFlowerShopProductCatalog' type found.
 	@Autowired
-	CompoundFlowerShopProductCatalog compoundFlowerShopProductCatalog;
+	FlowerShopServiceCatalog serviceCatalog;
 
 	@Test
-	void preventsPublicAccessForAddProductView() throws Exception {
-		mvc.perform(get("/products/add"))
+	void preventsPublicAccessForServiceView() throws Exception {
+
+		mvc.perform(get("/services"))
 				.andExpect(status().isFound())
-				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
+				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));//
 	}
 
 	@Test
-	void addProductViewIsAccessibleForAdmin() throws Exception {
-		mvc.perform(get("/products/add")
+	void serviceViewIsAccessibleForAdmin() throws Exception {
+		mvc.perform(get("/services")
 				.with(user("admin").roles("BOSS")))
 				.andExpect(status().isOk());
 	}
 
 	@Test
-	void compoundProductsAreAvailableToModel() throws Exception {
-		mvc.perform(get("/products")).
-				andExpect(status().isOk()).
-				andExpect(model().attribute("products", is(compoundFlowerShopProductCatalog.findAll())));
+	void preventsPublicAccessForAddServiceView() throws Exception {
+		mvc.perform(get("/services/add"))
+				.andExpect(status().isFound())
+				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
+	}
+
+	@Test
+	void addServiceViewIsAccessibleForAdmin() throws Exception {
+		mvc.perform(get("/services/add")
+				.with(user("admin").roles("BOSS")))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	void servicesAreAvailableToModel() throws Exception {
+		mvc.perform(get("/services")
+				.with(user("admin").roles("BOSS")))
+				.andExpect(status().isOk())
+				.andExpect(model().attribute("services", is(serviceCatalog.findAll())));
 	}
 }

@@ -18,39 +18,54 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration test for the {@link CompoundFlowerShopProductCatalogController} on the web layer, i.e. simulating HTTP requests.
+ * Integration test for the {@link FlowerShopInventoryControllerWebIntegrationTests} on the web layer, i.e. simulating HTTP requests.
  *
- * @author Jonas Knobloch
+ * @author Friedrich Bethke
  */
 
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
-class CompoundFlowerShopProductCatalogControllerWebIntegrationTests extends AbstractIntegrationTests {
+class FlowerShopInventoryControllerWebIntegrationTests extends AbstractIntegrationTests {
 
 	@Autowired
 	MockMvc mvc;
 
-	// TODO: Could not autowire. No beans of 'CompoundFlowerShopProductCatalog' type found.
 	@Autowired
-	CompoundFlowerShopProductCatalog compoundFlowerShopProductCatalog;
+	Inventory<InventoryItem> inventory;
 
 	@Test
-	void preventsPublicAccessForAddProductView() throws Exception {
-		mvc.perform(get("/products/add"))
+	void preventsPublicAccessForInventoryView() throws Exception {
+
+		mvc.perform(get("/items"))
 				.andExpect(status().isFound())
 				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
 	}
 
 	@Test
-	void addProductViewIsAccessibleForAdmin() throws Exception {
-		mvc.perform(get("/products/add")
+	void inventoryViewIsAccessibleForAdmin() throws Exception {
+		mvc.perform(get("/items")
 				.with(user("admin").roles("BOSS")))
 				.andExpect(status().isOk());
 	}
 
 	@Test
-	void compoundProductsAreAvailableToModel() throws Exception {
-		mvc.perform(get("/products")).
-				andExpect(status().isOk()).
-				andExpect(model().attribute("products", is(compoundFlowerShopProductCatalog.findAll())));
+	void preventsPublicAccessForAddInventoryView() throws Exception {
+		mvc.perform(get("/items/add"))
+				.andExpect(status().isFound())
+				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
+	}
+
+	@Test
+	void addInventoryViewIsAccessibleForAdmin() throws Exception {
+		mvc.perform(get("/items/add")
+				.with(user("admin").roles("BOSS")))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	void inventoryItemsAreAvailableToModel() throws Exception {
+		mvc.perform(get("/items")
+				.with(user("admin").roles("BOSS")))
+				.andExpect(status().isOk())
+				.andExpect(model().attribute("inventory", is(inventory.findAll())));
 	}
 }

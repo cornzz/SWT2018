@@ -1,6 +1,8 @@
-package flowershop.products;
+package flowershop.order;
 
 import flowershop.AbstractIntegrationTests;
+import flowershop.products.CompoundFlowerShopProductCatalog;
+import flowershop.products.FlowerShopServiceCatalog;
 import flowershop.products.controller.CompoundFlowerShopProductCatalogController;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.inventory.Inventory;
@@ -18,39 +20,29 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration test for the {@link CompoundFlowerShopProductCatalogController} on the web layer, i.e. simulating HTTP requests.
+ * Integration test for the {@link DeficitControllerWebIntegrationTests} on the web layer, i.e. simulating HTTP requests.
  *
- * @author Jonas Knobloch
+ * @author Friedrich Bethke
  */
 
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
-class CompoundFlowerShopProductCatalogControllerWebIntegrationTests extends AbstractIntegrationTests {
+class DeficitControllerWebIntegrationTests extends AbstractIntegrationTests {
 
 	@Autowired
 	MockMvc mvc;
 
-	// TODO: Could not autowire. No beans of 'CompoundFlowerShopProductCatalog' type found.
-	@Autowired
-	CompoundFlowerShopProductCatalog compoundFlowerShopProductCatalog;
-
 	@Test
-	void preventsPublicAccessForAddProductView() throws Exception {
-		mvc.perform(get("/products/add"))
+	void preventsPublicAccessForDeficitView() throws Exception {
+
+		mvc.perform(get("/deficits"))
 				.andExpect(status().isFound())
-				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
+				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));//
 	}
 
 	@Test
-	void addProductViewIsAccessibleForAdmin() throws Exception {
-		mvc.perform(get("/products/add")
+	void deficitViewIsAccessibleForAdmin() throws Exception {
+		mvc.perform(get("/deficits")
 				.with(user("admin").roles("BOSS")))
 				.andExpect(status().isOk());
-	}
-
-	@Test
-	void compoundProductsAreAvailableToModel() throws Exception {
-		mvc.perform(get("/products")).
-				andExpect(status().isOk()).
-				andExpect(model().attribute("products", is(compoundFlowerShopProductCatalog.findAll())));
 	}
 }
