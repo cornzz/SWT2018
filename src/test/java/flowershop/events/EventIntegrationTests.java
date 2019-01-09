@@ -11,6 +11,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Integration tests interacting with the {@link Event} class.
+ *
+ * @author Tomasz Ludyga
+ */
 class EventIntegrationTests extends AbstractIntegrationTests {
 
 	// TODO: Could not autowire. No beans of 'EventRepository' type found.

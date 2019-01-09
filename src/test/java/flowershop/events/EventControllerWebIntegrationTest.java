@@ -5,30 +5,27 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.ui.ExtendedModelMap;
-import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Integration test for the {@link EventController} on the web layer, i.e. simulating HTTP requests.
+ *
+ * @author Tomasz Ludyga
+ */
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
 public class EventControllerWebIntegrationTest extends AbstractIntegrationTests {
 
 	@Autowired
 	MockMvc mvc;
 	@Autowired
-	EventController controller;
-	@Autowired
 	EventRepository repository;
-
-	private Model model = new ExtendedModelMap();
 
 	@Test
 	void addInvalidEventTest() throws Exception {

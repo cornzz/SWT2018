@@ -17,6 +17,11 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+/**
+ * Integration tests interacting with the {@link EventController}.
+ *
+ * @author Tomasz Ludyga
+ */
 class EventControllerIntegrationTest extends AbstractIntegrationTests {
 
 	private Model model = new ExtendedModelMap();
