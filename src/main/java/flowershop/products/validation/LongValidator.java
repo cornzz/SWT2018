@@ -1,11 +1,11 @@
-package flowershop.accounting.form.validation;
+package flowershop.products.validation;
 
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Validator for a String that is supposed to be converted to a Long
+ * Validator for a String that is supposed to be converted to a Long.
  *
  * @author Cornelius Kummer
  */

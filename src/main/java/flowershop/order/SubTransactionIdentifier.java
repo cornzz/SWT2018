@@ -21,4 +21,5 @@ class SubTransactionIdentifier extends SalespointIdentifier {
 	SubTransactionIdentifier(String SubTransactionIdentifier) {
 		super(SubTransactionIdentifier);
 	}
+
 }

@@ -35,7 +35,7 @@
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(order.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></td>
                         <td th:text="#{'order.list.status.' + ${order.orderStatus}}"></td>
                         <td sec:authorize="hasRole('ROLE_BOSS')">
-                            <a th:href="@{/order/update/{id} (id=${order.id})}">
+                            <a th:href="@{/order/{id}/update (id=${order.id})}">
                                 <button class="mdl-button mdl-js-button mdl-button--colored" th:if="${order.orderStatus == statusOpen}"
                                         th:text="#{order.list.button.paid}" type="button"></button>
                                 <button class="mdl-button mdl-js-button mdl-button--colored" th:if="${order.orderStatus == statusPaid}"

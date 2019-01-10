@@ -1,4 +1,4 @@
-package flowershop.accounting.form.validation;
+package flowershop.products.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -1,5 +1,6 @@
-<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org"
+>
 <head>
     <title th:text="#{title.order} + ' ' + (${order} ? ${order.id} : '')">Order</title>
 </head>

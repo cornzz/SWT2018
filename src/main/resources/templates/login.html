@@ -10,10 +10,10 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form role="form" class="fs-form" th:action="@{/login}" method="post">
+            <form role="form" class="fs-form" th:action="@{/signin}" method="post">
                 <div class="mdc-text-field">
                     <input type="text" id="username" name="username" autofocus="autofocus" class="mdc-text-field__input" required>
-                    <label for="username" class="mdc-floating-label" th:text="#{user.username}"></label>
+                    <label for="username" class="mdc-floating-label" th:text="#{user.emailorusername}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <p class="mdc-text-field-helper-text" aria-hidden="true" th:text="#{user.username.helper}"></p>

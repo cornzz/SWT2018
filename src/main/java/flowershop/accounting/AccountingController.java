@@ -39,7 +39,6 @@ import static org.salespointframework.payment.Cash.CASH;
  * @author Cornelius Kummer
  */
 @Controller
-@PreAuthorize("isAuthenticated()")
 public class AccountingController {
 
 	private final OrderManager<Transaction> transactionManager;
@@ -79,6 +78,7 @@ public class AccountingController {
 		if (result.hasErrors()) {
 			return new ModelAndView("accounting_add", "form", form);
 		}
+
 		loggedIn.ifPresent(userAccount -> {
 			Transaction transaction = new Transaction(userAccount, CASH, CUSTOM);
 			transaction.setPrice(Money.of(Double.valueOf(form.getAmount()), "EUR"));

@@ -3,8 +3,6 @@ package flowershop.products;
 import flowershop.AbstractIntegrationTests;
 import flowershop.products.controller.CompoundFlowerShopProductCatalogController;
 import org.junit.jupiter.api.Test;
-import org.salespointframework.inventory.Inventory;
-import org.salespointframework.inventory.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint;

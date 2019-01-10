@@ -11,7 +11,8 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <h3>Edit Product</h3>
-            <form method="post" class="fs-form" th:action="@{/products/__${form.id}__/edit}" enctype="multipart/form-data">
+            <form method="post" class="fs-form" th:action="@{/products/__${form.id}__/edit}"
+                  enctype="multipart/form-data">
                 <div class="mdc-text-field">
                     <input type="text" id="tf-outlined" class="mdc-text-field__input" th:field="${form.name}">
                     <label for="tf-outlined" class="mdc-floating-label" th:text="#{product.name}"></label>
@@ -40,10 +41,10 @@
                     <span th:text="#{product.add.image}"></span>
                 </div>
                 <span th:text="${form.price}"></span>
+
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.save}"></button>
-            </form>
-            <form method="post" th:action="@{/products/__${form.id}__/delete}">
-                <button type="submit" class="mdc-button mdc-button fs-delete-button" th:text="#{menu.delete}"></button>
+                <a th:href="'/products/' + ${form.id} + '/delete'" class="mdc-button mdc-button fs-delete-button"
+                   th:text="#{menu.delete}"></a>
             </form>
         </div>
     </div>

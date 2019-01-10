@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * A Spring MVC controller to manage {@link CompoundFlowerShopProduct}s.
@@ -292,7 +295,7 @@ public class CompoundFlowerShopProductCatalogController {
 	 * @param id    will never be {@literal null}.
 	 * @return the view name.
 	 */
-	@PostMapping("/products/{id}/delete")
+	@RequestMapping("/products/{id}/delete")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String deleteProduct(@PathVariable ProductIdentifier id) {
 

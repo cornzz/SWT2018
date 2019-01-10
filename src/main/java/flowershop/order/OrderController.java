@@ -121,7 +121,7 @@ public class OrderController {
 	 * @param orderOptional will never be {@literal null}.
 	 * @return the view name.
 	 */
-	@GetMapping("/order/update/{id}")
+	@GetMapping("/order/{id}/update")
 	String updateOrderStatus(@PathVariable(name = "id") Optional<Transaction> orderOptional) {
 		return orderOptional.map(order -> {
 			if (order.getOrderStatus().equals(OPEN)) {// open->paid

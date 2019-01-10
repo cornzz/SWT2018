@@ -34,7 +34,7 @@ public class UsernameValidator implements ConstraintValidator<ValidUsername, Obj
 	private boolean validateUsername(UserDataTransferObject form, ConstraintValidatorContext context) {
 		String username = (form.getFirstName() + form.getLastName()).replaceAll("\\s", "").toLowerCase();
 		form.setUsername(username);
-		boolean isValid = !userManager.nameExists(username);
+		boolean isValid = !userManager.nameExists(username) && !username.contains("@");
 		if (!isValid) {
 			context.disableDefaultConstraintViolation(); // Prevent global error registration
 			context.unwrap(HibernateConstraintValidatorContext.class).addExpressionVariable("username", username);

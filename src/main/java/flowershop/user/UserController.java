@@ -44,6 +44,20 @@ public class UserController {
 		return loggedIn.isPresent() ? "redirect:/products" : "login";
 	}
 
+	@PostMapping("/signin")
+	String loginProcess(@RequestParam(value = "username", required = false) String user,
+						@RequestParam(value = "password", required = false) String password, HttpServletRequest request) {
+		if (user == null || password == null) {
+			return "redirect:/login?error";
+		}
+		String username = userManager.findByEmail(user).map(user1 -> user1.getUserAccount().getUsername()).orElse(user);
+		try {
+			request.login(username, password);
+		} catch (ServletException e) {
+			return "redirect:/login?error";
+		}
+		return "redirect:/";
+	}
 
 	/**
 	 * Shows the registration form.
