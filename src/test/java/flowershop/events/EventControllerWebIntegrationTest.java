@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Tomasz Ludyga
  */
-@AutoConfigureMockMvc(print = MockMvcPrint.NONE)
+@AutoConfigureMockMvc
 public class EventControllerWebIntegrationTest extends AbstractIntegrationTests {
 
 	@Autowired
@@ -30,46 +31,46 @@ public class EventControllerWebIntegrationTest extends AbstractIntegrationTests 
 	@Test
 	void addInvalidEventTest() throws Exception {
 		//valid inputs
-		mvc.perform(post("/event/add?title=asd&text=foo&begin=1&duration=10&isPrivate=true").with(user("admin").roles("BOSS"))).
+		mvc.perform(post("/event/add?title=asd&text=foo&begin=1&duration=10&priv=true").with(user("admin").roles("BOSS"))).
 				andExpect(status().isFound()).
 				andExpect(redirectedUrl("/events"));
 		//invalid inputs
-		mvc.perform(post("/event/add?title=foo&text=asd&begin=TEXT&duration=10&isPrivate=true").with(user("admin").roles("BOSS"))).
+		mvc.perform(post("/event/add?title=foo&text=asd&begin=TEXT&duration=10&priv=true").with(user("admin").roles("BOSS"))).
 				andExpect(status().isOk()).
 				andExpect(view().name("event_add"));
-		mvc.perform(post("/event/add?title=asd&text=foo&begin=1&duration=TEXT&isPrivate=true").with(user("admin").roles("BOSS"))).
+		mvc.perform(post("/event/add?title=asd&text=foo&begin=&duration=TEXT&priv=true").with(user("admin").roles("BOSS"))).
 				andExpect(status().isOk()).
 				andExpect(view().name("event_add"));
-		mvc.perform(post("/event/add?title=asd&text=foo&begin=-1&duration=10&isPrivate=true").with(user("admin").roles("BOSS"))).
+		mvc.perform(post("/event/add?title=asd&text=foo&begin=-1&duration=10&priv=true").with(user("admin").roles("BOSS"))).
 				andExpect(status().isOk()).
 				andExpect(view().name("event_add"));
-		mvc.perform(post("/event/add?title=asd&text=foo&begin=1&duration=-10&isPrivate=true").with(user("admin").roles("BOSS"))).
+		mvc.perform(post("/event/add?title=asd&text=foo&begin=1&duration=-10&priv=true").with(user("admin").roles("BOSS"))).
 				andExpect(status().isOk()).
 				andExpect(view().name("event_add"));
 	}
 
 	@Test
 	void markEventStateTest() throws Exception {
-		Event event = new Event("title", "content", LocalDateTime.of(2000,1,1,1,1), 10);
+		Event event = new Event("title", "content", LocalDateTime.of(2000, 1, 1, 1, 1), 10);
 		repository.save(event);
 		long id = event.getId();
-		mvc.perform(get("/event/show?id="+id)).
+		mvc.perform(get("/event/show?id=" + id)).
 				andExpect(status().isOk()).
-				andExpect(model().attribute("state",1));
+				andExpect(model().attribute("state", 1));
 
-		event = new Event("title", "content", LocalDateTime.of(2040,1,1,1,1), 10);
+		event = new Event("title", "content", LocalDateTime.of(2040, 1, 1, 1, 1), 10);
 		repository.save(event);
 		id = event.getId();
-		mvc.perform(get("/event/show?id="+id)).
+		mvc.perform(get("/event/show?id=" + id)).
 				andExpect(status().isOk()).
-				andExpect(model().attribute("state",-1));
+				andExpect(model().attribute("state", -1));
 
-		event = new Event("title", "content", LocalDateTime.of(2018,1,1,1,1), 9999);
+		event = new Event("title", "content", LocalDateTime.of(2018, 1, 1, 1, 1), 9999);
 		repository.save(event);
 		id = event.getId();
-		mvc.perform(get("/event/show?id="+id)).
+		mvc.perform(get("/event/show?id=" + id)).
 				andExpect(status().isOk()).
-				andExpect(model().attribute("state",0));
+				andExpect(model().attribute("state", 0));
 	}
 
 	@Test
@@ -80,14 +81,21 @@ public class EventControllerWebIntegrationTest extends AbstractIntegrationTests 
 	}
 
 	@Test
+	@WithMockUser(username = "test", roles = "BOSS")
 	void editEventTest() throws Exception {
-		Event event = new Event("title", "content", LocalDateTime.of(2018,1,1,1,1), 9999);
+		Event event = new Event("title", "content", LocalDateTime.of(2018, 1, 1, 1, 1), 9999);
 		repository.save(event);
 		long id = event.getId();
-		mvc.perform(get("/event/edit?id="+id).with(user("admin").roles("BOSS"))).
+		mvc.perform(get("/event/edit?id=" + id)).
 				andExpect(status().isOk());
-		mvc.perform(post("/event/edit?title=asd&text=foo&id="+id+"&begin="+event.getBeginTime()+"&end="+event.getEndTime()).with(user("admin").roles("BOSS"))).
+		mvc.perform(post("/event/edit?title=asd&text=foo&id=" + id + "&beginDate=" + event.getBeginTime() + "&endDate=" + event.getEndTime())).
 				andExpect(status().isFound()).
+				andExpect(redirectedUrl("/events"));
+		mvc.perform(post("/event/edit?title=asd&text=foo&id=" + id + "&beginDate=TEST&endDate=TEST")).
+				andExpect(status().isOk()).
+				andExpect(view().name("event_edit"));
+		mvc.perform(post("/event/edit?id=0")).
+				andExpect(status().is3xxRedirection()).
 				andExpect(redirectedUrl("/events"));
 	}
 

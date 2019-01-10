@@ -31,7 +31,7 @@ public class Event {
 	}
 
 	/**
-	 * The first constructor which saves the event end time with given duration. IsPrivate attribute is setted there to false.
+	 * The first constructor which saves the event end time with given duration. IsPrivate attribute is set to false.
 	 *
 	 * @param title
 	 * @param text - event description
@@ -46,6 +46,7 @@ public class Event {
 		this.beginTime = LocalDateTime.of(beginTime.getYear(), beginTime.getMonthValue(), beginTime.getDayOfMonth(),0,0);
 		this.endTime = this.beginTime.plusDays(duration);
 	}
+
 	public Event(String title, String text, LocalDateTime beginTime, LocalDateTime endTime) {
 		this.isPrivate=false;
 		this.title = title;

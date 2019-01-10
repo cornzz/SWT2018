@@ -1,6 +1,7 @@
 package flowershop.events;
 
 import flowershop.AbstractIntegrationTests;
+import flowershop.events.form.EventDataTransferObject;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
@@ -55,14 +56,14 @@ class EventControllerIntegrationTest extends AbstractIntegrationTests {
 	@Test
 	void rejectsUnauthenticatedAccess() {
 		assertThatExceptionOfType(AuthenticationException.class)
-				.isThrownBy(() -> controller.addEvent());
+				.isThrownBy(() -> controller.addEvent(new EventDataTransferObject(), new ExtendedModelMap()));
 		Event event = new Event("title", "content", LocalDateTime.now(), 1);
 		repository.save(event);
 		long id = event.getId();
 		assertThatExceptionOfType(AuthenticationException.class)
 				.isThrownBy(() -> controller.remove(id));
 		assertThatExceptionOfType(AuthenticationException.class)
-				.isThrownBy(() -> controller.editEvent(id, model));
+				.isThrownBy(() -> controller.editEvent(id, model, new EventDataTransferObject()));
 		assertThatExceptionOfType(AuthenticationException.class)
 				.isThrownBy(() -> controller.beginTimeMinus(id));
 		assertThatExceptionOfType(AuthenticationException.class)
@@ -76,14 +77,14 @@ class EventControllerIntegrationTest extends AbstractIntegrationTests {
 	@Test
 	@WithMockUser(roles = "BOSS")
 	void allowsAuthenticatedAccess() {
-		String returnedValue = controller.addEvent();
+		String returnedValue = controller.addEvent(new EventDataTransferObject(), new ExtendedModelMap());
 		assertThat(returnedValue).isEqualTo("event_add");
 		Event event = new Event("title", "content", LocalDateTime.now(), 1);
 		repository.save(event);
 		long id = event.getId();
 		returnedValue = controller.remove(id);
 		assertThat(returnedValue).isEqualTo("redirect:/events");
-		returnedValue = controller.editEvent(id, model);
+		returnedValue = controller.editEvent(id, model, new EventDataTransferObject());
 		assertThat(returnedValue).isEqualTo("event_edit");
 		controller.beginTimeMinus(id);
 		controller.beginTimePlus(id);
