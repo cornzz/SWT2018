@@ -10,7 +10,6 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h3>Add Product</h3>
             <form method="post" class="fs-form" th:action="@{/products/add}" enctype="multipart/form-data">
                 <div class="mdc-text-field">
                     <input type="text" id="tf-outlined" class="mdc-text-field__input" th:field="${form.name}">
@@ -35,7 +34,7 @@
                 <div>
                     <label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
                         <i class="material-icons">attach_file</i>
-                        <input type="file" id="file" style="display: none;" th:field="*{form.image}"/>
+                        <input type="file" id="file" th:field="*{form.image}" hidden>
                     </label>
                     <span th:text="#{product.add.image}"></span>
                 </div>
