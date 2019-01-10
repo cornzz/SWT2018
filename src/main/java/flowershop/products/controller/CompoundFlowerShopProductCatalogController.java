@@ -178,8 +178,12 @@ public class CompoundFlowerShopProductCatalogController {
 			compoundFlowerShopProduct.setDescription(newCompoundFlowerShopProduct.getDescription());
 		}
 
-		if (!newCompoundFlowerShopProduct.getImage().equals(compoundFlowerShopProduct.getImage())) {
-			compoundFlowerShopProduct.setImage(newCompoundFlowerShopProduct.getImage());
+		// since the the image getter of the DTO object is not implemented yet we have to check for null
+		// TODO: remove null check as soon as the missing getter is implemented
+		if (newCompoundFlowerShopProduct.getImage() != null) {
+			if (!newCompoundFlowerShopProduct.getImage().equals(compoundFlowerShopProduct.getImage())) {
+				compoundFlowerShopProduct.setImage(newCompoundFlowerShopProduct.getImage());
+			}
 		}
 
 		if (!newCompoundFlowerShopProduct.getFlowerShopItemsWithQuantities().equals(compoundFlowerShopProduct.getFlowerShopItemsWithQuantities())) {

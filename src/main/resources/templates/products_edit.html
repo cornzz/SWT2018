@@ -13,6 +13,7 @@
             <h3>Edit Product</h3>
             <form method="post" class="fs-form" th:action="@{/products/__${form.id}__/edit}"
                   enctype="multipart/form-data">
+                <input type="text" th:field="${form.id}" hidden>
                 <div class="mdc-text-field">
                     <input type="text" id="tf-outlined" class="mdc-text-field__input" th:field="${form.name}">
                     <label for="tf-outlined" class="mdc-floating-label" th:text="#{product.name}"></label>
