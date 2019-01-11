@@ -89,6 +89,13 @@
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">person</i>
                 <span class="mdc-list-item__text" th:text="#{drawer.account}">Account</span>
             </a>
+            <a th:class="'mdc-list-item' + ((${view} == 'help') ? ' mdc-list-item--activated' : '')"
+               sec:authorize="isAuthenticated()"
+               th:href="@{/help}"
+               th:aria-selected="${view == 'help'}">
+                <i class="material-icons mdc-list-item__graphic" aria-hidden="true">help</i>
+                <span class="mdc-list-item__text" th:text="#{drawer.help}">Help</span>
+            </a>
             <a th:class="mdc-list-item"
                sec:authorize="isAuthenticated()"
                href="javascript: document.logoutForm.submit();">
