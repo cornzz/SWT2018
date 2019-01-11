@@ -23,6 +23,7 @@
                     <tr>
                         <th class="mdl-data-table__cell--non-numeric" th:text="#{order.list.id}"></th>
                         <th sec:authorize="hasRole('ROLE_BOSS')" th:text="#{order.list.madeby}"></th>
+                        <th th:text="#{order.list.date}"></th>
                         <th th:text="#{order.list.total}"></th>
                         <th th:text="#{order.list.status}"></th>
                         <th sec:authorize="hasRole('ROLE_BOSS')" th:text="#{order.list.markas}"></th>
@@ -31,7 +32,10 @@
                     <tbody th:remove="all-but-first">
                     <tr th:each="order : ${orders}">
                         <td class="mdl-data-table__cell--non-numeric"><a th:href="@{/order/{id} (id=${order.id})}" th:text="${order.id}"></a></td>
-                        <td th:text="${order.userAccount.username}" sec:authorize="hasRole('ROLE_BOSS')"></td>
+                        <td sec:authorize="hasRole('ROLE_BOSS')" th:with="user=${order.userAccount.username}">
+                            <a th:href="@{/account/{id} (id=${user})}" th:text="${user}"></a>
+                        </td>
+                        <td th:text="${#temporals.format(order.dateCreated, 'dd.MM.yyyy HH:mm')}"></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(order.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></td>
                         <td th:text="#{'order.list.status.' + ${order.orderStatus}}"></td>
                         <td sec:authorize="hasRole('ROLE_BOSS')">

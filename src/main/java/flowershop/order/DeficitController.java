@@ -85,12 +85,10 @@ public class DeficitController {
 	@GetMapping("/deficits")
 	@PreAuthorize("hasRole('ROLE_BOSS')")
 	public String deficit(Model model) {
-		Streamable<SubTransaction> subTransactions = transactionManager.findBy(PAID).
-				filter(transaction -> transaction.getType() == COLLECTION).
-				map(Transaction::getSubTransactions).get().flatMap(List::stream).
-				filter(subTransaction -> subTransaction.isType(DEFICIT)).
+		Streamable<SubTransaction> subTransactions = reorderManager.findAll().
+				map(Transaction::getSubTransactions).flatMap(List::stream).
 				filter(SubTransaction::getStatus).
-				map(Streamable::of).reduce(Streamable.empty(), Streamable::and);
+				filter(subTransaction -> subTransaction.isType(DEFICIT));
 		MonetaryAmount total = subTransactions.get().map(SubTransaction::getPrice).reduce(ZERO_EURO, MonetaryAmount::add);
 
 		model.addAttribute("deficits", subTransactions);

@@ -2,7 +2,7 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-    <title th:text="#{title.order} + ' ' + (${order} ? ${order.id} : '')">Order</title>
+    <title th:text="#{'title.' + ${type}} + ' ' + (${order} ? ${order.id} : '')">Order</title>
 </head>
 <body>
 <aside th:replace="fragments/drawer :: drawer('orders')">
@@ -16,15 +16,16 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h3 th:unless="${order}" th:text="#{order.notexist}"></h3>
+            <h5 th:unless="${order}" th:text="#{order.notexist}"></h5>
 
             <div class="fs-mdl-wrapper" th:if="${order}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th colspan="3" th:text="#{order.info(${order.id}, ${#temporals.format(order.dateCreated, 'dd.MM.yyyy HH:mm')}, ${order.orderStatus})}"></th>
+                        <th colspan="3"
+                            th:text="#{order.info(#{'title.' + ${type}}, ${order.id}, ${#temporals.format(order.dateCreated, 'dd.MM.yyyy HH:mm')}, #{'order.list.status.' + ${order.orderStatus}}, ${order.userAccount.username})}"></th>
                     </tr>
-                    <tr>
+                    <tr th:if="${type == 'order'}">
                         <th class="mdl-data-table__cell--non-numeric" th:text="#{order.product}"></th>
                         <th th:text="#{order.quantity}"></th>
                         <th th:text="#{order.price.pp}"></th>
@@ -32,7 +33,10 @@
                     </thead>
                     <tbody th:remove="all-but-first">
                     <tr th:each="orderLine : ${order.orderLines}">
-                        <td class="mdl-data-table__cell--non-numeric" th:text="${orderLine.productName}"></td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <a th:text="${orderLine.productName}"
+                               th:href="@{/products/{id}(id=${orderLine.productIdentifier})}"></a>
+                        </td>
                         <td th:text="${orderLine.quantity}"></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(orderLine.price.number, 0, 'COMMA', 2, 'POINT')}"></td>
                     </tr>
@@ -44,14 +48,24 @@
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(chargeLine.price.number, 0, 'COMMA', 2, 'POINT')}"></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td th:text="#{order.price.total}"></td>
-                        <td th:text="'EUR ' + ${#numbers.formatDecimal(order.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></td>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{order.price.total}"></th>
+                        <th></th>
+                        <th th:text="'EUR ' + ${#numbers.formatDecimal(order.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></th>
+                    </tr>
+                    <tr th:if="${order.description}">
+                        <td class="mdl-data-table__cell--non-numeric" colspan="3" style="white-space: normal; word-wrap: break-word;"
+                            th:utext="#{order.additionalinfo} + ${#strings.replace(#strings.escapeXml(order.description),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></td>
                     </tr>
                     </tfoot>
                 </table>
 
-                <div th:if="${param.success}" th:text="#{order.thankyou}" class="fs-snackbar-text" role="alert" hidden></div>
+                <div th:if="${param.success}" th:text="#{order.thankyou}" class="fs-snackbar-text" role="alert"
+                     hidden></div>
+            </div>
+
+            <div class="fs-buttons" th:unless="${param.success}">
+                <button type="button" class="mdc-button mdc-button--raised" onclick="window.history.back()"
+                        th:text="#{menu.back}"></button>
             </div>
         </div>
     </div>

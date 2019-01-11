@@ -13,42 +13,47 @@
         <div class="fs-content-wrapper">
             <h5 th:if="${cart.empty}" th:text="#{cart.empty}" class="mdc-typography--headline5"></h5>
 
+            <form method="post" class="fs-form" th:action="@{/completeorder}" th:unless="${cart.empty}" id="checkout">
+                <div class="fs-mdl-wrapper" th:unless="${cart.empty}">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric" th:text="#{cart.product}"></th>
+                            <th th:text="#{cart.description}"></th>
+                            <th th:text="#{cart.quantity}"></th>
+                            <th th:text="#{cart.price.pp}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${cart}">
+                            <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.name}"></td>
+                            <td th:text="${item.product.description}"></td>
+                            <td th:text="${item.quantity}"></td>
+                            <td th:text="${item.product.price}"></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric" th:text="#{cart.price.total}"></td>
+                            <td></td>
+                            <td></td>
+                            <td th:text="${cart.price}"></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
 
-            <div class="fs-mdl-wrapper" th:unless="${cart.empty}">
-                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-                    <thead>
-                    <tr>
-                        <th class="mdl-data-table__cell--non-numeric" th:text="#{cart.product}"></th>
-                        <th th:text="#{cart.description}"></th>
-                        <th th:text="#{cart.quantity}"></th>
-                        <th th:text="#{cart.price.pp}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="item : ${cart}">
-                        <td class="mdl-data-table__cell--non-numeric" th:text="${item.product.name}"></td>
-                        <td th:text="${item.product.description}"></td>
-                        <td th:text="${item.quantity}"></td>
-                        <td th:text="${item.product.price}"></td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td class="mdl-data-table__cell--non-numeric" th:text="#{cart.price.total}"></td>
-                        <td></td>
-                        <td></td>
-                        <td th:text="${cart.price}"></td>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
+                <div class="mdc-text-field mdc-text-field--textarea" th:unless="${cart.empty}">
+                <textarea rows="5" cols="40" type="text" class="mdc-text-field__input" name="description" id="text"
+                          form="checkout"></textarea>
+                    <label for="text" class="mdc-floating-label" th:text="#{order.yourmessage}"></label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
 
-            <div class="fs-buttons">
-                <form method="post" th:action="@{/completeorder}" th:unless="${cart.empty}">
-                    <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.confirm}">Confirm</button>
-                </form>
-                <button type="submit" class="mdc-button" onclick="window.location='/cart'" th:text="#{menu.back}">Back</button>
-            </div>
+                <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.confirm}"></button>
+                <button type="button" class="mdc-button" onclick="window.location='/cart'"
+                        th:text="#{menu.back}"></button>
+            </form>
         </div>
     </div>
 </main>
