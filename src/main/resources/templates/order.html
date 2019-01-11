@@ -1,6 +1,5 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
-      xmlns:th="http://www.thymeleaf.org"
->
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="#{'title.' + ${type}} + ' ' + (${order} ? ${order.id} : '')">Order</title>
 </head>
@@ -17,6 +16,9 @@
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
             <h5 th:unless="${order}" th:text="#{order.notexist}"></h5>
+
+            <h4 th:if="${order != null && type == 'order'}" class="fs-invoice-headline" hidden
+                th:text="#{order.thankyou(${order.userAccount.hasRole(T(org.salespointframework.useraccount.Role).of('ROLE_BOSS')) ? '' : ', ' + order.userAccount.firstname})}"></h4>
 
             <div class="fs-mdl-wrapper" th:if="${order}">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
@@ -35,7 +37,8 @@
                     <tr th:each="orderLine : ${order.orderLines}">
                         <td class="mdl-data-table__cell--non-numeric">
                             <a th:text="${orderLine.productName}"
-                               th:href="@{/products/{id}(id=${orderLine.productIdentifier})}"></a>
+                               th:href="@{/products/{id}(id=${orderLine.productIdentifier})}"
+                               target="_blank"></a>
                         </td>
                         <td th:text="${orderLine.quantity}"></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(orderLine.price.number, 0, 'COMMA', 2, 'POINT')}"></td>
@@ -53,22 +56,42 @@
                         <th th:text="'EUR ' + ${#numbers.formatDecimal(order.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></th>
                     </tr>
                     <tr th:if="${order.description}">
-                        <td class="mdl-data-table__cell--non-numeric" colspan="3" style="white-space: normal; word-wrap: break-word;"
+                        <td class="mdl-data-table__cell--non-numeric" colspan="3"
+                            style="white-space: normal; word-wrap: break-word;"
                             th:utext="#{order.additionalinfo} + ${#strings.replace(#strings.escapeXml(order.description),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></td>
                     </tr>
                     </tfoot>
                 </table>
 
-                <div th:if="${param.success}" th:text="#{order.thankyou}" class="fs-snackbar-text" role="alert"
-                     hidden></div>
+                <div th:if="${param.success}" th:text="#{order.thankyou(', ' + ${order.userAccount.firstname})}"
+                     class="fs-snackbar-text" role="alert" hidden></div>
             </div>
 
-            <div class="fs-buttons" th:unless="${param.success}">
+            <div class="fs-buttons">
                 <button type="button" class="mdc-button mdc-button--raised" onclick="window.history.back()"
-                        th:text="#{menu.back}"></button>
+                        th:text="#{menu.back}" th:unless="${param.success != null || param.lang != null}"></button>
+                <button type="button" class="mdc-button mdc-button--raised" th:if="${order}"
+                        onclick="getPdf()" th:text="#{order.download}"></button>
             </div>
         </div>
     </div>
+    <script>
+        function getPdf() {
+            let header = document.getElementsByTagName('header')[0].cloneNode(true);
+            let main = document.getElementsByTagName('main')[0].cloneNode(true);
+            main.prepend(header);
+            let headline = main.querySelector('.fs-invoice-headline');
+            if (headline) {
+                headline.hidden = false;
+            }
+            let buttons = main.querySelector('.fs-buttons');
+            buttons.parentNode.removeChild(buttons);
+            let opt = {
+                filename: document.title + '.pdf'
+            };
+            html2pdf(main, opt);
+        }
+    </script>
 </main>
 </body>
 </html>

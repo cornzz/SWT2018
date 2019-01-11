@@ -16,6 +16,7 @@
         <button type="button" class="mdc-snackbar__action-button" th:text="#{snackbar.dismiss}"></button>
     </div>
 </div>
+<script type="text/javascript" th:if="${order}" th:src="@{/resources/js/html2pdf.bundle.min.js}"></script>
 <script type="text/javascript" src="bundle.js" th:src="@{/resources/js/bundle.js}"></script>
 </body>
 </html>
