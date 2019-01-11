@@ -37,11 +37,7 @@ class FlowerShopUserDetailService implements UserDetailsService {
 	}
 
 	public FlowerShopUserDetailService(@NonNull final UserAccountManager userAccountManager) {
-		if (userAccountManager == null) {
-			throw new IllegalArgumentException("userAccountManager is marked @NonNull but is null");
-		} else {
 			this.userAccountManager = userAccountManager;
-		}
 	}
 
 	static class UserAccountDetails implements UserDetails {
