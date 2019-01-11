@@ -16,15 +16,6 @@
   }
 }
 
-.fs-buttons {
-  display: flex;
-  flex-direction: column;
-
-  > * {
-    margin-top: 16px;
-  }
-}
-
 // material components for the web
 @import "~@material/button/mdc-button";
 @import "~@material/top-app-bar/mdc-top-app-bar";
@@ -54,3 +45,6 @@
 @import "scss/ProductDetail";
 @import "scss/Error";
 @import "scss/ChooseFlowersDialog";
+@import "scss/StackedButtons";
+@import "scss/DeleteButton";
+@import "scss/Help";

@@ -1,0 +1,64 @@
+<html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="#{title.help}">Help</title>
+</head>
+<body>
+<aside th:replace="fragments/drawer :: drawer('home')">
+    <!-- since this is a nested replace it can't be empty -->
+    Drawer
+</aside>
+<header th:replace="fragments/header :: header_catalog(_)">
+    <!-- since this is a nested replace it can't be empty -->
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <div class="fs-help">
+                <h3>Produkte</h3>
+                <img class="fs-help__image" src="../static/resources/img/screenshot_products.png"
+                     th:src="@{/resources/img/screenshot_products.png}" alt="screenshot products">
+                <h4>Produkt anlegen</h4>
+                <p>Produkte können über den mit einem "+" gekennzeichnet <span class="fs-help__bold">Floating Action Button</span>
+                    in der Produkt Übersicht erreicht werden. Um ein Produkt anzulegen sind folgende die folgenden
+                    Attribute erforderlich:
+                </p>
+                <ul>
+                    <li>Name</li>
+                    <li>Beschreibung</li>
+                    <li>Mindestens ein Gegenstand oder eine Dienstleistung</li>
+                </ul>
+                <p>Weitere Gegenstände und Dienstleistungen sind optional. Ein Bild ist ebenfalls optional. Wird kein
+                    Bild bereitgestellt wird im Katalog ein Platzhalter gezeigt.</p>
+                <p>Weiter Gegenstände und Dienstleistungen können über die Menüpunkte <span class="fs-help__bold">Inventar</span>
+                    und <span class="fs-help__bold">Services</span> hinzugefügt werden.</p>
+                <h4>Produkt bearbeiten</h4>
+                <p>Über die <span class="fs-help__bold">MEHR INFO</span> Schaltfläche in der Fusszeile jeder
+                    Produkt-Karte kann ein Produkt bearbeitet werden. Hierbei gelten die selben Regeln wie beim anlegen
+                    des Produkts.</p>
+                <h4>Produkt löschen</h4>
+                <p>Die Schaltfläche zum entfernen eines Produktes findet sich am Ende <span class="fs-help__bold">Produkt bearbeiten</span>
+                    Dialog. Einmal entfernte Produkte können nicht wiederhergestellt werden.</p>
+                <h3>Inventar</h3>
+                <img class="fs-help__image" src="../static/resources/img/screenshot_inventory.png"
+                     th:src="@{/resources/img/screenshot_inventory.png}" alt="screenshot inventory">
+                <h4>Eine Blume beim Großhändler nachbestellen:</h4>
+                <p>Die Inhaberin besitzt die Möglichkeit über die Inventar Ansicht Produkte beim Großhändler nach zu bestellen.
+                Nachdem eine Nachbestellung getätigt wurde wird diese in dem Kassenstand aufgeführt.
+                    Eine automatische Nachbestellung wird durchgeführt, wenn die Anzahl unter die Hälfte, der festgelegten Stückzahl fällt, in diesem Fall wird der Bestand vollständig aufgefüllt.</p>
+                <h4>Den Warenbestand manuell reduzieren:</h4>
+                <p>Die Inhaberin besitzt die Möglichkeit über die Inventar Ansicht Produkte manuell zu reduzieren.
+                Nachdem ein Defizit für eine Blume erstellt wurden, wird dieses in der Defizitübersicht aufgeführt.
+                    Eine automatische Nachbestellung wird durchgeführt, wenn die Anzahl unter die Hälfte, der festgelegten Stückzahl fällt, in diesem Fall wird der Bestand vollständig aufgefüllt.</p>
+                <h4>Eine neue Blume/Service hinzufügen:</h4>
+                <p>Blumen und Services können in der Inventar/Service Übersicht durch den "+" Button hinzugefügt werden.</p>
+                <h3>Großhändler</h3>
+                <h4>Eine Blume zur Inhaberin des Blumenladens schicken:</h4>
+                <p>Der Großhändler kann manuell, über seine Beistellungsansicht, Blumen an die Ladeninhaberin schicken. Der bestand wird nachfolgend direkt erhöht.</p>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

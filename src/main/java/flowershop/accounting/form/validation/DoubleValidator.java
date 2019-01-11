@@ -4,7 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * Validator for a String that is supposed to be converted to a Double
+ * Validator for a String that is supposed to be converted to a Double.
  *
  * @author Cornelius Kummer
  */

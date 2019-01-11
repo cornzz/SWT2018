@@ -51,8 +51,7 @@
                         <td th:text="${cart.price}"></td>
                         <td></td>
                         <td>
-                            <a sec:authorize="hasRole('ROLE_CUSTOMER')" href="/checkout"
-                               class="mdl-button mdl-js-button mdl-button--colored" th:text="#{cart.buy}"></a>
+                            <a href="/checkout" class="mdl-button mdl-js-button mdl-button--colored" th:text="#{cart.buy}"></a>
                         </td>
                     </tr>
                     </tfoot>

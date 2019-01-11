@@ -27,9 +27,8 @@ class CartControllerOrderControllerWebIntegrationTests extends AbstractIntegrati
 	@Autowired CompoundFlowerShopProductCatalog catalog;
 
 	@Test
-	@WithMockUser
+	@WithMockUser(username = "test", password = "test")
 	void addToCartGetTest() throws Exception {
-		mvc.perform(login("test", "test"));
 		CompoundFlowerShopProduct product = Streamable.of(catalog.findAll()).stream().findFirst().get();
 		mvc.perform(post("/cart/add/" + product.getId().getIdentifier())).
 				andExpect(status().isOk()).
@@ -37,9 +36,8 @@ class CartControllerOrderControllerWebIntegrationTests extends AbstractIntegrati
 	}
 
 	@Test
-	@WithMockUser
+	@WithMockUser(username = "test", password = "test")
 	void addToCartPostInvalidTest() throws Exception {
-		mvc.perform(login("test", "test"));
 		CompoundFlowerShopProduct product = Streamable.of(catalog.findAll()).stream().findFirst().get();
 		mvc.perform(post("/cart/add").
 				param("pid", "pid").
@@ -62,9 +60,8 @@ class CartControllerOrderControllerWebIntegrationTests extends AbstractIntegrati
 	}
 
 	@Test
-	@WithMockUser
+	@WithMockUser(username = "test", password = "test")
 	void addToCartPostValidTest() throws Exception {
-		mvc.perform(login("test", "test"));
 		CompoundFlowerShopProduct product = Streamable.of(catalog.findAll()).stream().findFirst().get();
 		mvc.perform(post("/cart/add").
 				param("pid", product.getId().getIdentifier()).
@@ -75,9 +72,8 @@ class CartControllerOrderControllerWebIntegrationTests extends AbstractIntegrati
 	}
 
 	@Test
-	@WithMockUser
+	@WithMockUser(username = "test", password = "test")
 	void checkoutTest() throws Exception {
-		mvc.perform(login("test", "test"));
 		mvc.perform(get("/checkout")).
 				andExpect(status().isOk()).
 				andExpect(view().name("order_confirm"));

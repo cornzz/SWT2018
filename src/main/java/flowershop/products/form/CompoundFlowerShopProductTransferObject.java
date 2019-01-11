@@ -122,8 +122,12 @@ public class CompoundFlowerShopProductTransferObject {
 
 		if (image.getContentType() == null || !image.getContentType().equals("image/png") && !image.getContentType().equals("image/jpeg")) {
 
-			// placeholder image
-			this.imageBase64 = PlaceholderImage.FOUR_HUNDRED_BY_FOUR_HUNDRED.getImage();
+			// no id set -> new product
+			if (getId() == null) {
+				setImageBase64(PlaceholderImage.FOUR_HUNDRED_BY_FOUR_HUNDRED.getImage());
+			}
+
+			// we do not store the actual file so we have to stop here since this is an edit without a new image
 
 			return;
 		}

@@ -27,15 +27,13 @@
                         <th th:text="#{accounting.amount}"></th>
                     </tr>
                     </thead>
-                    <tbody th:remove="all-but-first">
+                    <tbody>
                     <tr th:each="transaction : ${transactions}">
-                        <td class="mdl-data-table__cell--non-numeric" th:text="${transaction.id}"></td>
+                        <td class="mdl-data-table__cell--non-numeric"><a th:href="@{/order/{id} (id=${transaction.id})}" th:text="${transaction.id}"></a></td>
                         <td th:text="#{'transaction.type.' + ${transaction.type}}"></td>
                         <td th:text="${#temporals.format(transaction.dateCreated, 'dd.MM.yyyy HH:mm')}"></td>
                         <td th:text="'EUR ' + ${#numbers.formatDecimal(transaction.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></td>
                     </tr>
-                    </tbody>
-                    <tbody th:remove="all-but-first">
                     <tr th:each="subTransaction : ${reorders}">
                         <td class="mdl-data-table__cell--non-numeric" th:text="${subTransaction.id}"></td>
                         <td th:text="#{'transaction.type.' + ${subTransaction.type}}"></td>
@@ -45,10 +43,10 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td th:text="#{accounting.total}"></td>
-                        <td></td>
-                        <td></td>
-                        <td th:text="'EUR ' + ${#numbers.formatDecimal(total.number, 0, 'COMMA', 2, 'POINT')}"></td>
+                        <th class="mdl-data-table__cell--non-numeric" th:text="#{accounting.total}"></th>
+                        <th></th>
+                        <th></th>
+                        <th th:text="'EUR ' + ${#numbers.formatDecimal(total.number, 0, 'COMMA', 2, 'POINT')}"></th>
                     </tr>
                     </tfoot>
                 </table>

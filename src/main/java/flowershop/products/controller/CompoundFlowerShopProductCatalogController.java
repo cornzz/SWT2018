@@ -178,8 +178,12 @@ public class CompoundFlowerShopProductCatalogController {
 			compoundFlowerShopProduct.setDescription(newCompoundFlowerShopProduct.getDescription());
 		}
 
-		if (!newCompoundFlowerShopProduct.getImage().equals(compoundFlowerShopProduct.getImage())) {
-			compoundFlowerShopProduct.setImage(newCompoundFlowerShopProduct.getImage());
+		// since the the image getter of the DTO object is not implemented yet we have to check for null
+		// TODO: remove null check as soon as the missing getter is implemented
+		if (newCompoundFlowerShopProduct.getImage() != null) {
+			if (!newCompoundFlowerShopProduct.getImage().equals(compoundFlowerShopProduct.getImage())) {
+				compoundFlowerShopProduct.setImage(newCompoundFlowerShopProduct.getImage());
+			}
 		}
 
 		if (!newCompoundFlowerShopProduct.getFlowerShopItemsWithQuantities().equals(compoundFlowerShopProduct.getFlowerShopItemsWithQuantities())) {
@@ -287,6 +291,36 @@ public class CompoundFlowerShopProductCatalogController {
 		model.addAttribute("form", form);
 
 		return "products_edit";
+	}
+
+	/**
+	 * Deletes the compound product with the given {@link ProductIdentifier} and returns the product view.
+	 *
+	 * @param id    will never be {@literal null}.
+	 * @return the view name.
+	 */
+	@RequestMapping("/products/{id}/delete")
+	@PreAuthorize("hasRole('ROLE_BOSS')")
+	public String deleteProduct(@PathVariable ProductIdentifier id) {
+
+		Optional<CompoundFlowerShopProduct> compoundFlowerShopProductOptional = compoundFlowerShopProductCatalog.findById(id);
+
+		if (compoundFlowerShopProductOptional.isPresent()) {
+
+			CompoundFlowerShopProduct compoundFlowerShopProduct = compoundFlowerShopProductOptional.get();
+
+			// there is no need to remove the relation from the compound product since it gets deleted anyway
+
+			// remove relation object from flower shop items
+			compoundFlowerShopProduct
+					.getFlowerShopItemsWithQuantities()
+					.keySet()
+					.forEach(flowerShopItem -> flowerShopItem.removeCompoundFlowerShopProductFlowerShopItemByCompoundFlowerShopProduct(compoundFlowerShopProduct));
+
+			compoundFlowerShopProductCatalog.delete(compoundFlowerShopProduct);
+		}
+
+		return "redirect:/products";
 	}
 
 	public boolean inStock(CompoundFlowerShopProduct product) {

@@ -116,6 +116,14 @@ public class UserManager {
 	}
 
 	/**
+	 * @param email must not be {@literal null}.
+	 * @return an {@link Optional} of the {@link User} entity with the given Email address.
+	 */
+	public Optional<User> findByEmail(String email) {
+		return this.findAll().stream().filter(u -> u.getUserAccount().getEmail().equals(email)).findFirst();
+	}
+
+	/**
 	 * @param username must not be {@literal null}.
 	 * @return <code>true</code> if a {@link User} instance with the given username exists; <code>false</code> otherwise.
 	 */
@@ -128,7 +136,7 @@ public class UserManager {
 	 * @return <code>true</code> if a {@link User} instance with the given email exists; <code>false</code> otherwise.
 	 */
 	public boolean mailExists(String email) {
-		return this.findAll().stream().anyMatch(u -> u.getUserAccount().getEmail().equals(email));
+		return this.findByEmail(email).isPresent();
 	}
 
 }

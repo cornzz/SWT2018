@@ -6,6 +6,11 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
+/**
+ * Initializes {@link Event}s
+ *
+ * @author Tomasz Ludyga
+ */
 @Component
 public class EventsInitializer implements DataInitializer {
 	private final EventRepository events;

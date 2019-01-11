@@ -1,8 +1,8 @@
 package flowershop.products.form;
 
 import flowershop.accounting.form.validation.IsDouble;
-import flowershop.accounting.form.validation.IsLong;
 import flowershop.products.FlowerShopItem;
+import flowershop.products.validation.IsLong;
 import org.javamoney.moneta.Money;
 
 import javax.validation.constraints.NotEmpty;

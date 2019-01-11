@@ -39,7 +39,6 @@ import static org.salespointframework.payment.Cash.CASH;
  * @author Cornelius Kummer
  */
 @Controller
-@PreAuthorize("isAuthenticated()")
 public class AccountingController {
 
 	private final OrderManager<Transaction> transactionManager;
@@ -53,9 +52,8 @@ public class AccountingController {
 	String accounting(Model model) {
 		Streamable<Transaction> transactions = findAllTransactions().filter(transaction -> transaction.getType() != COLLECTION);
 		Streamable<SubTransaction> subTransactions = findAllTransactions().filter(transaction -> transaction.getType() == COLLECTION).
-				map(Transaction::getSubTransactions).get().flatMap(List::stream).
-				filter(subTransaction -> subTransaction.isType(REORDER)).
-				map(Streamable::of).reduce(Streamable.empty(), Streamable::and);
+				map(Transaction::getSubTransactions).flatMap(List::stream).
+				filter(subTransaction -> subTransaction.isType(REORDER));
 		MonetaryAmount total = transactions.stream().map(Order::getTotalPrice).reduce(ZERO_EURO, MonetaryAmount::add).
 				add(subTransactions.get().map(SubTransaction::getPrice).reduce(ZERO_EURO, MonetaryAmount::add).negate());
 
@@ -79,6 +77,7 @@ public class AccountingController {
 		if (result.hasErrors()) {
 			return new ModelAndView("accounting_add", "form", form);
 		}
+
 		loggedIn.ifPresent(userAccount -> {
 			Transaction transaction = new Transaction(userAccount, CASH, CUSTOM);
 			transaction.setPrice(Money.of(Double.valueOf(form.getAmount()), "EUR"));

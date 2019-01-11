@@ -7,11 +7,16 @@ import java.util.ArrayList;
 
 import static java.time.format.FormatStyle.MEDIUM;
 
+/**
+ * A class representing an event.
+ *
+ * @author Tomasz Ludyga
+ */
 @Entity
 public class Event {
 	private String title;
 	@Lob
-	@Column(name="CONTENT", length=4096)
+	@Column(name = "CONTENT", length = 4096)
 	private String text;
 	private LocalDateTime createdTime;
 	private LocalDateTime beginTime;
@@ -25,21 +30,30 @@ public class Event {
 	private Event() {
 	}
 
+	/**
+	 * The first constructor which saves the event end time with given duration. IsPrivate attribute is set to false.
+	 *
+	 * @param title     must not be {@literal null}.
+	 * @param text      event description
+	 * @param beginTime must not be {@literal null}.
+	 * @param duration  number of days of event duration
+	 */
 	public Event(String title, String text, LocalDateTime beginTime, int duration) {
-		this.isPrivate=false;
+		this.isPrivate = false;
 		this.title = title;
 		this.createdTime = LocalDateTime.now();
 		this.text = text;
-		this.beginTime = LocalDateTime.of(beginTime.getYear(), beginTime.getMonthValue(), beginTime.getDayOfMonth(),0,0);
+		this.beginTime = LocalDateTime.of(beginTime.getYear(), beginTime.getMonthValue(), beginTime.getDayOfMonth(), 0, 0);
 		this.endTime = this.beginTime.plusDays(duration);
 	}
+
 	public Event(String title, String text, LocalDateTime beginTime, LocalDateTime endTime) {
-		this.isPrivate=false;
+		this.isPrivate = false;
 		this.title = title;
 		this.createdTime = LocalDateTime.now();
 		this.text = text;
-		this.beginTime = LocalDateTime.of(beginTime.getYear(), beginTime.getMonthValue(), beginTime.getDayOfMonth(),0,0);
-		this.endTime = LocalDateTime.of(endTime.getYear(), endTime.getMonthValue(), endTime.getDayOfMonth(),23,59);
+		this.beginTime = LocalDateTime.of(beginTime.getYear(), beginTime.getMonthValue(), beginTime.getDayOfMonth(), 0, 0);
+		this.endTime = LocalDateTime.of(endTime.getYear(), endTime.getMonthValue(), endTime.getDayOfMonth(), 23, 59);
 	}
 
 	public String getTitle() {
@@ -79,31 +93,37 @@ public class Event {
 		return id;
 	}
 
-	public boolean getIsPrivate(){
+	public boolean getIsPrivate() {
 		return isPrivate;
 	}
 
-	public void setTitle(String title){
+	public void setTitle(String title) {
 		this.title = title;
 	}
-	public void setText(String text){
+
+	public void setText(String text) {
 		this.text = text;
 	}
-	public void setBeginTime(LocalDateTime beginTime){
+
+	public void setBeginTime(LocalDateTime beginTime) {
 		this.beginTime = beginTime;
 	}
-	public void setEndTime(LocalDateTime endTime){
+
+	public void setEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
 	}
 
-	public void setPrivate(boolean isPrivate){
+	public void setPrivate(boolean isPrivate) {
 		this.isPrivate = isPrivate;
 	}
 
-	public ArrayList<String> getTextLines(){
+	/**
+	 * @return event description as {@link ArrayList} of {@link String}s.
+	 */
+	public ArrayList<String> getTextLines() {
 		String[] arrayLines = text.split("\r\n|\r|\n");
 		ArrayList<String> lines = new ArrayList<>();
-		for(int i=0;i<arrayLines.length;i++){
+		for (int i = 0; i < arrayLines.length; i++) {
 			lines.add(arrayLines[i]);
 		}
 		return lines;

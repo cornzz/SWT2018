@@ -10,8 +10,10 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <h3>Edit Product</h3>
-            <form method="post" class="fs-form" th:action="@{/products/__${form.id}__/edit}" enctype="multipart/form-data">
+            <form method="post" class="fs-form" th:action="@{/products/__${form.id}__/edit}"
+                  enctype="multipart/form-data">
+                <div class="fs-product-detail__image" th:style="'background-image: url(' + ${form.imageBase64} + ')'"></div>
+                <input type="text" th:field="${form.id}" hidden>
                 <div class="mdc-text-field">
                     <input type="text" id="tf-outlined" class="mdc-text-field__input" th:field="${form.name}">
                     <label for="tf-outlined" class="mdc-floating-label" th:text="#{product.name}"></label>
@@ -35,12 +37,15 @@
                 <div>
                     <label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
                         <i class="material-icons">attach_file</i>
-                        <input type="file" id="file" style="display: none;" th:field="*{form.image}"/>
+                        <input type="file" id="file" th:field="*{form.image}" hidden>
                     </label>
-                    <span th:text="#{product.add.image}"></span>
+                    <span th:text="#{product.edit.image}"></span>
                 </div>
                 <span th:text="${form.price}"></span>
+
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.save}"></button>
+                <a th:href="'/products/' + ${form.id} + '/delete'" class="mdc-button mdc-button fs-delete-button"
+                   th:text="#{menu.delete}"></a>
             </form>
         </div>
     </div>

@@ -49,8 +49,28 @@ class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 	}
 
 	@Test
+	void loginEmptyTest() throws Exception {
+		mvc.perform(post("/login")).
+				andExpect(status().is3xxRedirection()).
+				andExpect(redirectedUrl("/login?error"));
+	}
+
+	@Test
+	void loginInvalidTest() throws Exception {
+		mvc.perform(post("/login").
+				param("username", "").
+				param("password", "")
+		).
+				andExpect(status().is3xxRedirection()).
+				andExpect(redirectedUrl("/login?error"));
+	}
+
+	@Test
 	void loginTest() throws Exception {
-		mvc.perform(login("test", "test")).
+		mvc.perform(post("/login").
+				param("username", "test").
+				param("password", "test")
+		).
 				andExpect(status().is3xxRedirection()).
 				andExpect(redirectedUrl("/"));
 	}
@@ -100,9 +120,8 @@ class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 	}
 
 	@Test
-	@WithMockUser
+	@WithMockUser(username = "test", password = "test")
 	void myAccountTest() throws Exception {
-		mvc.perform(login("test", "test"));
 		mvc.perform(get("/account")).
 				andExpect(status().isOk()).
 				andExpect(view().name("account")).
@@ -110,9 +129,8 @@ class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 	}
 
 	@Test
-	@WithMockUser
+	@WithMockUser(username = "test", password = "test")
 	void updateMyAccountTest() throws Exception {
-		mvc.perform(login("test", "test"));
 		mvc.perform(post("/account").
 				param("firstName", "ts").
 				param("lastName", "et").
@@ -129,9 +147,8 @@ class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 	}
 
 	@Test
-	@WithMockUser
+	@WithMockUser(username = "test", password = "test")
 	void updateMyAccountEmptyTest() throws Exception {
-		mvc.perform(login("test", "test"));
 		mvc.perform(post("/account")).
 				andExpect(status().isOk()).
 				andExpect(view().name("account")).
@@ -172,18 +189,16 @@ class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 	}
 
 	@Test
-	@WithMockUser
+	@WithMockUser(username = "test", password = "test")
 	void changeMyPasswordEmptyTest() throws Exception {
-		mvc.perform(login("test", "test"));
 		mvc.perform(post("/account/changepass")).
 				andExpect(status().isOk()).
 				andExpect(view().name("account_changepass"));
 	}
 
 	@Test
-	@WithMockUser
+	@WithMockUser(username = "test", password = "test")
 	void changeMyPasswordPopulatedTest() throws Exception {
-		mvc.perform(login("test", "test"));
 		mvc.perform(post("/account/changepass").
 				param("oldPassword", "test").
 				param("password", "tset").

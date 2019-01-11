@@ -1,0 +1,8 @@
+.fs-buttons {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    margin-top: 16px;
+  }
+}

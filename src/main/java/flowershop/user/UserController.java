@@ -44,7 +44,6 @@ public class UserController {
 		return loggedIn.isPresent() ? "redirect:/products" : "login";
 	}
 
-
 	/**
 	 * Shows the registration form.
 	 *

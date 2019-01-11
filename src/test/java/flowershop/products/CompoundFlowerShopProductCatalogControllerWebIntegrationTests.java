@@ -24,7 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
 class CompoundFlowerShopProductCatalogControllerWebIntegrationTests extends AbstractIntegrationTests {
 
-	@Autowired MockMvc mvc;
+	@Autowired
+	MockMvc mvc;
 
 	// TODO: Could not autowire. No beans of 'CompoundFlowerShopProductCatalog' type found.
 	@Autowired
@@ -36,6 +37,7 @@ class CompoundFlowerShopProductCatalogControllerWebIntegrationTests extends Abst
 				.andExpect(status().isFound())
 				.andExpect(header().string(HttpHeaders.LOCATION, endsWith("/login")));
 	}
+
 	@Test
 	void addProductViewIsAccessibleForAdmin() throws Exception {
 		mvc.perform(get("/products/add")

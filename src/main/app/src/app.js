@@ -5,9 +5,9 @@
  */
 
 let secondaryTable = document.querySelector("#fs-secondaryTable");
+let primaryTable = document.querySelector("#fs-primaryTable");
 
-if (secondaryTable) {
-    let primaryTable = document.querySelector("#fs-primaryTable");
+if (primaryTable && secondaryTable) {
 
     if (primaryTable.offsetWidth < secondaryTable.offsetWidth) {
         primaryTable.style.width = secondaryTable.offsetWidth;

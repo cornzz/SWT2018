@@ -10,36 +10,36 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form method="post" class="fs-form" th:action="@{/event/add}">
+            <form method="post" class="fs-form" th:object="${form}" th:action="@{/event/add}">
                 <div class="mdc-text-field">
-                    <input type="text" pattern=".{5,}" title="Der Titel ist zu kurz." class="mdc-text-field__input"
-                           name="title" id="title" required>
+                    <input type="text" class="mdc-text-field__input" name="title" id="title" th:field="*{title}">
                     <label for="title" class="mdc-floating-label" th:text="#{event.title}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
 
                 <div class="mdc-text-field mdc-text-field--textarea">
-                    <textarea rows="8" cols="50" type="text" class="mdc-text-field__input" name="text" id="text" required></textarea>
+                    <textarea rows="8" cols="50" type="text" class="mdc-text-field__input" name="text" id="text"
+                              th:field="*{text}"></textarea>
                     <label for="text" class="mdc-floating-label" th:text="#{event.description}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
 
                 <div class="mdc-text-field">
-                    <input type="text" value="0" class="mdc-text-field__input" name="begin" id="begin">
+                    <input type="text" value="0" class="mdc-text-field__input" name="begin" id="begin" th:field="*{begin}">
                     <label for="begin" class="mdc-floating-label" th:text="#{event.add.begin}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
 
                 <div class="mdc-text-field">
-                    <input type="text" value="7" class="mdc-text-field__input" name="duration" id="duration">
+                    <input type="text" value="7" class="mdc-text-field__input" name="duration" id="duration" th:field="*{duration}">
                     <label for="duration" class="mdc-floating-label" th:text="#{event.add.duration}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
 
                 <div class="mdc-form-field">
                     <div class="mdc-checkbox">
-                        <input class="mdc-checkbox__native-control" th:type="checkbox" value="true" name="isPrivate" id="isPrivate"/>
-                        <input type="hidden" name="isPrivate" value="false"/>
+                        <input class="mdc-checkbox__native-control" th:type="checkbox" value="true" name="priv" id="priv"/>
+                        <input type="hidden" name="priv" value="false"/>
                         <div class="mdc-checkbox__background">
                             <svg class="mdc-checkbox__checkmark" viewBox="0 0 24 24">
                                 <path class="mdc-checkbox__checkmark-path" fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
@@ -47,10 +47,12 @@
                             <div class="mdc-checkbox__mixedmark"></div>
                         </div>
                     </div>
-                    <label for="isPrivate" th:text="#{event.add.private}"></label>
+                    <label for="priv" th:text="#{event.add.private}"></label>
                 </div>
 
                 <button type="submit" class="mdc-button mdc-button--raised" th:text="#{menu.add}"></button>
+                <div th:each="error : ${#fields.errors()}" th:text="${error}" class="fs-snackbar-text" role="alert"
+                     hidden></div>
             </form>
 
             <div th:if="${message}" th:text="#{${message}}" class="fs-snackbar-text" hidden></div>

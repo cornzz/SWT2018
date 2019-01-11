@@ -10,8 +10,7 @@
 <main>
     <div class="mdc-top-app-bar--fixed-adjust">
         <div class="fs-content-wrapper">
-            <form method="post" role="form" id="form" class="fs-form" th:action="@{/items/add}"
-                  th:object="${form}">
+            <form method="post" role="form" id="form" class="fs-form" th:action="@{/items/add}" th:object="${form}">
                 <div class="mdc-text-field">
                     <input type="text" name="name" id="name" class="mdc-text-field__input" th:field="*{name}">
                     <label for="name" class="mdc-floating-label" th:text="#{inventory.add.name}"></label>
@@ -23,8 +22,7 @@
                     <div class="mdc-line-ripple"></div>
                 </div>
                 <div class="mdc-text-field">
-                    <input type="text" name="profit" id="profit" class="mdc-text-field__input"
-                           th:field="*{retailPrice}">
+                    <input type="text" name="profit" id="profit" class="mdc-text-field__input" th:field="*{retailPrice}">
                     <label for="profit" class="mdc-floating-label" th:text="#{inventory.price.retail}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>

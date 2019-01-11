@@ -40,7 +40,7 @@
                         <td th:text="${event.formatedCreatedTime}"></td>
                         <td sec:authorize="hasRole('ROLE_BOSS')">
                             <a th:href="@{/event/edit?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">
-                                settings
+                                edit
                             </a>
                         </td>
                         <td sec:authorize="hasRole('ROLE_BOSS')">
@@ -76,7 +76,7 @@
                             <td th:text="${event.formatedCreatedTime}"></td>
                             <td>
                                 <a th:href="@{/event/edit?id={id} (id=${event.id})}" class="material-icons mdc-top-app-bar__action-item">
-                                    settings
+                                    edit
                                 </a>
                             </td>
                             <td>

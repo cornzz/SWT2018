@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static flowershop.order.Transaction.TransactionType.CUSTOM;
 import static flowershop.order.Transaction.TransactionType.ORDER;
 import static org.salespointframework.order.OrderStatus.OPEN;
 import static org.salespointframework.order.OrderStatus.PAID;
@@ -63,7 +64,8 @@ public class OrderController {
 	 * @return the view name.
 	 */
 	@PostMapping("/completeorder")
-	String buy(@ModelAttribute Cart cart, @LoggedIn Optional<UserAccount> userAccount, Model model) {
+	String buy(@ModelAttribute Cart cart, @LoggedIn Optional<UserAccount> userAccount,
+			   @RequestParam(required = false) String description, Model model) {
 		return userAccount.map(account -> {
 			if (!sufficientStock(cart)) {
 				model.addAttribute("message", "cart.add.notenough");
@@ -80,6 +82,9 @@ public class OrderController {
 			});
 
 			Transaction order = new Transaction(account, CASH, ORDER);
+			if (description != null && !description.isEmpty()) {
+				order.setDescription(description);
+			}
 			cart.addItemsTo(order);
 			cart.clear();
 			transactionManager.save(order);
@@ -121,7 +126,7 @@ public class OrderController {
 	 * @param orderOptional will never be {@literal null}.
 	 * @return the view name.
 	 */
-	@GetMapping("/order/update/{id}")
+	@GetMapping("/order/{id}/update")
 	String updateOrderStatus(@PathVariable(name = "id") Optional<Transaction> orderOptional) {
 		return orderOptional.map(order -> {
 			if (order.getOrderStatus().equals(OPEN)) {// open->paid
@@ -156,10 +161,13 @@ public class OrderController {
 	@GetMapping("/order/{id}")
 	@PreAuthorize("isAuthenticated()")
 	String order(Model model, @PathVariable(name = "id") Optional<Transaction> orderOptional, @LoggedIn Optional<UserAccount> loggedIn) {
+		model.addAttribute("type", "order");
 		orderOptional.ifPresent(order -> {
 			loggedIn.ifPresent(user -> {
 				if (user.hasRole(Role.of("ROLE_BOSS")) || order.getUserAccount().equals(user)) {
 					model.addAttribute("order", order);
+					String type = order.getType().equals(CUSTOM) ? "transaction" : "order";
+					model.addAttribute("type", type);
 				}
 			});
 		});

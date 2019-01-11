@@ -9,11 +9,9 @@ import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccountManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @SpringBootTest
@@ -25,6 +23,7 @@ public abstract class AbstractIntegrationTests {
 
 	@BeforeAll
 	void setup() {
+		System.out.println("Setup...");
 		if (userAccountManager.findByUsername("test").isPresent()) {
 			return;
 		}
@@ -37,12 +36,6 @@ public abstract class AbstractIntegrationTests {
 
 		assertThat(userManager.createUser(form)).isNotNull();
 		userManager.addRole("test", Role.of("ROLE_BOSS"));
-	}
-
-	public RequestBuilder login(String user, String pass) {
-		return post("/login").
-				param("username", user).
-				param("password", pass);
 	}
 
 }
