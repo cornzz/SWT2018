@@ -1,0 +1,36 @@
+<html th:replace="~{layouts/dialog :: layout(~{::title}, ~{::header}, ~{::main})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{title.account.changeroles}"></title>
+</head>
+<body>
+<header th:replace="fragments/header :: header_dialog (title = #{title.account.changeroles}, cancel_destination = @{/account/{id} (id=${user.id})})">
+    <!-- since this is a nested replace it can't be empty -->
+    Header
+</header>
+<main>
+    <div class="mdc-top-app-bar--fixed-adjust">
+        <div class="fs-content-wrapper">
+            <h5 th:unless="${user}" th:text="#{user.notexist}" class="mdc-typography--headline5"></h5>
+
+            <form method="post" role="form" id="passwordForm" class="fs-form" th:if="${user}"
+                  th:action="@{/account/{id}/changeroles (id=${user.id})}">
+                <div class="mdc-text-field">
+                    <input type="text" id="roles" class="mdc-text-field__input" size="35" th:value="${roles}"
+                           name="roles">
+                    <label for="roles" class="mdc-floating-label" th:text="#{user.roles}"></label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+                <p class="mdc-text-field-helper-text" aria-hidden="true"
+                   th:if="${user.username.equals(loggedIn.userAccount.username)}"
+                   th:text="#{user.roles.change.helper}"></p>
+
+                <button type="button" class="mdc-button" onclick="window.history.back()"
+                        th:text="#{menu.cancel}"></button>
+                <button type="submit" id="submitPassword" class="mdc-button mdc-button--raised"
+                        th:text="#{menu.submit}"></button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

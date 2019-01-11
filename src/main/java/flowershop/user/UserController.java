@@ -1,8 +1,10 @@
 package flowershop.user;
 
 import flowershop.user.form.UserDataTransferObject;
+import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.web.LoggedIn;
+import org.springframework.data.util.Streamable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * A Spring MVC controller to manage {@link User}s.
@@ -194,7 +197,7 @@ public class UserController {
 	}
 
 	/**
-	 * Displays the password change form for the admin.
+	 * Displays the password change form to the admin.
 	 *
 	 * @param userAccount must not be {@literal null}.
 	 * @param form        will never be {@literal null}.
@@ -226,6 +229,37 @@ public class UserController {
 			userManager.changePass(form, account);
 			return new ModelAndView("redirect:/account/{id}?success");
 		}).orElse(new ModelAndView("account_changepass_admin"));
+	}
+
+	/**
+	 * Displays the role change form to the admin.
+	 *
+	 * @param userAccount will never be {@literal null}.
+	 * @return the view name.
+	 */
+	@GetMapping("/account/{id}/changeroles")
+	@PreAuthorize("hasRole('ROLE_BOSS')")
+	ModelAndView changeRolesForm(@PathVariable(name = "id") Optional<UserAccount> userAccount) {
+		return userAccount.map(account -> {
+			String roles = account.getRoles().map(Role::toString).get().collect(Collectors.joining(", "));
+			return new ModelAndView("account_changeroles", "user", account).addObject("roles", roles);
+		}).orElse(new ModelAndView("account_changeroles"));
+	}
+
+	/**
+	 * Lets the admin update the roles of any user.
+	 *
+	 * @param userAccount will never be {@literal null}.
+	 * @param roles       must not be {@literal null}.
+	 * @return the view name.
+	 */
+	@PostMapping("/account/{id}/changeroles")
+	@PreAuthorize("hasRole('ROLE_BOSS')")
+	ModelAndView changeRoles(@PathVariable(name = "id") Optional<UserAccount> userAccount, @RequestParam String roles) {
+		return userAccount.map(account -> {
+			userManager.setRoles(account, Streamable.of(roles.split(", ")));
+			return new ModelAndView("redirect:/account/{id}?success");
+		}).orElse(new ModelAndView("account_changeroles"));
 	}
 
 	/**

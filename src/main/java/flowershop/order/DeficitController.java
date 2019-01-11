@@ -18,9 +18,7 @@ import javax.money.MonetaryAmount;
 import java.util.List;
 
 import static flowershop.order.SubTransaction.SubTransactionType.DEFICIT;
-import static flowershop.order.Transaction.TransactionType.COLLECTION;
 import static org.salespointframework.core.Currencies.ZERO_EURO;
-import static org.salespointframework.order.OrderStatus.PAID;
 
 /**
  * A Spring MVC controller to view {@link SubTransaction}s with DEFICIT type.
@@ -32,19 +30,16 @@ public class DeficitController {
 
 	private final ReorderManager reorderManager;
 	private final Inventory<InventoryItem> inventory;
-	private final OrderManager<Transaction> transactionManager;
 
 	/**
 	 * Creates a new {@link DeficitController} with the given {@link ReorderManager}, {@link Inventory} and {@link OrderManager}.
 	 *
 	 * @param reorderManager     must not be {@literal null}.
 	 * @param inventory          must not be {@literal null}.
-	 * @param transactionManager must not be {@literal null}.
 	 */
-	DeficitController(ReorderManager reorderManager, Inventory<InventoryItem> inventory, OrderManager<Transaction> transactionManager) {
+	DeficitController(ReorderManager reorderManager, Inventory<InventoryItem> inventory) {
 		this.reorderManager = reorderManager;
 		this.inventory = inventory;
-		this.transactionManager = transactionManager;
 	}
 
 	/**

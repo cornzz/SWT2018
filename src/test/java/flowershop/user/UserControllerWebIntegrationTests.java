@@ -24,8 +24,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(print = MockMvcPrint.NONE)
 class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 
-	@Autowired MockMvc mvc;
-	@Autowired UserManager userManager;
+	@Autowired
+	MockMvc mvc;
+	@Autowired
+	UserManager userManager;
 
 	@Test
 	void redirectsToLoginPageForSecuredResource() throws Exception {
@@ -209,17 +211,38 @@ class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 	}
 
 	@Test
-	void changePasswordEmptyTest() throws Exception {
-		mvc.perform(get("/account/test/changepass").with(user("admin").roles("BOSS"))).
+	@WithMockUser(username = "test", roles = "BOSS")
+	void changePasswordTest() throws Exception {
+		mvc.perform(get("/account/test/changepass")).
 				andExpect(status().isOk()).
 				andExpect(view().name("account_changepass_admin")).
 				andExpect(model().attributeExists("form"));
 	}
 
 	@Test
+	@WithMockUser(username = "test", roles = "BOSS")
 	void changePasswordPopulatedTest() throws Exception {
-		mvc.perform(post("/account/test/changepass").with(user("admin").roles("BOSS")).
+		mvc.perform(post("/account/test/changepass").
 				param("password", "tset")
+		).
+				andExpect(status().is3xxRedirection()).
+				andExpect(redirectedUrl("/account/test?success"));
+	}
+
+	@Test
+	@WithMockUser(username = "test", roles = "BOSS")
+	void changeRolesFormTest() throws Exception {
+		mvc.perform(get("/account/test/changeroles")).
+				andExpect(status().isOk()).
+				andExpect(view().name("account_changeroles")).
+				andExpect(model().attributeExists("roles"));
+	}
+
+	@Test
+	@WithMockUser(username = "test", roles = "BOSS")
+	void changeRolesTest() throws Exception {
+		mvc.perform(post("/account/test/changeroles").
+				param("roles", "ROLE_CUSTOMER")
 		).
 				andExpect(status().is3xxRedirection()).
 				andExpect(redirectedUrl("/account/test?success"));
