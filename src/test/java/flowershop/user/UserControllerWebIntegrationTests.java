@@ -50,14 +50,14 @@ class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 
 	@Test
 	void loginEmptyTest() throws Exception {
-		mvc.perform(post("/signin")).
+		mvc.perform(post("/login")).
 				andExpect(status().is3xxRedirection()).
 				andExpect(redirectedUrl("/login?error"));
 	}
 
 	@Test
 	void loginInvalidTest() throws Exception {
-		mvc.perform(post("/signin").
+		mvc.perform(post("/login").
 				param("username", "").
 				param("password", "")
 		).
@@ -67,7 +67,7 @@ class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 
 	@Test
 	void loginTest() throws Exception {
-		mvc.perform(post("/signin").
+		mvc.perform(post("/login").
 				param("username", "test").
 				param("password", "test")
 		).

@@ -27,7 +27,7 @@
                     <tbody th:remove="all-but-first">
                     <tr th:each=" user : ${userList}">
                         <td class="mdl-data-table__cell--non-numeric"><a th:href="@{/account/{id} (id=${user.userAccount.id})}" th:text="${user.userAccount.id}"></a></td>
-                        <td th:text="${user.roleString}"></td>
+                        <td th:text="#{'role.' + ${user.roleString}}"></td>
                         <td th:text="${user.userAccount.email}"></td>
                         <td th:text="${user.phone}"></td>
                     </tr>

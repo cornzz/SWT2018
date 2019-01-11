@@ -2,11 +2,13 @@ package flowershop.user;
 
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
+import org.springframework.data.util.Streamable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.stream.Collectors;
 
 /**
  * @author Cornelius Kummer
@@ -48,12 +50,12 @@ public class User {
 		return userAccount;
 	}
 
-	public Role getRole() {
-		return this.userAccount.getRoles().stream().findFirst().get();
+	public Streamable<Role> getRoles() {
+		return this.userAccount.getRoles();
 	}
 
 	public String getRoleString() {
-		return getRole().toString().replace("ROLE_", "");
+		return getRoles().get().map(r -> r.toString().replace("ROLE_", "")).collect(Collectors.joining(", "));
 	}
 
 }
