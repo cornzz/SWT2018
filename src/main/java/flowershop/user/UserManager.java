@@ -8,6 +8,7 @@ import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,7 +87,8 @@ public class UserManager {
 	 * @return all {@link User} entities currently registered in the system.
 	 */
 	public Streamable<User> findAll() {
-		return Streamable.of(users.findAll());
+		return Streamable.of(Streamable.of(users.findAll()).get().
+				sorted(Comparator.comparing(user -> user.getUserAccount().getUsername())).collect(Collectors.toList()));
 	}
 
 	/**

@@ -21,10 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static flowershop.order.Transaction.TransactionType.CUSTOM;
 import static flowershop.order.Transaction.TransactionType.ORDER;
@@ -36,8 +34,8 @@ import static org.salespointframework.payment.Cash.CASH;
 /**
  * A Spring MVC controller to manage the ordering process.
  *
- * @author Tomasz Ludyga
  * @author Cornelius Kummer
+ * @author Tomasz Ludyga
  */
 @Controller
 @PreAuthorize("isAuthenticated()")
@@ -209,13 +207,15 @@ public class OrderController {
 
 	/**
 	 * @return {@link Streamable} containing all {@link Transaction}s of {@link flowershop.order.Transaction.TransactionType}
-	 * <code>ORDER</code>.
+	 * <code>ORDER</code>, sorted by date created descending.
 	 */
 	Streamable<Transaction> findAllOrders() {
-		return Arrays.stream(OrderStatus.values())
-				.map(transactionManager::findBy)
-				.reduce(Streamable.empty(), Streamable::and)
-				.filter(transaction -> transaction.isType(ORDER));
+		return Streamable.of(Arrays.stream(OrderStatus.values()).
+				map(transactionManager::findBy).
+				reduce(Streamable.empty(), Streamable::and).get().
+				filter(transaction -> transaction.isType(ORDER)).
+						sorted(Comparator.comparing(Transaction::getDateCreated).reversed()).
+						collect(Collectors.toList()));
 	}
 
 	/**

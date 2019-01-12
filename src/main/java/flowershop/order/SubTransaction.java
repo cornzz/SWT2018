@@ -23,6 +23,9 @@ public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 		REORDER
 	}
 
+	private SubTransaction() {
+	}
+
 	private @NonNull
 	Quantity quantity;
 	private @NonNull

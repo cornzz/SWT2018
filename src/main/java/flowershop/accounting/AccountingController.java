@@ -22,8 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.money.MonetaryAmount;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static flowershop.order.SubTransaction.SubTransactionType.REORDER;
 import static flowershop.order.Transaction.TransactionType.COLLECTION;
@@ -89,9 +91,11 @@ public class AccountingController {
 	}
 
 	Streamable<Transaction> findAllTransactions() {
-		return Arrays.stream(OrderStatus.values())
-				.filter(status -> status != OPEN)
-				.map(transactionManager::findBy)
-				.reduce(Streamable.empty(), Streamable::and);
+		return Streamable.of(Arrays.stream(OrderStatus.values()).
+				filter(status -> status != OPEN).
+				map(transactionManager::findBy).
+				reduce(Streamable.empty(), Streamable::and).get().
+						sorted(Comparator.comparing(Transaction::getDateCreated).reversed()).
+						collect(Collectors.toList()));
 	}
 }
