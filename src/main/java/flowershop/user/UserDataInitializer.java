@@ -26,6 +26,9 @@ public class UserDataInitializer implements DataInitializer {
 
 	@Override
 	public void initialize() {
+		if (userRepository.findAll().iterator().hasNext()) {
+			return;
+		}
 
 		UserAccount adminAccount = userAccountManager.create("admin", "pass", Role.of("ROLE_BOSS"));
 		UserAccount wholesalerAccount = userAccountManager.create("wholesaler", "pass", Role.of("ROLE_WHOLESALER"));

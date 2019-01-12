@@ -58,8 +58,8 @@ public class CompoundFlowerShopProductCatalogInitializer implements DataInitiali
 		// placeholder image
 		String image = PlaceholderImage.FOUR_HUNDRED_BY_FOUR_HUNDRED.getImage();
 
-		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("RGB", "Very nice bouquet!", flowerShopItems, flowerShopServices, image));
-		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("RBG", "Very nice bouquet!", flowerShopItems, flowerShopServices, image));
-		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("BRG", "Very nice bouquet!", flowerShopItems, flowerShopServices, image));
+		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("Strauß Rosen", "Ein Strauß wundervoller Rosen!", flowerShopItems, flowerShopServices, image));
+		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("Strauß Mageriten", "Eine Ladung wohlduftender Mageriten!", flowerShopItems, flowerShopServices, image));
+		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("Strauß Gerberas", "Ein Bündel atemberaubender Gerberas!", flowerShopItems, flowerShopServices, image));
 	}
 }
