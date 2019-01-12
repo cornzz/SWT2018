@@ -15,8 +15,7 @@
             <form th:if="${event}" method="post" class="fs-form" th:object="${form}" th:action="@{/event/edit}">
                 <input name="id" th:value="${event.id}" hidden>
                 <div class="mdc-text-field">
-                    <input type="text" pattern=".{5,}" title="Der Titel ist zu kurz." class="mdc-text-field__input"
-                           th:value="${event.title}" name="title" id="title">
+                    <input type="text" class="mdc-text-field__input" th:value="${event.title}" name="title" id="title">
                     <label for="title" class="mdc-floating-label" th:text="#{event.title}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>

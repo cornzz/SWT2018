@@ -43,10 +43,14 @@
                     </table>
                 </div>
 
-                <div class="mdc-text-field mdc-text-field--textarea" th:unless="${cart.empty}">
-                <textarea rows="5" cols="40" type="text" class="mdc-text-field__input" name="description" id="text"
-                          form="checkout"></textarea>
+                <div class="mdc-text-field mdc-text-field--textarea">
+                    <textarea rows="5" cols="40" type="text" class="mdc-text-field__input" name="message" id="text"
+                              form="checkout"></textarea>
                     <label for="text" class="mdc-floating-label" th:text="#{order.yourmessage}"></label>
+                </div>
+                <div class="mdc-text-field">
+                    <input type="text" class="mdc-text-field__input" name="date" id="date">
+                    <label for="date" class="mdc-floating-label" th:text="#{order.deliverydate.checkout}"></label>
                     <div class="mdc-line-ripple"></div>
                 </div>
 

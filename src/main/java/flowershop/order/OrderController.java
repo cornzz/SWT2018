@@ -1,5 +1,6 @@
 package flowershop.order;
 
+import flowershop.events.EventManager;
 import flowershop.products.CompoundFlowerShopProduct;
 import flowershop.products.FlowerShopItem;
 import org.salespointframework.catalog.Catalog;
@@ -47,12 +48,14 @@ public class OrderController {
 	private final Inventory<InventoryItem> inventory;
 	private final Catalog<Product> catalog;
 	private final ReorderManager reorderManager;
+	private final EventManager eventManager;
 
-	OrderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory, Catalog<Product> catalog, ReorderManager reorderManager) {
+	OrderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory, Catalog<Product> catalog, ReorderManager reorderManager, EventManager eventManager) {
 		this.transactionManager = transactionManager;
 		this.inventory = inventory;
 		this.catalog = catalog;
 		this.reorderManager = reorderManager;
+		this.eventManager = eventManager;
 	}
 
 	/**
@@ -65,7 +68,8 @@ public class OrderController {
 	 */
 	@PostMapping("/completeorder")
 	String buy(@ModelAttribute Cart cart, @LoggedIn Optional<UserAccount> userAccount,
-			   @RequestParam(required = false) String description, Model model) {
+			   @RequestParam(required = false) String message,
+			   @RequestParam(required = false) String date, Model model) {
 		return userAccount.map(account -> {
 			if (!sufficientStock(cart)) {
 				model.addAttribute("message", "cart.add.notenough");
@@ -82,11 +86,15 @@ public class OrderController {
 			});
 
 			Transaction order = new Transaction(account, CASH, ORDER);
-			if (description != null && !description.isEmpty()) {
-				order.setDescription(description);
-			}
 			cart.addItemsTo(order);
 			cart.clear();
+			if (date != null && !date.isEmpty()) {
+				order.setDeliveryDate(date);
+				eventManager.createDeliveryEvent(order.getId(), date);
+			}
+			if (message != null && !message.isEmpty()) {
+				order.setDescription(message);
+			}
 			transactionManager.save(order);
 			reorderManager.refillInventory();
 			return "redirect:/order/" + order.getId() + "?success";

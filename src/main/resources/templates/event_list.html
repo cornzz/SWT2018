@@ -70,7 +70,8 @@
                         <tr th:each="event : ${privateEvents}" th:if="${event.isPrivate}">
                             <td><a th:href="@{/event/show?id={id} (id=${event.id})}"
                                    class="material-icons mdc-top-app-bar__action-item">pageview</a></td>
-                            <td th:text="${event.title}" class="mdl-data-table__cell--non-numeric"></td>
+                            <td class="mdl-data-table__cell--non-numeric" th:with="title=${event.title}"
+                                th:text="${title.startsWith('%') ? #messages.msg('event.order') + title.replace('%', ' ') : title}"></td>
                             <td th:text="${event.formatedBeginTime}"></td>
                             <td th:text="${event.formatedEndTime}"></td>
                             <td th:text="${event.formatedCreatedTime}"></td>

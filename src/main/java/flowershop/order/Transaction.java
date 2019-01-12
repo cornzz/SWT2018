@@ -28,13 +28,14 @@ public class Transaction extends Order {
 		CUSTOM
 	}
 
-	private Transaction() {
+	public Transaction() {
 	}
 
 	private TransactionType type;
 	private MonetaryAmount price;
 	private InventoryItemIdentifier itemId;
 	private String description;
+	private String deliveryDate;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<SubTransaction> subTransactions = new ArrayList<>();
@@ -73,6 +74,10 @@ public class Transaction extends Order {
 		return description;
 	}
 
+	public String getDeliveryDate() {
+		return deliveryDate;
+	}
+
 	public List<SubTransaction> getSubTransactions() {
 		return subTransactions;
 	}
@@ -96,6 +101,10 @@ public class Transaction extends Order {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setDeliveryDate(String deliveryDate) {
+		this.deliveryDate = deliveryDate;
 	}
 
 	public boolean isType(TransactionType type) {

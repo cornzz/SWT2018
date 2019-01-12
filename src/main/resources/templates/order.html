@@ -1,5 +1,5 @@
 <html th:replace="~{layouts/default :: layout(~{::title}, ~{::aside}, ~{::header}, ~{::main})}"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title th:text="#{'title.' + ${type}} + ' ' + (${order} ? ${order.id} : '')">Order</title>
 </head>
@@ -55,16 +55,20 @@
                         <th></th>
                         <th th:text="'EUR ' + ${#numbers.formatDecimal(order.totalPrice.number, 0, 'COMMA', 2, 'POINT')}"></th>
                     </tr>
-                    <tr th:if="${order.description}">
-                        <td class="mdl-data-table__cell--non-numeric" colspan="3"
-                            style="white-space: normal; word-wrap: break-word;"
-                            th:utext="#{order.additionalinfo} + ${#strings.replace(#strings.escapeXml(order.description),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></td>
+                    <tr th:if="${order.deliveryDate != null && !order.deliveryDate.isEmpty()}"
+                        th:with="date=${order.deliveryDate}">
+                        <td class="mdl-data-table__cell--non-numeric" colspan="3" th:utext="#{order.deliverydate} + ' ' + ${date}"></td>
+                    </tr>
+                    <tr th:if="${order.description != null && !order.description.isEmpty()}"
+                        th:with="description=${order.description}">
+                        <td class="mdl-data-table__cell--non-numeric" colspan="3" style="white-space: normal; word-wrap: break-word;"
+                            th:utext="#{order.additionalinfo} + ${#strings.replace(#strings.escapeXml(description),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></td>
                     </tr>
                     </tfoot>
                 </table>
 
                 <div th:if="${param.success}" th:text="#{order.thankyou(', ' + ${order.userAccount.firstname})}"
-                     class="fs-snackbar-text" role="alert" hidden></div>
+                     sec:authorize="!hasRole('ROLE_BOSS')" class="fs-snackbar-text" role="alert" hidden></div>
             </div>
 
             <div class="fs-buttons">

@@ -50,7 +50,8 @@ public class EventController {
 		beginTimeEdit = 0;
 		endTimeEdit = 0;
 		Streamable<Event> events = eventManager.findAll();
-		Streamable<Event> privateEvents = eventManager.findPrivate(loggedIn);
+		Streamable<Event> privateEvents = loggedIn.filter(u -> u.hasRole(Role.of("ROLE_BOSS"))).
+				map(u -> eventManager.findPrivate()).orElse(Streamable.empty());
 		model.addAttribute("events", events.filter(event -> !event.getIsPrivate()));
 		model.addAttribute("privateEvents", privateEvents);
 		return "event_list";

@@ -73,6 +73,7 @@ public class EventControllerWebIntegrationTest extends AbstractIntegrationTests 
 	}
 
 	@Test
+	@WithMockUser(username = "test", roles = "BOSS")
 	void eventsListTest() throws Exception {
 		mvc.perform(get("/events")).
 				andExpect(status().isOk()).
