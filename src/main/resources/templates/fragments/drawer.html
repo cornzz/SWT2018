@@ -49,7 +49,7 @@
                 <span class="mdc-list-item__text" th:text="#{drawer.reorders}">Reorders</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'orders') ? ' mdc-list-item--activated' : '')"
-               sec:authorize="isAuthenticated() && !hasRole('ROLE_WHOLESALER')"
+               sec:authorize="isAuthenticated() && (hasRole('ROLE_WHOLESALER') or hasRole('ROLE_BOSS'))"
                th:href="@{/orders}"
                th:aria-selected="${view == 'orders'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">assignment</i>
@@ -90,7 +90,7 @@
                 <span class="mdc-list-item__text" th:text="#{drawer.account}">Account</span>
             </a>
             <a th:class="'mdc-list-item' + ((${view} == 'help') ? ' mdc-list-item--activated' : '')"
-               sec:authorize="isAuthenticated()"
+               sec:authorize="hasRole('ROLE_BOSS')"
                th:href="@{/help}"
                th:aria-selected="${view == 'help'}">
                 <i class="material-icons mdc-list-item__graphic" aria-hidden="true">help</i>

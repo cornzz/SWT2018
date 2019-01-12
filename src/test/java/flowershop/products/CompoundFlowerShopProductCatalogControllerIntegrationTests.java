@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class CompoundFlowerShopProductCatalogControllerIntegrationTests extends AbstractIntegrationTests {
 
-	// TODO: Could not autowire. No beans of 'CompoundFlowerShopProductCatalogController' type found.
 	@Autowired
 	CompoundFlowerShopProductCatalogController compoundFlowerShopProductCatalogController;
 

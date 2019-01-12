@@ -19,9 +19,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface ValidUsername {
 
-		String message() default "Username taken.";
+	String message() default "Username taken.";
 
-		Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-		Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 }

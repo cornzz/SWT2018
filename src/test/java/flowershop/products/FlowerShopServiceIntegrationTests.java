@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class FlowerShopServiceIntegrationTests extends AbstractIntegrationTests {
 
-	// TODO: Could not autowire. No beans of 'FlowerShopServiceCatalog' type found.
 	@Autowired
 	FlowerShopServiceCatalog serviceCatalog;
 

@@ -34,7 +34,7 @@ class ReorderManagerIntegrationTests extends AbstractIntegrationTests {
 		reorderManager.findAll().map(Transaction::getSubTransactions).flatMap(List::stream).forEach(reorder -> {
 			reorderManager.sendReorder(reorder);
 			InventoryItem i = Streamable.of(inventory.findAll()).stream().filter(item -> item.getProduct().getName().equals(reorder.getFlower())).findFirst().get();
-			assertEquals(10, i.getQuantity().getAmount().intValue());
+			assertEquals(35, i.getQuantity().getAmount().intValue());
 			assertFalse(reorder.getStatus());
 		});
 	}

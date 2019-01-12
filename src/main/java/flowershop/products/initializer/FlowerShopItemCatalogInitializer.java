@@ -14,7 +14,7 @@ import static org.salespointframework.core.Currencies.EURO;
  * Initializes {@link FlowerShopItem}s.
  *
  * @author Friedrich Bethke
- * @author  Jonas Knobloch
+ * @author Jonas Knobloch
  */
 @Component
 @Order(20)
@@ -34,8 +34,8 @@ public class FlowerShopItemCatalogInitializer implements DataInitializer {
 			return;
 		}
 
-		flowerShopItemCatalog.save(new FlowerShopItem("Red FlowerShopItem", Money.of(100, EURO), Money.of(120, EURO), "Expensive red flower", 10));
-		flowerShopItemCatalog.save(new FlowerShopItem("Green FlowerShopItem", Money.of(100, EURO), Money.of(120, EURO), "Expensive green flower", 10));
-		flowerShopItemCatalog.save(new FlowerShopItem("Blue FlowerShopItem", Money.of(100, EURO), Money.of(120, EURO), "Expensive blue flower", 10));
+		flowerShopItemCatalog.save(new FlowerShopItem("Rose", Money.of(2, EURO), Money.of(3, EURO), "Teure rote Blume.", 35));
+		flowerShopItemCatalog.save(new FlowerShopItem("Margerite", Money.of(1.5, EURO), Money.of(2.5, EURO), "Teure weiße Blume.", 35));
+		flowerShopItemCatalog.save(new FlowerShopItem("Gerbera", Money.of(1.5, EURO), Money.of(2.5, EURO), "Teure bunte Blume.", 35));
 	}
 }

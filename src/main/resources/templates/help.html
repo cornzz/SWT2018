@@ -20,8 +20,8 @@
                 <img class="fs-help__image" src="../static/resources/img/screenshot_products.png"
                      th:src="@{/resources/img/screenshot_products.png}" alt="screenshot products">
                 <h4>Produkt anlegen</h4>
-                <p>Produkte können über den mit einem "+" gekennzeichnet <span class="fs-help__bold">Floating Action Button</span>
-                    in der Produkt Übersicht erreicht werden. Um ein Produkt anzulegen sind folgende die folgenden
+                <p>Produkte können über den mit einem "+" gekennzeichneten <span class="fs-help__bold">Floating Action
+                    Button</span> in der Produktübersicht erreicht werden. Um ein Produkt anzulegen sind folgende
                     Attribute erforderlich:
                 </p>
                 <ul>
@@ -30,32 +30,101 @@
                     <li>Mindestens ein Gegenstand oder eine Dienstleistung</li>
                 </ul>
                 <p>Weitere Gegenstände und Dienstleistungen sind optional. Ein Bild ist ebenfalls optional. Wird kein
-                    Bild bereitgestellt wird im Katalog ein Platzhalter gezeigt.</p>
+                    Bild bereitgestellt, wird im Katalog ein Platzhalter gezeigt.</p>
                 <p>Weiter Gegenstände und Dienstleistungen können über die Menüpunkte <span class="fs-help__bold">Inventar</span>
                     und <span class="fs-help__bold">Services</span> hinzugefügt werden.</p>
                 <h4>Produkt bearbeiten</h4>
                 <p>Über die <span class="fs-help__bold">MEHR INFO</span> Schaltfläche in der Fusszeile jeder
-                    Produkt-Karte kann ein Produkt bearbeitet werden. Hierbei gelten die selben Regeln wie beim anlegen
+                    Produkt-Karte kann ein Produkt bearbeitet werden. Hierbei gelten die selben Regeln wie beim Anlegen
                     des Produkts.</p>
                 <h4>Produkt löschen</h4>
-                <p>Die Schaltfläche zum entfernen eines Produktes findet sich am Ende <span class="fs-help__bold">Produkt bearbeiten</span>
-                    Dialog. Einmal entfernte Produkte können nicht wiederhergestellt werden.</p>
+                <p>Die Schaltfläche zum Entfernen eines Produktes befindet sich am Ende des
+                    <span class="fs-help__bold">Produkt bearbeiten</span> Dialogs. Einmal entfernte Produkte können
+                    nicht wiederhergestellt werden.</p>
                 <h3>Inventar</h3>
                 <img class="fs-help__image" src="../static/resources/img/screenshot_inventory.png"
                      th:src="@{/resources/img/screenshot_inventory.png}" alt="screenshot inventory">
                 <h4>Eine Blume beim Großhändler nachbestellen:</h4>
-                <p>Die Inhaberin besitzt die Möglichkeit über die Inventar Ansicht Produkte beim Großhändler nach zu bestellen.
-                Nachdem eine Nachbestellung getätigt wurde wird diese in dem Kassenstand aufgeführt.
-                    Eine automatische Nachbestellung wird durchgeführt, wenn die Anzahl unter die Hälfte, der festgelegten Stückzahl fällt, in diesem Fall wird der Bestand vollständig aufgefüllt.</p>
+                <p>Die Inhaberin hat die Möglichkeit über die Inventaransicht Produkte beim Großhändler nachzubestellen.
+                    Nachdem eine Nachbestellung getätigt wurde wird diese in dem Kassenstand aufgeführt.
+                    Eine automatische Nachbestellung wird durchgeführt, wenn der Bestand unter die Hälfte, der
+                    festgelegten Stückzahl fällt, in diesem Fall wird der Bestand vollständig aufgefüllt.</p>
                 <h4>Den Warenbestand manuell reduzieren:</h4>
                 <p>Die Inhaberin besitzt die Möglichkeit über die Inventar Ansicht Produkte manuell zu reduzieren.
-                Nachdem ein Defizit für eine Blume erstellt wurden, wird dieses in der Defizitübersicht aufgeführt.
-                    Eine automatische Nachbestellung wird durchgeführt, wenn die Anzahl unter die Hälfte, der festgelegten Stückzahl fällt, in diesem Fall wird der Bestand vollständig aufgefüllt.</p>
+                    Nachdem ein Defizit für eine Blume erstellt wurde, wird dieser in der Defizitübersicht aufgeführt.
+                    Eine automatische Nachbestellung wird ausgelöst, wenn die Anzahl unter die Hälfte der
+                    festgelegten Stückzahl fällt, in diesem Fall wird der Bestand vollständig aufgefüllt.</p>
                 <h4>Eine neue Blume/Service hinzufügen:</h4>
-                <p>Blumen und Services können in der Inventar/Service Übersicht durch den "+" Button hinzugefügt werden.</p>
+                <p>Blumen und Services können in der Inventar/Service Übersicht über den mit einem "+" gekennzeichneten
+                    <span class="fs-help__bold">Floating Action Button</span> hinzugefügt werden.</p>
                 <h3>Großhändler</h3>
-                <h4>Eine Blume zur Inhaberin des Blumenladens schicken:</h4>
-                <p>Der Großhändler kann manuell, über seine Beistellungsansicht, Blumen an die Ladeninhaberin schicken. Der bestand wird nachfolgend direkt erhöht.</p>
+                <h4>Waren zur Inhaberin des Blumenladens schicken:</h4>
+                <p>Der Großhändler kann manuell über seine Nachbestellungsansicht Blumen an die Ladeninhaberin schicken.
+                    Der Bestand wird nachfolgend direkt erhöht.</p>
+                <h3>Benutzer</h3>
+                <img class="fs-help__image" src="../static/resources/img/screenshot_users.png"
+                     th:src="@{/resources/img/screenshot_users.png}" alt="screenshot users">
+                <h4>Ändern von Benutzerdaten:</h4>
+                <p>Über das Seitenmenü ist die Benutzerübersicht erreichbar. Hier kann man Benutzerdaten einsehen und
+                    über einen Klick auf den Benutzernamen eines Nutzers erreicht man die spezifische Kontoansicht. Hier
+                    gibt es die Möglichkeit, Nutzerdaten wie zum Beispiel die Telefonnummer, das Passwort,
+                    aber auch die Rollen und damit die Zugriffsrechte des Benutzers zu ändern.</p>
+                <p> Bei letzterem muss beachtet
+                    werden, dass nur <span class="fs-help__bold">bestimmte Rollen-Werte</span> vom System anerkannt
+                    werden:
+                </p>
+                <div class="fs-mdl-wrapper">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width: 100%;">
+                        <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric">Rolle</th>
+                            <th>Systemwert</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">Inhaber</td>
+                            <td>ROLE_BOSS</td>
+                        </tr>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">Grosshändler</td>
+                            <td>ROLE_WHOLESALER</td>
+                        </tr>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">Kunde</td>
+                            <td>ROLE_CUSTOMER</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3>Buchführung</h3>
+                <img class="fs-help__image" src="../static/resources/img/screenshot_accounting.png"
+                     th:src="@{/resources/img/screenshot_accounting.png}" alt="screenshot accounting">
+                <h4>Übersicht aller Transaktionen:</h4>
+                <p>In der Kassenübersicht werden jeglicher Geldfluss dokumentiert. So sieht man hier sowohl
+                    Kundenbestellungen, als auch Nachbestellungen beim Großhändler.</p>
+                <h4>Kassenstand manuell verändern:</h4>
+                <p>Über den <span class="fs-help__bold">Floating Action Button</span> auf der Kassenübersicht
+                    hat man die Möglichkeit, eine eigene, Unabhängige Transaktion mit einer Beschreibung zu verbuchen.
+                    Solche Transaktionen werden in der Übersicht als <span class="fs-help__bold">ANDERE</span>
+                    gekennzeichnet und können auch einen negative Geldwert haben.
+                </p>
+                <p>Bis auf Nachbestellungen haben alle Transaktionen Ihre eigene Übersicht, erreichbar durch einen Klick
+                    auf die <span class="fs-help__bold">Transaktions-ID</span>. Hier hat man auch die Möglichkeit,
+                    die Rechnung in PDF-Format herunterzuladen.</p>
+                <h3>Termine und Events</h3>
+                <img class="fs-help__image" src="../static/resources/img/screenshot_events.png"
+                     th:src="@{/resources/img/screenshot_events.png}" alt="screenshot events">
+                <h4>Private Termine:</h4>
+                <p>Über den <span class="fs-help__bold">Floating Action Button</span> auf der Event-Übersicht kann man
+                    ein neues Event bzw. einen neuen Termin erstellen. Hierbei kann man den Termin auch privat
+                    schalten, wodurch dieser nur noch dem Inhaber sichtbar ist. Mit dieser Funktion verliert man
+                    wichtige Geschäftsbezogene Termine nicht aus den Augen.</p>
+                <h4>Bestellungsspezifische Termine:</h4>
+                <p>Sowohl der Inhaber als auch Kunden haben die Möglichkeit, beim Abschliessen einer Bestellung
+                    ein Lieferdatum auszuwählen. In diesem Fall wird automatisch ein privater Termin mit einem
+                    <span class="fs-help__bold">Hotlink</span> zur Bestellungsübersicht erstellt, welcher Ganztägig
+                    am Lieferdatum gilt.</p>
             </div>
         </div>
     </div>

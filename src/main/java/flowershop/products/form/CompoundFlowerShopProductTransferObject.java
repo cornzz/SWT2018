@@ -21,7 +21,6 @@ import java.util.*;
 @OneProductMinimum
 public class CompoundFlowerShopProductTransferObject {
 
-	// TODO: validation?
 	private ProductIdentifier id;
 
 	@NotBlank
@@ -135,7 +134,7 @@ public class CompoundFlowerShopProductTransferObject {
 		String type = image.getContentType().split("/")[1];
 
 		this.image = image;
-		this.imageBase64 = "data:image/"+ type + ";base64," + Base64.getEncoder().encodeToString(image.getBytes());
+		this.imageBase64 = "data:image/" + type + ";base64," + Base64.getEncoder().encodeToString(image.getBytes());
 	}
 
 	public void setImageBase64(String imageBase64) {

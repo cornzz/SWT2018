@@ -101,7 +101,6 @@ public class CartController {
 		return "order_confirm";
 	}
 
-	// TODO: Find better solution, move to external class (and make static)
 	private Integer validateQuantity(String quantity, Model model) {
 		int qty;
 

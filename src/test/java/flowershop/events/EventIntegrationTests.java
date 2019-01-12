@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class EventIntegrationTests extends AbstractIntegrationTests {
 
-	// TODO: Could not autowire. No beans of 'EventRepository' type found.
 	@Autowired
 	EventRepository eventRepository;
 

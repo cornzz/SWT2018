@@ -28,10 +28,10 @@ public class ServiceCatalogInitializer implements DataInitializer {
 
 	@Override
 	public void initialize() {
-		if(flowerShopServiceCatalog.findAll().iterator().hasNext()) {
+		if (flowerShopServiceCatalog.findAll().iterator().hasNext()) {
 			return;
 		}
 
-		flowerShopServiceCatalog.save(new FlowerShopService("Make CompoundFlowerShopProduct", Money.of(100, "EUR"), "Basic service"));
+		flowerShopServiceCatalog.save(new FlowerShopService("Strauß binden", Money.of(10, "EUR"), "Schnöde Dienstleistung"));
 	}
 }

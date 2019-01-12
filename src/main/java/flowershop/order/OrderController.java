@@ -1,5 +1,6 @@
 package flowershop.order;
 
+import flowershop.events.EventManager;
 import flowershop.products.CompoundFlowerShopProduct;
 import flowershop.products.FlowerShopItem;
 import org.salespointframework.catalog.Catalog;
@@ -20,10 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static flowershop.order.Transaction.TransactionType.CUSTOM;
 import static flowershop.order.Transaction.TransactionType.ORDER;
@@ -35,8 +34,8 @@ import static org.salespointframework.payment.Cash.CASH;
 /**
  * A Spring MVC controller to manage the ordering process.
  *
- * @author Tomasz Ludyga
  * @author Cornelius Kummer
+ * @author Tomasz Ludyga
  */
 @Controller
 @PreAuthorize("isAuthenticated()")
@@ -47,12 +46,15 @@ public class OrderController {
 	private final Inventory<InventoryItem> inventory;
 	private final Catalog<Product> catalog;
 	private final ReorderManager reorderManager;
+	private final EventManager eventManager;
 
-	OrderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory, Catalog<Product> catalog, ReorderManager reorderManager) {
+	OrderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory,
+					Catalog<Product> catalog, ReorderManager reorderManager, EventManager eventManager) {
 		this.transactionManager = transactionManager;
 		this.inventory = inventory;
 		this.catalog = catalog;
 		this.reorderManager = reorderManager;
+		this.eventManager = eventManager;
 	}
 
 	/**
@@ -65,7 +67,8 @@ public class OrderController {
 	 */
 	@PostMapping("/completeorder")
 	String buy(@ModelAttribute Cart cart, @LoggedIn Optional<UserAccount> userAccount,
-			   @RequestParam(required = false) String description, Model model) {
+			   @RequestParam(required = false) String message,
+			   @RequestParam(required = false) String date, Model model) {
 		return userAccount.map(account -> {
 			if (!sufficientStock(cart)) {
 				model.addAttribute("message", "cart.add.notenough");
@@ -77,16 +80,23 @@ public class OrderController {
 				Quantity productQuantity = cartItem.getQuantity();
 				product.getFlowerShopItemsWithQuantities().forEach(((flowerShopItem, itemQuantity) -> {
 					Quantity productItemQuantity = multiplyQuantities(productQuantity, itemQuantity);
-					inventory.findByProduct(flowerShopItem).ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(productItemQuantity));
+					inventory.findByProduct(flowerShopItem).
+							ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(productItemQuantity));
 				}));
 			});
 
 			Transaction order = new Transaction(account, CASH, ORDER);
-			if (description != null && !description.isEmpty()) {
-				order.setDescription(description);
-			}
 			cart.addItemsTo(order);
 			cart.clear();
+			if (date != null && !date.isEmpty()) {
+				boolean validDate = eventManager.createDeliveryEvent(order.getId(), date);
+				if (validDate) {
+					order.setDeliveryDate(date);
+				}
+			}
+			if (message != null && !message.isEmpty()) {
+				order.setDescription(message);
+			}
 			transactionManager.save(order);
 			reorderManager.refillInventory();
 			return "redirect:/order/" + order.getId() + "?success";
@@ -160,7 +170,8 @@ public class OrderController {
 	 */
 	@GetMapping("/order/{id}")
 	@PreAuthorize("isAuthenticated()")
-	String order(Model model, @PathVariable(name = "id") Optional<Transaction> orderOptional, @LoggedIn Optional<UserAccount> loggedIn) {
+	String order(Model model, @PathVariable(name = "id") Optional<Transaction> orderOptional,
+				 @LoggedIn Optional<UserAccount> loggedIn) {
 		model.addAttribute("type", "order");
 		orderOptional.ifPresent(order -> {
 			loggedIn.ifPresent(user -> {
@@ -195,19 +206,21 @@ public class OrderController {
 		});
 
 		// Check if there is sufficient stock for every required FlowerShopItem
-		return requiredItems.keySet().stream()
-				.allMatch(item -> inventory.findByProductIdentifier(item.getId()).get().hasSufficientQuantity(requiredItems.get(item)));
+		return requiredItems.keySet().stream().allMatch(item -> inventory.findByProductIdentifier(item.getId()).
+				get().hasSufficientQuantity(requiredItems.get(item)));
 	}
 
 	/**
 	 * @return {@link Streamable} containing all {@link Transaction}s of {@link flowershop.order.Transaction.TransactionType}
-	 * <code>ORDER</code>.
+	 * <code>ORDER</code>, sorted by date created descending.
 	 */
 	Streamable<Transaction> findAllOrders() {
-		return Arrays.stream(OrderStatus.values())
-				.map(transactionManager::findBy)
-				.reduce(Streamable.empty(), Streamable::and)
-				.filter(transaction -> transaction.isType(ORDER));
+		return Streamable.of(Arrays.stream(OrderStatus.values()).
+				map(transactionManager::findBy).
+				reduce(Streamable.empty(), Streamable::and).get().
+				filter(transaction -> transaction.isType(ORDER)).
+				sorted(Comparator.comparing(Transaction::getDateCreated).reversed()).
+				collect(Collectors.toList()));
 	}
 
 	/**

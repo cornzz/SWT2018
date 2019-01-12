@@ -14,6 +14,10 @@
       margin-top: 0;
     }
 
+    > .mdc-text-field-helper-text::before {
+      vertical-align: middle;
+    }
+
     &__row {
       display: flex;
       flex-direction: row;

@@ -3,7 +3,7 @@
     <title th:text="#{title.account.changepass}">Change Password</title>
 </head>
 <body>
-<header th:replace="fragments/header :: header_dialog (title = 'Change Password', cancel_destination = ${form.action})">
+<header th:replace="fragments/header :: header_dialog (title = #{title.account.changepass}, cancel_destination = ${form.action})">
     <!-- since this is a nested replace it can't be empty -->
     Header
 </header>

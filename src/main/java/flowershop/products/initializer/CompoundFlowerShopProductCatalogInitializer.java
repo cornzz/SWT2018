@@ -17,7 +17,7 @@ import java.util.Map;
  * Initializes {@link CompoundFlowerShopProduct}s.
  *
  * @author Friedrich Bethke
- * @author  Jonas Knobloch
+ * @author Jonas Knobloch
  */
 @Component
 @Order(30)
@@ -43,8 +43,6 @@ public class CompoundFlowerShopProductCatalogInitializer implements DataInitiali
 			return;
 		}
 
-		// TODO: conversion to util package
-
 		// convert list to iterable
 		Iterable<FlowerShopItem> flowersIterable = flowerShopItemCatalog.findAll();
 		Map<FlowerShopItem, Quantity> flowerShopItems = new HashMap<>();
@@ -58,8 +56,8 @@ public class CompoundFlowerShopProductCatalogInitializer implements DataInitiali
 		// placeholder image
 		String image = PlaceholderImage.FOUR_HUNDRED_BY_FOUR_HUNDRED.getImage();
 
-		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("RGB", "Very nice bouquet!", flowerShopItems, flowerShopServices, image));
-		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("RBG", "Very nice bouquet!", flowerShopItems, flowerShopServices, image));
-		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("BRG", "Very nice bouquet!", flowerShopItems, flowerShopServices, image));
+		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("Strauß Rosen", "Ein Strauß wundervoller Rosen!", flowerShopItems, flowerShopServices, image));
+		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("Strauß Margeriten", "Eine Ladung wohlduftender Margeriten!", flowerShopItems, flowerShopServices, image));
+		compoundFlowerShopProductCatalog.save(new CompoundFlowerShopProduct("Strauß Gerberas", "Ein Bündel atemberaubender Gerberas!", flowerShopItems, flowerShopServices, image));
 	}
 }

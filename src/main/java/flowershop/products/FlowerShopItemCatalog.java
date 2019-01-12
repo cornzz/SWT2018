@@ -7,4 +7,5 @@ import org.salespointframework.catalog.Catalog;
  *
  * @author Friedrich Bethke
  */
-public interface FlowerShopItemCatalog extends Catalog<FlowerShopItem> { }
+public interface FlowerShopItemCatalog extends Catalog<FlowerShopItem> {
+}

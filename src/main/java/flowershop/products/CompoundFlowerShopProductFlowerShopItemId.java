@@ -7,7 +7,6 @@ import java.util.Objects;
 
 public class CompoundFlowerShopProductFlowerShopItemId implements Serializable {
 
-	// TODO: add id to attribute names
 	private ProductIdentifier compoundFlowerShopProduct;
 	private ProductIdentifier flowerShopItem;
 

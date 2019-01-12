@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class DeficitControllerIntegrationTests extends AbstractIntegrationTests {
 
-	// TODO: Could not autowire. No beans of 'FlowerShopDeficitController' type found.
 	@Autowired
 	DeficitController DeficitController;
 

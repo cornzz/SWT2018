@@ -54,7 +54,7 @@ public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 	}
 
 	public void setStatus(Boolean status) {
-		this.status = false;
+		this.status = status;
 	}
 
 	public Quantity getQuantity() {
@@ -86,7 +86,7 @@ public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 	}
 
 	public boolean isType(SubTransactionType type) {
-		return this.type.equals(type);
+		return getType().equals(type);
 	}
 
 }

@@ -1,11 +1,13 @@
 package flowershop.order;
 
 import flowershop.products.FlowerShopItem;
+import flowershop.user.UserManager;
 import org.salespointframework.inventory.Inventory;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.inventory.InventoryItemIdentifier;
 import org.salespointframework.order.OrderManager;
 import org.salespointframework.quantity.Quantity;
+import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccountManager;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
@@ -28,21 +30,22 @@ import static org.salespointframework.payment.Cash.CASH;
 @Service
 @Transactional
 public class ReorderManager {
-	private final OrderManager<Transaction> reorderManager;
+	private final OrderManager<Transaction> orderManager;
 	private final Inventory<InventoryItem> inventory;
-	private final UserAccountManager userAccountManager;
+	private final UserManager userManager;
 
 	/**
 	 * Creates a new {@link ReorderManager} with the given {@link OrderManager}, {@link Inventory} and {@link UserAccountManager}.
-	 *
-	 * @param reorderManager     must not be {@literal null}.
+	 *  @param orderManager       must not be {@literal null}.
 	 * @param inventory          must not be {@literal null}.
-	 * @param userAccountManager must not be {@literal null}.
+	 * @param userManager must not be {@literal null}.
+	 * @param userManager
 	 */
-	public ReorderManager(OrderManager<Transaction> reorderManager, Inventory<InventoryItem> inventory, UserAccountManager userAccountManager) {
-		this.reorderManager = reorderManager;
+	public ReorderManager(OrderManager<Transaction> orderManager, Inventory<InventoryItem> inventory,
+						  UserManager userManager) {
+		this.orderManager = orderManager;
 		this.inventory = inventory;
-		this.userAccountManager = userAccountManager;
+		this.userManager = userManager;
 	}
 
 	/**
@@ -55,7 +58,8 @@ public class ReorderManager {
 			Quantity threshold = standardStock.subtract(Quantity.of(standardStock.getAmount().intValue() / 2));
 			if (item.getQuantity().isLessThan(threshold)) {
 				Quantity quantity = standardStock.subtract(item.getQuantity());
-				Quantity reorderQuantity = findByInventoryId(item.getId()).map(t -> quantity.subtract(t.getQuantity())).orElse(quantity);
+				Quantity reorderQuantity = findByInventoryId(item.getId()).
+						map(t -> quantity.subtract(t.getQuantity())).orElse(quantity);
 				createReorder(item, reorderQuantity, REORDER);
 			}
 		});
@@ -72,17 +76,18 @@ public class ReorderManager {
 		if (quantity.isLessThan(Quantity.of(1))) {
 			return;
 		}
-		userAccountManager.findByUsername("admin").ifPresent(userAccount -> {
+		userManager.findByRole(Role.of("ROLE_BOSS")).ifPresent(userAccount -> {
 			String name = inventoryItem.getProduct().getName();
 			FlowerShopItem item = (FlowerShopItem) inventoryItem.getProduct();
 			MonetaryAmount price = item.getBasePrice().multiply(quantity.getAmount());
-			Transaction reorder = findByInventoryId(inventoryItem.getId()).orElse(new Transaction(userAccount, CASH, COLLECTION));
+			Transaction reorder = findByInventoryId(inventoryItem.getId()).
+					orElse(new Transaction(userAccount.getUserAccount(), CASH, COLLECTION));
 			if (!reorder.isPaid()) {
-				reorderManager.payOrder(reorder);
+				orderManager.payOrder(reorder);
 			}
 			reorder.setItemId(inventoryItem.getId());
 			reorder.addSubTransaction(name, quantity, price, type);
-			reorderManager.save(reorder);
+			orderManager.save(reorder);
 		});
 	}
 
@@ -92,7 +97,8 @@ public class ReorderManager {
 	 * @param reorder will never be {@literal null}.
 	 */
 	public void sendReorder(SubTransaction reorder) {
-		Streamable.of(inventory.findAll()).stream().filter(item -> item.getProduct().getName().equals(reorder.getFlower())).findFirst().ifPresent(inventoryItem -> {
+		Streamable.of(inventory.findAll()).stream().filter(item -> item.getProduct().getName().equals(reorder.getFlower())).
+				findFirst().ifPresent(inventoryItem -> {
 			inventoryItem.increaseQuantity(reorder.getQuantity());
 			inventory.save(inventoryItem);
 			reorder.setStatus(false);
@@ -100,7 +106,7 @@ public class ReorderManager {
 	}
 
 	public Streamable<Transaction> findAll() {
-		return reorderManager.findBy(PAID).filter(transaction -> transaction.getType() == COLLECTION);
+		return orderManager.findBy(PAID).filter(transaction -> transaction.getType() == COLLECTION);
 	}
 
 	public Optional<Transaction> findByInventoryId(InventoryItemIdentifier id) {

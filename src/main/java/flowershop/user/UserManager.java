@@ -8,7 +8,10 @@ import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Manages {@link User} instances in the system.
@@ -84,18 +87,32 @@ public class UserManager {
 	 * @return all {@link User} entities currently registered in the system.
 	 */
 	public Streamable<User> findAll() {
-		return Streamable.of(users.findAll());
+		return Streamable.of(Streamable.of(users.findAll()).get().
+				sorted(Comparator.comparing(user -> user.getUserAccount().getUsername())).collect(Collectors.toList()));
 	}
 
 	/**
 	 * Adds a given {@link Role} to the {@link UserAccount} of the {@link User} entity with the given username
 	 *
 	 * @param username must not be {@literal null}.
-	 * @param role must not be {@literal null}.
+	 * @param role     must not be {@literal null}.
 	 * @return <code>true</code> if {@link User} with given username exists and role was added; <code>false</code> otherwise.
 	 */
 	public boolean addRole(String username, Role role) {
 		return userAccountManager.findByUsername(username).map(userAccount -> userAccount.add(role)).orElse(false);
+	}
+
+	/**
+	 * Sets the roles of the given {@link UserAccount).
+	 *
+	 * @param user  must not be {@literal null}.
+	 * @param roles must not be {@literal null}.
+	 */
+	public void setRoles(UserAccount user, Streamable<String> roles) {
+		List<Role> currentRoles = user.getRoles().get().collect(Collectors.toList());
+		currentRoles.forEach(user::remove);
+		roles.map(Role::of).forEach(user::add);
+		userAccountManager.save(user);
 	}
 
 
@@ -113,6 +130,14 @@ public class UserManager {
 	 */
 	public Optional<User> findByUsername(String username) {
 		return this.findAll().stream().filter(u -> u.getUserAccount().getUsername().equals(username)).findFirst();
+	}
+
+	/**
+	 * @param role must not be {@literal null}.
+	 * @return an {@link Optional} of the {@link User} entity with the given {@link Role}}.
+	 */
+	public Optional<User> findByRole(Role role) {
+		return this.findAll().stream().filter(u -> u.getUserAccount().hasRole(role)).findFirst();
 	}
 
 	/**
