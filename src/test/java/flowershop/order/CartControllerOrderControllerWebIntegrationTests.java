@@ -79,6 +79,27 @@ class CartControllerOrderControllerWebIntegrationTests extends AbstractIntegrati
 		).
 				andExpect(status().is3xxRedirection()).
 				andExpect(redirectedUrl("/cart"));
+		mvc.perform(post("/cart/edit").
+				sessionAttr("cart", cart).
+				param("id", cart.get().findFirst().get().getId()).
+				param("quantity", "100")
+		).
+				andExpect(status().isOk()).
+				andExpect(forwardedUrl("/cart"));
+		mvc.perform(post("/cart/edit").
+				sessionAttr("cart", cart).
+				param("id", cart.get().findFirst().get().getId()).
+				param("quantity", "2")
+		).
+				andExpect(status().isOk()).
+				andExpect(view().name("cart"));
+		mvc.perform(post("/cart/edit").
+				sessionAttr("cart", cart).
+				param("id", "test").
+				param("quantity", "2")
+		).
+				andExpect(status().isOk()).
+				andExpect(view().name("cart"));
 		mvc.perform(post("/completeorder").
 				sessionAttr("cart", cart).
 				param("message", "test").
@@ -111,6 +132,15 @@ class CartControllerOrderControllerWebIntegrationTests extends AbstractIntegrati
 	@Test
 	@WithMockUser(username = "test", password = "test")
 	void ordersTest() throws Exception {
+		mvc.perform(get("/orders")).
+				andExpect(status().isOk()).
+				andExpect(view().name("orders")).
+				andExpect(model().attributeExists("orders"));
+	}
+
+	@Test
+	@WithMockUser(username = "johndoe")
+	void ordersUserTest() throws Exception {
 		mvc.perform(get("/orders")).
 				andExpect(status().isOk()).
 				andExpect(view().name("orders")).

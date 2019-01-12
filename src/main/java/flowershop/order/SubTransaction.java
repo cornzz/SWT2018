@@ -23,9 +23,6 @@ public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 		REORDER
 	}
 
-	private SubTransaction() {
-	}
-
 	private @NonNull
 	Quantity quantity;
 	private @NonNull
@@ -86,7 +83,7 @@ public class SubTransaction extends AbstractEntity<SubTransactionIdentifier> {
 	}
 
 	public boolean isType(SubTransactionType type) {
-		return this.type.equals(type);
+		return getType().equals(type);
 	}
 
 }
