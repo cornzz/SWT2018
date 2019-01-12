@@ -36,11 +36,11 @@ must be wrapped by the `.fs-mdl-wrapper` class which scopes the outdated MDL sty
 == Dummy User Accounts
 
 |===
-|Username |Password
+|Role |Email |Password
 
-|admin |pass
-|wholesaler |pass
-|johndoe |pass
-|larrybird |pass
+|ADMIN |rosafloris@web.de |pass
+|WHOLESALER |max@grosshandel.de |pass
+|CUSTOMER |johndoe@gmail.com |pass
+|CUSTOMER |lenamaier@gmx.net |pass
 
 |===
