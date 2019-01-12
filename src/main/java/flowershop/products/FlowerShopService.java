@@ -15,7 +15,8 @@ public class FlowerShopService extends Product {
 	private String description;
 
 	@SuppressWarnings("unused")
-	private FlowerShopService() {}
+	private FlowerShopService() {
+	}
 
 	public FlowerShopService(String name, Money price, String description) {
 		super(name, price);

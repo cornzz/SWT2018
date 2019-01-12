@@ -57,7 +57,6 @@ public class CompoundFlowerShopProductCatalogController {
 		this.compoundFlowerShopProductFlowerShopItemRepository = compoundFlowerShopProductFlowerShopItemRepository;
 	}
 
-	// TODO: move to new controller
 	@RequestMapping("/")
 	public String index(@LoggedIn Optional<UserAccount> userAccountOptional) {
 		if (!userAccountOptional.isPresent()) {
@@ -180,10 +179,8 @@ public class CompoundFlowerShopProductCatalogController {
 
 		// since the the image getter of the DTO object is not implemented yet we have to check for null
 		// TODO: remove null check as soon as the missing getter is implemented
-		if (newCompoundFlowerShopProduct.getImage() != null) {
-			if (!newCompoundFlowerShopProduct.getImage().equals(compoundFlowerShopProduct.getImage())) {
-				compoundFlowerShopProduct.setImage(newCompoundFlowerShopProduct.getImage());
-			}
+		if (newCompoundFlowerShopProduct.getImage() != null && !newCompoundFlowerShopProduct.getImage().equals(compoundFlowerShopProduct.getImage())) {
+			compoundFlowerShopProduct.setImage(newCompoundFlowerShopProduct.getImage());
 		}
 
 		if (!newCompoundFlowerShopProduct.getFlowerShopItemsWithQuantities().equals(compoundFlowerShopProduct.getFlowerShopItemsWithQuantities())) {
@@ -296,7 +293,7 @@ public class CompoundFlowerShopProductCatalogController {
 	/**
 	 * Deletes the compound product with the given {@link ProductIdentifier} and returns the product view.
 	 *
-	 * @param id    will never be {@literal null}.
+	 * @param id will never be {@literal null}.
 	 * @return the view name.
 	 */
 	@RequestMapping("/products/{id}/delete")
@@ -323,6 +320,10 @@ public class CompoundFlowerShopProductCatalogController {
 		return "redirect:/products";
 	}
 
+	/**
+	 * @param product must not be {@literal null}.
+	 * @return <code>true</code> if sufficient items required for the given products are in stock, <code>false</code> otherwise.
+	 */
 	public boolean inStock(CompoundFlowerShopProduct product) {
 		Map<FlowerShopItem, Quantity> itemQuantities = product.getFlowerShopItemsWithQuantities();
 		return itemQuantities.keySet().stream().allMatch(flowerShopItem ->

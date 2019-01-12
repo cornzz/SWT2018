@@ -37,7 +37,7 @@ class FlowerShopUserDetailService implements UserDetailsService {
 	}
 
 	public FlowerShopUserDetailService(@NonNull final UserAccountManager userAccountManager) {
-			this.userAccountManager = userAccountManager;
+		this.userAccountManager = userAccountManager;
 	}
 
 	static class UserAccountDetails implements UserDetails {
@@ -84,7 +84,8 @@ class FlowerShopUserDetailService implements UserDetailsService {
 		}
 
 		public String toString() {
-			return "UserAccountDetailService.UserAccountDetails(username=" + this.getUsername() + ", password=" + this.getPassword() + ", isEnabled=" + this.isEnabled() + ", authorities=" + this.getAuthorities() + ")";
+			return "UserAccountDetailService.UserAccountDetails(username=" + this.getUsername() + ", password=" +
+					this.getPassword() + ", isEnabled=" + this.isEnabled() + ", authorities=" + this.getAuthorities() + ")";
 		}
 
 		protected boolean canEqual(final Object other) {
@@ -93,8 +94,12 @@ class FlowerShopUserDetailService implements UserDetailsService {
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
+			if (this == o) {
+				return true;
+			}
+			if (o == null || getClass() != o.getClass()) {
+				return false;
+			}
 			UserAccountDetails that = (UserAccountDetails) o;
 			return getUsername().equals(that.getUsername()) &&
 					getPassword().equals(that.getPassword()) &&

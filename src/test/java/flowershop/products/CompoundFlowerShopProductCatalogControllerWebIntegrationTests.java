@@ -35,7 +35,6 @@ class CompoundFlowerShopProductCatalogControllerWebIntegrationTests extends Abst
 	@Autowired
 	MockMvc mvc;
 
-	// TODO: Could not autowire. No beans of 'CompoundFlowerShopProductCatalog' type found.
 	@Autowired
 	CompoundFlowerShopProductCatalog compoundFlowerShopProductCatalog;
 

@@ -113,7 +113,6 @@ public class CompoundFlowerShopProduct extends Product {
 		return compoundFlowerShopProductFlowerShopItem;
 	}
 
-	// TODO: do we want this to be public?
 	public void addCompoundFlowerShopProductFlowerShopItem(CompoundFlowerShopProductFlowerShopItem compoundFlowerShopProductFlowerShopItem) {
 		compoundFlowerShopProductFlowerShopItems.add(compoundFlowerShopProductFlowerShopItem);
 	}
@@ -160,7 +159,6 @@ public class CompoundFlowerShopProduct extends Product {
 		form.setDescription(getDescription());
 		form.setImageBase64(getImage());
 
-		// TODO: keySet from quantities?
 		List<FlowerShopItem> flowerShopItems = new ArrayList<>();
 		getCompoundFlowerShopProductFlowerShopItems()
 				.forEach(compoundFlowerShopProductFlowerShopItem -> flowerShopItems

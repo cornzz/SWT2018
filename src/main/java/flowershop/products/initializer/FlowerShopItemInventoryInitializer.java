@@ -32,7 +32,7 @@ public class FlowerShopItemInventoryInitializer implements DataInitializer {
 	@Override
 	public void initialize() {
 		flowerShopItemCatalog.findAll().forEach(flower -> {
-			inventory.findByProduct(flower).orElseGet(() -> inventory.save(new InventoryItem(flower, Quantity.of(10))));
+			inventory.findByProduct(flower).orElseGet(() -> inventory.save(new InventoryItem(flower, Quantity.of(35))));
 		});
 
 	}

@@ -95,7 +95,7 @@ public class AccountingController {
 				filter(status -> status != OPEN).
 				map(transactionManager::findBy).
 				reduce(Streamable.empty(), Streamable::and).get().
-						sorted(Comparator.comparing(Transaction::getDateCreated).reversed()).
-						collect(Collectors.toList()));
+				sorted(Comparator.comparing(Transaction::getDateCreated).reversed()).
+				collect(Collectors.toList()));
 	}
 }

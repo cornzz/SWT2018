@@ -48,7 +48,8 @@ public class OrderController {
 	private final ReorderManager reorderManager;
 	private final EventManager eventManager;
 
-	OrderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory, Catalog<Product> catalog, ReorderManager reorderManager, EventManager eventManager) {
+	OrderController(OrderManager<Transaction> transactionManager, Inventory<InventoryItem> inventory,
+					Catalog<Product> catalog, ReorderManager reorderManager, EventManager eventManager) {
 		this.transactionManager = transactionManager;
 		this.inventory = inventory;
 		this.catalog = catalog;
@@ -79,7 +80,8 @@ public class OrderController {
 				Quantity productQuantity = cartItem.getQuantity();
 				product.getFlowerShopItemsWithQuantities().forEach(((flowerShopItem, itemQuantity) -> {
 					Quantity productItemQuantity = multiplyQuantities(productQuantity, itemQuantity);
-					inventory.findByProduct(flowerShopItem).ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(productItemQuantity));
+					inventory.findByProduct(flowerShopItem).
+							ifPresent(inventoryItem -> inventoryItem.decreaseQuantity(productItemQuantity));
 				}));
 			});
 
@@ -87,8 +89,10 @@ public class OrderController {
 			cart.addItemsTo(order);
 			cart.clear();
 			if (date != null && !date.isEmpty()) {
-				order.setDeliveryDate(date);
-				eventManager.createDeliveryEvent(order.getId(), date);
+				boolean validDate = eventManager.createDeliveryEvent(order.getId(), date);
+				if (validDate) {
+					order.setDeliveryDate(date);
+				}
 			}
 			if (message != null && !message.isEmpty()) {
 				order.setDescription(message);
@@ -166,7 +170,8 @@ public class OrderController {
 	 */
 	@GetMapping("/order/{id}")
 	@PreAuthorize("isAuthenticated()")
-	String order(Model model, @PathVariable(name = "id") Optional<Transaction> orderOptional, @LoggedIn Optional<UserAccount> loggedIn) {
+	String order(Model model, @PathVariable(name = "id") Optional<Transaction> orderOptional,
+				 @LoggedIn Optional<UserAccount> loggedIn) {
 		model.addAttribute("type", "order");
 		orderOptional.ifPresent(order -> {
 			loggedIn.ifPresent(user -> {
@@ -201,8 +206,8 @@ public class OrderController {
 		});
 
 		// Check if there is sufficient stock for every required FlowerShopItem
-		return requiredItems.keySet().stream()
-				.allMatch(item -> inventory.findByProductIdentifier(item.getId()).get().hasSufficientQuantity(requiredItems.get(item)));
+		return requiredItems.keySet().stream().allMatch(item -> inventory.findByProductIdentifier(item.getId()).
+				get().hasSufficientQuantity(requiredItems.get(item)));
 	}
 
 	/**
@@ -214,8 +219,8 @@ public class OrderController {
 				map(transactionManager::findBy).
 				reduce(Streamable.empty(), Streamable::and).get().
 				filter(transaction -> transaction.isType(ORDER)).
-						sorted(Comparator.comparing(Transaction::getDateCreated).reversed()).
-						collect(Collectors.toList()));
+				sorted(Comparator.comparing(Transaction::getDateCreated).reversed()).
+				collect(Collectors.toList()));
 	}
 
 	/**

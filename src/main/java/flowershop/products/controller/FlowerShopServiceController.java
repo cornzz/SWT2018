@@ -54,7 +54,7 @@ public class FlowerShopServiceController {
 	 * Shows the form for adding a new service.
 	 *
 	 * @param model will never be {@literal null}.
-	 * @param form will never be {@literal null}.
+	 * @param form  will never be {@literal null}.
 	 * @return the view name.
 	 */
 	@GetMapping("/services/add")
@@ -67,7 +67,7 @@ public class FlowerShopServiceController {
 	/**
 	 * Adds a new service.
 	 *
-	 * @param form will never be {@literal null}.
+	 * @param form   will never be {@literal null}.
 	 * @param result will never be {@literal null}.
 	 * @return the view name and, if adding was not successful, the adding form object.
 	 */

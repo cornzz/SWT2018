@@ -32,7 +32,7 @@ public class FlowerShopInventoryController {
 	/**
 	 * Creates a new {@link FlowerShopInventoryController} with the given {@link Inventory} and {@link FlowerShopItemCatalog}.
 	 *
-	 * @param inventory must not be {@literal null}.
+	 * @param inventory   must not be {@literal null}.
 	 * @param itemCatalog must not be {@literal null}.
 	 */
 	FlowerShopInventoryController(Inventory<InventoryItem> inventory, FlowerShopItemCatalog itemCatalog) {
@@ -58,7 +58,7 @@ public class FlowerShopInventoryController {
 	 * Shows the form for adding a new item to the inventory.
 	 *
 	 * @param model will never be {@literal null}.
-	 * @param form will never be {@literal null}.
+	 * @param form  will never be {@literal null}.
 	 * @return the view name.
 	 */
 	@GetMapping("/items/add")
@@ -71,7 +71,7 @@ public class FlowerShopInventoryController {
 	/**
 	 * Adds a new item to the inventory.
 	 *
-	 * @param form will never be {@literal null}.
+	 * @param form   will never be {@literal null}.
 	 * @param result will never be {@literal null}.
 	 * @return the view name and, if adding was not successful, the adding form object.
 	 */

@@ -133,6 +133,14 @@ public class UserManager {
 	}
 
 	/**
+	 * @param role must not be {@literal null}.
+	 * @return an {@link Optional} of the {@link User} entity with the given {@link Role}}.
+	 */
+	public Optional<User> findByRole(Role role) {
+		return this.findAll().stream().filter(u -> u.getUserAccount().hasRole(role)).findFirst();
+	}
+
+	/**
 	 * @param email must not be {@literal null}.
 	 * @return an {@link Optional} of the {@link User} entity with the given Email address.
 	 */

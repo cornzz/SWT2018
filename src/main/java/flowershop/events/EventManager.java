@@ -27,12 +27,18 @@ public class EventManager {
 	/**
 	 * Creates a new {@link EventManager} with the given {@link EventRepository}.
 	 *
-	 * @param eventRepository              must not be {@literal null}.
+	 * @param eventRepository must not be {@literal null}.
 	 */
 	public EventManager(EventRepository eventRepository) {
 		this.eventRepository = eventRepository;
 	}
 
+	/**
+	 * Creates a new {@link Event} object from the given form data.
+	 *
+	 * @param form must not be {@literal null}.
+	 * @return the created Event
+	 */
 	public Event create(EventDataTransferObject form) {
 		LocalDateTime currentTime = LocalDateTime.now();
 		LocalDateTime beginTime = currentTime.plusDays(Integer.valueOf(form.getBegin()));
@@ -41,7 +47,12 @@ public class EventManager {
 		return eventRepository.save(event);
 	}
 
-	public void createDeliveryEvent(OrderIdentifier id, String date) {
+	/**
+	 * @param id   must not be {@literal null}.
+	 * @param date must not be {@literal null}.
+	 * @return <code>true</code> if creation of delivery event was successful, <code>false</code> otherwise.
+	 */
+	public boolean createDeliveryEvent(OrderIdentifier id, String date) {
 		try {
 			LocalDateTime dateTime = LocalDateTime.parse(date + " 00:00", DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
 			String title = "%" + id;
@@ -49,11 +60,18 @@ public class EventManager {
 			Event event = new Event(title, description, dateTime, dateTime.plusDays(1));
 			event.setPrivate(true);
 			eventRepository.save(event);
+			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			return false;
 		}
 	}
 
+	/**
+	 * Edits the {@link Event} object of the given id with the given form data.
+	 *
+	 * @param id must not be {@literal null}.
+	 * @param form must not be {@literal null}.
+	 */
 	public void edit(long id, EventDataTransferObject form) {
 		eventRepository.findById(id).ifPresent(event -> {
 			event.setTitle(form.getTitle());

@@ -87,7 +87,8 @@ public class UserController {
 		try {
 			String username = (form.getFirstName() + form.getLastName()).toLowerCase();
 			request.login(username, form.getPassword());
-		} catch (ServletException ignored) {}
+		} catch (ServletException ignored) {
+		}
 
 		return new ModelAndView("forward:/", "newUser", form.getFirstName());
 	}

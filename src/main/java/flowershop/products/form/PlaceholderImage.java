@@ -16,8 +16,6 @@ public enum PlaceholderImage {
 
 	public String getImage() {
 
-		// TODO: implement dynamic size
-
 		return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQBAMAAABykSv/AAAAG1BMVEXMzMyWlpacnJyqqqrFxcWxsbG" +
 				"jo6O3t7e+vr6He3KoAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAEpklEQVR4nO3ZTU/bShSH8WPndekJJbB0Sq8uS9LbSl06gLpOWHS" +
 				"dSEh0GbgS69B+8TtnZsJMaA1dtHeC9Pwk7BMcpPO3PeMXRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +

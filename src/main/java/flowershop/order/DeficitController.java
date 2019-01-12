@@ -34,8 +34,8 @@ public class DeficitController {
 	/**
 	 * Creates a new {@link DeficitController} with the given {@link ReorderManager}, {@link Inventory} and {@link OrderManager}.
 	 *
-	 * @param reorderManager     must not be {@literal null}.
-	 * @param inventory          must not be {@literal null}.
+	 * @param reorderManager must not be {@literal null}.
+	 * @param inventory      must not be {@literal null}.
 	 */
 	DeficitController(ReorderManager reorderManager, Inventory<InventoryItem> inventory) {
 		this.reorderManager = reorderManager;

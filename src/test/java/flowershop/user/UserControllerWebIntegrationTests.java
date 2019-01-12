@@ -78,8 +78,9 @@ class UserControllerWebIntegrationTests extends AbstractIntegrationTests {
 	}
 
 	@Test
+	@WithMockUser(username = "test", roles = "BOSS")
 	void registerNewLoggedInTest() throws Exception {
-		mvc.perform(post("/register").with(user("admin"))).
+		mvc.perform(post("/register")).
 				andExpect(status().is3xxRedirection()).
 				andExpect(redirectedUrl("/account"));
 	}

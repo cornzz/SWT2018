@@ -31,8 +31,6 @@ public class FlowerShopServiceUnitTest {
 		flowerShopService.setName(name);
 		flowerShopService.setPrice(price);
 
-		// TODO: test missing description setter
-
 		assertEquals(name, flowerShopService.getName());
 		assertEquals(price, flowerShopService.getPrice());
 	}

@@ -32,6 +32,6 @@ public class ServiceCatalogInitializer implements DataInitializer {
 			return;
 		}
 
-		flowerShopServiceCatalog.save(new FlowerShopService("Strauß binden", Money.of(100, "EUR"), "Schnöde Dienstleistung"));
+		flowerShopServiceCatalog.save(new FlowerShopService("Strauß binden", Money.of(10, "EUR"), "Schnöde Dienstleistung"));
 	}
 }

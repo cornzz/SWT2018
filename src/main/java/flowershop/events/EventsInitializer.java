@@ -21,6 +21,10 @@ public class EventsInitializer implements DataInitializer {
 
 	@Override
 	public void initialize() {
+		if (events.findAll().iterator().hasNext()) {
+			return;
+		}
+
 		Event event1 = new Event("Blumentag", "Blumentag - 20% Rabatt auf alle Produkte!", LocalDateTime.now(), 10);
 		Event event2 = new Event("Frühjahrsputz", "Frühjahrsputz", LocalDateTime.now(), 1);
 		event2.setPrivate(true);

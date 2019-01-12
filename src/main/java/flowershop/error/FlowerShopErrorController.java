@@ -10,12 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+
+/**
+ * Custom {@link ErrorController} implementation handling exceptions and errors.
+ *
+ * @author Jonas Knobloch
+ * @author Cornelius Kummer
+ */
 @Controller
 public class FlowerShopErrorController implements ErrorController {
 
 	@ExceptionHandler(Exception.class)
 	public void errorHandler(HttpServletResponse response, Exception e) throws IOException {
-		response.sendError(500, e.toString());
+		response.sendError(SC_INTERNAL_SERVER_ERROR, e.toString());
 	}
 
 	@Override
@@ -42,7 +51,7 @@ public class FlowerShopErrorController implements ErrorController {
 
 	@RequestMapping("/accessDenied")
 	public void handleAccessDenied(HttpServletResponse response) throws IOException {
-		response.sendError(403, "Access Denied.");
+		response.sendError(SC_FORBIDDEN, "Access Denied.");
 	}
 
 }

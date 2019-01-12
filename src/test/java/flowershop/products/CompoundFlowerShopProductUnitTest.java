@@ -48,7 +48,6 @@ public class CompoundFlowerShopProductUnitTest {
 		assertEquals(DESCRIPTION, compoundFlowerShopProduct.getDescription());
 		assertEquals(IMAGE, compoundFlowerShopProduct.getImage());
 
-		// TODO: test getCompoundFlowerShopProductFlowerShopItems();
 	}
 
 	@Test
@@ -64,6 +63,5 @@ public class CompoundFlowerShopProductUnitTest {
 		assertEquals(name, compoundFlowerShopProduct.getName());
 		assertEquals(description, compoundFlowerShopProduct.getDescription());
 
-		// TODO: test missing setters
 	}
 }

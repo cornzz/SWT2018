@@ -34,8 +34,8 @@ public class FlowerShopItemCatalogInitializer implements DataInitializer {
 			return;
 		}
 
-		flowerShopItemCatalog.save(new FlowerShopItem("Rose", Money.of(100, EURO), Money.of(120, EURO), "Teure rote Blume.", 10));
-		flowerShopItemCatalog.save(new FlowerShopItem("Magerite", Money.of(100, EURO), Money.of(120, EURO), "Teurew weiße Blume.", 10));
-		flowerShopItemCatalog.save(new FlowerShopItem("Gerbera", Money.of(100, EURO), Money.of(120, EURO), "Teure bunte Blume.", 10));
+		flowerShopItemCatalog.save(new FlowerShopItem("Rose", Money.of(2, EURO), Money.of(3, EURO), "Teure rote Blume.", 35));
+		flowerShopItemCatalog.save(new FlowerShopItem("Margerite", Money.of(1.5, EURO), Money.of(2.5, EURO), "Teure weiße Blume.", 35));
+		flowerShopItemCatalog.save(new FlowerShopItem("Gerbera", Money.of(1.5, EURO), Money.of(2.5, EURO), "Teure bunte Blume.", 35));
 	}
 }
