@@ -17,13 +17,15 @@ package flowershop;
 
 import org.salespointframework.EnableSalespoint;
 import org.salespointframework.SalespointSecurityConfiguration;
+import org.salespointframework.SalespointWebConfiguration;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
@@ -63,7 +65,7 @@ public class Application {
 	}
 
 	@Configuration
-	static class FlowerShopWebConfiguration implements WebMvcConfigurer {
+	static class FlowerShopWebConfiguration extends SalespointWebConfiguration {
 
 		/**
 		 * @return {@link LocaleResolver} for the project with default locale set to German.
@@ -93,6 +95,15 @@ public class Application {
 		@Override
 		public void addInterceptors(InterceptorRegistry registry) {
 			registry.addInterceptor(localeChangeInterceptor());
+		}
+
+		@Bean
+		public MessageSource messageSource() {
+			ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+			messageSource.setBasename("classpath:messages");
+			messageSource.setDefaultEncoding("UTF-8");
+			messageSource.setFallbackToSystemLocale(false);
+			return messageSource;
 		}
 
 	}
